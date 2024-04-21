@@ -18,7 +18,7 @@ export default function Guidelines() {
         <div className="flex max-w-[980px] flex-col items-start gap-2">
           
           <span>
-            <Badge variant={'outline'}>Last Updated: May 2024</Badge>
+            <Badge variant={'outline'}>Last Updated: April 2024</Badge>
           </span>
           <h1 className="text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl">
             <span>Guidelines</span>
@@ -203,8 +203,8 @@ export default function Guidelines() {
                         you will <span className={'font-bold text-attention2'}>never be able to do it again!</span>
                       </li>
                       <li>
-                        Some quests have special requirements, such as to complete it within a given amount of time
-                        or to use a specific tool.
+                        Access the Quest Board by running <Badge variant='command'>/quests view</Badge> on discord.
+                        This will show all available quests, or your currently active quest.
                       </li>
                     </ul>
                     

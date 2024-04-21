@@ -21,24 +21,33 @@ export default function IndexPage() {
       <Separator className="my-5" />
       
       <h2 className="text-3xl font-semibold leading-tight tracking-tighter text-secondary-foreground md:text-4xl">
-        <span>May 2024 - Introducing the new website</span>
+        <span>April 2024 - Introducing the new website</span>
       </h2>
       <p className="max-w-[900px] text-lg text-muted-foreground">
-        Introducing: our new Website! It's been rebuilt from the ground up with a sleek new
-        design and amazing new features.
+        Introducing: Everthorn.net v2! It's been rebuilt from the ground up with a sleek new
+        design..
       </p>
       <p className="max-w-[900px] text-lg text-muted-foreground">
-        Firstly, you'll notice the new design. Minimalism is the key behind it, making everything super easy to
-        see and the website really easy to use. The navbar on the top of the screen has links to every important part of the
-        website, from the Home page to the Guidelines, to even the Wiki and the News!
+        Minimalism is the name, and accesibility is the game! Everything is clearly laid out, with the
+        navigation menu allowing you to traverse the entire website with ease.
       </p>
       <p className="max-w-[900px] text-lg text-muted-foreground">
-        The Wiki has moved! Now, officially, our wiki is hosted locally on this website. You can
-        create new pages and edit them. Gone are the days of the confusing fandom editor! Not all
-        wiki pages have been ported yet, so be patient.
+        The website is also
+          optimised for mobile devices, as well as PC. An example of this would be the Nav bar which
+          turns into a side menu on mobile.
       </p>
       <p className="max-w-[900px] text-lg text-muted-foreground">
-        Additionally, 
+        This section, News will feature all of our latest pieces of news, from website updates to new
+        Everthorn features, to even Events! It is meant to be the one place to easily digest the latest happenings
+        and keep yourself up-to-date.
+      </p>
+      <p className="max-w-[900px] text-lg text-muted-foreground">
+        But this is just the beginning! We have plans to expand the functionality of the website. Most notable, to move the
+        Wiki onto here. Fandom is clunky. Everthorn is not.
+      </p>
+      <p className="max-w-[900px] text-lg text-muted-foreground">
+        And of course, our World Map will become <i>actually</i> interactive, allowing you to view live updates
+        to the world as they happen, view Projects created live, and see the locations of anyone on the server!
       </p>
 
     </section>
