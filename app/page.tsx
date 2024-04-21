@@ -64,7 +64,7 @@ export default function IndexPage() {
             Create your own. Let your imagination run free. <br />
             Projects are how we work on Everthorn.
           </p>
-          <Link href={'/wiki'}>
+          <Link href={'/wiki/projects'}>
             <Button className={'mt-4 w-full justify-between'}>
               <div> Explore our Projects </div>
               <ArrowRight />
@@ -99,7 +99,7 @@ export default function IndexPage() {
         <span>Even Thorny has to eat. </span>
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Support the server by becoming a Patron! <br /> Donating helps keep
+          Support the server by becoming a <b className={'text-attention2'}>Patron!</b> <br /> Donating helps keep
           Everthorn running, and also provides Thorny with dinner every night.
         </p>
         <Link href={siteConfig.links.patreon} target={'_blank'}>
