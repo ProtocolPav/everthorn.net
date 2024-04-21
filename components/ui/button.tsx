@@ -16,6 +16,8 @@ const buttonVariants = cva(
           "border border-input hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        patreon:
+          "border border-lime-300 bg-lime-600 text-lime-50 font-bold hover:bg-green-700",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 hover:underline text-primary",
       },
@@ -23,6 +25,7 @@ const buttonVariants = cva(
         default: "h-10 py-2 px-4",
         sm: "h-9 px-3 rounded-md",
         lg: "h-11 px-8 rounded-md",
+        xl: "h-20 px-10 rounded-md",
         icon: "h-10 w-10",
       },
     },
