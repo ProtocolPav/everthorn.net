@@ -41,7 +41,7 @@ export default function IndexPage() {
           <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-6xl text-transparent md:text-8xl">Everthorn</span>
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
-          Everything Everthorn. All in once place. <br className="hidden sm:inline" />
+          Everything Everthorn. All in one place. <br className="hidden sm:inline" />
           Find the guidelines, our world map and our newly updated wiki.
         </p>
       </div>
