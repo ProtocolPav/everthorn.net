@@ -1,10 +1,11 @@
-FROM node:18
+FROM node:latest
 
 WORKDIR ./app
 
 COPY . .
-RUN npm install react-scripts --save
-RUN npm install --production
-RUN npm run build
 
-RUN npm run start
+RUN npm install
+
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/docker-entrypoint.sh"]
