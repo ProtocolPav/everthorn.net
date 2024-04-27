@@ -30,7 +30,7 @@ export function SiteHeader() {
 
             <TooltipProvider delayDuration={300}>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger className={'mx-5'}>
                   <Link
                     href={siteConfig.links.patreon}
                     target="_blank"
