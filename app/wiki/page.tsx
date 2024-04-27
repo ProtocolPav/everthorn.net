@@ -21,7 +21,7 @@ export default function IndexPage() {
       <Link href={'https://everthorn.fandom.com/wiki/Everthorn_Wiki'}>
         <Button className={'justify-between'}>
           <div className={'mr-3'}>Go to the Old Wiki </div>
-          <Icons.external_link />
+          <Icons.external_link size={20} />
         </Button>
       </Link>
 

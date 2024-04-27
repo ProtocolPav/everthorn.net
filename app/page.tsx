@@ -15,8 +15,7 @@ import screenshot5 from '../public/screenshots/Minecraft Screenshot 2024.04.21 -
 import screenshot6 from '../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.06.35.13.webp'
 import screenshot7 from '../public/screenshots/Minecraft-Screenshot-2024.04.21-10.08.45.35.webp'
 import screenshot8 from '../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
-import { ArrowRight } from 'lucide-react'
-import {PatreonLogo} from "@phosphor-icons/react";
+import {Icons} from '@/components/icons'
 
 export default function IndexPage() {
   return (
@@ -67,7 +66,7 @@ export default function IndexPage() {
           <Link href={'/wiki/projects'}>
             <Button className={'mt-4 w-full justify-between'}>
               <div> Explore our Projects </div>
-              <ArrowRight />
+              <Icons.arrow_right size={20} />
             </Button>
           </Link>
         </div>
@@ -87,7 +86,7 @@ export default function IndexPage() {
           <Link href={'/wiki'}>
             <Button className={'mt-4 w-full justify-between'}>
               <div> Enter the Wiki </div>
-              <ArrowRight />
+              <Icons.arrow_right size={20} />
             </Button>
           </Link>
         </div>
@@ -104,7 +103,7 @@ export default function IndexPage() {
         </p>
         <Link href={siteConfig.links.patreon} target={'_blank'}>
           <Button className={'mt-4 justify-between'} variant={'patreon'} size={'lg'}>
-            <PatreonLogo className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>
+            <Icons.patreon className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>
           </Button>
         </Link>
       </section>
