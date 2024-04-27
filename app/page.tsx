@@ -71,7 +71,7 @@ export default function IndexPage() {
           </Link>
         </div>
 
-        <div className="col-span-2 row-span-2 hidden h-[500px] px-5 lg:block">
+        <div className="col-span-2 row-span-2 hidden h-[500px] ps-5 lg:block">
           <LayoutGrid cards={cards_secondary} />
         </div>
 
