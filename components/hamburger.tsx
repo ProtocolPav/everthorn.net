@@ -25,8 +25,23 @@ interface MainNavProps {
 export function HamburgerNav({ items }: MainNavProps) {
   return (
     <div className="flex flex-1 items-center justify-end space-x-4 md:hidden">
-      <nav className="flex items-center space-x-1">
+      <nav className="flex items-center space-x-5">
         
+        <Link
+          href={siteConfig.links.patreon}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div
+            className={buttonVariants({
+              variant: "default",
+            })}
+          >
+            <Icons.discord className="size-6" weight={'fill'} />
+            <div className='mx-1'>Log In</div>
+          </div>
+        </Link>
+
         <Sheet>
           <SheetTrigger asChild>
             <Button variant={'outline'} size={'icon'} className={'flex md:hidden'}>
