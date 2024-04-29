@@ -15,7 +15,9 @@ export function MainNav({ items }: MainNavProps) {
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
         {/*<Icons.logo className="h-6 w-6" />*/}
-        <span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">{siteConfig.name}</span>
+        <span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">
+          {siteConfig.name}
+        </span>
       </Link>
 
       {items?.length ? (

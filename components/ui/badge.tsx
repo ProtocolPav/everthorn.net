@@ -17,7 +17,8 @@ const badgeVariants = cva(
         attention:
           "rounded-md border-transparent bg-attention text-attention-foreground hover:bg-attention/80",
         outline: "text-foreground",
-        command: "rounded-3xl text-blue-100 bg-indigo-700 border-indigo-600 border-2 px-1.5"
+        command:
+          "rounded-3xl text-blue-100 bg-indigo-700 border-indigo-600 border-2 px-1.5",
       },
     },
     defaultVariants: {

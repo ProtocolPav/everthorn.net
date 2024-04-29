@@ -1,18 +1,18 @@
 "use client"
 
 import {
-  IconProps,
-  PatreonLogo,
-  YoutubeLogo,
-  DiscordLogo,
-  Moon,
-  Sun,
-  List,
-  ArrowSquareOut,
-  ArrowRight,
   ArrowLeft,
+  ArrowRight,
+  ArrowSquareOut,
   CaretDown,
-  type Icon as PhosphorIcon
+  DiscordLogo,
+  IconProps,
+  List,
+  Moon,
+  PatreonLogo,
+  Sun,
+  YoutubeLogo,
+  type Icon as PhosphorIcon,
 } from "@phosphor-icons/react"
 
 export type Icon = PhosphorIcon
@@ -27,5 +27,5 @@ export const Icons = {
   arrow_right: ArrowRight,
   arrow_left: ArrowLeft,
   external_link: ArrowSquareOut,
-  expand: CaretDown
+  expand: CaretDown,
 }

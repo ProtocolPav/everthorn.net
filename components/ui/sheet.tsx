@@ -1,10 +1,11 @@
 "use client"
+
 import * as React from "react"
 import * as SheetPrimitive from "@radix-ui/react-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
-import {Icons} from '@/components/icons'
 
 import { cn } from "@/lib/utils"
+import { Icons } from "@/components/icons"
 
 const Sheet = SheetPrimitive.Root
 
@@ -78,10 +79,7 @@ const SheetHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "flex flex-col space-y-2 text-left",
-      className
-    )}
+    className={cn("flex flex-col space-y-2 text-left", className)}
     {...props}
   />
 )
