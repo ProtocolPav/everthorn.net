@@ -14,7 +14,8 @@ export default function ProjectPage( {params,}: {params: {projectName: string}})
     >
       <div className='hidden md:grid grid-cols-8'>
         <div className='sticky top-20 self-start col-span-3 pr-8 lg:pr-12 py-6 pl-6'>
-          <Badge variant={'outline'} className={'mx-1'}> New Project!</Badge>
+          <Button variant={'link'}><Icons.arrow_left size={18}/> <div className={'ms-2'}>Back to Projects</div></Button> <br/>
+          <Badge variant={'outline'} className={'mx-1 mt-5'}> New Project!</Badge>
           <Badge variant={'outline'} className={'mx-1'}> Status: Ongoing</Badge>
           <h1 className={'text-5xl font-extrabold mt-3'}>
             {params.projectName}
@@ -27,7 +28,22 @@ export default function ProjectPage( {params,}: {params: {projectName: string}})
           
           <Separator className={'w-9/10 mt-3 mb-3 mx-auto'} />
           <div className={'flex grid-cols-2 justify-between'}>
+            <p>Project Members:</p> <p>ProtocolPav, cakePhone, Jake</p>
+          </div>
+
+          <Separator className={'w-9/10 mt-3 mb-3 mx-auto'} />
+          <div className={'flex grid-cols-2 justify-between'}>
             <p>Started On:</p> <p>21/04/2022</p>
+          </div>
+
+          <Separator className={'w-9/10 mt-3 mb-3 mx-auto'} />
+          <div className={'flex grid-cols-2 justify-between'}>
+            <p>Status:</p> <p>Ongoing</p>
+          </div>
+
+          <Separator className={'w-9/10 mt-3 mb-3 mx-auto'} />
+          <div className={'flex grid-cols-2 justify-between'}>
+            <p>Project Type:</p> <p>Town</p>
           </div>
         </div>
         

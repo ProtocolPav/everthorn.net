@@ -10,6 +10,7 @@ import {
   List,
   ArrowSquareOut,
   ArrowRight,
+  ArrowLeft,
   CaretDown,
   type Icon as PhosphorIcon
 } from "@phosphor-icons/react"
@@ -24,6 +25,7 @@ export const Icons = {
   discord: DiscordLogo,
   hamburgermenu: List,
   arrow_right: ArrowRight,
+  arrow_left: ArrowLeft,
   external_link: ArrowSquareOut,
   expand: CaretDown
 }
