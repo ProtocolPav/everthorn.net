@@ -2,11 +2,14 @@
 
 import Link from "next/link"
 
+import { useState } from "react"
+
 import { siteConfig } from "@/config/site"
 import { Badge } from "@/components/ui/badge"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
+import { Editor } from "@/components/editor"
 
 export default function ProjectPage({
   params,
@@ -59,6 +62,8 @@ export default function ProjectPage({
           Balh Blah adsad dsadsa dsa dsadsadsafgr gregrtegre gregregre gregregre
           gregregre
         </div>
+
+        <Editor />
       </div>
     </div>
   )
