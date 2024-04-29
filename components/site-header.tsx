@@ -27,6 +27,31 @@ export function SiteHeader() {
 
         <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
           <nav className="flex items-center space-x-1">
+
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger className={'mx-5'}>
+                  <Link
+                    href={siteConfig.links.patreon}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div
+                      className={buttonVariants({
+                        variant: "default",
+                      })}
+                    >
+                      <Icons.discord className="size-6" weight={'fill'} />
+                      <div className='mx-1'>Log In</div>
+                    </div>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className={'mx-auto text-center'}>Log in to edit the wiki</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger>
@@ -45,8 +70,8 @@ export function SiteHeader() {
                     </div>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Feed Thorny <br/> on Patreon</p>
+                <TooltipContent align={'end'} alignOffset={-40}>
+                  <p className={'mx-auto text-center'}>Feed Thorny on Patreon</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -69,8 +94,8 @@ export function SiteHeader() {
                     </div>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Everthorn <br /> Youtube Channel</p>
+                <TooltipContent align={'end'} alignOffset={4}>
+                  <p className={'mx-auto text-center'}>Everthorn Youtube Channel</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
