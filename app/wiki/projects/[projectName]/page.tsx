@@ -54,7 +54,7 @@ export default function ProjectPage({
 
           <div className={'mt-7'}>
             <Button variant={'secondary'}>
-              <Icons.discord weight={'fill'} size={26} className={'mr-2'}/>
+              <Icons.discord weight={'fill'} className={'mr-1 size-6'}/>
               <p>Log In to Edit</p>
             </Button>
           </div>
