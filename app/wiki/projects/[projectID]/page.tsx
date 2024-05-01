@@ -12,7 +12,7 @@ import Tiptap from "@/components/editor";
 export default function ProjectPage({
   params,
 }: {
-  params: { projectName: string }
+  params: { projectID: string }
 }) {
   return (
     <div className="max-w-8xl mx-auto px-4 lg:px-8 xl:px-12 w-full flex flex-col flex-grow">
@@ -30,19 +30,19 @@ export default function ProjectPage({
             Status: Ongoing
           </Badge>
           <h1 className={"text-5xl font-extrabold mt-3"}>
-            {params.projectName}
+            <span>{getProjectData(params.projectID)}</span>
           </h1>
           <Separator className={"w-9/10 mt-12 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Project Lead:</p> <p>ProtocolPav</p>
+            <p>Project Lead:</p> <p>{projectLead}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Project Members:</p> <p>ProtocolPav, cakePhone, Jake</p>
+            <p>Project Members:</p> <p>{projectMembersString()}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Started On:</p> <p>21/04/2022</p>
+            <p>Started On:</p> <p>{startedOn()}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
@@ -67,6 +67,45 @@ export default function ProjectPage({
       </div>
     </div>
   )
+}
+
+let projectName: string
+const projectLead: string = "Someone"
+const projectMembers: string[] = ["Someone Else", "Lorem", "Ipsum"]
+
+// Resolve all project data and assign it to all needed variables
+const getProjectData = async (id: string) => {
+  try {
+    let json = (await fetch(`https://path/to/api/${id}`)).json()
+
+    // parse json data
+    // Ideally, we'd assign all the variables here
+    projectName = json.projectName
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+// Most of this resolve functions are all placeholders.
+// The true one for all data resolver is getProjectData
+const startedOn: () => Promise<string> = async () => {
+  let currentDate: string = new Date().toString()
+
+  return currentDate
+}
+
+const projectMembersString = async () => {
+  let string: string = ""
+
+  for (let i = 0; i < projectMembers.length; i++) {
+    string += projectMembers[i]
+
+    if (i !== projectMembers.length - 1) {
+      string += ", "
+    }
+  }
+
+  return string
 }
 
 const content = `<p>TipTapEditor class will go here, with content
