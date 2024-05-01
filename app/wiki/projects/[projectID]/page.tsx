@@ -30,7 +30,7 @@ export default function ProjectPage({
             Status: Ongoing
           </Badge>
           <h1 className={"text-5xl font-extrabold mt-3"}>
-            <span>{getProjectData(params.projectID)}</span>
+            {projectName}
           </h1>
           <Separator className={"w-9/10 mt-12 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
@@ -69,7 +69,7 @@ export default function ProjectPage({
   )
 }
 
-let projectName: string
+let projectName: string = "Test"
 const projectLead: string = "Someone"
 const projectMembers: string[] = ["Someone Else", "Lorem", "Ipsum"]
 
