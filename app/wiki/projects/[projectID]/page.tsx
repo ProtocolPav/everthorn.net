@@ -53,12 +53,10 @@ export default function ProjectPage({
             <p>Project Type:</p> <p>Town</p>
           </div>
 
-          <div className={'mt-7'}>
-            <Button variant={'secondary'}>
-              <Icons.discord weight={'fill'} className={'mr-1 size-6'}/>
-              <p>Log In to Edit</p>
-            </Button>
-          </div>
+          <Button variant={'secondary'} className={'mt-7'}>
+            <Icons.discord weight={'fill'} className={'mr-1 size-6'}/>
+            <p>Log In to Edit</p>
+          </Button>
         </div>
 
         <div className="col-span-5 lg:border-l overflow-auto pt-8 pb-12 pl-8 lg:pl-12 pr-6">
@@ -69,45 +67,11 @@ export default function ProjectPage({
   )
 }
 
-let projectName: string = "Test"
+let projectName: string = "Project Name"
 const projectLead: string = "Someone"
-const projectMembers: string[] = ["Someone Else", "Lorem", "Ipsum"]
-
-// Resolve all project data and assign it to all needed variables
-const getProjectData = async (id: string) => {
-  try {
-    let json = (await fetch(`https://path/to/api/${id}`)).json()
-
-    // parse json data
-    // Ideally, we'd assign all the variables here
-    projectName = json.projectName
-  } catch(error) {
-    console.error(error)
-  }
-}
-
-// Most of this resolve functions are all placeholders.
-// The true one for all data resolver is getProjectData
-const startedOn: () => Promise<string> = async () => {
-  let currentDate: string = new Date().toString()
-
-  return currentDate
-}
-
-const projectMembersString = async () => {
-  let string: string = ""
-
-  for (let i = 0; i < projectMembers.length; i++) {
-    string += projectMembers[i]
-
-    if (i !== projectMembers.length - 1) {
-      string += ", "
-    }
-  }
-
-  return string
-}
-
+const projectMembers: string[] = ["Someone", "Else"]
+const projectType: string = "Something"
+const projectStatus: string = "Some Status"
 const content = `<p>TipTapEditor class will go here, with content
 that is auto-got from the DB via a HTTP GET request to NexusCore.
 The edit button has been added. I will now add a lorem ipsum.
@@ -136,3 +100,39 @@ Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaera
 Aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero.
 
 </p>`
+
+// Resolve all project data and assign it to all needed variables
+const getProjectData = async (id: string) => {
+  try {
+    let json = (await fetch(`https://path/to/api/${id}`)).json()
+
+    // parse json data
+    // Ideally, we'd assign all the variables here
+    // projectName = json.projectName
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+// Most of this resolve functions are all placeholders.
+// The true one for all data resolver is getProjectData
+const startedOn: () => Promise<string> = async () => {
+  const dateObject: Date = new Date()
+  const currentDate: string = `${dateObject.getDate()}/${dateObject.getMonth()}/${dateObject.getFullYear()}`
+
+  return currentDate
+}
+
+const projectMembersString = async () => {
+  let string: string = ""
+
+  for (let i = 0; i < projectMembers.length; i++) {
+    string += projectMembers[i]
+
+    if (i !== projectMembers.length - 1) {
+      string += ", "
+    }
+  }
+
+  return string
+}
