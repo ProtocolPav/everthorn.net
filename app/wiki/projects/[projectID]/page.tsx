@@ -14,6 +14,7 @@ export default function ProjectPage({
 }: {
   params: { projectID: string }
 }) {
+  const data = getProjectData(params.projectID)
   return (
     <div className="max-w-8xl mx-auto px-4 lg:px-8 xl:px-12 w-full flex flex-col flex-grow">
       <div className="lg:grid grid-cols-8">
@@ -30,27 +31,27 @@ export default function ProjectPage({
             Status: Ongoing
           </Badge>
           <h1 className={"text-5xl font-extrabold mt-3"}>
-            {projectName}
+            {project_name}
           </h1>
           <Separator className={"w-9/10 mt-12 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Project Lead:</p> <p>{projectLead}</p>
+            <p>Project Lead:</p> <p>{project_lead}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Project Members:</p> <p>{projectMembersString()}</p>
+            <p>Project Members:</p> <p>{project_members}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Started On:</p> <p>{startedOn()}</p>
+            <p>Started On:</p> <p>{project_date}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Status:</p> <p>Ongoing</p>
+            <p>Status:</p> <p>{project_status}</p>
           </div>
           <Separator className={"w-9/10 mt-3 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
-            <p>Project Type:</p> <p>Town</p>
+            <p>Project Type:</p> <p>{project_type}</p>
           </div>
 
           <Button variant={'secondary'} className={'mt-7'}>
@@ -60,51 +61,55 @@ export default function ProjectPage({
         </div>
 
         <div className="col-span-5 lg:border-l overflow-auto pt-8 pb-12 pl-8 lg:pl-12 pr-6">
-          <Tiptap content={content} editable={true}/>
+          <Tiptap content={project_content} editable={true}/>
         </div>
       </div>
     </div>
   )
 }
 
-let projectName: string = "Project Name"
-const projectLead: string = "Someone"
-const projectMembers: string[] = ["Someone", "Else"]
-const projectType: string = "Something"
-const projectStatus: string = "Some Status"
-const content = `<p>TipTapEditor class will go here, with content
-that is auto-got from the DB via a HTTP GET request to NexusCore.
-The edit button has been added. I will now add a lorem ipsum.
-Technically, both the side panel and main content are editable, but
-for projects the side panel will not be edited, and rather auto-generated
-from project info.
-<br/><br/>
+  let project_date = 'date'
+  let project_members = ['members', 'people']
+  let project_name = "Project Name"
+  let project_lead = "Someone"
+  let project_type = "Something"
+  let project_status = "Some Status"
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua ut enim ad. Minim veniam quis nostrud exercitation ullamco laboris.
+  let project_content = `<p>TipTapEditor class will go here, with content
+  that is auto-got from the DB via a HTTP GET request to NexusCore.
+  The edit button has been added. I will now add a lorem ipsum.
+  Technically, both the side panel and main content are editable, but
+  for projects the side panel will not be edited, and rather auto-generated
+  from project info.
+  <br/><br/>
 
-Nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut. Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque. Laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.
+  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua ut enim ad. Minim veniam quis nostrud exercitation ullamco laboris.
 
-Dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut. Odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia.
+  Nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut. Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque. Laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.
 
-Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat. Voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut.
+  Dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut. Odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia.
 
-Aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero.
-Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua ut enim ad. Minim veniam quis nostrud exercitation ullamco laboris.
+  Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat. Voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut.
 
-Nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut. Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque. Laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.
+  Aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero.
+  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua ut enim ad. Minim veniam quis nostrud exercitation ullamco laboris.
 
-Dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut. Odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia.
+  Nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut. Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque. Laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.
 
-Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat. Voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut.
+  Dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut. Odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia.
 
-Aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero.
+  Non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat. Voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut.
 
-</p>`
+  Aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero.
+
+  </p>`
 
 // Resolve all project data and assign it to all needed variables
 const getProjectData = async (id: string) => {
   try {
     let json = (await fetch(`https://path/to/api/${id}`)).json()
+
+    // Temp data that will be updated later by the JSON as we said
 
     // parse json data
     // Ideally, we'd assign all the variables here
@@ -126,10 +131,10 @@ const startedOn: () => Promise<string> = async () => {
 const projectMembersString = async () => {
   let string: string = ""
 
-  for (let i = 0; i < projectMembers.length; i++) {
-    string += projectMembers[i]
+  for (let i = 0; i < project_members.length; i++) {
+    string += project_members[i]
 
-    if (i !== projectMembers.length - 1) {
+    if (i !== project_members.length - 1) {
       string += ", "
     }
   }
