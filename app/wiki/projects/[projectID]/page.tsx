@@ -107,7 +107,7 @@ export default function ProjectPage({
 // Resolve all project data and assign it to all needed variables
 const getProjectData = async (id: string) => {
   try {
-    let json = (await fetch(`https://path/to/api/${id}`)).json()
+    let json = (await fetch(`http://nexuscore:8000/v1/api/projects/${id}`)).json()
 
     // Temp data that will be updated later by the JSON as we said
 
