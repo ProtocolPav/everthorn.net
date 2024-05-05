@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 import Tiptap from "@/components/editor";
 
+import type ProjectJSON from "@/types/projects.d.ts"
+
 export default function ProjectPage({
   params,
 }: {

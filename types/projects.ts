@@ -1,4 +1,4 @@
-export type ProjectJSON {
+export interface ProjectJSON {
   project_id: string,
   coordinates: number[],
   description: string,
