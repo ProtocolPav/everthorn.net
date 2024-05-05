@@ -9,14 +9,14 @@ import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 import Tiptap from "@/components/editor";
 
-import type ProjectJSON from "@/types/projects.d.ts"
+import GetProjectResponseJSON from "@/types/projects.ts"
 
 export default function ProjectPage({
   params,
 }: {
   params: { projectID: string }
 }) {
-  const data = getProjectData(params.projectID)
+  const data: GetProjectResponseJSON = getProjectData(params.projectID)
   return (
     <div className="max-w-8xl mx-auto px-4 lg:px-8 xl:px-12 w-full flex flex-col flex-grow">
       <div className="lg:grid grid-cols-8">
@@ -30,11 +30,12 @@ export default function ProjectPage({
             New Project!
           </Badge>
           <Badge variant={"outline"} className={"mx-1"}>
-            Status: Ongoing
+            Status: {data.status}
           </Badge>
           <h1 className={"text-5xl font-extrabold mt-3"}>
-            {project_name}
+            {data.name}
           </h1>
+          <p className={"mt-3"}>{data.description}</p>
           <Separator className={"w-9/10 mt-12 mb-3 mx-auto"} />
           <div className={"flex grid-cols-2 justify-between"}>
             <p>Project Lead:</p> <p>{project_lead}</p>
@@ -107,18 +108,31 @@ export default function ProjectPage({
   </p>`
 
 // Resolve all project data and assign it to all needed variables
-const getProjectData = async (id: string) => {
-  try {
-    let json = (await fetch(`http://nexuscore:8000/v1/api/projects/${id}`)).json()
+const getProjectData = (id: string): GetProjectResponseJSON => {
+  // Comment this out meanwhile so we can get some dummy data going
+  // let json = (await fetch(`http://nexuscore:8000/v1/api/projects/${id}`)).json()
 
-    // Temp data that will be updated later by the JSON as we said
-
-    // parse json data
-    // Ideally, we'd assign all the variables here
-    // projectName = json.projectName
-  } catch(error) {
-    console.error(error)
+  let json: GetProjectResponseJSON = {
+    project_id: "some_project",
+    name: "Some Project",
+    coordinates: [20, 76, 100],
+    description: "Description",
+    status: "ongoing",
+    content: {},
+    lead_id: 50,
+    member_ids: [44, 34, 212],
+    thread_id: 1122286933134032937,
+    accepted_on: "2024-05-02 16:20:06",
+    completed_on: "2024-07-23 10:42:34"
   }
+
+  return json
+
+  // Temp data that will be updated later by the JSON as we said
+
+  // parse json data
+  // Ideally, we'd assign all the variables here
+  // projectName = json.projectName
 }
 
 // Most of this resolve functions are all placeholders.
