@@ -9,7 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 import Tiptap from "@/components/editor";
 
-import GetProjectResponseJSON from "@/types/projects.ts"
+import { GetProjectResponseJSON, ParsedProjectObject } from "@/types/projects"
+import { UserProfile } from "@/types/user"
 
 export default function ProjectPage({
   params,
@@ -83,37 +84,75 @@ const getProjectData = (id: string): GetProjectResponseJSON => {
     member_ids: [44, 34, 212],
     thread_id: 1122286933134032937,
     accepted_on: "2024-05-02 16:20:06",
-    completed_on: "2024-07-23 10:42:34"
+    completed_on: "2024-07-23 10:42:34",
+    public: true
+  }
+
+  let parsedData: ParsedProjectObject = {
+    name: json.name,
+    status: parseStatus(json.status),
+    coordinates: json.coordinates,
+    description: json.description,
+    content: "<h2>Some Project</h2><p>This is an example Project</p>",
+    lead_user: parseUser([json.lead_id])[0],
+    members: parseUser(json.member_ids),
   }
 
   return json
-
-  // Temp data that will be updated later by the JSON as we said
-
-  // parse json data
-  // Ideally, we'd assign all the variables here
-  // projectName = json.projectName
 }
 
-// Most of this resolve functions are all placeholders.
-// The true one for all data resolver is getProjectData
-const startedOn: () => Promise<string> = async () => {
-  const dateObject: Date = new Date()
-  const currentDate: string = `${dateObject.getDate()}/${dateObject.getMonth()}/${dateObject.getFullYear()}`
+function parseUser(ids: number[]): UserProfile[] {
+  let users: UserProfile[] = []
+  for (let i = 0; i < ids.length; i++) {
+    let json: JSON
+    fetch(`https://nexuscore:8000/api/v1/users/thorny-id/${ids[i]}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Couldn't fetch User Data")
+        }
 
-  return currentDate
-}
-
-const projectMembersString = async () => {
-  let string: string = ""
-
-  for (let i = 0; i < project_members.length; i++) {
-    string += project_members[i]
-
-    if (i !== project_members.length - 1) {
-      string += ", "
-    }
+        json = response.json()
+        users.push(json)
+      })
+      .catch (error => {
+        console.error(error)
+        users.push(
+          {
+            thorny_id: -1,
+            user_id: -1,
+            guild_id: -1,
+            username: "",
+            join_date: "",
+            birthday: "",
+            balance: -1,
+            active: false,
+            role: "",
+            patron: false,
+            level: -1,
+            xp: -1,
+            required_xp: -1,
+            last_message: "",
+            gamertag: "",
+            whitelist: ""
+          }
+        )
+      })
   }
 
-  return string
+  return users
+}
+
+function parseStatus(status: number): string {
+  switch (status){
+    case 0:
+      return "Pending"
+    case 1:
+      return "Ongoing"
+    case 2:
+      return "Open"
+    case 3:
+      return "Completed"
+    default:
+      return "Unknown"
+  }
 }
