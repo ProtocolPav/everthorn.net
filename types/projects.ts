@@ -1,4 +1,4 @@
-import type UserProfile from "./user.ts"
+import type { UserProfile } from "./user.ts"
 
 export interface GetProjectResponseJSON {
   project_id: string,
