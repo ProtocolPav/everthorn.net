@@ -61,7 +61,7 @@ export default function IndexPage() {
             </CardHeader>
             <CardContent>
               {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
-              <CardTitle className={'mb-1 line-clamp-1 leading-tight'}>Padova</CardTitle>
+              <CardTitle className={'mb-1 mt-2 line-clamp-1 leading-tight text-xl'}>Padova</CardTitle>
               <CardDescription className={'line-clamp-2 leading-tight'}>This is the description!</CardDescription>
             </CardContent>
           </Card>
@@ -78,7 +78,7 @@ export default function IndexPage() {
             </CardHeader>
             <CardContent>
               {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
-              <CardTitle className={'mb-1 line-clamp-1 leading-tight'}>Unreasonably Long Project Name</CardTitle>
+              <CardTitle className={'mb-1 mt-2 line-clamp-1 leading-tight text-xl'}>Unreasonably Long Project Name</CardTitle>
               <CardDescription className={'line-clamp-2 leading-tight'}>This is the description! It auto-truncates to fit the content box, so no need for us to do anything!</CardDescription>
             </CardContent>
           </Card>
