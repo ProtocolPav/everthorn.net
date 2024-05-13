@@ -32,43 +32,39 @@ export default function IndexPage() {
           <Separator className="my-5" />
 
           <div className={'grid md:grid-cols-3 gap-5'}>
-            <Card>
-              <CardHeader className={'p-2 container h-[240px]'}>
-                <Image
-                  src={screenshot3}
-                  alt={'Project Image'}
-                  className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
-                />
-              </CardHeader>
-              <CardContent>
-                {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
-                <CardTitle className={'mb-1'}>Padova</CardTitle>
-                <CardDescription>This is the description! Max. 100 characters, so truncate and add so...</CardDescription>
-              </CardContent>
+            <Button variant={'card'} className={'h-auto w-auto p-0'}>
+              <Card className={'bg-card/0 h-full w-full'}>
+                <CardHeader className={'p-2 container h-[240px]'}>
+                  <Image
+                    src={screenshot3}
+                    alt={'Project Image'}
+                    className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
+                  />
+                </CardHeader>
+                <CardContent>
+                  {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
+                  <CardTitle className={'mb-1 line-clamp-1 leading-tight'}>Padova</CardTitle>
+                  <CardDescription className={'line-clamp-2 leading-tight'}>This is the description!</CardDescription>
+                </CardContent>
+              </Card>
+            </Button>
 
-              <CardFooter>
-                <Button>View!</Button>
-              </CardFooter>
-            </Card>
-
-            <Card>
-              <CardHeader className={'p-2 container h-[240px]'}>
-                <Image
-                  src={screenshot3}
-                  alt={'Project Image'}
-                  className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
-                />
-              </CardHeader>
-              <CardContent>
-                {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
-                <CardTitle className={'mb-1'}>Unreasonably Long Pr...</CardTitle>
-                <CardDescription>This is the description! Max. 100 characters, so truncate and add so...</CardDescription>
-              </CardContent>
-
-              <CardFooter>
-                <Button>View!</Button>
-              </CardFooter>
-            </Card>
+            <Button variant={'card'} className={'h-auto w-auto p-0'}>
+              <Card className={'bg-card/0 h-full w-full'}>
+                <CardHeader className={'p-2 container h-[240px]'}>
+                  <Image
+                    src={screenshot3}
+                    alt={'Project Image'}
+                    className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
+                  />
+                </CardHeader>
+                <CardContent>
+                  {/*48 characters for title, 100 for description. Truncate with ellipsis*/}
+                  <CardTitle className={'mb-1 line-clamp-1 leading-tight'}>Unreasonably Long Project Name</CardTitle>
+                  <CardDescription className={'line-clamp-2 leading-tight'}>This is the description! It auto-truncates to fit the content box, so no need for us to do anything!</CardDescription>
+                </CardContent>
+              </Card>
+            </Button>
 
           </div>
         </section>
