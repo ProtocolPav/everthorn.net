@@ -11,7 +11,6 @@ import { Icons } from "@/components/icons"
 
 import backgroundimage from "../public/bg.png"
 import screenshot2 from "../public/screenshots/Minecraft Screenshot 2024.04.21 - 09.57.54.67.webp"
-import screenshot3 from "../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.00.09.26.webp"
 import screenshot4 from "../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.01.35.73.webp"
 import screenshot5 from "../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.02.34.49.webp"
 import screenshot8 from "../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp"
