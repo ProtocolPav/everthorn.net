@@ -33,11 +33,11 @@ export default function IndexPage() {
 
           <div className={'grid md:grid-cols-3 gap-5'}>
             <Card>
-              <CardHeader className={'p-2'}>
+              <CardHeader className={'p-2 container h-[240px]'}>
                 <Image
                   src={screenshot3}
                   alt={'Project Image'}
-                  className={"relative overflow-hidden size-full rounded-md opacity-80"}
+                  className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
                 />
               </CardHeader>
               <CardContent>
@@ -52,11 +52,11 @@ export default function IndexPage() {
             </Card>
 
             <Card>
-              <CardHeader className={'p-2'}>
+              <CardHeader className={'p-2 container h-[240px]'}>
                 <Image
                   src={screenshot3}
                   alt={'Project Image'}
-                  className={"relative overflow-hidden size-full rounded-md opacity-80"}
+                  className={"relative overflow-hidden size-full rounded-md opacity-80 object-cover"}
                 />
               </CardHeader>
               <CardContent>
