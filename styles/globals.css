@@ -90,7 +90,17 @@
     font-feature-settings: "rlig"1, "calt"1;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    @apply leading-tight tracking-tighter text-secondary-foreground font-extrabold
+  }
+
   h1 {
-    @apply text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl;
+    @apply text-6xl md:text-7xl;
+  }
+
+  p {
+    @apply mt-2 text-lg text-muted-foreground;
+
+    max-width: var(--max-width, 700px);
   }
 }

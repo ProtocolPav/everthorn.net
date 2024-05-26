@@ -21,10 +21,10 @@ export default function CMGuidelines() {
           <span>
             <Badge variant={'outline'}>Last Updated: April 2024</Badge>
           </span>
-          <h1 className="text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl">
+          <h1>
             <span>Community Manager Guidelines</span>
           </h1>
-          <p className="max-w-[700px] text-lg text-muted-foreground">
+          <p style={{ "--max-width": "900px" } as React.CSSProperties}>
             Everything that's important for the CM's to function properly.
             <br/>
             <Link href={'/map/unmined.index.html'}>
