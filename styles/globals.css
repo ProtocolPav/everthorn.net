@@ -84,8 +84,13 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig"1, "calt"1;
+  }
+
+  h1 {
+    @apply text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl;
   }
 }
