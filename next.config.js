@@ -19,6 +19,15 @@ const nextConfig = {
         },
       ]
     },
-}
+
+    async rewrites() {
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://everthorn.net:8282/api/:path*'
+        }
+      ]
+    }
+  }
 
 module.exports = nextConfig
