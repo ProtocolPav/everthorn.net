@@ -1,27 +1,28 @@
 import type { UserProfile } from "./user.ts"
 
-export interface GetProjectResponseJSON {
-  project_id: string,
-  name: string,
-  coordinates: number[],
-  description: string,
-  status: number,
-  content: string,
-  lead_id: number,
-  member_ids: number[],
-  thread_id: number,
-  accepted_on: string,
-  completed_on: string,
-  public: boolean
-}
-
 export interface ParsedProjectObject {
-	name: string,
-	status: string,
-	coordinates: number[],
-	description: string,
-	content: string,
-	lead_user: UserProfile,
-	members: UserProfile[],
-	started_on: string,
+  project: {
+    project_id: string,
+    name: string,
+    description: string,
+    coordinate_x: number,
+    coordinate_y: number,
+    coordinate_z: number,
+    thread_id: number,
+    started_on: string,
+    completed_on: string | null,
+    owner_id: number
+  },
+  members: {
+    members: number[]
+  },
+  status: {
+    status: string,
+    status_since: string,
+  },
+  content: {
+    content: string,
+    content_since: string,
+    content_edited_by: number
+  }
 }
