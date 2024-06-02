@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { ArrowRight } from "@phosphor-icons/react"
 
 const formSchema = z.object({
   title: z
@@ -51,7 +52,7 @@ export default function NewQuest() {
 
   return (
     <section className="container grid gap-6 pb-8 pt-6 max-w-screen-md md:py-10">
-      <h1 className="text-3xl">Let's create a new quest!</h1>
+      <h1 className="text-4xl">Let's create a new quest!</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -62,24 +63,37 @@ export default function NewQuest() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Quest title..."></Input>
+                    <Input placeholder="Cow Murder"></Input>
                   </FormControl>
                   <FormDescription>
                     This is the quest title, give it a good one!
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
+              </>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <>
                 <FormItem className="my-4">
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Give 'em hell boys!"></Textarea>
+                    <Textarea placeholder="Do you like cows? So do I, plea..."></Textarea>
                   </FormControl>
+                  <FormDescription>
+                    Descriptions should hook people, but shouldn't be so long that it bores them.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               </>
             )}
           />
-          <Button type="submit">Submit</Button>
+          
+          <Button variant="outline">Next <ArrowRight className={"ml-1"} size="18"/></Button>
         </form>
       </Form>
     </section>
