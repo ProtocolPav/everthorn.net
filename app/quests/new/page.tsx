@@ -71,7 +71,7 @@ export default function NewQuest() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className={
-            cn({'hidden': formStep !== 0})
+            cn({ 'hidden': formStep !== 0 })
           }>
             <h2>The Basics</h2>
             {/* Title */}
@@ -116,7 +116,7 @@ export default function NewQuest() {
             />
           </div>
           <div className={
-            cn({'hidden': formStep !== 1})
+            cn({ 'hidden': formStep !== 1 })
           }>
             <h2>Objectives</h2>
             {/* Objective Type */}
@@ -138,15 +138,33 @@ export default function NewQuest() {
                         </SelectContent>
                       </Select>
                     </FormControl>
+                    <FormDescription>
+                      The type of quest. Feeling murderous or chill mining and crafting?
+                    </FormDescription>
+                    <FormMessage />
                   </FormItem>
                 </>
               )}  
             />
           </div>
 
-          <Button variant="outline">
-            Next <ArrowRight className={"ml-1"} size="18" />
-          </Button>
+          <div className="flex gap-2">
+            <Button type="submit" className={ cn({ "hidden": formStep !== 2 }) }>Submit</Button>
+            <Button variant="outline" onClick={() => {
+              if (formStep === 0) {
+                form.trigger(["title", "description"])
+                const titleState = form.getFieldState('title')
+                const descriptionState = form.getFieldState('description')
+
+                if (!titleState.isDirty || !titleState.invalid) return
+                if (!descriptionState.isDirty || !descriptionState.invalid) return
+              }
+
+              setFormStep(Math.min(formStep + 1, 2)) // make sure it never goes past 2
+            }}>
+              Next <ArrowRight className={"ml-1"} size="18" />
+            </Button>
+          </div>
         </form>
       </Form>
     </section>
