@@ -33,7 +33,7 @@ const formSchema = z.object({
     .min(10, { message: "MARS!!! People need to know what to do!" })
     .max(255, { message: "MARS!!! The people have asked for you to stop!" }),
 
-    
+
   objective_type: z.string({ required_error: "MARS!!! Did you check this out?" }),
   objective_amount: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
@@ -350,6 +350,81 @@ export default function NewQuest() {
             </div>
           </div>
 
+          <div className={
+            cn({ 'hidden': formStep !== 3 })
+          }>
+            <h2 className="text-2xl">Rewards</h2>
+            <div className="flex gap-4 w-full justify-stretch">
+              {/* Objective Reward Type */}
+              <FormField
+                control={form.control}
+                name="objective_reward_type"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4 flex-1">
+                      <FormLabel>Type</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Item" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="item">Item</SelectItem>
+                            <SelectItem value="balance">Balance</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormDescription>
+                        What you giving to the people?
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}  
+              />
+
+              {/* Objective Reward Amount */}
+              <FormField
+                control={form.control}
+                name="objective_reward_amount"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4 flex-1">
+                      <FormLabel>Amount</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Feeling generous?
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}  
+              />
+            </div>
+
+            {/* Objective Reward Item */}
+            <FormField
+              control={form.control}
+              name="objective_reward_item"
+              render={({ field }) => (
+                <>
+                  <FormItem className="my-4 w-full">
+                    <FormLabel>Item</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="minecraft:stick" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Exactly, what are you giving them?
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                </>
+              )}  
+            />
+          </div>
+
           <div className="flex gap-2 mt-10">
             <Button variant="outline" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
@@ -398,7 +473,7 @@ export default function NewQuest() {
               }
 
               setFormStep(Math.min(formStep + 1, 3)) // make sure it never goes past 2
-            }}>
+            }} className={ cn({ "hidden": formStep > 2 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
             <Button type="submit" className={ cn({ "hidden": formStep !== 3 }) }>Submit</Button>
