@@ -98,6 +98,10 @@
     @apply text-6xl md:text-7xl;
   }
 
+  h2 {
+    @apply text-4xl md:text-5xl
+  }
+
   p {
     @apply mt-2 text-lg text-muted-foreground;
 
