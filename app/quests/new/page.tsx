@@ -89,6 +89,10 @@ const formSchema = z.object({
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many minutes does an hour have?" }).optional()
   ),
+  time_limit_sec: z.preprocess(
+    (value) => (typeof value === "string") ? Number(value) : 0,
+    z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
+  ),
 })
 
 export default function NewQuest() {
@@ -338,7 +342,24 @@ export default function NewQuest() {
                 render={({ field }) => (
                   <>
                     <FormItem className="my-4 flex-1">
-                      <FormLabel>Mins</FormLabel>
+                      <FormLabel>Minutes</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="0" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}  
+              />
+
+              {/* Objective Time Sec */}
+              <FormField
+                control={form.control}
+                name="time_limit_sec"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4 flex-1">
+                      <FormLabel>Seconds</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="0" {...field} />
                       </FormControl>
