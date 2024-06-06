@@ -410,7 +410,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Type</FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                        <Select onValueChange={(val) => {setShouldHideRewardItem(form.getValues("objective_reward_type") === "item"); field.onChange(val)}} defaultValue="field.value" {...field}>
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
