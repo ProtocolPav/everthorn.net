@@ -412,7 +412,7 @@ export default function NewQuest() {
                       <FormControl>
                         <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Item" />
+                            <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="item">Item</SelectItem>
@@ -451,6 +451,7 @@ export default function NewQuest() {
             </div>
 
             {/* Objective Reward Item */}
+            <div className={ cn({ "hidden": shouldHideRewardItem }) }>
             <FormField
               control={form.control}
               name="objective_reward_item"
@@ -469,6 +470,7 @@ export default function NewQuest() {
                 </>
               )}  
             />
+            </div>
           </div>
 
           {/* Step 5: Password */}
@@ -545,12 +547,14 @@ export default function NewQuest() {
                 if(timeLimitMinState.invalid) return                
               }
 
-              if (formStep === 4) {
-                form.trigger(["password"])
+              if (formStep === 3) {
+                form.trigger(["objective_reward_type", "objective_reward_amount", "objective_reward_item"])
 
                 const passwordState = form.getFieldState("password")
 
-                if (!passwordState.isDirty || passwordState.invalid) return
+                if (!rewardTypeState.isDirty || rewardTypeState.invalid) return
+                if (!rewardAmountState.isDirty || rewardAmountState.invalid) return
+                if (rewardType === "item" && rewardItemState.invalid) return
               }
 
               setFormStep(Math.min(formStep + 1, 4)) // make sure it never goes past 3
