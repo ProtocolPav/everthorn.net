@@ -114,17 +114,17 @@ export default function NewQuest() {
       description: "",
 
       objective_type: "",
-      objective_amount: 0,
+      objective_amount: undefined,
       objective_item: "",
 
       objective_reward_type: "",
-      objective_reward_amount: 0,
+      objective_reward_amount: undefined,
       objective_reward_item: "",
 
       objective_main_hand: undefined,
       location_x: undefined,
       location_z: undefined,
-      radius: undefined,
+      radius: 100,
       time_limit_h: undefined,
       time_limit_min: undefined,
       time_limit_sec: undefined,
@@ -243,7 +243,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Amount</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" placeholder='0' {...field} />
                       </FormControl>
                       <FormDescription>
                         How much to kill? Mine?
@@ -281,6 +281,7 @@ export default function NewQuest() {
             cn({ 'hidden': formStep !== 2 })
           }>
             <h2 className="text-2xl">Requirements</h2>
+            <p className="text-sm">Only fill in the requirements you want, and leave anything else blank!</p>
             {/* Objective Mainhand */}
             <FormField
                 control={form.control}
@@ -313,9 +314,6 @@ export default function NewQuest() {
                       <FormControl>
                         <Input type="number" placeholder="0" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        Coordinates
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   </>
@@ -350,6 +348,9 @@ export default function NewQuest() {
                       <FormControl>
                         <Input type="number" placeholder="20" {...field} />
                       </FormControl>
+                      <FormDescription>
+                        Radius, defaults to 100
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   </>
@@ -432,8 +433,8 @@ export default function NewQuest() {
                             <SelectValue placeholder="Select a reward type..." />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="item">Item</SelectItem>
                             <SelectItem value="balance">Balance</SelectItem>
+                            <SelectItem value="item">Item</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -455,7 +456,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Amount</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" placeholder='0' {...field} />
                       </FormControl>
                       <FormDescription>
                         Feeling generous?
@@ -547,7 +548,7 @@ export default function NewQuest() {
               }
 
               if (formStep === 2) {
-                form.trigger(["objective_main_hand", "location_x", "location_z", "radius", "time_limit_h", "time_limit_min"])
+                form.trigger(["objective_main_hand", "location_x", "location_z", "radius", "time_limit_h", "time_limit_min", "time_limit_sec"])
 
                 const mainHandState = form.getFieldState("objective_main_hand")
                 const locationXState = form.getFieldState("location_x")
@@ -555,13 +556,15 @@ export default function NewQuest() {
 
                 const timeLimitHState = form.getFieldState("time_limit_h")
                 const timeLimitMinState = form.getFieldState("time_limit_min")
+                const timeLimitSecState = form.getFieldState("time_limit_sec")
 
                 if(mainHandState.invalid) return
                 if(locationXState.invalid) return
                 if(locationZState.invalid) return
                 
                 if(timeLimitHState.invalid) return
-                if(timeLimitMinState.invalid) return                
+                if(timeLimitMinState.invalid) return
+                if(timeLimitSecState.invalid) return
               }
 
               if (formStep === 3) {
