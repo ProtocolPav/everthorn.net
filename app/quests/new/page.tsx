@@ -94,6 +94,8 @@ const formSchema = z.object({
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
   ),
   password: z.string({ required_error: "You shall not pass!" })
+    .startsWith("together2024", { message: "Wrong Password" })
+    .max(12, { message: "Wrong Password" })
 })
 
 export default function NewQuest() {
