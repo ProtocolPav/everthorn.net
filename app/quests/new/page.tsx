@@ -504,6 +504,7 @@ export default function NewQuest() {
             />
           </div>
 
+          {/* Buttons */}
           <div className="flex gap-2 mt-10">
             <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
