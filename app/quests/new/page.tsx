@@ -491,7 +491,7 @@ export default function NewQuest() {
                       <Input type="password" placeholder="Password..." {...field} />
                     </FormControl>
                     <FormDescription>
-                      You need a password to submit a quest. If you're not a Mars, please contact him to suggest a quest of your own!
+                      You need a password to submit a quest. If you're not Mars, please contact him to suggest a quest of your own!
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
