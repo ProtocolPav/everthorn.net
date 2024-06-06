@@ -104,10 +104,29 @@ export default function NewQuest() {
     defaultValues: {
       title: "",
       description: "",
+
+      objective_type: "",
+      objective_amount: 0,
+      objective_item: "",
+
+      objective_reward_type: "",
+      objective_reward_amount: 0,
+      objective_reward_item: "",
+
+      objective_main_hand: undefined,
+      location_x: undefined,
+      location_z: undefined,
+      radius: undefined,
+      time_limit_h: undefined,
+      time_limit_min: undefined,
+      time_limit_sec: undefined,
+
+      password: ""
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("submitted quest!")
     console.log(values)
   }
 
