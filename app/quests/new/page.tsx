@@ -115,6 +115,8 @@ export default function NewQuest() {
       <h1 className="text-4xl">Let's create a new quest!</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+
+          {/* Step 1: The Basics */}
           <div className={
             cn({ 'hidden': formStep !== 0 })
           }>
@@ -161,6 +163,7 @@ export default function NewQuest() {
             />
           </div>
 
+          {/* Step 2: Objectives */}
           <div className={
             cn({ 'hidden': formStep !== 1 })
           }>
@@ -236,6 +239,7 @@ export default function NewQuest() {
             />
           </div>
 
+          {/* Step 3: Requirements */}
           <div className={
             cn({ 'hidden': formStep !== 2 })
           }>
@@ -371,6 +375,7 @@ export default function NewQuest() {
             </div>
           </div>
 
+          {/* Step 4: Rewards */}
           <div className={
             cn({ 'hidden': formStep !== 3 })
           }>
@@ -493,7 +498,7 @@ export default function NewQuest() {
                 if(timeLimitMinState.invalid) return                
               }
 
-              setFormStep(Math.min(formStep + 1, 3)) // make sure it never goes past 2
+              setFormStep(Math.min(formStep + 1, 3)) // make sure it never goes past 3
             }} className={ cn({ "hidden": formStep > 2 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
