@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "@phosphor-icons/react"
 import { useForm } from "react-hook-form"
@@ -56,8 +56,8 @@ const formSchema = z.object({
     .min(1, { message: "MARS!!! Seriously? People get nothing?" })
   ),
   objective_reward_item: z
-    .string({ required_error: "MARS!!! What exactly?" })
-    .startsWith("minecraft:", { message: "MARS!!! Did you forget \"minecraft:\"?" })
+    .string()
+    // .startsWith("minecraft:", { message: "MARS!!! Did you forget \"minecraft:\"?" })
     .trim()
     .toLowerCase()
     .optional(),
@@ -79,7 +79,7 @@ const formSchema = z.object({
   ),
   radius: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
-    z.number().min(20, { message: "MARS!!! A radius shouldn't be THAT small! (min: 20)" }).optional()
+    z.number().optional()
   ),
   time_limit_h: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
@@ -96,6 +96,12 @@ const formSchema = z.object({
   password: z.string({ required_error: "You shall not pass!" })
     .startsWith("together2024", { message: "Wrong Password" })
     .max(12, { message: "Wrong Password" })
+}).refine(data => {
+  if (data!.objective_reward_type === "balance") return true
+  else return data!.objective_reward_item?.startsWith("minecraft:")
+}, {
+  message: "MARS!!! You specified a reward item, but it doesn't start with \"minecraft:\"!",
+  path: ["password"]
 })
 
 export default function NewQuest() {
@@ -128,6 +134,13 @@ export default function NewQuest() {
   })
 
   const [shouldHideRewardItem, setShouldHideRewardItem] = useState(form.getValues("objective_reward_type") === "balance")
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setShouldHideRewardItem(value.objective_reward_type !== "item")
+    })
+    return () => subscription.unsubscribe()
+  }, [form.watch])
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("submitted quest!")
@@ -204,7 +217,7 @@ export default function NewQuest() {
                       <FormControl>
                         <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Kill" />
+                            <SelectValue placeholder="Select an objective type..." />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="kill">Kill</SelectItem>
@@ -414,9 +427,9 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Type</FormLabel>
                       <FormControl>
-                        <Select onValueChange={(val) => {setShouldHideRewardItem(form.getValues("objective_reward_type") === "item"); field.onChange(val)}} defaultValue="field.value" {...field}>
+                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
                           <SelectTrigger>
-                            <SelectValue />
+                            <SelectValue placeholder="Select a reward type..." />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="item">Item</SelectItem>
@@ -483,7 +496,6 @@ export default function NewQuest() {
           }>
             <h2 className="text-2xl">Rewards</h2>
 
-            {/* Objective Reward Item */}
             <FormField
               control={form.control}
               name="password"
