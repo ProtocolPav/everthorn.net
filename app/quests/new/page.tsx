@@ -125,6 +125,8 @@ export default function NewQuest() {
     },
   })
 
+  const [shouldHideRewardItem, setShouldHideRewardItem] = useState(form.getValues("objective_reward_type") === "balance")
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("submitted quest!")
     console.log(values)
