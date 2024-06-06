@@ -79,7 +79,7 @@ const formSchema = z.object({
   ),
   radius: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
-    z.number().min(20, { message: "MARS!!! A radius shouldn't be THAT small!" }).optional()
+    z.number().min(20, { message: "MARS!!! A radius shouldn't be THAT small! (min: 20)" }).optional()
   ),
   time_limit_h: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
