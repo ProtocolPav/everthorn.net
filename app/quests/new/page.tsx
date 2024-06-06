@@ -535,14 +535,14 @@ export default function NewQuest() {
                 const mainHandState = form.getFieldState("objective_main_hand")
                 const locationXState = form.getFieldState("location_x")
                 const locationZState = form.getFieldState("location_z")
-                const radiusState = form.getFieldState("radius")
+
                 const timeLimitHState = form.getFieldState("time_limit_h")
                 const timeLimitMinState = form.getFieldState("time_limit_min")
 
                 if(mainHandState.invalid) return
                 if(locationXState.invalid) return
                 if(locationZState.invalid) return
-                if(radiusState.invalid) return
+                
                 if(timeLimitHState.invalid) return
                 if(timeLimitMinState.invalid) return                
               }
