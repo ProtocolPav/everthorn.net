@@ -331,7 +331,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Radius</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" placeholder="20" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
