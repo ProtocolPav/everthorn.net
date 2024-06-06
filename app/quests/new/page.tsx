@@ -471,6 +471,33 @@ export default function NewQuest() {
             />
           </div>
 
+          {/* Step 5: Password */}
+          <div className={
+            cn({ 'hidden': formStep !== 4 })
+          }>
+            <h2 className="text-2xl">Rewards</h2>
+
+            {/* Objective Reward Item */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <>
+                  <FormItem className="my-4 w-full">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Password..." {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      You need a password to submit a quest. If you're not a Mars, please contact him to suggest a quest of your own!
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                </>
+              )}  
+            />
+          </div>
+
           <div className="flex gap-2 mt-10">
             <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
@@ -518,11 +545,19 @@ export default function NewQuest() {
                 if(timeLimitMinState.invalid) return                
               }
 
-              setFormStep(Math.min(formStep + 1, 3)) // make sure it never goes past 3
-            }} className={ cn({ "hidden": formStep > 2 }) }>
+              if (formStep === 4) {
+                form.trigger(["password"])
+
+                const passwordState = form.getFieldState("password")
+
+                if (!passwordState.isDirty || passwordState.invalid) return
+              }
+
+              setFormStep(Math.min(formStep + 1, 4)) // make sure it never goes past 3
+            }} className={ cn({ "hidden": formStep > 3 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
-            <Button type="submit" className={ cn({ "hidden": formStep !== 3 }) }>Submit</Button>
+            <Button type="submit" className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
           </div>
         </form>
       </Form>
