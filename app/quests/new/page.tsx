@@ -550,7 +550,11 @@ export default function NewQuest() {
               if (formStep === 3) {
                 form.trigger(["objective_reward_type", "objective_reward_amount", "objective_reward_item"])
 
-                const passwordState = form.getFieldState("password")
+                const rewardTypeState = form.getFieldState("objective_reward_type")
+                const rewardAmountState = form.getFieldState("objective_reward_amount")
+                const rewardItemState = form.getFieldState("objective_reward_item")
+
+                const rewardType = form.getValues("objective_reward_type")
 
                 if (!rewardTypeState.isDirty || rewardTypeState.invalid) return
                 if (!rewardAmountState.isDirty || rewardAmountState.invalid) return
