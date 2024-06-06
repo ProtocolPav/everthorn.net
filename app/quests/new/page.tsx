@@ -93,6 +93,7 @@ const formSchema = z.object({
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
   ),
+  password: z.string({ required_error: "You shall not pass!" })
 })
 
 export default function NewQuest() {
@@ -452,12 +453,12 @@ export default function NewQuest() {
           </div>
 
           <div className="flex gap-2 mt-10">
-            <Button variant="outline" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
+            <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
             }}>
               <ArrowLeft className="mr-1" size="18" /> Back
             </Button>
-            <Button variant="outline" onClick={() => {
+            <Button variant="outline" type="button" onClick={() => {
               if (formStep === 0) {
                 form.trigger(["title", "description"])
 
