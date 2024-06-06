@@ -454,24 +454,24 @@ export default function NewQuest() {
 
             {/* Objective Reward Item */}
             <div className={ cn({ "hidden": shouldHideRewardItem }) }>
-            <FormField
-              control={form.control}
-              name="objective_reward_item"
-              render={({ field }) => (
-                <>
-                  <FormItem className="my-4 w-full">
-                    <FormLabel>Item</FormLabel>
-                    <FormControl>
-                      <Input type="text" placeholder="minecraft:stick" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Exactly, what are you giving them?
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                </>
-              )}  
-            />
+              <FormField
+                control={form.control}
+                name="objective_reward_item"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4 w-full">
+                      <FormLabel>Item</FormLabel>
+                      <FormControl>
+                        <Input type="text" placeholder="minecraft:stick" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Exactly, what are you giving them?
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}  
+              />
             </div>
           </div>
 
