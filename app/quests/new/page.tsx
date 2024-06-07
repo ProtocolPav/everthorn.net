@@ -39,22 +39,22 @@ import {
 import { MinecraftItemTypes } from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
-  /*const items = Object.values(MinecraftItemTypes).map((item) => {
+  const items = Object.values(MinecraftItemTypes).map((item) => {
     return {label: String(item), value: String(item)}
-  })*/
+  })
 
   const [open, setOpen] = useState(false)
 
-  let items = [
-    {
-      label: "minecraft:stick",
-      value: "minecraft:stick"
-    },
-    {
-      label: "minecraft:sugar",
-      value: "minecraft:sugar"
-    }
-  ]
+  // let items = [
+  //   {
+  //     label: "minecraft:stick",
+  //     value: "minecraft:stick"
+  //   },
+  //   {
+  //     label: "minecraft:sugar",
+  //     value: "minecraft:sugar"
+  //   }
+  // ]
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -467,7 +467,7 @@ export default function NewQuest() {
                 name="objective_reward_item"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Language</FormLabel>
+                    <FormLabel>Item</FormLabel>
                     <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -483,15 +483,15 @@ export default function NewQuest() {
                               ? items.find(
                                 (item) => item.value === field.value
                               )?.label
-                              : "Select item"}
+                              : "minecraft:..."}
                             <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
+                      <PopoverContent className="w-[200px] p-0 border border-input rounded-md">
                         <Command>
                           <CommandInput placeholder="Search item..." />
-                          <CommandEmpty>No item found.</CommandEmpty>
+                          <CommandEmpty>Oops! Doesn't exist!</CommandEmpty>
                           <CommandGroup>
                             {items.map((item) => (
                               <CommandItem
