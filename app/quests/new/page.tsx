@@ -38,13 +38,23 @@ import {
   CommandItem
 } from "@/components/ui/command"
 import { Check, ChevronsUpDown } from "lucide-react"
-import minecraftData from "minecraft-data"
+import { MinecraftItemTypes } from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
-  const mcData = minecraftData('1.20')
-  const items = mcData.itemsArray.map((item) => {
-    return {key: item.name, name: item.displayName}
-  })
+  /*const items = Object.values(MinecraftItemTypes).map((item) => {
+    return {label: String(item), value: String(item)}
+  })*/
+
+  let items = [
+    {
+      label: "minecraft:stick",
+      value: "minecraft:stick"
+    },
+    {
+      label: "minecraft:sugar",
+      value: "minecraft:sugar"
+    }
+  ]
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -456,65 +466,61 @@ export default function NewQuest() {
                 control={form.control}
                 name="objective_reward_item"
                 render={({ field }) => (
-                  <>
-                    <FormItem className="my-4 w-full">
-                      <FormLabel>Item</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant="outline"
-                                role="combobox"
-                                className={cn(
-                                  "w-[200px] justify-between",
-                                  !field.value && "text-muted-foreground"
-                                )}
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Language</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? items.find(
+                                (item) => item.value === field.value
+                              )?.label
+                              : "Select item"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search item..." />
+                          <CommandEmpty>No item found.</CommandEmpty>
+                          <CommandGroup>
+                            {items.map((item) => (
+                              <CommandItem
+                                value={item.label}
+                                key={item.value}
+                                onSelect={() => {
+                                  form.setValue("objective_reward_item", item.value)
+                                }}
                               >
-                                <>
-                                  {
-                                    field.value
-                                      ? items.find(
-                                          (item) => item.key === field.value
-                                        )?.name
-                                      : "Select item..."
-                                  }
-                                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </>
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[200px] p-0">
-                            <Command>
-                              <CommandInput placeholder="Search item..." />
-                              <CommandEmpty>No item found.</CommandEmpty>
-                               <CommandGroup>
-                                {items.map((item) => (
-                                  <CommandItem
-                                    key={item.key}
-                                    value={item.key}
-                                    onSelect={() => {
-                                      form.setValue("objective_reward_item", item.key)
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        field.value === item.key ? "opacity-100" : "opacity-0"
-                                      )}
-                                    />
-                                    {item.name}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
-                      <FormDescription>
-                        Exactly, what are you giving them?
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  </>
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    item.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {item.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Exactly, what are you giving them?
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 )}
               />
             </div>
