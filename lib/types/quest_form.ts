@@ -2,10 +2,8 @@ export interface QuestFormApiReady {
   quest: {
     start_time: string,
     end_time: string,
-    timer: string,
     title: string,
     description: string,
-    rewards: Reward[]
   },
   objectives: Objective[]
 }
