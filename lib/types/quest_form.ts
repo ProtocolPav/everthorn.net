@@ -1,7 +1,7 @@
 export interface QuestFormApiReady {
   quest: {
-    start_time: null,
-    end_time: null,
+    start_time: string,
+    end_time: string,
     timer: string,
     title: string,
     description: string,
