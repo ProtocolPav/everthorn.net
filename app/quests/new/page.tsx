@@ -275,6 +275,7 @@ export default function NewQuest() {
                       <FormControl>
                         <Input type="text" placeholder="minecraft:stone_sword" {...field} />
                       </FormControl>
+
                       <FormDescription>
                         Just bare hands? A wooden pick?
                       </FormDescription>
@@ -465,7 +466,7 @@ export default function NewQuest() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "max-w-[500px] justify-between",
+                              "max-w-[300px] justify-between",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -478,7 +479,7 @@ export default function NewQuest() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="max-w-[500px] p-0 border border-input rounded-md">
+                      <PopoverContent className="max-w-[300px] p-0 border border-input rounded-md" align='start'>
                         <Command>
                           <CommandInput placeholder="Search item..." />
                           <CommandEmpty>Oops! Doesn't exist!</CommandEmpty>
