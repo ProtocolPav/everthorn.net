@@ -28,7 +28,10 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr"
 
 
 export default function NewQuest() {
-  const [formStep, setFormStep] = useState(0)
+  const mcData = minecraftData('1.20')
+  const items = mcData.itemsArray.map((item) => {
+    return {key: item.name, name: item.displayName}
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,6 +59,7 @@ export default function NewQuest() {
     },
   })
 
+  const [formStep, setFormStep] = useState(0)
   const [shouldHideRewardItem, setShouldHideRewardItem] = useState(form.getValues("objective_reward_type") === "balance")
 
   useEffect(() => {
@@ -204,7 +208,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Amount */}
@@ -224,7 +228,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
             </div>
 
@@ -245,7 +249,7 @@ export default function NewQuest() {
                     <FormMessage />
                   </FormItem>
                 </>
-              )}  
+              )}
             />
           </div>
 
@@ -272,7 +276,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
             <div className="flex gap-4 w-full justify-stretch">
@@ -290,7 +294,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Z */}
@@ -307,7 +311,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Radius */}
@@ -327,7 +331,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
             </div>
 
@@ -347,7 +351,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Time Min */}
@@ -364,7 +368,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Time Sec */}
@@ -381,7 +385,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
             </div>
           </div>
@@ -417,7 +421,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
 
               {/* Objective Reward Amount */}
@@ -437,7 +441,7 @@ export default function NewQuest() {
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
             </div>
 
@@ -450,16 +454,64 @@ export default function NewQuest() {
                   <>
                     <FormItem className="my-4 w-full">
                       <FormLabel>Item</FormLabel>
-                      <FormControl>
-                        <Input type="text" placeholder="minecraft:stick" {...field} />
-                      </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={rewardItemOpen}
+                                className={cn(
+                                  "w-[200px] justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                <>
+                                  {
+                                    field.value
+                                      ? items.find(
+                                          (item) => item.key === field.value
+                                        )?.name
+                                      : "Select item..."
+                                  }
+                                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </>
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Search item..." />
+                              <CommandEmpty>No item found.</CommandEmpty>
+                               <CommandGroup>
+                                {items.map((item) => (
+                                  <CommandItem
+                                    key={item.key}
+                                    value={item.key}
+                                    onSelect={() => {
+                                      form.setValue("objective_reward_item", item.key)
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        field.value === item.key ? "opacity-100" : "opacity-0"
+                                      )}
+                                    />
+                                    {item.name}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                       <FormDescription>
                         Exactly, what are you giving them?
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
                   </>
-                )}  
+                )}
               />
             </div>
           </div>
@@ -486,7 +538,7 @@ export default function NewQuest() {
                     <FormMessage />
                   </FormItem>
                 </>
-              )}  
+              )}
             />
           </div>
 
@@ -534,7 +586,7 @@ export default function NewQuest() {
                 if(mainHandState.invalid) return
                 if(locationXState.invalid) return
                 if(locationZState.invalid) return
-                
+
                 if(timeLimitHState.invalid) return
                 if(timeLimitMinState.invalid) return
                 if(timeLimitSecState.invalid) return
