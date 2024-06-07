@@ -37,24 +37,14 @@ import {
   CommandItem
 } from "@/components/ui/command"
 import { MinecraftItemTypes } from "@minecraft/vanilla-data";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function NewQuest() {
   const items = Object.values(MinecraftItemTypes).map((item) => {
-    return {label: String(item), value: String(item)}
+    return {label: String(item.replace('minecraft:', '').replaceAll('_', ' ')), value: String(item)}
   })
 
   const [open, setOpen] = useState(false)
-
-  // let items = [
-  //   {
-  //     label: "minecraft:stick",
-  //     value: "minecraft:stick"
-  //   },
-  //   {
-  //     label: "minecraft:sugar",
-  //     value: "minecraft:sugar"
-  //   }
-  // ]
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -475,49 +465,51 @@ export default function NewQuest() {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-[200px] justify-between",
+                              "max-w-[500px] justify-between",
                               !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value
                               ? items.find(
                                 (item) => item.value === field.value
-                              )?.label
-                              : "minecraft:..."}
+                              )?.value
+                              : "minecraft:cool_item"}
                             <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0 border border-input rounded-md">
+                      <PopoverContent className="max-w-[500px] p-0 border border-input rounded-md">
                         <Command>
                           <CommandInput placeholder="Search item..." />
                           <CommandEmpty>Oops! Doesn't exist!</CommandEmpty>
                           <CommandGroup>
-                            {items.map((item) => (
-                              <CommandItem
-                                value={item.label}
-                                key={item.value}
-                                onSelect={() => {
-                                  form.setValue("objective_reward_item", item.value)
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    item.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {item.label}
-                              </CommandItem>
-                            ))}
+                            <ScrollArea className="h-32">
+                              {items.map((item) => (
+                                <CommandItem
+                                  value={item.label}
+                                  key={item.value}
+                                  onSelect={() => {
+                                    form.setValue("objective_reward_item", item.value)
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      item.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {item.label}
+                                </CommandItem>
+                              ))}
+                            </ScrollArea>
                           </CommandGroup>
                         </Command>
                       </PopoverContent>
                     </Popover>
                     <FormDescription>
-                      Exactly, what are you giving them?
+                      The minecraft: prefix will be auto included for you!
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
