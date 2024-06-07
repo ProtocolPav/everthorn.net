@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { formSchema } from "@/lib/forms/new_quest"
 
+import { QuestFormApiReady } from "@/lib/types/quest_form"
+
 import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
@@ -62,6 +64,56 @@ export default function NewQuest() {
     })
     return () => subscription.unsubscribe()
   }, [form.watch])
+
+  function formatDataToApi(data: z.infer<typeof formSchema>): QuestFormApiReady {
+    let timer: number = (
+      Number(data.time_limit_h) * 3600 +
+      Number(data.time_limit_min) * 60 +
+      Number(data.time_limit_sec)
+    )
+
+    const formattedData: QuestFormApiReady = {
+      quest: {
+        title: data.title,
+        description: data.description,
+        rewards: [
+          {
+            balance: data.objective_reward_amount,
+            item: String(data.objective_reward_item),
+            count: data.objective_reward_amount,
+          }
+        ],
+        start_time: "",
+        end_time: "",
+        timer: String(timer),
+      },
+
+      objectives: [
+        {
+          objective: data.title,
+          order: 0,
+          objective_count: 0,
+          objective_type: data.objective_type,
+          objective_timer: String(timer),
+          required_mainhand: String(data.objective_main_hand),
+          required_location: [
+            Number(data.location_x),
+            Number(data.location_z),
+          ],
+          location_radius: Number(data.radius),
+          rewards: [
+            {
+              balance: data.objective_reward_amount,
+              item: String(data.objective_reward_item),
+              count: data.objective_reward_amount,
+            }
+          ]
+        }
+      ]
+    }
+
+    return formattedData
+  }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("submitted quest!")
