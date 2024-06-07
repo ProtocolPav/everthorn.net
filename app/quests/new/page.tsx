@@ -483,7 +483,7 @@ export default function NewQuest() {
                           <CommandInput placeholder="Search item..." />
                           <CommandEmpty>Oops! Doesn't exist!</CommandEmpty>
                           <CommandGroup>
-                            <ScrollArea className="h-32">
+                            <ScrollArea className="h-32 md:h-64">
                               {items.map((item) => (
                                 <CommandItem
                                   value={item.label}
