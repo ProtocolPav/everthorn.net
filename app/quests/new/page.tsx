@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "@phosphor-icons/react"
+import { ArrowRight, ArrowLeft, Check, CaretUpDown } from "@phosphor-icons/react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { formSchema } from "@/lib/forms/new_quest"
@@ -24,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr"
 import {
   Popover,
   PopoverContent,
@@ -37,13 +36,14 @@ import {
   CommandInput,
   CommandItem
 } from "@/components/ui/command"
-import { Check, ChevronsUpDown } from "lucide-react"
 import { MinecraftItemTypes } from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
   /*const items = Object.values(MinecraftItemTypes).map((item) => {
     return {label: String(item), value: String(item)}
   })*/
+
+  const [open, setOpen] = useState(false)
 
   let items = [
     {
@@ -468,7 +468,7 @@ export default function NewQuest() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Language</FormLabel>
-                    <Popover>
+                    <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -484,7 +484,7 @@ export default function NewQuest() {
                                 (item) => item.value === field.value
                               )?.label
                               : "Select item"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
