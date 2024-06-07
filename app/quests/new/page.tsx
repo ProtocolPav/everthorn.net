@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { FixedSizeList as List } from "react-window"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, ArrowLeft, Check, CaretUpDown } from "@phosphor-icons/react"
 import { useForm } from "react-hook-form"
@@ -484,8 +485,34 @@ export default function NewQuest() {
                           <CommandInput placeholder="Search item..." />
                           <CommandEmpty>Oops! Doesn't exist!</CommandEmpty>
                           <CommandGroup>
-                            <ScrollArea className="h-32 md:h-64">
-                              {items.map((item) => (
+                            <List
+                              height={200}
+                              itemCount={items.length}
+                              itemSize={30}
+                              width={300}
+                            >
+                              {({ index, style }: { index: number, style: any}) => (
+                                <CommandItem
+                                  style={style}
+                                  value={items[index].label}
+                                  key={items[index].value}
+                                  onSelect={() => {
+                                    form.setValue("objective_reward_item", items[index].value)
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      items[index].value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {items[index].label}
+                                </CommandItem>
+                              )}
+                            </List>
+                              {/*{items.map((item) => (
                                 <CommandItem
                                   value={item.label}
                                   key={item.value}
@@ -503,8 +530,7 @@ export default function NewQuest() {
                                   />
                                   {item.label}
                                 </CommandItem>
-                              ))}
-                            </ScrollArea>
+                              ))}*/}
                           </CommandGroup>
                         </Command>
                       </PopoverContent>
