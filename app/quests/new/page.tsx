@@ -465,7 +465,6 @@ export default function NewQuest() {
                               <Button
                                 variant="outline"
                                 role="combobox"
-                                aria-expanded={rewardItemOpen}
                                 className={cn(
                                   "w-[200px] justify-between",
                                   !field.value && "text-muted-foreground"
