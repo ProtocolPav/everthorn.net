@@ -93,16 +93,8 @@ export default function NewQuest() {
       quest: {
         title: data.title,
         description: data.description,
-        rewards: [
-          {
-            balance: data.objective_reward_amount,
-            item: String(data.objective_reward_item),
-            count: data.objective_reward_amount,
-          }
-        ],
         start_time: "",
         end_time: "",
-        timer: String(timer),
       },
 
       objectives: [
