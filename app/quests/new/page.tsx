@@ -41,7 +41,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function NewQuest() {
   const items = Object.values(MinecraftItemTypes).map((item) => {
-    return {label: String(item.replace('minecraft:', '').replaceAll('_', ' ')), value: String(item)}
+    return {label: String(item).replace('minecraft:', '').replaceAll('_', ' '), value: String(item)}
   })
 
   const [open, setOpen] = useState(false)
