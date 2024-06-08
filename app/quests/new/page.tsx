@@ -133,7 +133,7 @@ export default function NewQuest() {
   return (
     <section className="container grid gap-6 pb-8 pt-6 max-w-screen-md md:py-10">
       <h1 className="text-4xl">Let's create a new quest!</h1>
-      <Form {...form} autoComplete={false}>
+      <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
 
           {/* Step 1: The Basics */}
