@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function sentenceCase(str: string): string {
+export function capitalizeCase(str: string): string {
   var myStr = str.split(' ')
   var sentenceStr = ''
   for (let i in myStr) {

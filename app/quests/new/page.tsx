@@ -9,7 +9,7 @@ import { formSchema } from "@/lib/forms/new_quest"
 
 import { QuestFormApiReady } from "@/lib/types/quest_form"
 
-import {cn, sentenceCase} from "@/lib/utils"
+import {cn} from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -31,7 +31,7 @@ import { MinecraftItemTypes } from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
   const items = Object.values(MinecraftItemTypes).map((item) => {
-    return {label: sentenceCase(String(item).replace('minecraft:', '').replaceAll('_', ' ')), value: String(item)}
+    return {label: item, value: String(item)}
   })
 
   const [open, setOpen] = useState(false)
