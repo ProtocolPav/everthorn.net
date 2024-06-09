@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, sentenceCase } from "@/lib/utils";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Check, CaretUpDown } from "@phosphor-icons/react";
 import * as React from "react";
@@ -139,7 +139,7 @@ export function VirtualizedCombobox({
       </PopoverTrigger>
       <PopoverContent className="p-0 max-w-[300px]">
         <VirtualizedCommand
-          options={options.map((option) => ({ value: option, label: option }))}
+          options={options.map((option) => ({ value: option, label: sentenceCase(option.replace('minecraft:', '').replaceAll('_', ' ')) }))}
           placeholder={searchPlaceholder}
           selectedOption={selectedOption}
           onSelectOption={(currentValue) => {
