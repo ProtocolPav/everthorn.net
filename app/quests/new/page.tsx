@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { FixedSizeList as List } from "react-window"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, ArrowLeft, Check, CaretUpDown } from "@phosphor-icons/react"
 import { useForm } from "react-hook-form"
@@ -26,19 +25,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "@radix-ui/react-popover"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem
-} from "@/components/ui/command"
+  VirtualizedCombobox
+} from "@/components/ui/virtualized-combobox"
 import { MinecraftItemTypes } from "@minecraft/vanilla-data";
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function NewQuest() {
   const items = Object.values(MinecraftItemTypes).map((item) => {
@@ -460,7 +449,12 @@ export default function NewQuest() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Item</FormLabel>
-                    <Popover open={open} onOpenChange={setOpen}>
+                    <VirtualizedCombobox
+                      options={items.map((item) => (item.value))}
+                      searchPlaceholder="Search item..."
+                      />
+
+                    {/* <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -512,7 +506,7 @@ export default function NewQuest() {
                                 </CommandItem>
                               )}
                             </List>
-                              {/*{items.map((item) => (
+                              {{items.map((item) => (
                                 <CommandItem
                                   value={item.label}
                                   key={item.value}
@@ -530,11 +524,11 @@ export default function NewQuest() {
                                   />
                                   {item.label}
                                 </CommandItem>
-                              ))}*/}
+                              ))}}
                           </CommandGroup>
                         </Command>
                       </PopoverContent>
-                    </Popover>
+                    </Popover> */}
                     <FormDescription>
                       The minecraft: prefix will be auto included for you!
                     </FormDescription>
