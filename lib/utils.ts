@@ -6,5 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function sentenceCase(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+  var myStr = str.split(' ')
+  var sentenceStr = ''
+  for (let i in myStr) {
+    sentenceStr = sentenceStr.concat(" ", myStr[i].charAt(0).toUpperCase() + myStr[i].slice(1).toLowerCase())
+  }
+  return sentenceStr
 }
