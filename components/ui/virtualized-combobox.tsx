@@ -129,7 +129,7 @@ export function VirtualizedCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between max-w-[300px]"
+          className="justify-between max-w-[500px]"
         >
           {selectedOption
             ? options.find((option) => option === selectedOption)
@@ -137,7 +137,7 @@ export function VirtualizedCombobox({
           <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 max-w-[300px]">
+      <PopoverContent className="p-0 max-w-[500px]" align='start'>
         <VirtualizedCommand
           options={options.map((option) => ({ value: option, label: sentenceCase(option.replace('minecraft:', '').replaceAll('_', ' ')) }))}
           placeholder={searchPlaceholder}
