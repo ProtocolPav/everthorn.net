@@ -24,7 +24,7 @@ export default function NewQuest() {
 
   const blocks = Object.values(MinecraftBlockTypes).map((block) => String(block))
 
-  const entities = Object.values(MinecraftEntityTypes).map((entity) => String(entity))
+  const entities = Object.values(MinecraftEntityTypes).map((entity) => `minecraft:${entity}`)
 
   const [open, setOpen] = useState(false)
 
