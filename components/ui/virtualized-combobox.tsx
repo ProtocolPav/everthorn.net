@@ -42,7 +42,7 @@ const VirtualizedCommand = ({
   const virtualizer = useVirtualizer({
     count: filteredOptions.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 35,
+    estimateSize: () => 30,
     overscan: 5,
   });
 
