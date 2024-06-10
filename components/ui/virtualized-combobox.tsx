@@ -115,6 +115,7 @@ const VirtualizedCommand = ({
 interface VirtualizedComboboxProps {
   options: string[];
   searchPlaceholder?: string;
+  onOptionSelect: (selectOption: string) => void,
   width?: string;
   height?: string;
 }
@@ -122,6 +123,7 @@ interface VirtualizedComboboxProps {
 export function VirtualizedCombobox({
   options,
   searchPlaceholder = "Search items...",
+  onOptionSelect
 }: VirtualizedComboboxProps) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [selectedOption, setSelectedOption] = React.useState<string>("");
@@ -152,6 +154,7 @@ export function VirtualizedCombobox({
               currentValue === selectedOption ? "" : currentValue
             );
             setOpen(false);
+            onOptionSelect(currentValue);
           }}
         />
       </PopoverContent>
