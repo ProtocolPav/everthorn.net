@@ -17,12 +17,14 @@ import {Input} from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox"
-import {MinecraftItemTypes} from "@minecraft/vanilla-data";
+import {MinecraftBlockTypes, MinecraftEntityTypes, MinecraftItemTypes} from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
-  const items = Object.values(MinecraftItemTypes).map((item) => {
-    return {label: item, value: String(item)}
-  })
+  const items = Object.values(MinecraftItemTypes).map((item) => String(item))
+
+  const blocks = Object.values(MinecraftBlockTypes).map((block) => String(block))
+
+  const entities = Object.values(MinecraftEntityTypes).map((entity) => String(entity))
 
   const [open, setOpen] = useState(false)
 
