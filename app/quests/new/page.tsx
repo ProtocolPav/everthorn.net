@@ -223,11 +223,16 @@ export default function NewQuest() {
               name="objective_item"
               render={({ field }) => (
                 <>
-                  <FormItem className="my-4 w-full">
-                    <FormLabel>Block/Mob</FormLabel>
-                    <FormControl>
-                      <Input type="text" placeholder="minecraft:cow" {...field} />
-                    </FormControl>
+                  <FormItem className="flex flex-col">
+                    <FormLabel>{ form.getValues("objective_type") === "mine" ? "Block" : "Entity" }</FormLabel>
+                    <VirtualizedCombobox
+                      options={ form.getValues("objective_type") === "mine" ? blocks : entities}
+                      searchPlaceholder={`Search ${ form.getValues("objective_type") === "mine" ? "block" : "entity" }...`}
+                      onOptionSelect={(value: string) => {
+                        form.setValue("objective_reward_item", value)
+                        console.log(value)
+                      }}
+                    />
                     <FormDescription>
                       What to kill? Mine?
                     </FormDescription>
@@ -253,7 +258,7 @@ export default function NewQuest() {
                     <FormItem className="flex flex-col pt-8">
                       <FormLabel>Mainhand</FormLabel>
                       <VirtualizedCombobox
-                        options={items.map((item) => (item.value))}
+                        options={items}
                         searchPlaceholder="Search mainhand item..."
                         onOptionSelect={(value: string) => {
                           form.setValue("objective_main_hand", value)
@@ -444,7 +449,7 @@ export default function NewQuest() {
                   <FormItem className="flex flex-col">
                     <FormLabel>Item</FormLabel>
                     <VirtualizedCombobox
-                      options={items.map((item) => (item.value))}
+                      options={items}
                       searchPlaceholder="Search item..."
                       onOptionSelect={(value: string) => {
                         form.setValue("objective_reward_item", value)
