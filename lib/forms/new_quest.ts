@@ -71,9 +71,8 @@ export const formSchema = z.object({
     .startsWith("together2024", { message: "Wrong Password" })
     .max(12, { message: "Wrong Password" })
 }).refine(data => {
-  if (data!.objective_reward_type === "balance") return true
-  else return data!.objective_reward_item?.startsWith("minecraft:")
+  return data!.objective_reward_type === "balance" && data!.objective_reward_item !== "";
 }, {
-  message: "MARS!!! You specified a reward item, but it doesn't start with \"minecraft:\"!",
+  message: "MARS!!! You forgot to specify an item to reward!",
   path: ["password"]
 })
