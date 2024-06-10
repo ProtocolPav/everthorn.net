@@ -248,7 +248,7 @@ export default function NewQuest() {
                 name="objective_main_hand"
                 render={({ field }) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex flex-col pt-8">
                       <FormLabel>Mainhand</FormLabel>
                       <VirtualizedCombobox
                         options={items.map((item) => (item.value))}
