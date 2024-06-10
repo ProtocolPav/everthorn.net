@@ -50,9 +50,13 @@ const VirtualizedCommand = ({
 
   const handleSearch = (search: string) => {
     setFilteredOptions(
-      options.filter((option) =>
-        option.value.toLowerCase().includes(search.toLowerCase() ?? [])
-      )
+      options.filter((option) => {
+        const searchWords: string[] = search.trim().toLowerCase().split(/\s+/)
+
+        return searchWords.every((word) =>
+          option.value.toLowerCase().includes(word)
+        )
+      })
     );
   };
 
