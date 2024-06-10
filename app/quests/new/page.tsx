@@ -1,33 +1,23 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, ArrowLeft, Check, CaretUpDown } from "@phosphor-icons/react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { formSchema } from "@/lib/forms/new_quest"
+import {useEffect, useState} from "react"
+import {zodResolver} from "@hookform/resolvers/zod"
+import {ArrowLeft, ArrowRight} from "@phosphor-icons/react"
+import {useForm} from "react-hook-form"
+import {z} from "zod"
+import {formSchema} from "@/lib/forms/new_quest"
 
-import { QuestFormApiReady } from "@/lib/types/quest_form"
+import {QuestFormApiReady} from "@/lib/types/quest_form"
 
 import {cn} from "@/lib/utils"
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  VirtualizedCombobox
-} from "@/components/ui/virtualized-combobox"
-import { MinecraftItemTypes } from "@minecraft/vanilla-data";
+import {Button} from "@/components/ui/button"
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
+import {Input} from "@/components/ui/input"
+import {Textarea} from "@/components/ui/textarea"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox"
+import {MinecraftItemTypes} from "@minecraft/vanilla-data";
 
 export default function NewQuest() {
   const items = Object.values(MinecraftItemTypes).map((item) => {
@@ -79,7 +69,7 @@ export default function NewQuest() {
       Number(data.time_limit_sec)
     )
 
-    const formattedData: QuestFormApiReady = {
+    return {
       quest: {
         title: data.title,
         description: data.description,
@@ -110,8 +100,6 @@ export default function NewQuest() {
         }
       ]
     }
-
-    return formattedData
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
