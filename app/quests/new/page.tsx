@@ -440,6 +440,10 @@ export default function NewQuest() {
                     <VirtualizedCombobox
                       options={items.map((item) => (item.value))}
                       searchPlaceholder="Search item..."
+                      onOptionSelect={(value: string) => {
+                        form.setValue("objective_reward_item", value)
+                        console.log(value)
+                      }}
                       />
 
                     {/* <Popover open={open} onOpenChange={setOpen}>
