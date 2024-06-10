@@ -230,7 +230,6 @@ export default function NewQuest() {
                       searchPlaceholder={`Search ${ form.getValues("objective_type") === "mine" ? "block" : "entity" }...`}
                       onOptionSelect={(value: string) => {
                         form.setValue("objective_reward_item", value)
-                        console.log(value)
                       }}
                     />
                     <FormDescription>
@@ -453,7 +452,6 @@ export default function NewQuest() {
                       searchPlaceholder="Search item..."
                       onOptionSelect={(value: string) => {
                         form.setValue("objective_reward_item", value)
-                        console.log(value)
                       }}
                       />
                     <FormDescription>
