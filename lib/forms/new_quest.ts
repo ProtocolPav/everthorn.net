@@ -34,9 +34,6 @@ export const formSchema = z.object({
   ),
   objective_reward_item: z
     .string()
-    // .startsWith("minecraft:", { message: "MARS!!! Did you forget \"minecraft:\"?" })
-    .trim()
-    .toLowerCase()
     .optional(),
 
 
