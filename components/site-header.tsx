@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {SignInButton} from "@/components/discord-login-button";
 
 
 export function SiteHeader() {
@@ -31,20 +32,7 @@ export function SiteHeader() {
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger className={'mx-5'}>
-                  <Link
-                    href={siteConfig.links.patreon}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div
-                      className={buttonVariants({
-                        variant: "default",
-                      })}
-                    >
-                      <Icons.discord className="size-6" weight={'fill'} />
-                      <div className='mx-1'>Log In</div>
-                    </div>
-                  </Link>
+                  <SignInButton />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className={'mx-auto text-center'}>Log in to edit the wiki</p>
