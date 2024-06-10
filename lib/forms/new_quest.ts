@@ -20,8 +20,6 @@ export const formSchema = z.object({
   ),
   objective_item: z
     .string({ required_error: "MARS!!! What do people need to kill or mine?" })
-    .startsWith("minecraft:", { message: "MARS!!! Did you forget \"minecraft:\"?" })
-    .trim()
     .toLowerCase(),
 
 
@@ -39,9 +37,6 @@ export const formSchema = z.object({
 
   objective_main_hand: z
     .string()
-    .startsWith("minecraft:", { message: "MARS!!! Did you forget \"minecraft:\"?" })
-    .trim()
-    .toLowerCase()
     .optional(),
   location_x: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
