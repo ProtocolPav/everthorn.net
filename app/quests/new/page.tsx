@@ -250,9 +250,13 @@ export default function NewQuest() {
                   <>
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Mainhand</FormLabel>
-                      <FormControl>
-                        <Input type="text" placeholder="minecraft:stone_sword" {...field} />
-                      </FormControl>
+                      <VirtualizedCombobox
+                        options={items.map((item) => (item.value))}
+                        searchPlaceholder="Search mainhand item..."
+                        onOptionSelect={(value: string) => {
+                          form.setValue("objective_main_hand", value)
+                        }}
+                      />
 
                       <FormDescription>
                         Just bare hands? A wooden pick?
