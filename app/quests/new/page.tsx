@@ -517,7 +517,7 @@ export default function NewQuest() {
 
                 if(!objectiveTypeState.isDirty || objectiveTypeState.invalid) return
                 if(!objectiveAmountState.isDirty || objectiveAmountState.invalid) return
-                if(!objectiveItemState.isDirty || objectiveItemState.invalid) return
+                if(objectiveItemState.invalid) return
               }
 
               if (formStep === 2) {
