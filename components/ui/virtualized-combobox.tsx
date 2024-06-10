@@ -137,7 +137,8 @@ export function VirtualizedCombobox({
           <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 max-w-[350px]" align='start'>
+      {/* Longest item name is 36 characters. Set size to 40 for good measure. On mobile, it'll stretch to fill the available width*/}
+      <PopoverContent className="p-0 w-[calc(100vw-64px)] md:w-[40ch]" align='start'>
         <VirtualizedCommand
           options={options.map((option) => ({ value: option, label: capitalizeCase(option.replace('minecraft:', '').replaceAll('_', ' ')) }))}
           placeholder={searchPlaceholder}
