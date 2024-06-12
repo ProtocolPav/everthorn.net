@@ -29,17 +29,7 @@ export function SiteHeader() {
         <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
           <nav className="flex items-center space-x-1">
 
-            <TooltipProvider delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger className={'mx-5'}>
-                  {/* @ts-ignore */}
-                  <DiscordAvatar />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Log in to edit the wiki</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <DiscordAvatar/>
 
             <TooltipProvider delayDuration={300}>
               <Tooltip>

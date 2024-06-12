@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import {SessionProvider} from "next-auth/react";
 
 
 export const metadata: Metadata = {
@@ -45,13 +46,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
 
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="relative flex-1 items-center justify-center bg-background dark:bg-dot-white/15">{children}</div>
-            </div>
-            <TailwindIndicator />
-          </ThemeProvider>
+          <SessionProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <div className="relative flex-1 items-center justify-center bg-background dark:bg-dot-white/15">{children}</div>
+              </div>
+              <TailwindIndicator />
+            </ThemeProvider>
+          </SessionProvider>
         </body>
       </html>
     </>
