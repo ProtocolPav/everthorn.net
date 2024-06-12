@@ -1,13 +1,10 @@
-import { signIn } from "@/auth"
+import { signInWithDiscord } from "@/lib/authActions";
 import { Icons } from "@/components/icons";
 
 export async function SignInButton() {
   return (
     <form
-      action={async () => {
-        "use server"
-        await signIn("discord")
-      }}
+      action={signInWithDiscord}
     >
       <button type="submit">
         <Icons.discord className="size-6" weight="fill" />
