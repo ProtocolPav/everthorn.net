@@ -15,7 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {SignInButton} from "@/components/discord-login-button";
+import {DiscordAvatar} from "@/components/discord-avatar";
 
 
 export function SiteHeader() {
@@ -33,7 +33,7 @@ export function SiteHeader() {
               <Tooltip>
                 <TooltipTrigger className={'mx-5'}>
                   {/* @ts-ignore */}
-                  <SignInButton />
+                  <DiscordAvatar />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className={'mx-auto text-center'}>Log in to edit the wiki</p>
