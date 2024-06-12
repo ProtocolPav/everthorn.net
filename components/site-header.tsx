@@ -32,6 +32,7 @@ export function SiteHeader() {
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger className={'mx-5'}>
+                  {/* @ts-ignore */}
                   <SignInButton />
                 </TooltipTrigger>
                 <TooltipContent>
