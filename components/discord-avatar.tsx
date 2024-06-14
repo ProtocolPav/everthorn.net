@@ -34,60 +34,59 @@ export function DiscordAvatar() {
     )
   }
 
-  if (status === "authenticated" && session.user !== undefined) {
-    return (
-      <DropdownMenu>
+  return (
+    <DropdownMenu>
 
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="gap-2 px-2" onClick={() => console.log("clicked")}>
-            <img src={session.user.image || ""} className="rounded-full h-[120%] aspect-square" alt="Avatar"/>
-            {session.user?.nick}
-          </Button>
-        </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="gap-2 px-2" onClick={() => console.log("clicked")}>
+          <img src={session?.user?.image || ""} className="rounded-full h-[120%] aspect-square" alt="Avatar"/>
+          {session?.user?.nick}
+        </Button>
+      </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Options</DropdownMenuLabel>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Options</DropdownMenuLabel>
 
-          <DropdownMenuSeparator/>
-          <DropdownMenuGroup>
-            <DropdownMenuLabel>
-              Discriminator: {session.user.discriminator}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel>
-              ID: {session.user.id}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel>
-              Nickname: {session.user.nick}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel>
-              Username: {session.user.name}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel>
-              Email: {session.user.email}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel className="flex gap-2 items-center">
-              Verified: {session.user.verified ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel className="flex gap-2 items-center">
-              Everthorn Member: {session.user.everthornMemberInfo?.isMember ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel className="flex gap-2 items-center">
-              Community Manager: {session.user.everthornMemberInfo?.isCM ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-            </DropdownMenuLabel>
-          </DropdownMenuGroup>
+        <DropdownMenuSeparator/>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>
+            Discriminator: {session?.user?.discriminator}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel>
+            ID: {session?.user?.id}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel>
+            Nickname: {session?.user?.nick}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel>
+            Username: {session?.user?.name}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel>
+            Email: {session?.user?.email}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel className="flex gap-2 items-center">
+            Verified: {session?.user?.verified ? <Check size={16} color="green"/> : <X size={16} color="red" />}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel className="flex gap-2 items-center">
+            Everthorn Member: {session?.user?.everthornMemberInfo?.isMember ? <Check size={16} color="green"/> : <X size={16} color="red" />}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel className="flex gap-2 items-center">
+            Community Manager: {session?.user?.everthornMemberInfo?.isCM ? <Check size={16} color="green"/> : <X size={16} color="red" />}
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
 
-          <DropdownMenuSeparator/>
+        <DropdownMenuSeparator/>
 
-          <DropdownMenuItem onClick={() => {
-            signOut({ redirect: true })
-          }}>
-            <SignOut size={24} className="mr-2" />
-            <span>Log out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+        <DropdownMenuItem onClick={() => {
+          signOut({ redirect: true })
+        }}>
+          <SignOut size={24} className="mr-2" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
 
-      </DropdownMenu>
-    );
-  }
+    </DropdownMenu>
+  );
+
 }
 
