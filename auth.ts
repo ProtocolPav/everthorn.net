@@ -18,7 +18,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           image: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null,
           discriminator: profile.discriminator,
           verified: profile.verified,
-          // guilds: profile.guilds // Uncomment and handle if guilds are part of the profile
         };
 
         console.log(obj);
