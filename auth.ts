@@ -11,7 +11,7 @@ interface Guild {
   features: string[]
 }
 
-let everthornMemberInfo: { isMember: boolean, everthorn: string | undefined };
+let everthornMemberInfo: { isMember: boolean, everthorn: string | undefined, isCM: boolean };
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
