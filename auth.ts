@@ -28,7 +28,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               Authorization: `Bearer ${tokens.access_token}`
             }
           })
-
           const guilds: Guild[] = await guildsResponse.json()
 
           const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395")
@@ -38,6 +37,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             everthorn: everthornGuild?.id,
             isCM: false
           }
+
+          const everthornUserResponse = await fetch(`http://everthorn.net:8282/api/v0.1/users/guild/${everthornGuild?.id}/${profile.id}`)
+
+          const userData = (await everthornUserResponse.json()).user
+
+          everthornMemberInfo.isCM = userData?.role === "Community Manager"
         } catch (err) {
           console.log(err)
         }
