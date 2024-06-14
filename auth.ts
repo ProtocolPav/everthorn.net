@@ -18,19 +18,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Discord({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
-      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
+      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds+guilds.members.read',
       token: 'https://discord.com/api/oauth2/token',
       userinfo: 'https://discord.com/api/users/@me',
       async profile(profile, tokens) {
-        const response = await fetch('https://discord.com/api/users/@me/guilds', {
-          headers: {
-            Authorization: `Bearer ${tokens.access_token}`
+        try {
+          const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
+            headers: {
+              Authorization: `Bearer ${tokens.access_token}`
+            }
+          })
+
+          const guilds: Guild[] = await guildsResponse.json()
+
+          const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395")
+
+          everthornMemberInfo = {
+            isMember: !!everthornGuild,
+            everthorn: everthornGuild?.id,
+            isCM: false
           }
-        })
+        } catch (err) {
+          console.log(err)
+        }
 
-        const guilds: Guild[] = await response.json()
-
-        const obj = {
+        return {
           id: profile.id,
           nick: profile.global_name ?? profile.username, // Fallback to username if global_name is null
           name: profile.username,
@@ -39,15 +51,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           discriminator: profile.discriminator,
           verified: profile.verified,
         };
-
-        const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395")
-
-        everthornMemberInfo = {
-          isMember: everthornGuild?.name === "Everthorn",
-          everthorn: everthornGuild?.id
-        }
-
-        return obj;
       }
     }),
   ],
