@@ -70,6 +70,9 @@ export function DiscordAvatar() {
             <DropdownMenuLabel className="flex gap-2 items-center">
               Verified: {session.user.verified ? <Check size={16} color="green"/> : <X size={16} color="red" />}
             </DropdownMenuLabel>
+            <DropdownMenuLabel className="flex gap-2 items-center">
+              Everthorn Member: {session.user.everthornMemberInfo?.isMember ? <Check size={16} color="green"/> : <X size={16} color="red" />}
+            </DropdownMenuLabel>
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator/>

@@ -11,7 +11,7 @@ interface Guild {
   features: string[]
 }
 
-let isOnEverthorn: boolean;
+let everthornMemberInfo: { isMember: boolean, everthorn: string | undefined };
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -40,7 +40,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           verified: profile.verified,
         };
 
-        isOnEverthorn = guilds.find((guild) => guild.name === "Everthorn")?.name === "Everthorn"
+        const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395")
+
+        everthornMemberInfo = {
+          isMember: everthornGuild?.name === "Everthorn",
+          everthorn: everthornGuild?.id
+        }
 
         return obj;
       }
@@ -60,7 +65,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.image = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
         token.discriminator = profile.discriminator;
         token.verified = profile.verified;
-        token.isOnEverthorn = isOnEverthorn
+        token.everthornMemberInfo = everthornMemberInfo
       }
 
       return token;
@@ -73,7 +78,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.image = token.image as string;
       session.user.discriminator = token.discriminator as string;
       session.user.verified = token.verified as boolean;
-      session.user.isOnEverthorn = token.isOnEverthorn
+      session.user.everthornMemberInfo = token.everthornMemberInfo
       return session;
     }
   }
