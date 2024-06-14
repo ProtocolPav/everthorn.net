@@ -14,6 +14,9 @@ import { signOut } from "next-auth/react";
 
 export function DiscordAvatar() {
   const session = useSession().data
+  const {data: session, status} = useSession()
+
+  console.log(session)
 
   if (!session?.user) {
     return (
