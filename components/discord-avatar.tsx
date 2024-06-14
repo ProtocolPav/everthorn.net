@@ -15,8 +15,6 @@ import { Check, X, SignOut } from "@phosphor-icons/react";
 export function DiscordAvatar() {
   const {data: session, status} = useSession()
 
-  console.log(session)
-
   if (status === "unauthenticated") {
     return (
       <form action={signInWithDiscord}>
