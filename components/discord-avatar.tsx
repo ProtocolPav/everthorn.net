@@ -13,10 +13,17 @@ import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 export function DiscordAvatar() {
-  const session = useSession().data
   const {data: session, status} = useSession()
 
   console.log(session)
+
+  if (status === "loading") {
+    return (
+      <Button variant="outline" className="gap-2 px-2" disabled>
+        Fetching info...
+      </Button>
+    )
+  }
 
   if (!session?.user) {
     return (
