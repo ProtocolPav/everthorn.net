@@ -42,8 +42,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         isOnEverthorn = guilds.find((guild) => guild.name === "Everthorn")?.name === "Everthorn"
 
-        console.log(obj);
-
         return obj;
       }
     }),
@@ -68,8 +66,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      console.log("Token: ", token)
-
       session.user.id = token.id as string;
       session.user.nick = token.nick as string;
       session.user.name = token.name as string;
