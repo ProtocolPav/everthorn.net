@@ -4,9 +4,7 @@
   "extends": [
     "next/core-web-vitals",
     "prettier",
-    "plugin:tailwindcss/recommended",
-    "tailwindcss/enforces-shorthand",
-    "react/no-unescaped-entities"
+    "plugin:tailwindcss/recommended"
   ],
   "plugins": ["tailwindcss"],
   "rules": {

@@ -39,7 +39,7 @@ export function DiscordAvatar() {
 
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2 px-2" onClick={() => console.log("clicked")}>
-          <img src={session?.user?.image || ""} className="rounded-full h-[120%] aspect-square" alt="Avatar"/>
+          <img src={session?.user?.image || ""} className="aspect-square h-[120%] rounded-full" alt="Avatar"/>
           {session?.user?.nick}
         </Button>
       </DropdownMenuTrigger>
@@ -64,13 +64,13 @@ export function DiscordAvatar() {
           <DropdownMenuLabel>
             Email: {session?.user?.email}
           </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex gap-2 items-center">
+          <DropdownMenuLabel className="flex items-center gap-2">
             Verified: {session?.user?.verified ? <Check size={16} color="green"/> : <X size={16} color="red" />}
           </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex gap-2 items-center">
+          <DropdownMenuLabel className="flex items-center gap-2">
             Everthorn Member: {session?.user?.everthornMemberInfo?.isMember ? <Check size={16} color="green"/> : <X size={16} color="red" />}
           </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex gap-2 items-center">
+          <DropdownMenuLabel className="flex items-center gap-2">
             Community Manager: {session?.user?.everthornMemberInfo?.isCM ? <Check size={16} color="green"/> : <X size={16} color="red" />}
           </DropdownMenuLabel>
         </DropdownMenuGroup>

@@ -15,7 +15,7 @@ export const LayoutGrid = ({ cards }: { cards: Card[]}) => {
   return (
     <div className="relative mx-auto grid size-full max-w-7xl  grid-cols-1 gap-4 md:grid-cols-3">
       {cards.map((card: Card) => (
-        <div className={cn(card.className, "relative overflow-hidden size-full rounded-xl bg-white")}>
+        <div className={cn(card.className, "relative size-full overflow-hidden rounded-xl bg-white")}>
             <BlurImage card={card} />
         </div>
       ))}

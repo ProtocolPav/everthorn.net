@@ -1,21 +1,24 @@
-import NextAuth from "next-auth"
-import Discord from "next-auth/providers/discord"
+import NextAuth, {Session} from "next-auth";
+import DiscordProvider from "next-auth/providers/discord";
+import { JWT } from "next-auth/jwt";
+import { Account } from "next-auth";
+import { DiscordProfile } from "next-auth/providers/discord";
 
 interface Guild {
-  id: string,
-  name: string,
-  icon: string,
-  owner: boolean,
-  permissions: number,
-  permissions_new: string,
-  features: string[]
+  id: string;
+  name: string;
+  icon: string;
+  owner: boolean;
+  permissions: number;
+  permissions_new: string;
+  features: string[];
 }
 
-let everthornMemberInfo: { isMember: boolean, everthorn: string | undefined, isCM: boolean };
+let everthornMemberInfo: { isMember: boolean; everthorn: string | undefined; isCM: boolean };
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    Discord({
+    DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
       authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds+guilds.members.read',
@@ -25,26 +28,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
             headers: {
-              Authorization: `Bearer ${tokens.access_token}`
-            }
-          })
-          const guilds: Guild[] = await guildsResponse.json()
+              Authorization: `Bearer ${tokens.access_token}`,
+            },
+          });
+          const guilds: Guild[] = await guildsResponse.json();
 
-          const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395")
+          const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
 
           everthornMemberInfo = {
             isMember: !!everthornGuild,
             everthorn: everthornGuild?.id,
-            isCM: false
-          }
+            isCM: false,
+          };
 
-          const everthornUserResponse = await fetch(`http://everthorn.net:8282/api/v0.1/users/guild/${everthornGuild?.id}/${profile.id}`)
+          const everthornUserResponse = await fetch(`http://everthorn.net:8282/api/v0.1/users/guild/${everthornGuild?.id}/${profile.id}`);
+          const userData = (await everthornUserResponse.json()).user;
 
-          const userData = (await everthornUserResponse.json()).user
-
-          everthornMemberInfo.isCM = userData?.role === "Community Manager"
+          everthornMemberInfo.isCM = userData?.role === "Community Manager";
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
 
         return {
@@ -55,8 +57,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           image: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null,
           discriminator: profile.discriminator,
           verified: profile.verified,
+          everthornMemberInfo,
         };
-      }
+      },
     }),
   ],
   callbacks: {
@@ -66,19 +69,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       if (profile) {
-        token.id = profile.id;
-        token.nick = profile.global_name ?? profile.username;
-        token.name = profile.username;
-        token.email = profile.email;
+        token.id = profile.id as string;
+        token.nick = (profile.global_name ?? profile.username) as string;
+        token.name = profile.username as string;
+        token.email = profile.email as string;
         token.image = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
-        token.discriminator = profile.discriminator;
-        token.verified = profile.verified;
-        token.everthornMemberInfo = everthornMemberInfo
+        token.discriminator = profile.discriminator as string;
+        token.verified = profile.verified as boolean;
+        token.everthornMemberInfo = everthornMemberInfo;
       }
 
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       session.user.id = token.id as string;
       session.user.nick = token.nick as string;
       session.user.name = token.name as string;
@@ -86,8 +89,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.image = token.image as string;
       session.user.discriminator = token.discriminator as string;
       session.user.verified = token.verified as boolean;
-      session.user.everthornMemberInfo = token.everthornMemberInfo
+      session.user.everthornMemberInfo = token.everthornMemberInfo;
       return session;
-    }
-  }
+    },
+  },
 });

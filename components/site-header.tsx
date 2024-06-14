@@ -20,7 +20,7 @@ import {DiscordAvatar} from "@/components/discord-avatar";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b backdrop-blur-lg bg-background/50">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 
         <MainNav items={siteConfig.mainNav} />
