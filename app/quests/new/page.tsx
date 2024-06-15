@@ -472,6 +472,18 @@ export default function NewQuest() {
             </div>
           </div>
 
+          {/* Step 5: Confirm */}
+          <div className={
+            cn({ 'hidden': formStep !== 4 }, "space-y-4")
+          }>
+            <h2>Preview</h2>
+            <div>
+              <h3>{ form.getValues("title") }</h3>
+              <p>{ form.getValues("description") }</p>
+            </div>
+
+          </div>
+
           {/* Buttons */}
           <div className="mt-10 flex gap-2">
             <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
@@ -537,10 +549,10 @@ export default function NewQuest() {
               }
 
               setFormStep(Math.min(formStep + 1, 4)) // make sure it never goes past 3
-            }} className={ cn({ "hidden": formStep > 2 }) }>
+            }} className={ cn({ "hidden": formStep > 3 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
-            <Button type="submit" className={ cn({ "hidden": formStep !== 3 }, "justify-self-end") }>Submit</Button>
+            <Button type="submit" className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
           </div>
         </form>
       </Form>
