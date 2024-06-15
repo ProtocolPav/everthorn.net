@@ -231,7 +231,7 @@ export default function NewQuest() {
             <FormField
               control={form.control}
               name="objective_item"
-              render={({ field }) => (
+              render={() => (
                 <>
                   <FormItem className="flex flex-col">
                     <FormLabel>{ form.getValues("objective_type") === "mine" ? "Block" : "Entity" }</FormLabel>
@@ -262,7 +262,7 @@ export default function NewQuest() {
             <FormField
                 control={form.control}
                 name="objective_main_hand"
-                render={({ field }) => (
+                render={() => (
                   <>
                     <FormItem className="flex flex-col pt-8">
                       <FormLabel>Mainhand</FormLabel>
@@ -454,7 +454,7 @@ export default function NewQuest() {
               <FormField
                 control={form.control}
                 name="objective_reward_item"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Item</FormLabel>
                     <VirtualizedCombobox
