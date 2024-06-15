@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form"
 import {z} from "zod"
 import {formSchema} from "@/lib/forms/new_quest"
 
-import {QuestFormApiReady} from "@/lib/types/quest_form"
+import {QuestFormApiReady} from "@/types/quest_form"
 
 import {cn} from "@/lib/utils"
 
