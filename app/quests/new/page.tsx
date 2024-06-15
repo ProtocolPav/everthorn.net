@@ -116,7 +116,7 @@ export default function NewQuest() {
   }
 
   if (status === "unauthenticated" || !session?.user?.everthornMemberInfo.isCM) {
-    return <NoPermission reason={(status === "unauthenticated") ? status : "not a CM"}/>
+    return <NoPermission status={status} />
   }
 
   return (
