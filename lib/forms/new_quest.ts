@@ -61,13 +61,10 @@ export const formSchema = z.object({
   time_limit_sec: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
-  ),
-  password: z.string({ required_error: "You shall not pass!" })
-    .startsWith("together2024", { message: "Wrong Password" })
-    .max(12, { message: "Wrong Password" })
+  )
 }).refine(data => {
   return data?.objective_reward_type === "item" && data?.objective_reward_item !== "" || data?.objective_reward_type === "balance";
 }, {
   message: "MARS!!! You forgot to specify an item to reward!",
-  path: ["password"]
+  path: ["objective_reward_item"]
 })

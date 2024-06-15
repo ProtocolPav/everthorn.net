@@ -51,8 +51,6 @@ export default function NewQuest() {
       time_limit_h: undefined,
       time_limit_min: undefined,
       time_limit_sec: undefined,
-
-      password: ""
     },
   })
 
@@ -474,32 +472,6 @@ export default function NewQuest() {
             </div>
           </div>
 
-          {/* Step 5: Password */}
-          <div className={
-            cn({ 'hidden': formStep !== 4 })
-          }>
-            <h2 className="text-2xl">Rewards</h2>
-
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <>
-                  <FormItem className="my-4 w-full">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="Password..." {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      You need a password to submit a quest. If you're not Mars, please contact him to suggest a quest of your own!
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                </>
-              )}
-            />
-          </div>
-
           {/* Buttons */}
           <div className="mt-10 flex gap-2">
             <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
@@ -565,10 +537,10 @@ export default function NewQuest() {
               }
 
               setFormStep(Math.min(formStep + 1, 4)) // make sure it never goes past 3
-            }} className={ cn({ "hidden": formStep > 3 }) }>
+            }} className={ cn({ "hidden": formStep > 2 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
-            <Button type="submit" className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
+            <Button type="submit" className={ cn({ "hidden": formStep !== 3 }, "justify-self-end") }>Submit</Button>
           </div>
         </form>
       </Form>
