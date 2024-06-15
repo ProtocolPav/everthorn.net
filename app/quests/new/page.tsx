@@ -18,15 +18,17 @@ import {Textarea} from "@/components/ui/textarea"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox"
 import {MinecraftBlockTypes, MinecraftEntityTypes, MinecraftItemTypes} from "@minecraft/vanilla-data";
+import {useSession} from "next-auth/react";
+import {NoPermission} from "@/components/no-permission";
 
 export default function NewQuest() {
+  const { data: session, status } = useSession()
+
   const items = Object.values(MinecraftItemTypes).map((item) => String(item))
 
   const blocks = Object.values(MinecraftBlockTypes).map((block) => String(block))
 
   const entities = Object.values(MinecraftEntityTypes).map((entity) => `minecraft:${entity}`)
-
-  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -107,6 +109,14 @@ export default function NewQuest() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("submitted quest!")
     console.log(values)
+  }
+
+  if (status === "loading") {
+    return <p>Loading...</p>
+  }
+
+  if (status === "unauthenticated" || !session?.user?.everthornMemberInfo.isCM) {
+    return <NoPermission reason={(status === "unauthenticated") ? status : "not a CM"}/>
   }
 
   return (
