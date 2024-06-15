@@ -68,7 +68,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           let everthornMemberInfo = {
             isMember: !!everthornGuild,
             everthorn: everthornGuild?.id,
-            isCM: false,
+            isCM: (process.env.DEV?.toLowerCase() === "true") ?? false,
           };
 
           if (everthornGuild) {
@@ -81,7 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           token.everthornMemberInfo = everthornMemberInfo;
         } catch (err: Error | any) {
-          console.log(err?.stack);
+          console.log(err);
         }
       }
 
