@@ -10,15 +10,16 @@ declare module "next-auth" {
     image: string | null;
     discriminator: string;
     verified: boolean;
-    everthornMemberInfo: {
-      isMember: boolean;
-      everthorn: string | undefined;
-      isCM: boolean;
-    };
   }
 
   interface Session {
-    user: User;
+    user: User & {
+      everthornMemberInfo: {
+        isMember: boolean;
+        everthorn: string | undefined;
+        isCM: boolean;
+      }
+    };
   }
 }
 
