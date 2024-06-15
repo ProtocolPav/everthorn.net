@@ -58,7 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
 
           if (!guildsResponse.ok) {
-            console.error(`${guildsResponse.status}: ${guildsResponse.statusText}`)
+            throw new Error(`${guildsResponse.status}: ${guildsResponse.statusText}`)
           }
 
           const guilds: Guild[] = await guildsResponse.json();
