@@ -72,7 +72,7 @@ const VirtualizedCommand = ({
       <CommandEmpty>No item found.</CommandEmpty>
       <CommandGroup
         ref={parentRef}
-        className='h-40 md:h-64 overflow-auto'
+        className='h-40 overflow-auto md:h-64'
       >
         <div
           style={{
@@ -97,7 +97,7 @@ const VirtualizedCommand = ({
             >
               <Check
                 className={cn(
-                  "mr-2 h-4 w-4",
+                  "mr-2 size-4",
                   selectedOption === filteredOptions[virtualOption.index].value
                     ? "opacity-100"
                     : "opacity-0"
@@ -135,16 +135,16 @@ export function VirtualizedCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between max-w-full"
+          className="max-w-full justify-between"
         >
           {selectedOption
             ? options.find((option) => option === selectedOption)
             : searchPlaceholder}
-          <CaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <CaretUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       {/* Longest item name is 36 characters. Set size to 40 for good measure. On mobile, it'll stretch to fill the available width*/}
-      <PopoverContent className="p-0 w-[calc(100vw-64px)] md:w-[40ch]" align='start'>
+      <PopoverContent className="w-[calc(100vw-64px)] p-0 md:w-[40ch]" align='start'>
         <VirtualizedCommand
           options={options.map((option) => ({ value: option, label: capitalizeCase(option.replace('minecraft:', '').replaceAll('_', ' ')) }))}
           placeholder={searchPlaceholder}

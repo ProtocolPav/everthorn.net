@@ -110,7 +110,7 @@ export default function NewQuest() {
   }
 
   return (
-    <section className="container grid gap-6 pb-8 pt-6 max-w-screen-md md:py-10">
+    <section className="container grid max-w-screen-md gap-6 pb-8 pt-6 md:py-10">
       <h1 className="text-4xl">Let's create a new quest!</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -167,7 +167,7 @@ export default function NewQuest() {
             cn({ 'hidden': formStep !== 1 })
           }>
             <h2 className="text-2xl">Objectives</h2>
-            <div className="flex gap-4 w-full justify-stretch">
+            <div className="flex w-full justify-stretch gap-4">
               {/* Objective Type */}
               <FormField
                 control={form.control}
@@ -273,7 +273,7 @@ export default function NewQuest() {
                 )}
               />
 
-            <div className="flex gap-4 w-full justify-stretch">
+            <div className="flex w-full justify-stretch gap-4">
               {/* Objective X */}
               <FormField
                 control={form.control}
@@ -330,7 +330,7 @@ export default function NewQuest() {
             </div>
 
             <h3>Time Limit</h3>
-            <div className="flex gap-4 w-full justify-stretch">
+            <div className="flex w-full justify-stretch gap-4">
               {/* Objective Time H */}
               <FormField
                 control={form.control}
@@ -389,7 +389,7 @@ export default function NewQuest() {
             cn({ 'hidden': formStep !== 3 })
           }>
             <h2 className="text-2xl">Rewards</h2>
-            <div className="flex gap-4 w-full justify-stretch">
+            <div className="flex w-full justify-stretch gap-4">
               {/* Objective Reward Type */}
               <FormField
                 control={form.control}
@@ -491,7 +491,7 @@ export default function NewQuest() {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-2 mt-10">
+          <div className="mt-10 flex gap-2">
             <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
             }}>

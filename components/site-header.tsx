@@ -15,11 +15,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {DiscordAvatar} from "@/components/discord-avatar";
 
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b backdrop-blur-lg bg-background/50">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 
         <MainNav items={siteConfig.mainNav} />
@@ -28,29 +29,7 @@ export function SiteHeader() {
         <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
           <nav className="flex items-center space-x-1">
 
-            <TooltipProvider delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger className={'mx-5'}>
-                  <Link
-                    href={siteConfig.links.patreon}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div
-                      className={buttonVariants({
-                        variant: "default",
-                      })}
-                    >
-                      <Icons.discord className="size-6" weight={'fill'} />
-                      <div className='mx-1'>Log In</div>
-                    </div>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Log in to edit the wiki</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <DiscordAvatar/>
 
             <TooltipProvider delayDuration={300}>
               <Tooltip>
