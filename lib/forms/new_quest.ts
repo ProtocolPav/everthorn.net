@@ -35,21 +35,36 @@ export const formSchema = z.object({
     .optional(),
 
 
+  require_main_hand: z
+    .boolean()
+    .default(false)
+    .optional(),
   objective_main_hand: z
     .string()
     .optional(),
+  require_location: z
+    .boolean()
+    .default(false)
+    .optional(),
   location_x: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
+    (value) => (typeof value === "string") ? Number(value) : undefined,
     z.number().optional()
   ),
   location_z: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
+    (value) => (typeof value === "string") ? Number(value) : undefined,
     z.number().optional()
   ),
   radius: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
+    (value) => (typeof value === "string") ? Number(value) : undefined,
     z.number().optional()
   ),
+  require_time_limit: z.preprocess(
+    (value) => {
+      value = false;
+      return value
+    },
+    z.boolean()
+  ), //force it to be false no matter what while pav figures out time limits
   time_limit_h: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).optional()
@@ -67,4 +82,14 @@ export const formSchema = z.object({
 }, {
   message: "MARS!!! You forgot to specify an item to reward!",
   path: ["objective_reward_item"]
+}).refine(data => {
+  return (!data?.require_main_hand || (data?.require_main_hand && typeof data?.objective_main_hand !== "undefined"))
+}, {
+  message: "MARS!!! You forgot to specify the required main hand item!",
+  path: ["objective_main_hand"]
+}).refine(data => {
+  return (!data?.require_location || (data?.require_location && typeof data?.location_x !== "undefined" && typeof data?.location_z !== "undefined" && typeof data?.radius !== "undefined"))
+}, {
+  message: "MARS!!! You forgot to specify the coordinates!",
+  path: ["require_location"]
 })
