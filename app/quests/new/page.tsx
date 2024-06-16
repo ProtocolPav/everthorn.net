@@ -20,6 +20,7 @@ import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox"
 import {MinecraftBlockTypes, MinecraftEntityTypes, MinecraftItemTypes} from "@minecraft/vanilla-data";
 import {useSession} from "next-auth/react";
 import {NoPermission} from "@/components/no-permission";
+import {Card, CardTitle, CardHeader, CardDescription, CardContent} from "@/components/ui/card";
 import {Switch} from "@/components/ui/switch";
 
 export default function NewQuest() {
@@ -557,20 +558,38 @@ export default function NewQuest() {
           <div className={
             cn({ 'hidden': formStep !== 4 }, "space-y-4")
           }>
-            <h2>Preview</h2>
-            <div>
-              <h3>{ form.getValues("title") }</h3>
-              <p>{ form.getValues("description") }</p>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>{ form.getValues("title") }</CardTitle>
+                <CardDescription>{ form.getValues("description") }</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div>
+                  <h2 className="text-xl">Objectives</h2>
+                  <p>
+                    The player must {form.getValues("objective_type")} {form.getValues("objective_amount")} {capitalizeCase(String(form.getValues("objective_item")).replace('minecraft:', '').replaceAll('_', ' '))}
+                    {form.getValues("objective_main_hand") ? ` with ${capitalizeCase(String(form.getValues("objective_main_hand")).replace('minecraft:', '').replaceAll('_', ' '))}` : ""}.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-xl">Objectives</h2>
+                  <p>
+                    The player
+                    must {form.getValues("objective_type")} {form.getValues("objective_amount")} {capitalizeCase(String(form.getValues("objective_item")).replace('minecraft:', '').replaceAll('_', ' '))}
+                    {form.getValues("objective_main_hand") ? ` with ${capitalizeCase(String(form.getValues("objective_main_hand")).replace('minecraft:', '').replaceAll('_', ' '))}` : ""}.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
           </div>
 
           {/* Buttons */}
           <div className="mt-10 flex gap-2">
-            <Button variant="outline" type="button" className={ cn({ "hidden": formStep < 1 }) } onClick={() => {
+            <Button variant="outline" type="button" className={cn({"hidden": formStep < 1})} onClick={() => {
               setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
             }}>
-              <ArrowLeft className="mr-1" size="18" /> Back
+              <ArrowLeft className="mr-1" size="18"/> Back
             </Button>
             <Button variant="outline" type="button" onClick={() => {
               if (formStep === 0) {
