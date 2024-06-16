@@ -50,7 +50,7 @@ export function SiteHeader() {
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent align={'end'} alignOffset={-40}>
-                  <p className={'mx-auto text-center'}>Feed Thorny on Patreon</p>
+                  <p className={'mx-auto text-center text-sm my-0'}>Feed Thorny on Patreon</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -74,7 +74,7 @@ export function SiteHeader() {
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent align={'end'} alignOffset={4}>
-                  <p className={'mx-auto text-center'}>Everthorn Youtube Channel</p>
+                  <p className={'mx-auto text-center text-sm my-0'}>Everthorn Youtube Channel</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
