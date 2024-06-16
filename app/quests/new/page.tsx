@@ -140,7 +140,9 @@ export default function NewQuest() {
               render={({field}) => (
                 <>
                   <FormItem className="my-4">
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>
+                      <h3>Title</h3>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Cow Murder" {...field}></Input>
                     </FormControl>
@@ -160,7 +162,9 @@ export default function NewQuest() {
               render={({field}) => (
                 <>
                   <FormItem className="my-4">
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>
+                      <h3>Description</h3>
+                    </FormLabel>
                     <FormControl>
                       <Textarea placeholder="Do you like cows? So do I, plea..." {...field}></Textarea>
                     </FormControl>
@@ -188,7 +192,9 @@ export default function NewQuest() {
                 render={({ field }) => (
                   <>
                     <FormItem className="my-4 flex-1">
-                      <FormLabel>Type</FormLabel>
+                      <FormLabel>
+                        <h3>Type</h3>
+                      </FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
                           <SelectTrigger>
@@ -216,7 +222,9 @@ export default function NewQuest() {
                 render={({ field }) => (
                   <>
                     <FormItem className="my-4 flex-1">
-                      <FormLabel>Amount</FormLabel>
+                      <FormLabel>
+                        <h3>Amount</h3>
+                      </FormLabel>
                       <FormControl>
                         <Input type="number" placeholder='0' {...field} />
                       </FormControl>
@@ -237,7 +245,9 @@ export default function NewQuest() {
               render={() => (
                 <>
                   <FormItem className="flex flex-col">
-                    <FormLabel>{ form.getValues("objective_type") === "mine" ? "Block" : "Entity" }</FormLabel>
+                    <FormLabel>
+                      <h3>{ form.getValues("objective_type") === "mine" ? "Block" : "Entity" }</h3>
+                    </FormLabel>
                     <VirtualizedCombobox
                       options={ form.getValues("objective_type") === "mine" ? blocks : entities}
                       searchPlaceholder={`Search ${ form.getValues("objective_type") === "mine" ? "block" : "entity" }...`}
