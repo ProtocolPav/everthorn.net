@@ -394,7 +394,7 @@ export default function NewQuest() {
               />
             </div>
 
-            <h3 className="text-lg">Time Limit</h3>
+            <h3 className="text-lg mt-6">Time Limit</h3>
             <p className="text-sm">Pav can't figure out timers with the new system, this will be disabled meanwhile.</p>
             <FormField
               control={form.control}
