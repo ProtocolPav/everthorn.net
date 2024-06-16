@@ -35,7 +35,7 @@ export default function IndexPage() {
           :
           <span></span>
         }
-        <h1 className="text-2xl">
+        <h1 className="text-4xl md:text-7xl">
           <span>The hub for all that is <br /> </span>
           <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-6xl text-transparent md:text-8xl">Everthorn</span>
         </h1>
