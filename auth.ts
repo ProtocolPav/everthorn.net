@@ -75,7 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             const everthornUserResponse = await fetch(`http://everthorn.net:8282/api/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
             if (everthornUserResponse.ok) {
               const userData = (await everthornUserResponse.json()).user;
-              everthornMemberInfo.isCM = userData?.role === "Community Manager";
+              everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
             }
           }
 
