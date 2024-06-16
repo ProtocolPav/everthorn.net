@@ -9,7 +9,7 @@ import {formSchema} from "@/lib/forms/new_quest"
 
 import {QuestFormApiReady} from "@/types/quest_form"
 
-import {cn} from "@/lib/utils"
+import {capitalizeCase, cn} from "@/lib/utils"
 
 import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
@@ -20,6 +20,7 @@ import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox"
 import {MinecraftBlockTypes, MinecraftEntityTypes, MinecraftItemTypes} from "@minecraft/vanilla-data";
 import {useSession} from "next-auth/react";
 import {NoPermission} from "@/components/no-permission";
+import {Switch} from "@/components/ui/switch";
 
 export default function NewQuest() {
   const { data: session, status } = useSession()
@@ -56,6 +57,9 @@ export default function NewQuest() {
 
   const [formStep, setFormStep] = useState(0)
   const [shouldHideRewardItem, setShouldHideRewardItem] = useState(form.getValues("objective_reward_type") === "balance")
+  const [requireMainHand, setRequireMainHand] = useState<boolean | undefined>(form.getValues("require_main_hand"))
+  const [requireLocation, setRequireLocation] = useState<boolean | undefined>(form.getValues("require_location"))
+  const [requireTimeLimit, setRequireTimeLimit] = useState<boolean | undefined>(form.getValues("require_time_limit"))
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -119,20 +123,20 @@ export default function NewQuest() {
 
   return (
     <section className="container grid max-w-screen-md gap-6 pb-8 pt-6 md:py-10">
-      <h1 className="text-4xl">Let's create a new quest!</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
 
           {/* Step 1: The Basics */}
           <div className={
-            cn({ 'hidden': formStep !== 0 })
+            cn({'hidden': formStep !== 0})
           }>
-            <h2  className="text-2xl">The Basics</h2>
+            <h1 className="text-4xl">Let's create a new quest!</h1>
+            <h2 className="text-2xl mt-4">The Basics</h2>
             {/* Title */}
             <FormField
               control={form.control}
               name="title"
-              render={({ field }) => (
+              render={({field}) => (
                 <>
                   <FormItem className="my-4">
                     <FormLabel>Title</FormLabel>
@@ -142,7 +146,7 @@ export default function NewQuest() {
                     <FormDescription>
                       This is the quest title, give it a good one!
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage/>
                   </FormItem>
                 </>
               )}
@@ -152,7 +156,7 @@ export default function NewQuest() {
             <FormField
               control={form.control}
               name="description"
-              render={({ field }) => (
+              render={({field}) => (
                 <>
                   <FormItem className="my-4">
                     <FormLabel>Description</FormLabel>
@@ -163,7 +167,7 @@ export default function NewQuest() {
                       Descriptions should hook people, but shouldn't be so long
                       that it bores them.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage/>
                   </FormItem>
                 </>
               )}
@@ -252,48 +256,100 @@ export default function NewQuest() {
 
           {/* Step 3: Requirements */}
           <div className={
-            cn({ 'hidden': formStep !== 2 })
+            cn({'hidden': formStep !== 2})
           }>
             <h2 className="text-2xl">Requirements</h2>
-            <p className="text-sm">Only fill in the requirements you want, and leave anything else blank!</p>
+            <p className="text-sm mb-8">Only fill in the requirements you want, and leave anything else blank!</p>
+
             {/* Objective Mainhand */}
+            <h3 className="text-lg">Main Hand</h3>
             <FormField
-                control={form.control}
-                name="objective_main_hand"
-                render={() => (
-                  <>
-                    <FormItem className="flex flex-col pt-8">
-                      <FormLabel>Mainhand</FormLabel>
-                      <VirtualizedCombobox
-                        options={items}
-                        searchPlaceholder="Search mainhand item..."
-                        onOptionSelect={(value: string) => {
-                          form.setValue("objective_main_hand", value)
-                        }}
+              control={form.control}
+              name="require_main_hand"
+              render={({field}) => (
+                <>
+                  <FormItem className="flex flex-row items-center justify-between my-2 border rounded-md p-3 shadow-sm">
+                    <FormLabel>Require Main Hand Item</FormLabel>
+                    <FormControl>
+                      <Switch
+                        className="!m-0"
+                        checked={field.value}
+                        onCheckedChange={
+                          (val) => {
+                            setRequireMainHand(val)
+                            field.onChange(val)
+                          }
+                        }
                       />
+                    </FormControl>
+                  </FormItem>
+                </>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="objective_main_hand"
+              render={() => (
+                <>
+                  <FormItem className={cn({ "!hidden": !requireMainHand }, "flex", "flex-col")}>
+                    <VirtualizedCombobox
+                      options={items}
+                      searchPlaceholder="Search mainhand item..."
+                      onOptionSelect={(value: string) => {
+                        form.setValue("objective_main_hand", value)
+                      }}
+                    />
 
-                      <FormDescription>
-                        Just bare hands? A wooden pick?
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  </>
-                )}
-              />
+                    <FormDescription>
+                      Just bare hands? A wooden pick?
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+                </>
+              )}
+            />
 
-            <div className="flex w-full justify-stretch gap-4">
+            {/* Location */}
+            <h3 className="text-lg mt-6">Location</h3>
+            <FormField
+              control={form.control}
+              name="require_location"
+              render={({field}) => (
+                <>
+                  <FormItem>
+                    <div className="flex flex-row items-center justify-between my-2 border rounded-lg p-3 shadow-sm">
+                      <FormLabel>Require Location</FormLabel>
+                      <FormControl>
+                        <Switch
+                          className="!m-0"
+                          checked={field.value}
+                          onCheckedChange={
+                            (val) => {
+                              setRequireLocation(val)
+                              field.onChange(val)
+                            }
+                          }
+                        />
+                      </FormControl>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                </>
+              )}
+            />
+            <div className={cn({ "!hidden": !requireLocation }, "flex w-full justify-stretch gap-4")}>
               {/* Objective X */}
               <FormField
                 control={form.control}
                 name="location_x"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>X</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="0" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
@@ -303,14 +359,14 @@ export default function NewQuest() {
               <FormField
                 control={form.control}
                 name="location_z"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>Z</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="0" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
@@ -320,9 +376,9 @@ export default function NewQuest() {
               <FormField
                 control={form.control}
                 name="radius"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>Radius</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="20" {...field} />
@@ -330,27 +386,52 @@ export default function NewQuest() {
                       <FormDescription>
                         Radius, defaults to 100
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
               />
             </div>
 
-            <h3>Time Limit</h3>
-            <div className="flex w-full justify-stretch gap-4">
+            <h3 className="text-lg">Time Limit</h3>
+            <p className="text-sm">Pav can't figure out timers with the new system, this will be disabled meanwhile.</p>
+            <FormField
+              control={form.control}
+              name="require_time_limit"
+              render={({field}) => (
+                <>
+                  <FormItem className="flex flex-row items-center justify-between my-2 border rounded-md p-3 shadow-sm">
+                    <FormLabel>Require Time Limit</FormLabel>
+                    <FormControl>
+                      <Switch
+                        className="!m-0"
+                        disabled={!field.value}
+                        checked={field.value}
+                        onCheckedChange={
+                          (val) => {
+                            setRequireTimeLimit(val)
+                            field.onChange(val)
+                          }
+                        }
+                      />
+                    </FormControl>
+                  </FormItem>
+                </>
+              )}
+            />
+            <div className={cn({ "hidden": !requireTimeLimit }, "flex w-full justify-stretch gap-4")}>
               {/* Objective Time H */}
               <FormField
                 control={form.control}
                 name="time_limit_h"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>Hours</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
+                        <Input type="number" placeholder="0" disabled={true} {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
@@ -360,14 +441,14 @@ export default function NewQuest() {
               <FormField
                 control={form.control}
                 name="time_limit_min"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>Minutes</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
+                        <Input type="number" placeholder="0" disabled={true} {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
@@ -377,14 +458,14 @@ export default function NewQuest() {
               <FormField
                 control={form.control}
                 name="time_limit_sec"
-                render={({ field }) => (
+                render={({field}) => (
                   <>
-                    <FormItem className="my-4 flex-1">
+                    <FormItem className="flex-1">
                       <FormLabel>Seconds</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" {...field} />
+                        <Input type="number" placeholder="0" disabled={true} {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage/>
                     </FormItem>
                   </>
                 )}
@@ -515,19 +596,16 @@ export default function NewQuest() {
               }
 
               if (formStep === 2) {
-                form.trigger(["objective_main_hand", "location_x", "location_z", "radius", "time_limit_h", "time_limit_min", "time_limit_sec"])
-
-                const mainHandState = form.getFieldState("objective_main_hand")
-                const locationXState = form.getFieldState("location_x")
-                const locationZState = form.getFieldState("location_z")
+                form.trigger(["require_main_hand", "require_location", "require_time_limit", "objective_main_hand", "location_x", "location_z", "radius", "time_limit_h", "time_limit_min", "time_limit_sec"])
 
                 const timeLimitHState = form.getFieldState("time_limit_h")
                 const timeLimitMinState = form.getFieldState("time_limit_min")
                 const timeLimitSecState = form.getFieldState("time_limit_sec")
 
-                if(mainHandState.invalid) return
-                if(locationXState.invalid) return
-                if(locationZState.invalid) return
+                if(form.getValues("require_main_hand") && typeof form.getValues("objective_main_hand") === "undefined") return
+
+                if(form.getValues("require_location") && typeof form.getValues("location_x") === "undefined") return
+                if(form.getValues("require_location") && typeof form.getValues("location_z") === "undefined") return
 
                 if(timeLimitHState.invalid) return
                 if(timeLimitMinState.invalid) return
