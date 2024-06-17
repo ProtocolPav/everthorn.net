@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import { JWT } from "next-auth/jwt";
+import {EverthornMemberInfo} from "@/types/discord";
 
 declare module "next-auth" {
   interface User {
@@ -13,13 +14,7 @@ declare module "next-auth" {
   }
 
   interface Session {
-    user: User & {
-      everthornMemberInfo: {
-        isMember: boolean;
-        everthorn: string | undefined;
-        isCM: boolean;
-      }
-    };
+    user: User & { everthornMemberInfo: EverthornMemberInfo }
   }
 }
 
@@ -32,6 +27,7 @@ declare module "next-auth/jwt" {
     image: string | null;
     discriminator: string;
     verified: boolean;
+    guildCacheExpiry: number;
     everthornMemberInfo: {
       isMember: boolean;
       everthorn: string | undefined;

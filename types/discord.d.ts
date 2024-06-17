@@ -7,3 +7,9 @@ export interface Guild {
   permissions_new: string;
   features: string[];
 }
+
+export interface EverthornMemberInfo {
+  isMember: boolean,
+  everthorn: string | undefined,
+  isCM: boolean
+}

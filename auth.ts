@@ -1,7 +1,7 @@
-import NextAuth, {Session} from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { JWT } from "next-auth/jwt";
-import { Guild } from "@/types/discord"
+import { EverthornMemberInfo, Guild } from "@/types/discord";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -42,32 +42,42 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (token.accessToken) {
         try {
-          const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
-            headers: {
-              Authorization: `Bearer ${token.accessToken}`,
-            },
-          });
+          let guilds: Guild[];
+          let everthornMemberInfo: EverthornMemberInfo;
 
-          if (!guildsResponse.ok) {
-            return token
-          }
+          const now = Date.now() / 1000;
 
-          const guilds: Guild[] = await guildsResponse.json();
+          // Check if cache exists and is still valid
+          if (!token.guildCacheExpiry || now > token.guildCacheExpiry) {
+            const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
+              headers: {
+                Authorization: `Bearer ${token.accessToken}`,
+              },
+            });
 
-          const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
+            guilds = await guildsResponse.json();
 
-          let everthornMemberInfo = {
-            isMember: !!everthornGuild,
-            everthorn: everthornGuild?.id,
-            isCM: (process.env.DEV?.toLowerCase() === "true") ?? false,
-          };
+            const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
+            everthornMemberInfo = {
+              isMember: !!everthornGuild,
+              everthorn: everthornGuild?.id,
+              isCM: (process.env.DEV?.toLowerCase() === "true") ?? false
+            };
 
-          if (everthornGuild) {
-            const everthornUserResponse = await fetch(`http://everthorn.net:8282/api/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
-            if (everthornUserResponse.ok) {
-              const userData = (await everthornUserResponse.json()).user;
-              everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+            if (everthornGuild) {
+              const everthornUserResponse = await fetch(`http://everthorn.net:8000/api/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
+              if (everthornUserResponse.ok) {
+                const userData = (await everthornUserResponse.json()).user;
+                everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+              }
             }
+
+            // Update token with cached data and expiry
+            token.everthornMemberInfo = everthornMemberInfo;
+            token.guildCacheExpiry = now + 3600; // Cache expiry set to 1 hour
+          } else {
+            // Use cached data
+            everthornMemberInfo = token.everthornMemberInfo;
           }
 
           token.everthornMemberInfo = everthornMemberInfo;
