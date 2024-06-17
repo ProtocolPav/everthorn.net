@@ -9,6 +9,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import {SessionProvider} from "next-auth/react";
+import {Toaster} from "@/components/ui/toaster";
 
 
 export const metadata: Metadata = {
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <TailwindIndicator />
             </ThemeProvider>
           </SessionProvider>
+          <Toaster />
         </body>
       </html>
     </>
