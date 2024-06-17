@@ -9,7 +9,7 @@ import {formSchema} from "@/lib/forms/new_quest"
 
 import {QuestFormApiReady} from "@/types/quest_form"
 
-import {capitalizeCase, cn} from "@/lib/utils"
+import {capitalizeCase, cn, minecraftItemStringToWords} from "@/lib/utils"
 
 import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
@@ -112,6 +112,36 @@ export default function NewQuest() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("submitted quest!")
     console.log(values)
+  }
+
+  function getConfirmationObjectiveString(): string {
+    const mainObjective = `${form.getValues("objective_type")} ${form.getValues("objective_amount")} ${minecraftItemStringToWords(form.getValues("objective_item"))}`
+
+    const mainhand: string = form.getValues("objective_main_hand") as string
+    const withMainHand = (form.getValues("require_main_hand") && mainhand)
+      ? ` with ${minecraftItemStringToWords(mainhand)}`
+      : ""
+
+    const onLocation = (form.getValues("require_location") && form.getValues("location_x") && form.getValues("location_z") && form.getValues("radius"))
+      ? ` up to ${form.getValues("radius")} blocks from X:${form.getValues("location_x")} Z:${form.getValues("location_z")}`
+      : ""
+
+    const h = form.getValues("time_limit_h")
+    const min = form.getValues("time_limit_min")
+    const sec = form.getValues("time_limit_sec")
+    const timeLimit = (form.getValues("require_time_limit") && h && min && sec)
+      ? ` within ${h}h${min}min${sec}sec`
+      : ""
+
+    return `The player must ${mainObjective}${withMainHand}${onLocation}${timeLimit}.`
+  }
+
+  function getConfirmationRewardString(): string {
+    const reward = (form.getValues("objective_reward_type") === "balance")
+      ? "nugs"
+      : minecraftItemStringToWords(form.getValues("objective_reward_item") as string)
+
+    return `The player will get ${form.getValues("objective_reward_amount")} ${reward}.`
   }
 
   if (status === "loading") {
@@ -573,20 +603,17 @@ export default function NewQuest() {
                 <CardTitle>{ form.getValues("title") }</CardTitle>
                 <CardDescription>{ form.getValues("description") }</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-6">
                 <div>
                   <h2 className="text-xl">Objectives</h2>
                   <p>
-                    The player must {form.getValues("objective_type")} {form.getValues("objective_amount")} {capitalizeCase(String(form.getValues("objective_item")).replace('minecraft:', '').replaceAll('_', ' '))}
-                    {form.getValues("objective_main_hand") ? ` with ${capitalizeCase(String(form.getValues("objective_main_hand")).replace('minecraft:', '').replaceAll('_', ' '))}` : ""}.
+                    { getConfirmationObjectiveString() }
                   </p>
                 </div>
                 <div>
-                  <h2 className="text-xl">Objectives</h2>
+                  <h2 className="text-xl">Reward</h2>
                   <p>
-                    The player
-                    must {form.getValues("objective_type")} {form.getValues("objective_amount")} {capitalizeCase(String(form.getValues("objective_item")).replace('minecraft:', '').replaceAll('_', ' '))}
-                    {form.getValues("objective_main_hand") ? ` with ${capitalizeCase(String(form.getValues("objective_main_hand")).replace('minecraft:', '').replaceAll('_', ' '))}` : ""}.
+                    { getConfirmationRewardString() }
                   </p>
                 </div>
               </CardContent>
