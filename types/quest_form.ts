@@ -9,8 +9,8 @@ export interface QuestFormApiReady {
 }
 
 interface Reward {
-  balance: number,
-  item: string,
+  balance: number | null,
+  item: string | null,
   count: number
 }
 
@@ -19,9 +19,9 @@ interface Objective {
   order: number,
   objective_count: number,
   objective_type: string,
-  objective_timer: string,
-  required_mainhand: string,
-  required_location: number[],
+  objective_timer: number | null,
+  required_mainhand: string | null,
+  required_location: number[] | null,
   location_radius: number,
   rewards: Reward[]
 }
