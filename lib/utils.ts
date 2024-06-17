@@ -13,3 +13,7 @@ export function capitalizeCase(str: string): string {
   }
   return sentenceStr
 }
+
+export function minecraftItemStringToWords(string: string): string {
+  return capitalizeCase(String(string).replace('minecraft:', '').replaceAll('_', ' '))
+}
