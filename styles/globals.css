@@ -74,7 +74,7 @@
 
     --attention-text: 16, 56%, 60%;
 
-    --ring: 216 34% 17%;
+    --ring: 216 34% 47%;
 
     --radius: 0.5rem;
   }
@@ -84,8 +84,31 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3 {
+    @apply leading-tight tracking-tighter font-extrabold
+  }
+
+  h1 {
+    @apply text-4xl md:text-7xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl
+  }
+
+  h3 {
+    @apply text-base font-semibold tracking-tight
+  }
+
+  p {
+    @apply mt-2 text-lg text-muted-foreground;
+
+    max-width: var(--max-width, 700px);
   }
 }

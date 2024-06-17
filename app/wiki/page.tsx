@@ -11,7 +11,7 @@ export default function IndexPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       
-      <h1 className={'text-6xl font-extrabold'}>
+      <h1>
         Under Construction!
       </h1>
       <Separator/>
@@ -21,7 +21,7 @@ export default function IndexPage() {
       <Link href={'https://everthorn.fandom.com/wiki/Everthorn_Wiki'}>
         <Button className={'justify-between'}>
           <div className={'mr-3'}>Go to the Old Wiki </div>
-          <Icons.external_link />
+          <Icons.external_link size={20} />
         </Button>
       </Link>
 

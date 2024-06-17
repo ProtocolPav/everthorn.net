@@ -4,9 +4,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    appDir: true,
-  },
+  output: "standalone",
   async redirects() {
       return [
         {
@@ -21,6 +19,14 @@ const nextConfig = {
         },
       ]
     },
+  async rewrites() {
+    return [
+      {
+        source: '/nexuscore-api/:path*',
+        destination: 'http://everthorn.net:8000/api/:path*'
+      }
+    ]
+  }
 }
 
 module.exports = nextConfig

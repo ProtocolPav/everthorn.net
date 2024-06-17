@@ -21,31 +21,31 @@ export default function CMGuidelines() {
           <span>
             <Badge variant={'outline'}>Last Updated: April 2024</Badge>
           </span>
-          <h1 className="text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl">
+          <h1>
             <span>Community Manager Guidelines</span>
           </h1>
-          <p className="max-w-[700px] text-lg text-muted-foreground">
+          <p style={{ "--max-width": "900px" } as React.CSSProperties}>
             Everything that's important for the CM's to function properly.
             <br/>
             <Link href={'/map/unmined.index.html'}>
-              <Button variant={'secondary'} className={'mt-5 h-auto mx-1'}>
+              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Community Manager Map. Helpful for viewing Project Coordinates without going into the world.
               </Button>
             </Link>
             <br/>
             <Link href={'https://learn.microsoft.com/en-us/minecraft/creator/commands/enums/item?view=minecraft-bedrock-stable'}>
-              <Button variant={'secondary'} className={'mt-5 h-auto mx-1'}>
+              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Quests: Item List
               </Button>
             </Link>
             <Link href={'https://learn.microsoft.com/en-us/minecraft/creator/commands/enums/entitytype?view=minecraft-bedrock-stable'}>
-              <Button variant={'secondary'} className={'mt-5 h-auto mx-1'}>
+              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Quests: Entity List
               </Button>
             </Link>
 
             <Link href={'https://r.3v.fi/discord-timestamps/'}>
-              <Button variant={'secondary'} className={'mt-5 h-auto mx-1'}>
+              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Discord Timestamps
               </Button>
             </Link>

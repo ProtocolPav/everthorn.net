@@ -15,11 +15,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {DiscordAvatar} from "@/components/discord-avatar";
 
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b backdrop-blur-lg bg-background/50">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 
         <MainNav items={siteConfig.mainNav} />
@@ -27,6 +28,9 @@ export function SiteHeader() {
 
         <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
           <nav className="flex items-center space-x-1">
+
+            <DiscordAvatar/>
+
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger>
@@ -45,8 +49,8 @@ export function SiteHeader() {
                     </div>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Feed Thorny <br/> on Patreon</p>
+                <TooltipContent align={'end'} alignOffset={-40}>
+                  <p className={'mx-auto text-center text-sm my-0'}>Feed Thorny on Patreon</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -69,8 +73,8 @@ export function SiteHeader() {
                     </div>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p className={'mx-auto text-center'}>Everthorn <br /> Youtube Channel</p>
+                <TooltipContent align={'end'} alignOffset={4}>
+                  <p className={'mx-auto text-center text-sm my-0'}>Everthorn Youtube Channel</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
