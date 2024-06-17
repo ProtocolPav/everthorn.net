@@ -101,7 +101,7 @@ export default function NewQuest() {
               Number(data.location_z),
             ]
             : null,
-          location_radius: Number(data.radius),
+          location_radius: isNaN(Number(data.radius)) ? 0 : Number(data.radius),
           rewards: [
             {
               balance: (data.objective_reward_type === "balance") ? data.objective_reward_amount : null,
