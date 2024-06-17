@@ -23,7 +23,7 @@ const nextConfig = {
     return [
       {
         source: '/nexuscore-api/:path*',
-        destination: 'http://everthorn.net:8282/api/:path*'
+        destination: 'http://everthorn.net:8000/api/:path*'
       }
     ]
   }
