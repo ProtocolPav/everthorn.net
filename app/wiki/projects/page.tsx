@@ -11,7 +11,7 @@ export default function IndexPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       
-      <h1 className={'text-6xl font-extrabold'}>
+      <h1>
         Under Construction!
       </h1>
       <Separator/>

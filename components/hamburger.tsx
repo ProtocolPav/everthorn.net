@@ -16,6 +16,7 @@ import {
   SheetFooter,
   SheetTrigger, SheetClose,
 } from "@/components/ui/sheet"
+import {DiscordAvatar} from "@/components/discord-avatar";
 
 
 interface MainNavProps {
@@ -26,21 +27,8 @@ export function HamburgerNav({ items }: MainNavProps) {
   return (
     <div className="flex flex-1 items-center justify-end space-x-4 md:hidden">
       <nav className="flex items-center space-x-5">
-        
-        <Link
-          href={siteConfig.links.patreon}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <div
-            className={buttonVariants({
-              variant: "default",
-            })}
-          >
-            <Icons.discord className="size-6" weight={'fill'} />
-            <div className='mx-1'>Log In</div>
-          </div>
-        </Link>
+
+        <DiscordAvatar />
 
         <Sheet>
           <SheetTrigger asChild>
@@ -74,26 +62,26 @@ export function HamburgerNav({ items }: MainNavProps) {
                 </nav>
                 ) : null}
             </SheetHeader>
-            
+
             <div className={'items-left mt-5 grid gap-y-2'}>
-              
+
               <Link href={siteConfig.links.patreon} target={'_blank'}>
                 <Button className={'h-auto justify-between'} variant={'outline'}>
                   <Icons.patreon className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>
                 </Button>
               </Link>
-              
+
               <Link href={siteConfig.links.youtube} target={'_blank'}>
                 <Button className={'h-auto justify-between'} variant={'outline'}>
                   <Icons.youtube className={'size-6'} weight={'fill'} /> <div className='ms-2'>Everthorn Youtube </div>
                 </Button>
               </Link>
-              
+
             </div>
-            
+
           </SheetContent>
         </Sheet>
-        
+
       </nav>
     </div>
   )

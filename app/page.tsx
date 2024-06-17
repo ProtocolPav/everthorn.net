@@ -35,11 +35,11 @@ export default function IndexPage() {
           :
           <span></span>
         }
-        <h1 className="text-2xl font-extrabold leading-tight tracking-tighter md:text-7xl">
+        <h1 className="text-4xl md:text-7xl">
           <span>The hub for all that is <br /> </span>
           <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-6xl text-transparent md:text-8xl">Everthorn</span>
         </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
+        <p>
           Everything Everthorn. All in one place. <br className="hidden sm:inline" />
           Find the guidelines, our world map and our newly updated wiki.
         </p>
@@ -56,10 +56,10 @@ export default function IndexPage() {
 
       <section className={'mx-auto mt-5 grid grid-rows-2 items-center gap-x-9 gap-y-7 lg:mx-0 lg:grid-cols-3 lg:items-start'}>
         <div>
-          <h1 className="col-span-1 row-span-1 items-start text-2xl font-extrabold leading-tight tracking-tighter md:text-4xl">
+          <h1 className="col-span-1 row-span-1 items-start text-2xl md:text-4xl">
           <span>Wonderful projects, right? </span>
           </h1>
-          <p className="mt-2 max-w-[700px] text-lg text-muted-foreground">
+          <p>
             Create your own. Let your imagination run free. <br />
             Projects are how we work on Everthorn.
           </p>
@@ -76,10 +76,10 @@ export default function IndexPage() {
         </div>
 
         <div className='row-span-1'>
-          <h1 className="col-span-1 items-start text-2xl font-extrabold leading-tight tracking-tighter md:text-4xl">
+          <h1 className="col-span-1 items-start text-2xl md:text-4xl">
           <span>Lore. Stories. Wiki. <br/> We got it. </span>
           </h1>
-          <p className="mt-2 max-w-[700px] text-lg text-muted-foreground">
+          <p>
             The wiki is the place to read and write stories.<br />
             Everthorn is where those stories play out.
           </p>
@@ -94,10 +94,10 @@ export default function IndexPage() {
       </section>
 
       <section className='mx-auto mt-12 text-center'>
-        <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl">
+        <h1 className="text-3xl font-bold md:text-6xl">
         <span>Even Thorny has to eat. </span>
         </h1>
-        <p className="mt-2 text-lg text-muted-foreground">
+        <p style={{ "--max-width": "99999px" } as React.CSSProperties}>
           Support the server by becoming a <b className={'text-attention2'}>Patron!</b> <br /> Donating helps keep
           Everthorn running, and also provides Thorny with dinner every night.
         </p>

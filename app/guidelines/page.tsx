@@ -20,10 +20,10 @@ export default function Guidelines() {
           <span>
             <Badge variant={'outline'}>Last Updated: April 2024</Badge>
           </span>
-          <h1 className="text-6xl font-extrabold leading-tight tracking-tighter text-secondary-foreground md:text-7xl">
+          <h1>
             <span>Guidelines</span>
           </h1>
-          <p className="max-w-[700px] text-lg text-muted-foreground">
+          <p>
             The Guidelines include all of our rules, different concepts such as
             &apos;Projects&apos; and &apos;Quests&apos;, as well as how to connect to the server on all devices!
           </p>
