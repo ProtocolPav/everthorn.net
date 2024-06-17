@@ -436,7 +436,6 @@ export default function NewQuest() {
             </div>
 
             <h3 className="text-lg mt-6">Time Limit</h3>
-            <p className="text-sm">Pav can't figure out timers with the new system, this will be disabled meanwhile.</p>
             <FormField
               control={form.control}
               name="require_time_limit"
@@ -447,7 +446,6 @@ export default function NewQuest() {
                     <FormControl>
                       <Switch
                         className="!m-0"
-                        disabled={!field.value}
                         checked={field.value}
                         onCheckedChange={
                           (val) => {
@@ -461,7 +459,7 @@ export default function NewQuest() {
                 </>
               )}
             />
-            <div className={cn({ "hidden": !requireTimeLimit }, "flex w-full justify-stretch gap-4")}>
+            <div className={cn({"!hidden": !requireTimeLimit}, "flex w-full justify-stretch gap-4")}>
               {/* Objective Time H */}
               <FormField
                 control={form.control}
@@ -471,7 +469,7 @@ export default function NewQuest() {
                     <FormItem className="flex-1">
                       <FormLabel>Hours</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" disabled={true} {...field} />
+                        <Input type="number" placeholder="0" {...field} />
                       </FormControl>
                       <FormMessage/>
                     </FormItem>
@@ -488,7 +486,7 @@ export default function NewQuest() {
                     <FormItem className="flex-1">
                       <FormLabel>Minutes</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" disabled={true} {...field} />
+                        <Input type="number" placeholder="0" {...field} />
                       </FormControl>
                       <FormMessage/>
                     </FormItem>
@@ -505,7 +503,7 @@ export default function NewQuest() {
                     <FormItem className="flex-1">
                       <FormLabel>Seconds</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0" disabled={true} {...field} />
+                        <Input type="number" placeholder="0" {...field} />
                       </FormControl>
                       <FormMessage/>
                     </FormItem>

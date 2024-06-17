@@ -58,13 +58,10 @@ export const formSchema = z.object({
     (value) => (typeof value === "string") ? Number(value) : undefined,
     z.number().optional()
   ),
-  require_time_limit: z.preprocess(
-    (value) => {
-      value = false;
-      return value
-    },
-    z.boolean()
-  ), //force it to be false no matter what while pav figures out time limits
+
+  require_time_limit: z
+    .boolean()
+    .default(false),
   time_limit_h: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number().int().min(0, { message: "MARS!!! No negative time!" }).optional()
