@@ -1,16 +1,7 @@
 import NextAuth, {Session} from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { JWT } from "next-auth/jwt";
-
-interface Guild {
-  id: string;
-  name: string;
-  icon: string;
-  owner: boolean;
-  permissions: number;
-  permissions_new: string;
-  features: string[];
-}
+import { Guild } from "@/types/discord"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -58,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
 
           if (!guildsResponse.ok) {
-            throw new Error(`${guildsResponse.status}: ${guildsResponse.statusText}`)
+            return token
           }
 
           const guilds: Guild[] = await guildsResponse.json();
@@ -81,7 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           token.everthornMemberInfo = everthornMemberInfo;
         } catch (err: Error | any) {
-          console.log(err);
+          console.log(err?.stack);
         }
       }
 
