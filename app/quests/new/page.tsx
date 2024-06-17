@@ -22,6 +22,8 @@ import {useSession} from "next-auth/react";
 import {NoPermission} from "@/components/no-permission";
 import {Card, CardTitle, CardHeader, CardDescription, CardContent} from "@/components/ui/card";
 import {Switch} from "@/components/ui/switch";
+import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 export default function NewQuest() {
   const { data: session, status } = useSession()
@@ -31,6 +33,8 @@ export default function NewQuest() {
   const blocks = Object.values(MinecraftBlockTypes).map((block) => String(block))
 
   const entities = Object.values(MinecraftEntityTypes).map((entity) => `minecraft:${entity}`)
+
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -127,6 +131,19 @@ export default function NewQuest() {
         body: JSON.stringify(apiReadyData)
       }
     )
+
+    if (questResponse.ok) {
+      toast({
+        title: "Success!",
+        description: "The quest has been submitted!"
+      })
+    } else {
+      toast({
+        title: "Error!",
+        description: "Something went wrong! Check your inputs...",
+        variant: "destructive"
+      })
+    }
   }
 
   function getConfirmationObjectiveString(): string {
@@ -704,6 +721,7 @@ export default function NewQuest() {
           </div>
         </form>
       </Form>
+      <Toaster />
     </section>
   )
 }

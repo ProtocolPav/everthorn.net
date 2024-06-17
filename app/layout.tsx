@@ -56,7 +56,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <TailwindIndicator />
             </ThemeProvider>
           </SessionProvider>
-          <Toaster />
         </body>
       </html>
     </>
