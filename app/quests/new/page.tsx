@@ -9,7 +9,7 @@ import {formSchema} from "@/lib/forms/new_quest"
 
 import {QuestFormApiReady} from "@/types/quest_form"
 
-import {capitalizeCase, cn, minecraftItemStringToWords} from "@/lib/utils"
+import {capitalizeCase, cn, formatDateToAPI, minecraftItemStringToWords} from "@/lib/utils"
 
 import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
@@ -76,31 +76,36 @@ export default function NewQuest() {
       Number(data.time_limit_sec)
     )
 
+    let now = new Date()
+    let inAWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+
     return {
       quest: {
         title: data.title,
         description: data.description,
-        start_time: "",
-        end_time: "",
+        start_time: formatDateToAPI(now),
+        end_time: formatDateToAPI(inAWeek),
       },
 
       objectives: [
         {
-          objective: data.title,
-          order: 0,
-          objective_count: 0,
+          objective: data.objective_item,
+          order: 1,
+          objective_count: data.objective_amount,
           objective_type: data.objective_type,
-          objective_timer: String(timer),
-          required_mainhand: String(data.objective_main_hand),
-          required_location: [
-            Number(data.location_x),
-            Number(data.location_z),
-          ],
+          objective_timer: (data.require_time_limit) ? timer : null,
+          required_mainhand: (data.require_main_hand) ? String(data.objective_main_hand) : null,
+          required_location: (data.require_location)
+            ? [
+              Number(data.location_x),
+              Number(data.location_z),
+            ]
+            : null,
           location_radius: Number(data.radius),
           rewards: [
             {
-              balance: data.objective_reward_amount,
-              item: String(data.objective_reward_item),
+              balance: (data.objective_reward_type === "balance") ? data.objective_reward_amount : null,
+              item: (data.objective_reward_type === "item") ? String(data.objective_reward_item) : null,
               count: data.objective_reward_amount,
             }
           ]
@@ -109,9 +114,22 @@ export default function NewQuest() {
     }
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("submitted quest!")
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    let apiReadyData = formatDataToApi(values)
+    console.log(apiReadyData)
+
+    const questResponse = await fetch(
+      "/nexuscore-api/v0.1/quests",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(apiReadyData)
+      }
+    )
+
+    console.log(questResponse)
   }
 
   function getConfirmationObjectiveString(): string {
