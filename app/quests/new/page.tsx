@@ -116,7 +116,6 @@ export default function NewQuest() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     let apiReadyData = formatDataToApi(values)
-    console.log(apiReadyData)
 
     const questResponse = await fetch(
       "/nexuscore-api/v0.1/quests",
@@ -128,8 +127,6 @@ export default function NewQuest() {
         body: JSON.stringify(apiReadyData)
       }
     )
-
-    console.log(questResponse)
   }
 
   function getConfirmationObjectiveString(): string {
