@@ -129,8 +129,9 @@ export default function NewQuest() {
     const h = form.getValues("time_limit_h")
     const min = form.getValues("time_limit_min")
     const sec = form.getValues("time_limit_sec")
-    const timeLimit = (form.getValues("require_time_limit") && h && min && sec)
-      ? ` within ${h}h${min}min${sec}sec`
+
+    const timeLimit = form.getValues("require_time_limit")
+      ? ` within ${Number(h) ? `${h}h` : ""}${Number(min) ? `${min}min` : ""}${Number(sec) ? `${sec}sec` : ""}`
       : ""
 
     return `The player must ${mainObjective}${withMainHand}${onLocation}${timeLimit}.`
