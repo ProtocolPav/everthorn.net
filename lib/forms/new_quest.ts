@@ -11,7 +11,7 @@ export const formSchema = z.object({
     .max(255, { message: "MARS!!! The people have asked for you to stop!" }),
 
 
-  objective_type: z.string({ required_error: "MARS!!! Did you check this out?" }),
+  objective_type: z.string({ required_error: "MARS!!! What do the people need to do?" }),
   objective_amount: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number({ required_error: "MARS!!! How many??" })

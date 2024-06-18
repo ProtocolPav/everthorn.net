@@ -42,9 +42,9 @@ export default function NewQuest() {
       title: "",
       description: "",
 
-      objective_type: "",
+      objective_type: undefined,
       objective_amount: undefined,
-      objective_item: "",
+      objective_item: undefined,
 
       objective_reward_type: "",
       objective_reward_amount: undefined,
@@ -259,7 +259,7 @@ export default function NewQuest() {
                         <h3>Type</h3>
                       </FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select an objective type..." />
                           </SelectTrigger>
