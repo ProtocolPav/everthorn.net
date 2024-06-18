@@ -23,7 +23,7 @@ export const formSchema = z.object({
     .toLowerCase(),
 
 
-  objective_reward_type: z.string(),
+  objective_reward_type: z.string({ required_error: "MARS!!! What kind of reward?!" }),
   objective_reward_amount: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number()

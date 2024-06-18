@@ -46,7 +46,7 @@ export default function NewQuest() {
       objective_amount: undefined,
       objective_item: undefined,
 
-      objective_reward_type: "",
+      objective_reward_type: undefined,
       objective_reward_amount: undefined,
       objective_reward_item: "",
 
@@ -560,7 +560,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Type</FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a reward type..." />
                           </SelectTrigger>
