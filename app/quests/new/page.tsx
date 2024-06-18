@@ -42,18 +42,18 @@ export default function NewQuest() {
       title: "",
       description: "",
 
-      objective_type: "",
+      objective_type: undefined,
       objective_amount: undefined,
-      objective_item: "",
+      objective_item: undefined,
 
-      objective_reward_type: "",
+      objective_reward_type: undefined,
       objective_reward_amount: undefined,
       objective_reward_item: "",
 
       objective_main_hand: undefined,
       location_x: undefined,
       location_z: undefined,
-      radius: 100,
+      radius: undefined,
       time_limit_h: undefined,
       time_limit_min: undefined,
       time_limit_sec: undefined,
@@ -65,6 +65,7 @@ export default function NewQuest() {
   const [requireMainHand, setRequireMainHand] = useState<boolean | undefined>(form.getValues("require_main_hand"))
   const [requireLocation, setRequireLocation] = useState<boolean | undefined>(form.getValues("require_location"))
   const [requireTimeLimit, setRequireTimeLimit] = useState<boolean | undefined>(form.getValues("require_time_limit"))
+  const [submitted, setSubmitted] = useState<boolean | undefined>(false)
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -119,6 +120,7 @@ export default function NewQuest() {
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitted(true)
     let apiReadyData = formatDataToApi(values)
 
     const questResponse = await fetch(
@@ -138,9 +140,14 @@ export default function NewQuest() {
         description: "The quest has been submitted!"
       })
     } else {
+      setSubmitted(false)
       toast({
         title: "Error!",
-        description: "Something went wrong! Check your inputs...",
+        description:
+          `
+            Something went wrong!
+            ${questResponse.status}: ${questResponse.statusText}
+          `,
         variant: "destructive"
       })
     }
@@ -259,7 +266,7 @@ export default function NewQuest() {
                         <h3>Type</h3>
                       </FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select an objective type..." />
                           </SelectTrigger>
@@ -455,7 +462,7 @@ export default function NewQuest() {
                     <FormItem className="flex-1">
                       <FormLabel>Radius</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="20" {...field} />
+                        <Input type="number" placeholder="100" {...field} />
                       </FormControl>
                       <FormDescription>
                         Radius, defaults to 100
@@ -560,7 +567,7 @@ export default function NewQuest() {
                     <FormItem className="my-4 flex-1">
                       <FormLabel>Type</FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue="field.value" {...field}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a reward type..." />
                           </SelectTrigger>
@@ -717,7 +724,7 @@ export default function NewQuest() {
             }} className={ cn({ "hidden": formStep > 3 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
-            <Button type="submit" className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
+            <Button type="submit" disabled={submitted} className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
           </div>
         </form>
       </Form>

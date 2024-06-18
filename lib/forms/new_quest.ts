@@ -11,7 +11,7 @@ export const formSchema = z.object({
     .max(255, { message: "MARS!!! The people have asked for you to stop!" }),
 
 
-  objective_type: z.string({ required_error: "MARS!!! Did you check this out?" }),
+  objective_type: z.string({ required_error: "MARS!!! What do the people need to do?" }),
   objective_amount: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number({ required_error: "MARS!!! How many??" })
@@ -23,7 +23,7 @@ export const formSchema = z.object({
     .toLowerCase(),
 
 
-  objective_reward_type: z.string(),
+  objective_reward_type: z.string({ required_error: "MARS!!! What kind of reward?!" }),
   objective_reward_amount: z.preprocess(
     (value) => (typeof value === "string") ? Number(value) : 0,
     z.number()
@@ -55,7 +55,7 @@ export const formSchema = z.object({
     z.number().optional()
   ),
   radius: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : undefined,
+    (value) => (typeof value === "string") ? Number(value) : 100,
     z.number().default(100).optional()
   ),
 
