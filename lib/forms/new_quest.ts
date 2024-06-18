@@ -55,7 +55,7 @@ export const formSchema = z.object({
     z.number().optional()
   ),
   radius: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : undefined,
+    (value) => (typeof value === "string") ? Number(value) : 100,
     z.number().default(100).optional()
   ),
 

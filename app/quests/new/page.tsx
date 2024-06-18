@@ -53,7 +53,7 @@ export default function NewQuest() {
       objective_main_hand: undefined,
       location_x: undefined,
       location_z: undefined,
-      radius: 100,
+      radius: undefined,
       time_limit_h: undefined,
       time_limit_min: undefined,
       time_limit_sec: undefined,
@@ -455,7 +455,7 @@ export default function NewQuest() {
                     <FormItem className="flex-1">
                       <FormLabel>Radius</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="20" {...field} />
+                        <Input type="number" placeholder="100" {...field} />
                       </FormControl>
                       <FormDescription>
                         Radius, defaults to 100
