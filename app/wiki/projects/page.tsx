@@ -1,7 +1,7 @@
 "use client"
 
 import { Separator } from "@/components/ui/separator";
-import {AllProjects} from "@/components/server/all-projects";
+import { AllProjects } from "@/components/server/all-projects";
 
 
 export default function IndexPage() {
@@ -11,7 +11,7 @@ export default function IndexPage() {
       <h1>
         Projects
       </h1>
-      <Separator/>
+      <Separator />
       {/* @ts-expect-error Server Component */}
       <AllProjects />
 
