@@ -65,6 +65,7 @@ export default function NewQuest() {
   const [requireMainHand, setRequireMainHand] = useState<boolean | undefined>(form.getValues("require_main_hand"))
   const [requireLocation, setRequireLocation] = useState<boolean | undefined>(form.getValues("require_location"))
   const [requireTimeLimit, setRequireTimeLimit] = useState<boolean | undefined>(form.getValues("require_time_limit"))
+  const [submitted, setSubmitted] = useState<boolean | undefined>(false)
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -119,6 +120,7 @@ export default function NewQuest() {
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitted(true)
     let apiReadyData = formatDataToApi(values)
 
     const questResponse = await fetch(
@@ -138,9 +140,14 @@ export default function NewQuest() {
         description: "The quest has been submitted!"
       })
     } else {
+      setSubmitted(false)
       toast({
         title: "Error!",
-        description: "Something went wrong! Check your inputs...",
+        description:
+          `
+            Something went wrong!
+            ${questResponse.status}: ${questResponse.statusText}
+          `,
         variant: "destructive"
       })
     }
@@ -717,7 +724,7 @@ export default function NewQuest() {
             }} className={ cn({ "hidden": formStep > 3 }) }>
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
-            <Button type="submit" className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
+            <Button type="submit" disabled={submitted} className={ cn({ "hidden": formStep !== 4 }) }>Submit</Button>
           </div>
         </form>
       </Form>
