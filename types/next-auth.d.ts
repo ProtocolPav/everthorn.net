@@ -9,6 +9,8 @@ declare module "next-auth" {
     name: string;
     email: string;
     image: string | null;
+    banner: string | null;
+    banner_color: string | null;
     discriminator: string;
     verified: boolean;
   }
@@ -25,6 +27,8 @@ declare module "next-auth/jwt" {
     name: string;
     email: string;
     image: string | null;
+    banner: string | null;
+    banner_color: string | null;
     discriminator: string;
     verified: boolean;
     guildCacheExpiry: number;

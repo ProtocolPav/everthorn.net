@@ -18,6 +18,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           name: profile.username,
           email: profile.email,
           image: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null,
+          banner: profile.banner ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=600` : null,
+          banner_color: profile.banner_color,
           discriminator: profile.discriminator,
           verified: profile.verified,
         };
@@ -36,6 +38,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.name = profile.username as string;
         token.email = profile.email as string;
         token.image = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
+        token.banner = profile.banner ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=600` : null;
+        token.banner_color = profile.banner_color as string;
         token.discriminator = profile.discriminator as string;
         token.verified = profile.verified as boolean;
       }
@@ -94,6 +98,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.name = token.name as string;
       session.user.email = token.email as string;
       session.user.image = token.image as string;
+      session.user.banner = token.banner as string;
+      session.user.banner_color = token.banner_color as string;
       session.user.discriminator = token.discriminator as string;
       session.user.verified = token.verified as boolean;
       session.user.everthornMemberInfo = token.everthornMemberInfo;
