@@ -2,27 +2,26 @@ import {Project} from "@/types/projects";
 import {ProjectCard} from "@/components/client/project-card";
 
 export async function AllProjects() {
-  const response = await fetch("http://everthorn.net:8282/api/v0.1/projects/solaris")
+  try {
+    const response = await fetch("https://everthorn.net:8000/v0.1/projects/")
 
-  console.log(response)
+    console.log(response)
 
-  if (!response.ok) {
-    return undefined
+    const projects: Project[] = await response.json()
+
+    console.log(projects)
+
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project) => (
+            <ProjectCard project={project} />
+          ))
+        }
+      </div>
+    )
+  } catch (err) {
+    console.error(err)
+    return <p>An error occurred... :(</p>
   }
-
-  const project: Project = await response.json()
-
-  const projects: Project[] = new Array(10).fill(project)
-
-  console.log(project)
-
-  return (
-    <>
-      {
-        projects.map((project) => (
-          <ProjectCard project={project} />
-        ))
-      }
-    </>
-  )
 }
