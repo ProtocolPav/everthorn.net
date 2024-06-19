@@ -38,7 +38,7 @@ export function DiscordAvatar() {
     <DropdownMenu>
 
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-2 px-2" onClick={() => console.log("clicked")}>
+        <Button variant="outline" className="gap-2 px-2">
           <img src={session?.user?.image || ""} className="aspect-square h-[120%] rounded-full" alt="Avatar"/>
           {session?.user?.nick}
         </Button>
