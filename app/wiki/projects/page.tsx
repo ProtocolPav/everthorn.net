@@ -1,8 +1,10 @@
+"use client"
+
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button";
-import { Separator} from "@/components/ui/separator";
-import { Icons } from "@/components/icons"
+import { Separator } from "@/components/ui/separator";
+import { ArrowSquareOut } from "@phosphor-icons/react";
 
 export default function IndexPage() {
   return (
@@ -18,7 +20,7 @@ export default function IndexPage() {
       <Link href={'https://everthorn.fandom.com/wiki/Category:Projects'}>
         <Button className={'justify-between'}>
           <div className={'mr-3'}>View Projects on the Old Wiki </div>
-          <Icons.external_link size={20}/>
+          <ArrowSquareOut />
         </Button>
       </Link>
 
