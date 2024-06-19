@@ -11,6 +11,7 @@ import {
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { Check, X, SignOut } from "@phosphor-icons/react";
+import {DiscordProfile} from "@/components/client/discord-profile";
 
 export function DiscordAvatar() {
   const {data: session, status} = useSession()
@@ -45,9 +46,11 @@ export function DiscordAvatar() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Options</DropdownMenuLabel>
+        <DiscordProfile profile={session?.user}/>
 
-        <DropdownMenuSeparator/>
+        {/*<DropdownMenuLabel>Options</DropdownMenuLabel>*/}
+
+        {/*<DropdownMenuSeparator/>
         <DropdownMenuGroup>
           <DropdownMenuLabel>
             Discriminator: {session?.user?.discriminator}
@@ -73,7 +76,7 @@ export function DiscordAvatar() {
           <DropdownMenuLabel className="flex items-center gap-2">
             Community Manager: {session?.user?.everthornMemberInfo?.isCM ? <Check size={16} color="green"/> : <X size={16} color="red" />}
           </DropdownMenuLabel>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup>*/}
 
         <DropdownMenuSeparator/>
 
