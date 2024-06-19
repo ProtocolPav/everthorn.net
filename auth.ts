@@ -1,5 +1,5 @@
 import NextAuth, { Session } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider, {DiscordProfile} from "next-auth/providers/discord";
 import { JWT } from "next-auth/jwt";
 import { EverthornMemberInfo, Guild } from "@/types/discord";
 
@@ -11,7 +11,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds+guilds.members.read',
       token: 'https://discord.com/api/oauth2/token',
       userinfo: 'https://discord.com/api/users/@me',
-      profile(profile) {
+      profile(profile: DiscordProfile) {
         return {
           id: profile.id,
           nick: profile.global_name ?? profile.username, // Fallback to username if global_name is null
@@ -20,6 +20,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           image: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null,
           banner: profile.banner ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=600` : null,
           banner_color: profile.banner_color,
+          decoration: profile.avatar_decoration_data ? `https://cdn.discordapp.com/avatar-decoration-presets/${profile.avatar_decoration_data.asset}` : null,
           discriminator: profile.discriminator,
           verified: profile.verified,
         };
@@ -39,6 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.email = profile.email as string;
         token.image = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
         token.banner = profile.banner ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=600` : null;
+        token.decoration = (profile.avatar_decoration_data) ? `https://cdn.discordapp.com/avatar-decoration-presets/${(profile.avatar_decoration_data as { asset: string, sku_id: string}).asset}` : null;
         token.banner_color = profile.banner_color as string;
         token.discriminator = profile.discriminator as string;
         token.verified = profile.verified as boolean;
@@ -100,6 +102,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.image = token.image as string;
       session.user.banner = token.banner as string;
       session.user.banner_color = token.banner_color as string;
+      session.user.decoration = token.decoration as string;
       session.user.discriminator = token.discriminator as string;
       session.user.verified = token.verified as boolean;
       session.user.everthornMemberInfo = token.everthornMemberInfo;
