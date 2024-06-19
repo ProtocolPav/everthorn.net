@@ -11,10 +11,6 @@ interface DiscordProfileProps {
 export function DiscordProfile({ profile }: DiscordProfileProps) {
   if (typeof profile === "undefined") return <></>
 
-
-  profile.banner = (profile.banner !== null) ? profile.banner : "https://cdn.discordapp.com/guilds/611008530077712395/users/480476100368138250/banners/260152af435a7cc425eab6e6bc59f221.png?size=1024"
-  console.log(profile)
-
   return (
     <div className="mb-4">
       {/* Top banner and profile picture */}
