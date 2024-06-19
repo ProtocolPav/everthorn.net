@@ -26,7 +26,7 @@ interface MainNavProps {
 export function HamburgerNav({ items }: MainNavProps) {
   return (
     <div className="flex flex-1 items-center justify-end space-x-4 md:hidden">
-      <nav className="flex items-center space-x-5">
+      <nav className="flex items-center space-x-2.5">
 
         <DiscordAvatar />
 
