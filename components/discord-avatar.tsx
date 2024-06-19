@@ -45,7 +45,7 @@ export function DiscordAvatar() {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-56" align={"end"}>
         <DiscordProfile profile={session?.user}/>
 
         {/*<DropdownMenuLabel>Options</DropdownMenuLabel>*/}
