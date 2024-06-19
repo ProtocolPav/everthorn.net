@@ -3,9 +3,8 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator, DropdownMenuShortcut,
+  DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
@@ -41,11 +40,10 @@ export function DiscordAvatar() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2 px-2">
           <img src={session?.user?.image || ""} className="aspect-square h-[120%] rounded-full" alt="Avatar"/>
-          {session?.user?.nick}
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56" align={"end"}>
+      <DropdownMenuContent className="w-56" align={"end"} alignOffset={-88}>
         <DiscordProfile profile={session?.user}/>
 
         {/*<DropdownMenuLabel>Options</DropdownMenuLabel>*/}
