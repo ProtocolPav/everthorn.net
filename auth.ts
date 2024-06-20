@@ -67,7 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             everthornMemberInfo = {
               isMember: !!everthornGuild,
               everthorn: everthornGuild?.id,
-              isCM: (process.env.DEV?.toLowerCase() === "true") ?? false
+              isCM: false
             };
 
             if (everthornGuild) {
@@ -76,6 +76,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 const userData = (await everthornUserResponse.json()).user;
                 everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
               }
+            }
+
+            if (process.env.DEV?.toLowerCase() === "true") {
+              everthornMemberInfo.isCM = true
             }
 
             // Update token with cached data and expiry
