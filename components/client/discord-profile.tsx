@@ -3,6 +3,7 @@
 import {User} from "next-auth";
 import {EverthornMemberInfo} from "@/types/discord";
 import {cn} from "@/lib/utils";
+import {Badge} from "@/components/ui/badge";
 
 interface DiscordProfileProps {
   profile: User & { everthornMemberInfo: EverthornMemberInfo } | undefined
@@ -15,7 +16,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
     <div className="mb-4">
       {/* Top banner and profile picture */}
       <div
-        className={ cn("relative h-24 w-full rounded-sm mb-10", { "h-14": !profile.banner })}
+        className={ cn("relative h-24 w-full rounded-sm", { "h-14": !profile.banner })}
         style={{ backgroundColor: profile.banner_color as string }}
       >
         {
@@ -52,6 +53,24 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
               : undefined
           }
         </div>
+
+      </div>
+      {/* Badges */}
+      <div className="flex justify-end my-2 mx-1 h-6 gap-1">
+        {
+          (profile.everthornMemberInfo.isMember)
+            ? (
+              <Badge variant={null} className="bg-gradient-to-r from-green-400 to-green-800 text-black">Member</Badge>
+            )
+            : undefined
+        }
+        {
+          (profile.everthornMemberInfo.isCM)
+            ? (
+              <Badge variant={null} className="bg-gradient-to-r from-blue-400 to-blue-800 text-black" >CM</Badge>
+            )
+            : undefined
+        }
       </div>
 
       {/* Nickname and username */}
