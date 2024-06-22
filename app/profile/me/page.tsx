@@ -3,8 +3,7 @@
 import {useSession} from "next-auth/react";
 import {NoPermission} from "@/components/no-permission";
 import {Separator} from "@/components/ui/separator";
-import {Card} from "@/components/ui/card";
-import {DiscordProfile} from "@/components/client/discord-profile";
+import {EverthornProfile} from "@/components/client/everthorn-profile";
 
 export default function MyProfile({ params }: { params: { edit: boolean } }) {
   const {data: session, status} = useSession();
@@ -14,12 +13,10 @@ export default function MyProfile({ params }: { params: { edit: boolean } }) {
   if (status === "unauthenticated") return <NoPermission status={status} />
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <h1>{ session?.user?.nick }</h1>
-      <Separator />
-      <Card className="p-1 w-60">
-        <DiscordProfile profile={session?.user} />
-      </Card>
+    <section className="container grid items-center pb-8 pt-6 md:py-10">
+      <EverthornProfile profile={session?.user} />
+      <h1 className="md:hidden">{ session?.user.nick }</h1>
+      <Separator className="mt-2 md:mt-4" />
     </section>
   )
 }
