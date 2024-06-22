@@ -9,7 +9,7 @@ interface DiscordProfileProps {
   profile: User & { everthornMemberInfo: EverthornMemberInfo } | undefined
 }
 
-export function DiscordProfile({ profile }: DiscordProfileProps) {
+export function DiscordProfileCard({ profile }: DiscordProfileProps) {
   if (typeof profile === "undefined") return <></>
 
   return (

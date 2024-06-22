@@ -10,7 +10,7 @@ import {
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import {SignOut, PencilSimple} from "@phosphor-icons/react";
-import {DiscordProfile} from "@/components/client/discord-profile";
+import {DiscordProfileCard} from "@/components/client/discord-profile-card";
 import Link from "next/link";
 
 export function DiscordAvatar() {
@@ -46,7 +46,7 @@ export function DiscordAvatar() {
 
       <DropdownMenuContent className="w-64" align={"end"} alignOffset={-88}>
 
-        <DiscordProfile profile={session?.user}/>
+        <DiscordProfileCard profile={session?.user}/>
 
         <DropdownMenuSeparator />
 
