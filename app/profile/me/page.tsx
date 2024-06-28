@@ -4,6 +4,7 @@ import {useSession} from "next-auth/react";
 import {NoPermission} from "@/components/no-permission";
 import {Separator} from "@/components/ui/separator";
 import {EverthornProfile} from "@/components/client/everthorn-profile";
+import ThornyUserProfile from "@/components/server/thorny-user-profile";
 
 export default function MyProfile({ params }: { params: { edit: boolean } }) {
   const {data: session, status} = useSession();
@@ -17,6 +18,7 @@ export default function MyProfile({ params }: { params: { edit: boolean } }) {
       <EverthornProfile profile={session?.user} />
       <h1 className="md:hidden">{ session?.user.nick }</h1>
       <Separator className="mt-2 md:mt-4" />
+      <ThornyUserProfile userID={session?.user?.id as string} />
     </section>
   )
 }

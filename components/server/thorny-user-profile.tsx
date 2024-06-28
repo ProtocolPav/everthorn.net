@@ -4,5 +4,7 @@ interface ThornyUserProfileProps {
 }
 
 export default function ThornyUserProfile({ userID }: ThornyUserProfileProps) {
-  
+  return (
+    <p>{userID}</p>
+  )
 }
