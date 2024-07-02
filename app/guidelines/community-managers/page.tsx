@@ -19,7 +19,7 @@ export default function CMGuidelines() {
         <div className="flex max-w-[980px] flex-col items-start gap-2">
           
           <span>
-            <Badge variant={'outline'}>Last Updated: April 2024</Badge>
+            <Badge variant={'outline'}>Last Updated: July 2024</Badge>
           </span>
           <h1>
             <span>Community Manager Guidelines</span>
@@ -29,24 +29,19 @@ export default function CMGuidelines() {
             <br/>
             <Link href={'/map/unmined.index.html'}>
               <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
-                Community Manager Map. Helpful for viewing Project Coordinates without going into the world.
-              </Button>
-            </Link>
-            <br/>
-            <Link href={'https://learn.microsoft.com/en-us/minecraft/creator/commands/enums/item?view=minecraft-bedrock-stable'}>
-              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
-                Quests: Item List
-              </Button>
-            </Link>
-            <Link href={'https://learn.microsoft.com/en-us/minecraft/creator/commands/enums/entitytype?view=minecraft-bedrock-stable'}>
-              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
-                Quests: Entity List
+                Community Manager Map
               </Button>
             </Link>
 
             <Link href={'https://r.3v.fi/discord-timestamps/'}>
               <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Discord Timestamps
+              </Button>
+            </Link>
+
+            <Link href={'/quests/new'}>
+              <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
+                Quest Creator
               </Button>
             </Link>
           </p>
@@ -91,17 +86,6 @@ export default function CMGuidelines() {
                       </li>
                       
                       <li>
-                        <Badge variant='command' className={'mx-1'}>/quests manage</Badge>
-                          Manage the current quests board. Currently you can only Expire different quests.
-                      </li>
-                      
-                      <li>
-                        <Badge variant='command' className={'mx-1'}>/quests create</Badge>
-                          Creates a new quest <b>immediately</b> and adds it to the quest board. The quest will be
-                        set to expire in 7 days.
-                      </li>
-                      
-                      <li>
                         <Badge variant='command' className={'mx-1'}>/balance edit</Badge>
                           Edit someone's nugs balance. If you put a negative number, this decreases their balance.
                       </li>
@@ -119,12 +103,17 @@ export default function CMGuidelines() {
                       
                       <li>
                         <Badge variant='command' className={'mx-1'}>/whitelist remove</Badge>
-                          Remove someone from the whitelist.
+                          Remove someone from the whitelist. 
+                          <span className="font-bold text-yellow-400"> Currently, this command half-works. 
+                            It will remove the user from the whitelist, but will not update it on Thorny.
+                            Thus, you cannot re-whitelist the person. Ezio must manually update the NexusCore whitelist.
+                          </span>
                       </li>
                       
                       <li>
                         <Badge variant='command' className={'mx-1'}>/whitelist view</Badge>
                          View the whitelist, seeing each member's name and their Gamertag that is entered in the whitelist.
+                         <span className="font-bold text-yellow-400"> Doesn't work for now.</span>
                       </li>
                     </ul>
                   </AccordionContent>
@@ -158,7 +147,7 @@ export default function CMGuidelines() {
                       </li>
                       
                       <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                        <p className='mx-3 text-slate-300'>
+                        <p className='mx-3 text-slate-300 text-sm my-0'>
                           Ask them if they would like to have a tour or not. Try to push them to have a tour, since the world
                           is large and they should get a good first impression. <b>Tours can be done by ANYONE, so long as they
                           have been a member on Everthorn for enough time.</b>
@@ -173,7 +162,7 @@ export default function CMGuidelines() {
                       </li>
                       
                       <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                        <p className='mx-3 text-slate-300'>
+                        <p className='mx-3 text-slate-300 text-sm my-0'>
                           They should either join someone else's project, take on an abandoned project, or create their own. <br/>
                           <b className={'text-yellow-400'}> KEEP TRACK of all New Recruits to ensure that they are indeed in a project. </b>
                           You keep track by checking up on them in DMs or in-game. <br/><br/>
@@ -222,7 +211,7 @@ export default function CMGuidelines() {
                         </ul>
                         
                         <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                          <p className='mx-3 text-slate-300'>
+                          <p className='mx-3 text-slate-300 text-sm my-0'>
                             When you Deny a project, ping the person and ask them to re-submit with corrections.
                             NEVER delete a Denied application.
                           </p>
@@ -248,7 +237,7 @@ export default function CMGuidelines() {
                         </ul>
                         
                         <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                          <p className='mx-3 text-slate-300'>
+                          <p className='mx-3 text-slate-300 text-sm my-0'>
                             The Wait List is essentially informing other CM's that this project needs some
                             discussion before we accept it.
                           </p>
@@ -268,7 +257,7 @@ export default function CMGuidelines() {
                         </ul>
                         
                         <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                          <p className='mx-3 text-slate-300'>
+                          <p className='mx-3 text-slate-300 text-sm my-0'>
                             You can't undo a project acceptance. So make sure everything is fine BEFORE accepting :)
                           </p>
                         </section>
@@ -339,32 +328,16 @@ export default function CMGuidelines() {
                         <span className='font-bold text-attention2'>Mainhand Limit: </span>
                         People must complete this quest while holding a specific item. E.g. Mine using a diamond pickaxe.
                       </li>
-                      <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                        <p className='mx-3 text-slate-300'>
-                          You must use minecraft item IDs for this.
-                        </p>
-                      </section>
                       <li>
                         <span className='font-bold text-attention2'>Time Limit: </span>
                         People have a time limit on the quest. The Time Limit only begins when they begin the quest, not
                         when they accept it.
                       </li>
-                      <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                        <p className='mx-3 text-slate-300'>
-                          Time limit is in EITHER m or h. So, 30m OR 1h OR 3h, etc.
-                        </p>
-                      </section>
                       <li>
                         <span className='font-bold text-attention2'>Location Limit: </span>
                         People must complete the quest in a specific location. There is a default radius of 100
                         blocks around the coordinates, which can be changed.
                       </li>
-                      <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                        <p className='mx-3 text-slate-300'>
-                          Location must be input as a set of 3 coordinates separated by a space. So: 400,500,32<br/>
-                          The radius must be a number. It is set at 100 as a default.
-                        </p>
-                      </section>
                     </ul>
                     
                     <h2 className="mt-5 text-lg font-extrabold text-primary">
@@ -374,15 +347,14 @@ export default function CMGuidelines() {
                     as more are found.
                     <ul className="flex max-w-[800px] list-disc flex-col space-y-4 pl-8 pt-2">
                       <li>
-                        <span className='font-bold text-attention2'>Location Limit is a circle </span>
-                        The coordinates provided are the centre of it, and the radius is the distance around it.
+                        <span className='font-bold text-attention2'>Location Limit doesn't check y-axis </span>
                         Location limit ONLY checks the x and z axes, ignoring the y.
                       </li>
                       
                       <li>
-                        <span className='font-bold text-attention2'>Mainhand Limit checks item types. </span>
-                        You can not say that "use a pickaxe with efficiency 5". You can only specify what pickaxe to use,
-                        diamond, netherite, stone, etc.
+                        <span className='font-bold text-attention2'>Mainhand Limit won't check for specific items </span>
+                        You can't say "use a pickaxe with efficiency 5". You can only specify what pickaxe to use,
+                        diamond, netherite, stone, etc. Likewise, you can't specify item names like "use a specific stick named Excalibur"
                       </li>
                       
                       <li>
@@ -399,22 +371,17 @@ export default function CMGuidelines() {
                       </li>
                       
                       <li>
-                        <span className='font-bold text-attention2'>Objectives aren't specific. </span>
-                        Objectives (e.g. minecraft:copper_ore) are not specific. They are wildcards. What does this mean?
-                        If you set an objective to be minecraft:copper_ore, but somebody mines minecraft:deepslate_copper_ore,
-                        then it will count towards the quest.<br/><br/>
-                        In the same light, you can write the objective to be minecraft:oak, and anything that is mined that
-                        has the word oak in it will count towards the quest.<br/><br/>
-                        However, if you write minecraft:deepslate_copper_ore, and you mine minecraft:copper_ore, it will not count
-                        since deepslate isnt part of the block mined.
+                        <span className='font-bold text-attention2'>Objectives are specific </span>
+                        In the new Quests, Objectives are specific. Meaning, if you say "mine minecraft:log", this will not
+                        work anymore. You must specify specific blocks like "minecraft:oak_log".
+                      </li>
+
+                      <li>
+                        <span className='font-bold text-attention2'>Multi-objectives and rewards haven't been added yet </span>
+                        While the system supports them, the Quest Creator must be updated to allow you to create these quests.
+                        Time will tell.
                       </li>
                       
-                      <li>
-                        <span className='font-bold text-attention2'>This does NOT work with mainhand. </span>
-                        What I just said above ONLY works for objectives, not for the Mainhand requirement.
-                        With Mainhand, what you put IS specific. So if you put minecraft:pickaxe,
-                        nobody will be able to complete the quest since such an item does not exist.
-                      </li>
                     </ul>
                     
                     <h2 className="mt-5 text-lg font-extrabold text-primary">
