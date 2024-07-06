@@ -1,15 +1,13 @@
+"use server"
+
 import {Project} from "@/types/projects";
 import {ProjectCard} from "@/components/client/project-card";
 
 export async function AllProjects() {
   try {
-    const response = await fetch("https://everthorn.net:8000/v0.1/projects/")
+    const response = await fetch("http://everthorn.net:8000/api/v0.1/projects/")
 
-    console.log(response)
-
-    const projects: Project[] = await response.json()
-
-    console.log(projects)
+    const projects: Project[] = (await response.json()).projects
 
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
