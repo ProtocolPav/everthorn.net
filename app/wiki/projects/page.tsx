@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { AllProjects } from "@/components/server/all-projects";
+import { AllProjects } from "@/components/client/all-projects";
 
 export default function IndexPage() {
   return (
@@ -9,7 +9,6 @@ export default function IndexPage() {
         Projects
       </h1>
       <Separator />
-      {/* @ts-expect-error Server Component */}
       <AllProjects />
 
     </section>
