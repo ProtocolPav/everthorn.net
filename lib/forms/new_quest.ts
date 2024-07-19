@@ -79,9 +79,9 @@ export const formSchema = z.object({
     .min(10, { message: "MARS!!! People need to know what to do!" })
     .max(255, { message: "MARS!!! The people have asked for you to stop!" }),
 
-  objectives: objectiveSchema.array(),
+  objectives: objectiveSchema.array().nonempty({ message: "MARS!!! No objectives? ;-;" }),
 
-  rewards: rewardSchema.array()
+  rewards: rewardSchema.array().nonempty({ message: "MARS!!! No rewards? ;-;" })
 
 }).refine(data => {
   for (let i = 0; i < data?.rewards.length; i++) {
