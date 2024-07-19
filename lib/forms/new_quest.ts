@@ -39,18 +39,21 @@ export const objectiveSchema = z.object({
   require_time_limit: z
     .boolean()
     .default(false),
-  time_limit_h: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
-    z.number().int().min(0, { message: "MARS!!! No negative time!" }).optional()
-  ),
-  time_limit_min: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
-    z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many minutes does an hour have?" }).optional()
-  ),
-  time_limit_sec: z.preprocess(
-    (value) => (typeof value === "string") ? Number(value) : 0,
-    z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
-  )
+
+  time_limit: z.object({
+    hours: z.preprocess(
+      (value) => (typeof value === "string") ? Number(value) : 0,
+      z.number().int().min(0, { message: "MARS!!! No negative time!" }).optional()
+    ),
+    min: z.preprocess(
+      (value) => (typeof value === "string") ? Number(value) : 0,
+      z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many minutes does an hour have?" }).optional()
+    ),
+    sec: z.preprocess(
+      (value) => (typeof value === "string") ? Number(value) : 0,
+      z.number().int().min(0, { message: "MARS!!! No negative time!" }).max(59, { message: "MARS!!! How many seconds does a minute have?" }).optional()
+    )
+  }),
 })
 
 export const rewardSchema = z.object({
