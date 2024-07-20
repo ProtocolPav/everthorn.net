@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator, DropdownMenuShortcut,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import { Check, X, SignOut } from "@phosphor-icons/react";
+import {SignOut, PencilSimple} from "@phosphor-icons/react";
+import {DiscordProfile} from "@/components/client/discord-profile";
+import Link from "next/link";
 
 export function DiscordAvatar() {
   const {data: session, status} = useSession()
@@ -38,41 +39,24 @@ export function DiscordAvatar() {
     <DropdownMenu>
 
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-2 px-2" onClick={() => console.log("clicked")}>
+        <Button variant="outline" className="gap-2 px-2">
           <img src={session?.user?.image || ""} className="aspect-square h-[120%] rounded-full" alt="Avatar"/>
-          {session?.user?.nick}
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Options</DropdownMenuLabel>
+      <DropdownMenuContent className="w-64" align={"end"} alignOffset={-88}>
 
-        <DropdownMenuSeparator/>
+        <DiscordProfile profile={session?.user}/>
+
+        <DropdownMenuSeparator />
+
         <DropdownMenuGroup>
-          <DropdownMenuLabel>
-            Discriminator: {session?.user?.discriminator}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel>
-            ID: {session?.user?.id}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel>
-            Nickname: {session?.user?.nick}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel>
-            Username: {session?.user?.name}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel>
-            Email: {session?.user?.email}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex items-center gap-2">
-            Verified: {session?.user?.verified ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex items-center gap-2">
-            Everthorn Member: {session?.user?.everthornMemberInfo?.isMember ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-          </DropdownMenuLabel>
-          <DropdownMenuLabel className="flex items-center gap-2">
-            Community Manager: {session?.user?.everthornMemberInfo?.isCM ? <Check size={16} color="green"/> : <X size={16} color="red" />}
-          </DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link href="/profile/me?edit=true" className="flex items-center">
+              <PencilSimple size={24} className="mr-2" />
+              <span>Edit Profile</span>
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator/>
@@ -83,6 +67,7 @@ export function DiscordAvatar() {
           <SignOut size={24} className="mr-2" />
           <span>Log out</span>
         </DropdownMenuItem>
+
       </DropdownMenuContent>
 
     </DropdownMenu>
