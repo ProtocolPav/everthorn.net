@@ -246,7 +246,7 @@ export default function CMGuidelines() {
                     </ul>
                     
                     <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                      <p className='mx-3 text-slate-300 text-sm my-0 text-yellow-400 font-bold'>
+                      <p className='mx-3 text-sm my-0 text-yellow-400 font-bold'>
                         The Wait List is essentially informing other CM's that this project needs some
                         discussion before we accept it.
                       </p>
@@ -374,7 +374,7 @@ export default function CMGuidelines() {
               <AccordionTrigger>Quests</AccordionTrigger>
               <AccordionContent className="max-w-[800px] pl-2 pt-2 text-muted-foreground">
                 <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                  <p className='mx-3 text-slate-300 text-sm my-0 text-yellow-400 font-bold'>
+                  <p className='mx-3 text-sm my-0 text-yellow-400 font-bold'>
                     Please note this section will be going away soon most likely as it is not as needed anymore!
                   </p>
                 </section>
