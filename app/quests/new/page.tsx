@@ -139,6 +139,7 @@ export default function NewQuest() {
         title: "Success!",
         description: "The quest has been submitted!"
       })
+      setTimeout(() => location.reload, 5000)
     } else {
       setSubmitted(false)
       toast({
