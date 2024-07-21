@@ -1,32 +1,33 @@
-import { Button } from "@/components/ui/button";
+import * as React from "react"
+import { CaretUpDown, Check } from "@phosphor-icons/react"
+import { useVirtualizer } from "@tanstack/react-virtual"
+
+import { capitalizeCase, cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
+} from "@/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn, capitalizeCase } from "@/lib/utils";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { Check, CaretUpDown } from "@phosphor-icons/react";
-import * as React from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from "@/components/ui/popover"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 type Option = {
-  value: string;
-  label: string;
-};
+  value: string
+  label: string
+}
 
 interface VirtualizedCommandProps {
-  options: Option[];
-  placeholder: string;
-  selectedOption: string;
-  onSelectOption?: (option: string) => void;
+  options: Option[]
+  placeholder: string
+  selectedOption: string
+  onSelectOption?: (option: string) => void
 }
 
 const VirtualizedCommand = ({
@@ -36,17 +37,17 @@ const VirtualizedCommand = ({
   onSelectOption,
 }: VirtualizedCommandProps) => {
   const [filteredOptions, setFilteredOptions] =
-    React.useState<Option[]>(options);
-  const parentRef = React.useRef(null);
+    React.useState<Option[]>(options)
+  const parentRef = React.useRef(null)
 
   const virtualizer = useVirtualizer({
     count: filteredOptions.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 30,
     overscan: 5,
-  });
+  })
 
-  const virtualOptions = virtualizer.getVirtualItems();
+  const virtualOptions = virtualizer.getVirtualItems()
 
   const handleSearch = (search: string) => {
     setFilteredOptions(
@@ -57,23 +58,20 @@ const VirtualizedCommand = ({
           option.value.toLowerCase().includes(word)
         )
       })
-    );
-  };
+    )
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
+      event.preventDefault()
     }
-  };
+  }
 
   return (
     <Command shouldFilter={false} onKeyDown={handleKeyDown}>
       <CommandInput onValueChange={handleSearch} placeholder={placeholder} />
       <CommandEmpty>No item found.</CommandEmpty>
-      <CommandGroup
-        ref={parentRef}
-        className='h-40 overflow-auto md:h-64'
-      >
+      <CommandGroup ref={parentRef} className="h-40 overflow-auto md:h-64">
         <div
           style={{
             height: `${virtualizer.getTotalSize()}px`,
@@ -109,24 +107,26 @@ const VirtualizedCommand = ({
         </div>
       </CommandGroup>
     </Command>
-  );
-};
+  )
+}
 
 interface VirtualizedComboboxProps {
-  options: string[];
-  searchPlaceholder?: string;
-  onOptionSelect: (selectOption: string) => void,
-  width?: string;
-  height?: string;
+  options: string[]
+  searchPlaceholder?: string
+  onOptionSelect: (selectOption: string) => void
+  preselect?: string
+  width?: string
+  height?: string
 }
 
 export function VirtualizedCombobox({
   options,
   searchPlaceholder = "Search items...",
-  onOptionSelect
+  onOptionSelect,
+  preselect,
 }: VirtualizedComboboxProps) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = React.useState<string>("");
+  const [open, setOpen] = React.useState<boolean>(false)
+  const [selectedOption, setSelectedOption] = React.useState<string>(preselect ?? "")
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -144,20 +144,28 @@ export function VirtualizedCombobox({
         </Button>
       </PopoverTrigger>
       {/* Longest item name is 36 characters. Set size to 40 for good measure. On mobile, it'll stretch to fill the available width*/}
-      <PopoverContent className="w-[calc(100vw-64px)] p-0 md:w-[40ch]" align='start'>
+      <PopoverContent
+        className="w-[calc(100vw-116px)] p-0 md:w-[40ch]"
+        align="start"
+      >
         <VirtualizedCommand
-          options={options.map((option) => ({ value: option, label: capitalizeCase(option.replace('minecraft:', '').replaceAll('_', ' ')) }))}
+          options={options.map((option) => ({
+            value: option,
+            label: capitalizeCase(
+              option.replace("minecraft:", "").replaceAll("_", " ")
+            ),
+          }))}
           placeholder={searchPlaceholder}
           selectedOption={selectedOption}
           onSelectOption={(currentValue) => {
             setSelectedOption(
               currentValue === selectedOption ? "" : currentValue
-            );
-            setOpen(false);
-            onOptionSelect(currentValue);
+            )
+            setOpen(false)
+            onOptionSelect(currentValue)
           }}
         />
       </PopoverContent>
     </Popover>
-  );
+  )
 }
