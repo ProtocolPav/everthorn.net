@@ -3,33 +3,39 @@
 import * as React from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
+import { UseFormReturn } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { UseFormReturn } from "react-hook-form"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
 interface DatePickerProps {
   form: UseFormReturn<any>
   name: string
+  label: string
 }
 
-export function DatePicker({ form, name }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date>()
-
+export function DatePicker({ form, name, label }: DatePickerProps) {
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>Date of birth</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -45,11 +51,11 @@ export function DatePicker({ form, name }: DatePickerProps) {
                   ) : (
                     <span>Pick a date</span>
                   )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <CalendarIcon className="ml-auto w-4 h-4 opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="p-0 w-auto" align="start">
               <Calendar
                 mode="single"
                 selected={field.value}
@@ -66,5 +72,6 @@ export function DatePicker({ form, name }: DatePickerProps) {
           <FormMessage />
         </FormItem>
       )}
-    />)
+    />
+  )
 }
