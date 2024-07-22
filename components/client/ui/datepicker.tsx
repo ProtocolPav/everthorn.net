@@ -66,9 +66,6 @@ export function DatePicker({ form, name, label }: DatePickerProps) {
               />
             </PopoverContent>
           </Popover>
-          <FormDescription>
-            Your date of birth is used to calculate your age.
-          </FormDescription>
           <FormMessage />
         </FormItem>
       )}
