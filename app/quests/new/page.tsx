@@ -302,6 +302,9 @@ export default function NewQuest() {
             />
           </div>
 
+          {/* Step 3: Choose Start/End Dates */}
+          <div className={cn({ hidden: formStep !== 2 })}></div>
+
           {/* Step 4: Confirm */}
           <div className={cn({ hidden: formStep !== 3 }, "space-y-4")}>
             <Card>
