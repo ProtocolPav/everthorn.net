@@ -302,8 +302,8 @@ export default function NewQuest() {
             />
           </div>
 
-          {/* Step 3: Confirm */}
-          <div className={cn({ hidden: formStep !== 2 }, "space-y-4")}>
+          {/* Step 4: Confirm */}
+          <div className={cn({ hidden: formStep !== 3 }, "space-y-4")}>
             <Card>
               <CardHeader>
                 <CardTitle>{form.getValues("title")}</CardTitle>
@@ -329,7 +329,7 @@ export default function NewQuest() {
               variant="outline"
               type="button"
               disabled={submitted}
-              className={cn({ hidden: formStep < 1 })}
+              className={cn({ hidden: formStep < 2 })}
               onClick={() => {
                 setFormStep(Math.max(0, formStep - 1)) // go back and ensure it's never below 0
               }}
@@ -410,7 +410,7 @@ export default function NewQuest() {
             <Button
               type="submit"
               disabled={submitted}
-              className={cn({ hidden: formStep !== 2 })}
+              className={cn({ hidden: formStep !== 3 })}
             >
               Submit
             </Button>
@@ -418,7 +418,7 @@ export default function NewQuest() {
               type="reset"
               disabled={!submitSuccess}
               onClick={() => location.reload()}
-              className={cn({ hidden: formStep !== 2 })}
+              className={cn({ hidden: formStep !== 3 })}
             >
               Create another!
             </Button>
