@@ -90,7 +90,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  h1, h2, h3, h4 {
+  h1, h2, h3 {
     @apply leading-tight tracking-tighter font-extrabold
   }
 
@@ -103,11 +103,7 @@
   }
 
   h3 {
-    @apply text-2xl md:text-3xl font-semibold tracking-tight
-  }
-
-  h4 {
-    @apply text-xl md:text-2xl
+    @apply text-base font-semibold tracking-tight
   }
 
   p {
