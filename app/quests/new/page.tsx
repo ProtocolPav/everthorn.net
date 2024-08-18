@@ -398,7 +398,9 @@ export default function NewQuest() {
                     }
                   }
 
-                  if (hasErrors) return
+                  if (hasErrors) {
+                    return
+                  }
                 }
 
                 setFormStep(Math.min(formStep + 1, 2))
@@ -407,6 +409,7 @@ export default function NewQuest() {
             >
               Next <ArrowRight className={"ml-1"} size="18" />
             </Button>
+
             <Button
               type="submit"
               disabled={submitted}
@@ -414,6 +417,7 @@ export default function NewQuest() {
             >
               Submit
             </Button>
+            
             <Button
               type="reset"
               disabled={!submitSuccess}

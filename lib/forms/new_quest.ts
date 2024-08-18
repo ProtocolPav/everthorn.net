@@ -101,7 +101,7 @@ export const formSchema = z
           (reward.type === "item" && reward.item !== "") ||
           reward.type === "balance"
 
-        if (check) return false
+        return check
       }
     },
     {
@@ -118,7 +118,10 @@ export const formSchema = z
           !objective.require_main_hand ||
           (objective.require_main_hand &&
             typeof objective.main_hand !== "undefined")
-        if (!check) return false
+        
+            console.log(check, i, objective.require_main_hand, objective.main_hand)
+
+        return check
       }
 
       // return (!data?.require_main_hand || (data?.require_main_hand && typeof data?.objective_main_hand !== "undefined"))
@@ -139,7 +142,8 @@ export const formSchema = z
             typeof objective.location_x !== "undefined" &&
             typeof objective.location_z !== "undefined" &&
             typeof objective.radius !== "undefined")
-        if (!check) return false
+        
+        return check
       }
     },
     {
