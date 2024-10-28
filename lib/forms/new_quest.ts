@@ -1,6 +1,8 @@
 import { z } from "zod"
 
 export const objectiveSchema = z.object({
+  description: z.string({ required_error: "MARS!!! Write some story for this objective, cmon dude" })
+                .min(10, { message: "MARS!!! People need to know what to do!" }),
   type: z.string({ required_error: "MARS!!! What do the people need to do?" }),
   amount: z.preprocess(
     (value) => (typeof value === "string" ? Number(value) : 0),
@@ -12,7 +14,8 @@ export const objectiveSchema = z.object({
   mob_block: z
     .string({ required_error: "MARS!!! What do people need to kill or mine?" })
     .toLowerCase(),
-
+  
+  require_natural_block: z.boolean().default(true),
   require_main_hand: z.boolean().default(false).optional(),
   main_hand: z.string().optional(),
   require_location: z.boolean().default(false).optional(),
@@ -62,6 +65,7 @@ export const objectiveSchema = z.object({
 })
 
 export const rewardSchema = z.object({
+  display_name: z.string().optional(),
   type: z.string({ required_error: "MARS!!! What kind of reward?!" }),
   amount: z.preprocess(
     (value) => (typeof value === "string" ? Number(value) : 0),
@@ -80,9 +84,9 @@ export const formSchema = z
       .min(2, { message: "MARS!!! Quests need a bigger title." })
       .max(63, { message: "MARS...!!! That's a little too much, init?" }),
     description: z
-      .string()
-      .min(10, { message: "MARS!!! People need to know what to do!" })
-      .max(255, { message: "MARS!!! The people have asked for you to stop!" }),
+      .string({ required_error: "MARS!!! Write a lil hook for the people!" })
+      .min(10, { message: "MARS!!! People need to know about this quest!" })
+      .max(1246, { message: "MARS!!! The people have asked for you to stop!" }),
 
     objectives: objectiveSchema
       .array()

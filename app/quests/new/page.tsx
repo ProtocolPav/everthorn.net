@@ -49,10 +49,12 @@ export default function NewQuest() {
 
       objectives: [
         {
+          description: undefined,
           type: undefined,
           amount: undefined,
           mob_block: undefined,
 
+          require_natural_block: true,
           require_main_hand: false,
           require_time_limit: false,
           require_location: false,
@@ -71,6 +73,7 @@ export default function NewQuest() {
 
       rewards: [
         {
+          display_name: undefined,
           type: undefined,
           amount: undefined,
           item: "",
@@ -93,10 +96,12 @@ export default function NewQuest() {
     const rewards = form.getValues("rewards")
 
     objectives.push({
+      description: "",
       type: "",
       amount: 0,
       mob_block: "",
-
+      
+      require_natural_block: true,
       require_main_hand: false,
       require_time_limit: false,
       require_location: false,
@@ -113,6 +118,7 @@ export default function NewQuest() {
     })
 
     rewards.push({
+      display_name: undefined,
       type: "",
       amount: 0,
       item: "",
@@ -140,11 +146,13 @@ export default function NewQuest() {
         Number(objective.time_limit.sec)
 
       let objectiveForApi: ObjectiveType = {
+        description: objective.description,
         objective: objective.mob_block,
         order: i,
         objective_count: objective.amount,
         objective_type: objective.type,
         objective_timer: timer,
+        natural_block: objective.require_natural_block,
         required_mainhand: objective.require_main_hand
           ? String(objective.main_hand)
           : null,
@@ -156,6 +164,7 @@ export default function NewQuest() {
           : Number(objective.radius),
         rewards: [
           {
+            display_name: reward.display_name ? reward.display_name : null,
             balance: reward.type === "balance" ? reward.amount : null,
             item: reward.type === "item" ? String(reward.item) : null,
             count: reward.amount,
@@ -261,13 +270,13 @@ export default function NewQuest() {
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Do you like cows? So do I, plea..."
+                        placeholder="Old man Geeza wants his gems back... Embark on a big quest where you'll be fighting monsters, traveling the world, and trying to retrieve the gems. Will you manage?"
                         {...field}
                       ></Textarea>
                     </FormControl>
                     <FormDescription>
-                      Descriptions should hook people, but shouldn't be so long
-                      that it bores them.
+                      Descriptions should describe the quest to come. Introduce the story, 
+                      describe some of the things people will be doing (like traveling to x place, killing x mobs, etc.)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

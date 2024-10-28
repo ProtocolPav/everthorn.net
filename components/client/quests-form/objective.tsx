@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { VirtualizedCombobox } from "@/components/ui/virtualized-combobox"
+import { Textarea } from "@/components/ui/textarea"
 
 interface ObjectiveProps {
   form: UseFormReturn<z.infer<typeof formSchema>>
@@ -53,6 +54,9 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
   const [requirements, setRequirements] = useState<boolean>(false)
   const [rewards, setRewards] = useState<boolean>(false)
 
+  const [requireNaturalBlock, setNaturalBlock] = useState<boolean | undefined>(
+    form.getValues(`objectives.${index}.require_natural_block`)
+  )
   const [requireMainHand, setRequireMainHand] = useState<boolean | undefined>(
     form.getValues(`objectives.${index}.require_main_hand`)
   )
@@ -101,6 +105,32 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
             </div>
 
             <CollapsibleContent>
+
+              {/* Objective Description */}
+              <FormField
+                control={form.control}
+                name={`objectives.${index}.description`}
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4">
+                      <FormLabel>
+                        <p>Description</p>
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                        placeholder="Hey! Me name's old man geeza. I've lost my gems. They took the map too! Go kill the zombie hoard and return my map to start the journey..."
+                        {...field}
+                      ></Textarea>
+                      </FormControl>
+                      <FormDescription>
+                        This is the story behind the quest. As people complete objectives, reveal more of the story via objective descriptions!
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}
+                />
+              
               <div className="flex w-full justify-stretch gap-4">
                 {/* Objective Type */}
                 <FormField
@@ -201,8 +231,7 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
                   <div>
                     <h3 className="text-xl md:text-2xl">Requirements</h3>
                     <p className="text-sm">
-                      Only fill in the requirements you want, and leave anything
-                      else blank!
+                      Customize this objective...
                     </p>
                   </div>
 
@@ -218,6 +247,32 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
                     </Button>
                   </CollapsibleTrigger>
                 </div>
+                
+                <CollapsibleContent>
+                  {/* Objective Natural Block */}
+                  <h4 className="text-base mt-4">Natural Block Toggle</h4>
+                  <FormField
+                    control={form.control}
+                    name={`objectives.${index}.require_natural_block`}
+                    render={({ field }) => (
+                      <>
+                        <FormItem className="flex flex-row items-center justify-between my-2 border rounded-md p-3 shadow-sm">
+                          <FormLabel>Require Blocks Mined To Be Natural?</FormLabel>
+                          <FormControl>
+                            <Switch
+                              className="!m-0"
+                              checked={field.value}
+                              onCheckedChange={(val) => {
+                                setNaturalBlock(val)
+                                field.onChange(val)
+                              }}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      </>
+                    )}
+                  />
+                </CollapsibleContent>
 
                 <CollapsibleContent>
                   {/* Objective Mainhand */}
@@ -478,6 +533,26 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
 
                     <CollapsibleContent>
                       {/* Step 4: Rewards */}
+                      
+                      <div className="flex w-full justify-stretch gap-4">
+                        {/* Objective Reward Display Name */}
+                        <FormField
+                          control={form.control}
+                          name={`rewards.${index}.display_name`}
+                          render={() => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel>Display Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Something Shiny" {...field}></Input>
+                              </FormControl>
+                              <FormDescription>
+                                If you want people to see this reward as something else, fill this in. Otherwise leave blank.
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
 
                       <div className="flex w-full justify-stretch gap-4">
                         {/* Objective Reward Type */}
