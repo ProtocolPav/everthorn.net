@@ -268,6 +268,10 @@ export default function Objective({ form, field, index }: ObjectiveProps) {
                               }}
                             />
                           </FormControl>
+
+                          <FormDescription>
+                            Note: Enabling this significantly slows down objective performance, especially when people are mining 2+ blocks per second
+                          </FormDescription>
                         </FormItem>
                       </>
                     )}
