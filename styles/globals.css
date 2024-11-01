@@ -107,7 +107,7 @@
   }
 
   h4 {
-    @apply text-xl md:text-2xl
+    @apply text-xl md:text-2xl font-semibold
   }
 
   p {

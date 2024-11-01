@@ -19,6 +19,7 @@ const buttonVariants = cva(
         patreon:
           "border border-lime-300 bg-lime-600 text-lime-50 font-bold hover:bg-green-700",
         ghost: "hover:bg-accent hover:text-accent-foreground",
+        invisible: "hover:text-accent-foreground",
         link: "underline-offset-4 hover:underline text-primary",
       },
       size: {

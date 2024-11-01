@@ -217,6 +217,71 @@ export default function NewQuest() {
     }
   }
 
+  async function validate(): Promise<boolean> {
+    if (formStep === 0) {
+      form.trigger(["title", "description"])
+
+      const titleState = form.getFieldState("title")
+      const descriptionState = form.getFieldState("description")
+
+      if (!((titleState.isDirty || titleState.invalid) 
+        && (descriptionState.isDirty || descriptionState.invalid))) 
+      return false;
+    }
+
+    if (formStep === 1) {
+      let hasErrors: boolean = false
+
+      const thereAreObjectives: boolean = await form.trigger(
+        "objectives"
+      )
+
+      if (!thereAreObjectives) return false;
+      else {
+        form.clearErrors("objectives")
+      }
+
+      for (
+        let i = 0;
+        i < form.getValues("objectives").length;
+        i++
+      ) {
+        const objectiveIsValid: boolean = await form.trigger([
+          `objectives.${i}.type`,
+          `objectives.${i}.amount`,
+          `objectives.${i}.mob_block`,
+          `objectives.${i}.require_main_hand`,
+          `objectives.${i}.require_location`,
+          `objectives.${i}.require_time_limit`,
+          `objectives.${i}.main_hand`,
+          `objectives.${i}.location_x`,
+          `objectives.${i}.location_z`,
+          `objectives.${i}.radius`,
+          `objectives.${i}.time_limit.hours`,
+          `objectives.${i}.time_limit.min`,
+          `objectives.${i}.time_limit.sec`,
+
+          `rewards.${i}.type`,
+          `rewards.${i}.amount`,
+          `rewards.${i}.item`,
+        ])
+
+        if (!objectiveIsValid) {
+          form.setError(`objectives.${i}`, {
+            message:
+              "MARS!!! There's an issue with this objective!",
+          })
+
+          hasErrors = true
+        }
+      }
+
+      if (hasErrors) return false;
+    }
+
+    return true;
+  }
+
   if (status === "loading") {
     return <p>Loading...</p>
   }
@@ -231,7 +296,7 @@ export default function NewQuest() {
   return (
     <section className="container grid gap-6 pt-6 pb-8 max-w-screen-md md:py-10">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} onBlur={validate}>
           {/* Step 1: The Basics */}
           <div className={cn({ hidden: formStep !== 0 })}>
             <h1 className="text-4xl">Let's create a new quest!</h1>
@@ -301,11 +366,11 @@ export default function NewQuest() {
                   {fields.map((field, index) => (
                     <Card className="mb-4">
                       <CardContent>
-                        <Objective form={form} field={field} index={index} />
+                        <Objective form={form} field={field} index={index} create_new={addObjective} length={fields.length} />
                       </CardContent>
                     </Card>
                   ))}
-                  <FormMessage />
+
                 </>
               )}
             />
@@ -349,68 +414,9 @@ export default function NewQuest() {
               variant="outline"
               type="button"
               onClick={async () => {
-                if (formStep === 0) {
-                  form.trigger(["title", "description"])
-
-                  const titleState = form.getFieldState("title")
-                  const descriptionState = form.getFieldState("description")
-
-                  if (!titleState.isDirty || titleState.invalid) return
-                  if (!descriptionState.isDirty || descriptionState.invalid)
-                    return
+                if (await validate()) {
+                  setFormStep(Math.min(formStep + 1, 2))
                 }
-
-                if (formStep === 1) {
-                  let hasErrors: boolean = false
-
-                  const thereAreObjectives: boolean = await form.trigger(
-                    "objectives"
-                  )
-
-                  if (!thereAreObjectives) return
-                  else {
-                    form.clearErrors("objectives")
-                  }
-
-                  for (
-                    let i = 0;
-                    i < form.getValues("objectives").length;
-                    i++
-                  ) {
-                    const objectiveIsValid: boolean = await form.trigger([
-                      `objectives.${i}.type`,
-                      `objectives.${i}.amount`,
-                      `objectives.${i}.mob_block`,
-                      `objectives.${i}.require_main_hand`,
-                      `objectives.${i}.require_location`,
-                      `objectives.${i}.require_time_limit`,
-                      `objectives.${i}.main_hand`,
-                      `objectives.${i}.location_x`,
-                      `objectives.${i}.location_z`,
-                      `objectives.${i}.radius`,
-                      `objectives.${i}.time_limit.hours`,
-                      `objectives.${i}.time_limit.min`,
-                      `objectives.${i}.time_limit.sec`,
-
-                      `rewards.${i}.type`,
-                      `rewards.${i}.amount`,
-                      `rewards.${i}.item`,
-                    ])
-
-                    if (!objectiveIsValid) {
-                      form.setError(`objectives.${i}`, {
-                        message:
-                          "MARS!!! There's an issue with this objective!",
-                      })
-
-                      hasErrors = true
-                    }
-                  }
-
-                  if (hasErrors) return
-                }
-
-                setFormStep(Math.min(formStep + 1, 2))
               }}
               className={cn({ hidden: formStep > 1 })}
             >
