@@ -73,11 +73,6 @@ export default function Objective({ form, field, index, length, create_new }: Ob
   const [shouldHideRewardItem, setShouldHideRewardItem] = useState(
     form.getValues(`rewards.${index}.type`) === "balance" || form.getValues(`rewards.${index}.type`) == null
   )
-  const [shouldHideObjectiveItem, setShouldHideObjectiveItem] = useState(
-    form.getValues(`objectives.${index}.type`) == null
-  )
-
-  const [hideCreateNewObjective, setHideCreateNewObjective] = useState<boolean>(false)
 
   return (
     <FormField
@@ -149,7 +144,6 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                         </FormLabel>
                         <FormControl>
                           <Select onValueChange={(val) => {
-                                  setShouldHideObjectiveItem(!['kill', 'mine'].includes(val))
                                   field.onChange(val)
                                 }}
                                 {...field}>
@@ -163,9 +157,6 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                             </SelectContent>
                           </Select>
                         </FormControl>
-                        <FormDescription>
-                          Feeling murderous or chill mining?
-                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     </>
@@ -185,9 +176,6 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                         <FormControl>
                           <Input type="number" placeholder="0" {...field} />
                         </FormControl>
-                        <FormDescription>
-                          How much to kill? Mine?
-                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     </>
@@ -196,18 +184,19 @@ export default function Objective({ form, field, index, length, create_new }: Ob
               </div>
 
               {/* Objective Item */}
-              <div className={cn({ hidden: shouldHideObjectiveItem })}>
+              <div className={cn({ hidden: form.getValues(`objectives.${index}.type`) == null || form.getValues(`objectives.${index}.type`) === 'encounter' })}>
                 <FormField
                   control={form.control}
                   name={`objectives.${index}.mob_block`}
-                  render={() => (
+                  render={({field}) => (
                     <>
                       <FormItem className="flex flex-col">
                         <FormLabel>
                           <h4 className='text-base'>
                             {form.getValues(`objectives.${index}.type`) === "mine"
                               ? "Block"
-                              : "Entity"}
+                              : "Entity"
+                            }
                           </h4>
                         </FormLabel>
                         <VirtualizedCombobox
@@ -225,7 +214,6 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                           }}
                           preselect={form.getValues(`objectives.${index}.mob_block`)}
                         />
-                        <FormDescription>What to kill? Mine?</FormDescription>
                         <FormMessage />
                       </FormItem>
                     </>
@@ -233,8 +221,47 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                 />
               </div>
 
+              {/* Custom Encounter Fields */}
+              <div className={cn({ hidden: form.getValues(`objectives.${index}.type`) !== 'encounter' })}>
+                <FormField
+                  control={form.control}
+                  name={`objectives.${index}.script_id`}
+                  render={({field}) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel><h4 className='text-base'>Script Event ID</h4></FormLabel>
+                      <FormControl>
+                          <Input placeholder="quest:your_custom_id" {...field}></Input>
+                      </FormControl>
+                      <FormDescription>
+                      Custom Encounters use the /scriptevent command, requiring an ID you create.
+                      The addon increments the objective each time it detects this ID until the target amount is reached.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`objectives.${index}.display`}
+                  render={({field}) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel><h4 className='text-base'>Task Display</h4></FormLabel>
+                      <FormControl>
+                          <Input placeholder="Speak to the Butcher" {...field}></Input>
+                      </FormControl>
+                      <FormDescription>
+                      Encounters are all different, this is why you choose the task that displays for people.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+              </div>
+
               <Separator className="my-5"/>
-              
+
               {/* Requirements */}
               <Collapsible
                 open={requirements}
@@ -262,33 +289,35 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                 
                 <CollapsibleContent>
                   {/* Objective Natural Block */}
-                  <h4 className="text-base mt-4">Natural Blocks</h4>
-                  <div className="border rounded-md p-3 shadow-sm my-2 ">
-                    <FormField
-                      control={form.control}
-                      name={`objectives.${index}.require_natural_block`}
-                      render={({ field }) => (
-                        <>
-                          <FormItem className="flex flex-row items-center justify-between">
-                            <FormLabel>Require Blocks Mined To Be Natural</FormLabel>
-                            <FormControl>
-                              <Switch
-                                className="!m-0"
-                                checked={field.value}
-                                onCheckedChange={(val) => {
-                                  setNaturalBlock(val)
-                                  field.onChange(val)
-                                }}
-                              />
-                            </FormControl>
-                          </FormItem>
+                  <div className={cn({ hidden: form.getValues(`objectives.${index}.type`) !== "mine" })}>
+                    <h4 className="text-base mt-4">Natural Blocks</h4>
+                    <div className="border rounded-md p-3 shadow-sm my-2 ">
+                      <FormField
+                        control={form.control}
+                        name={`objectives.${index}.require_natural_block`}
+                        render={({ field }) => (
+                          <>
+                            <FormItem className="flex flex-row items-center justify-between">
+                              <FormLabel>Require Blocks Mined To Be Natural</FormLabel>
+                              <FormControl>
+                                <Switch
+                                  className="!m-0"
+                                  checked={field.value}
+                                  onCheckedChange={(val) => {
+                                    setNaturalBlock(val)
+                                    field.onChange(val)
+                                  }}
+                                />
+                              </FormControl>
+                            </FormItem>
 
-                          <FormDescription className="text-sm md:w-5/6">
-                              Note: Blocks mined will take 1-2 seconds to be processed if enabled
-                          </FormDescription>
-                        </>
-                      )}
-                    />
+                            <FormDescription className="text-sm md:w-5/6">
+                                Note: Blocks mined will take 1-2 seconds to be processed if enabled
+                            </FormDescription>
+                          </>
+                        )}
+                      />
+                    </div>
                   </div>
 
                   {/* Mainhand */}
@@ -680,8 +709,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {create_new(); setShowThis(false); setHideCreateNewObjective(true)}}
-              className={cn({hidden: hideCreateNewObjective}, "mt-2")}
+              onClick={() => {create_new(); setShowThis(false)}}
+              className={cn({hidden: index+1 < length}, "mt-2")}
             >
               Add Next Objective
             </Button>

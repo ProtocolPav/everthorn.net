@@ -1,3 +1,4 @@
+import { addDays } from "date-fns"
 import { z } from "zod"
 
 export const objectiveSchema = z.object({
@@ -11,8 +12,12 @@ export const objectiveSchema = z.object({
       .min(1, { message: "" })
   ),
   mob_block: z
-    .string({ required_error: "" })
-    .toLowerCase(),
+    .string()
+    .toLowerCase()
+    .optional(),
+  
+  script_id: z.string().toLowerCase().optional(),
+  display: z.string().optional(),
   
   require_natural_block: z.boolean().default(true),
   require_main_hand: z.boolean().default(false).optional(),
@@ -86,6 +91,9 @@ export const formSchema = z
       .string({ required_error: "MARS!!! Write a lil hook for the people!" })
       .min(1, { message: "" })
       .max(1246, { message: "That's a bit too much I feel..." }),
+    
+      start: z.date().default(new Date()),
+      end: z.date().default(addDays(new Date(), 7)),
 
     objectives: objectiveSchema
       .array()
