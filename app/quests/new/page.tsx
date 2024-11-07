@@ -53,6 +53,8 @@ export default function NewQuest() {
           type: undefined,
           amount: undefined,
           mob_block: undefined,
+          script_id: undefined,
+          display: "",
 
           require_natural_block: true,
           require_main_hand: false,
@@ -100,6 +102,7 @@ export default function NewQuest() {
       type: "",
       amount: 0,
       mob_block: "",
+      script_id: "",
       
       require_natural_block: true,
       require_main_hand: false,
@@ -144,10 +147,19 @@ export default function NewQuest() {
         Number(objective.time_limit.hours) * 3600 +
         Number(objective.time_limit.min) * 60 +
         Number(objective.time_limit.sec)
+      
+      let task: string = ''
+      if (objective.type == 'encounter' && objective.script_id !== undefined) {
+        task = objective.script_id
+      } 
+      else if (objective.mob_block !== undefined) {
+        task = objective.mob_block
+      }
 
       let objectiveForApi: ObjectiveType = {
         description: objective.description,
-        objective: objective.mob_block,
+        objective: task,
+        display: objective.display,
         order: i,
         objective_count: objective.amount,
         objective_type: objective.type,

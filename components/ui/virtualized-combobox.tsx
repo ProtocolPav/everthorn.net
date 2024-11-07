@@ -114,7 +114,7 @@ interface VirtualizedComboboxProps {
   options: string[]
   searchPlaceholder?: string
   onOptionSelect: (selectOption: string) => void
-  preselect?: string
+  preselect?: string | null
   width?: string
   height?: string
 }

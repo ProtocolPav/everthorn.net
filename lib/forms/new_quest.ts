@@ -11,8 +11,12 @@ export const objectiveSchema = z.object({
       .min(1, { message: "" })
   ),
   mob_block: z
-    .string({ required_error: "" })
-    .toLowerCase(),
+    .string()
+    .toLowerCase()
+    .optional(),
+  
+  script_id: z.string().toLowerCase().optional(),
+  display: z.string().optional(),
   
   require_natural_block: z.boolean().default(true),
   require_main_hand: z.boolean().default(false).optional(),

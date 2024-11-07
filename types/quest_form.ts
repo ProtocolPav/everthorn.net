@@ -18,6 +18,7 @@ export interface Reward {
 export interface ObjectiveType {
   description: string
   objective: string
+  display: string | null | undefined
   order: number
   objective_count: number
   objective_type: string
