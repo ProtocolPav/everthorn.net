@@ -1,19 +1,23 @@
+import { addDays } from "date-fns"
 import { z } from "zod"
 
 export const objectiveSchema = z.object({
-  description: z.string({ required_error: "MARS!!! Write some story for this objective, cmon dude" })
-                .min(10, { message: "MARS!!! People need to know what to do!" }),
-  type: z.string({ required_error: "MARS!!! What do the people need to do?" }),
+  description: z.string({ required_error: "" }),
+  type: z.string({ required_error: "" }),
   amount: z.preprocess(
     (value) => (typeof value === "string" ? Number(value) : 0),
     z
-      .number({ required_error: "MARS!!! How many??" })
+      .number({ required_error: "" })
       .int({ message: "MARS!!! Fractional numbers??" })
-      .min(1, { message: "MARS!!! People can't just sit back and relax!" })
+      .min(1, { message: "" })
   ),
   mob_block: z
-    .string({ required_error: "MARS!!! What do people need to kill or mine?" })
-    .toLowerCase(),
+    .string()
+    .toLowerCase()
+    .optional(),
+  
+  script_id: z.string().toLowerCase().optional(),
+  display: z.string().optional(),
   
   require_natural_block: z.boolean().default(true),
   require_main_hand: z.boolean().default(false).optional(),
@@ -66,13 +70,13 @@ export const objectiveSchema = z.object({
 
 export const rewardSchema = z.object({
   display_name: z.string().optional(),
-  type: z.string({ required_error: "MARS!!! What kind of reward?!" }),
+  type: z.string({ required_error: "" }),
   amount: z.preprocess(
     (value) => (typeof value === "string" ? Number(value) : 0),
     z
       .number()
       .int({ message: "MARS!!! Fractional numbers??" })
-      .min(1, { message: "MARS!!! Seriously? People get nothing?" })
+      .min(1, { message: "" })
   ),
   item: z.string().optional(),
 })
@@ -81,12 +85,15 @@ export const formSchema = z
   .object({
     title: z
       .string({ required_error: "MARS!!! Did you forget to add a title? ;-;" })
-      .min(2, { message: "MARS!!! Quests need a bigger title." })
-      .max(63, { message: "MARS...!!! That's a little too much, init?" }),
+      .min(1, { message: "" })
+      .max(63, { message: "That's a bit too much I feel..." }),
     description: z
       .string({ required_error: "MARS!!! Write a lil hook for the people!" })
-      .min(10, { message: "MARS!!! People need to know about this quest!" })
-      .max(1246, { message: "MARS!!! The people have asked for you to stop!" }),
+      .min(1, { message: "" })
+      .max(1246, { message: "That's a bit too much I feel..." }),
+    
+      start: z.date().default(new Date()),
+      end: z.date().default(addDays(new Date(), 7)),
 
     objectives: objectiveSchema
       .array()
