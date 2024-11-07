@@ -443,6 +443,7 @@ export default function NewQuest() {
                             disabled={{before: new Date()}}
                             initialFocus
                           />
+                          <div className='mx-4 mt-0 mb-3 text-xs'>Dates are in GMT+0 timezone</div>
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
@@ -482,9 +483,10 @@ export default function NewQuest() {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={{before: addDays(new Date(), 1)}}
+                            disabled={{before: form.getValues('start')}}
                             initialFocus
                           />
+                          <div className='mx-4 mt-0 mb-3 text-xs'>Dates are in GMT+0 timezone</div>
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
