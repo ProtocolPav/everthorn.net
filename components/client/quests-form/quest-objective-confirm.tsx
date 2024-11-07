@@ -16,8 +16,11 @@ export default function ConfirmObjectives({
   index,
 }: confirmObjectivesProps) {
   function getConfirmationObjectiveString(): string {
+    let task: string | undefined = ''
+    if (objective.mob_block !== undefined) {task = minecraftItemStringToWords(objective.mob_block)}
+    else {task = objective.script_id}
     const mainObjective = `${objective.type?.at(0)?.toUpperCase() + objective.type?.slice(1)
-      } ${objective.amount} ${minecraftItemStringToWords(objective.mob_block)}`
+      } ${objective.amount} ${task}`
 
     const mainhand: string = objective.main_hand as string
     const withMainHand =
