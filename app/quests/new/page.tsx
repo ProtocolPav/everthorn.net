@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, ArrowRight } from "@phosphor-icons/react"
+import { ArrowLeft, ArrowRight, Calendar as CalendarIcon } from "@phosphor-icons/react"
 import { PlusIcon } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useFieldArray, useForm } from "react-hook-form"
@@ -35,6 +35,9 @@ import { useToast } from "@/components/ui/use-toast"
 import Objective from "@/components/client/quests-form/objective"
 import ConfirmObjectives from "@/components/client/quests-form/quest-objective-confirm"
 import { NoPermission } from "@/components/no-permission"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { addDays, format } from "date-fns"
 
 export default function NewQuest() {
   const { data: session, status } = useSession()
@@ -134,8 +137,6 @@ export default function NewQuest() {
   function formatDataToApi(
     data: z.infer<typeof formSchema>
   ): QuestFormApiReady {
-    let now = new Date()
-    let inAWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
 
     const objectivesForApi: ObjectiveType[] = []
 
@@ -190,8 +191,8 @@ export default function NewQuest() {
       quest: {
         title: data.title,
         description: data.description,
-        start_time: formatDateToAPI(now),
-        end_time: formatDateToAPI(inAWeek),
+        start_time: formatDateToAPI(data.start),
+        end_time: formatDateToAPI(data.end),
       },
 
       objectives: objectivesForApi,
@@ -406,6 +407,92 @@ export default function NewQuest() {
                   />
                 ))}
               </CardContent>
+            
+            <CardContent className="flex gap-4">
+              <FormField
+                control={form.control}
+                name="start"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4">
+                      <FormLabel><h3>Quest Start Date</h3></FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={{before: new Date()}}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="end"
+                render={({ field }) => (
+                  <>
+                    <FormItem className="my-4">
+                      <FormLabel><h3>Quest End Date</h3></FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={{before: addDays(new Date(), 1)}}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}
+              />
+            </CardContent>
             </Card>
           </div>
 

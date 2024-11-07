@@ -1,3 +1,4 @@
+import { addDays } from "date-fns"
 import { z } from "zod"
 
 export const objectiveSchema = z.object({
@@ -90,6 +91,9 @@ export const formSchema = z
       .string({ required_error: "MARS!!! Write a lil hook for the people!" })
       .min(1, { message: "" })
       .max(1246, { message: "That's a bit too much I feel..." }),
+    
+      start: z.date().default(new Date()),
+      end: z.date().default(addDays(new Date(), 7)),
 
     objectives: objectiveSchema
       .array()
