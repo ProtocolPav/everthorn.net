@@ -75,6 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               if (everthornUserResponse.ok) {
                 const userData = (await everthornUserResponse.json()).user;
                 everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+                console.log(userData.role, everthornMemberInfo.isCM)
               }
             }
 
