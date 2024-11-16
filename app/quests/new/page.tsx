@@ -160,7 +160,7 @@ export default function NewQuest() {
       let objectiveForApi: ObjectiveType = {
         description: objective.description,
         objective: task,
-        display: objective.display,
+        display: objective.display ?? null,
         order: i,
         objective_count: objective.amount,
         objective_type: objective.type,
