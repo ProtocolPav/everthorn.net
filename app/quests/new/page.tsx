@@ -106,6 +106,7 @@ export default function NewQuest() {
       amount: 0,
       mob_block: "",
       script_id: "",
+      display: "",
       
       require_natural_block: true,
       require_main_hand: false,
