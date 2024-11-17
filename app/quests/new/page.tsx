@@ -106,6 +106,7 @@ export default function NewQuest() {
       amount: 0,
       mob_block: "",
       script_id: "",
+      display: "",
       
       require_natural_block: true,
       require_main_hand: false,
@@ -160,7 +161,7 @@ export default function NewQuest() {
       let objectiveForApi: ObjectiveType = {
         description: objective.description,
         objective: task,
-        display: objective.display,
+        display: objective.display ?? null,
         order: i,
         objective_count: objective.amount,
         objective_type: objective.type,
