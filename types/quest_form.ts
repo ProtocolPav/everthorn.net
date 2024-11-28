@@ -1,10 +1,8 @@
 export interface QuestFormApiReady {
-  quest: {
-    start_time: string
-    end_time: string
-    title: string
-    description: string
-  }
+  start_time: string
+  end_time: string
+  title: string
+  description: string
   objectives: ObjectiveType[]
 }
 
@@ -18,7 +16,7 @@ export interface Reward {
 export interface ObjectiveType {
   description: string
   objective: string
-  display: string | null | undefined
+  display: string | null
   order: number
   objective_count: number
   objective_type: string

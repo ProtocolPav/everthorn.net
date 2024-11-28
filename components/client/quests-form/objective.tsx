@@ -6,7 +6,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "components/ui/collapsible"
-import { ChevronDownIcon, TrashIcon } from "lucide-react"
+import { ChevronDownIcon } from "lucide-react"
 import { UseFormReturn } from "react-hook-form"
 import { z } from "zod"
 
@@ -257,7 +257,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                     </FormItem>
                   )}
                 />
-                
+
               </div>
 
               <Separator className="my-5"/>
@@ -286,7 +286,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                     </Button>
                   </CollapsibleTrigger>
                 </div>
-                
+
                 <CollapsibleContent>
                   {/* Objective Natural Block */}
                   <div className={cn({ hidden: form.getValues(`objectives.${index}.type`) !== "mine" })}>
@@ -469,7 +469,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                       />
                     </div>
                   </div>
-                  
+
                   {/* Time Limit */}
                   <h4 className="text-base mt-2">Time Limit</h4>
                   <div className="border rounded-md p-3 shadow-sm my-2 ">
@@ -555,9 +555,9 @@ export default function Objective({ form, field, index, length, create_new }: Ob
 
                 </CollapsibleContent>
               </Collapsible>
-              
+
               <Separator className="my-5"/>
-              
+
               {/* Rewards */}
               <Collapsible
                     open={rewards}
@@ -594,7 +594,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                           <FormField
                             control={form.control}
                             name={`rewards.${index}.display_name`}
-                            render={() => (
+                            render={({ field }) => (
                               <FormItem className="flex flex-col">
                                 <FormLabel><h4 className='text-base'>Display Name</h4></FormLabel>
                                 <FormControl>
@@ -699,12 +699,12 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                   )}
                 />
               </Collapsible>
-            
+
             </CollapsibleContent>
           </Collapsible>
 
           <Separator className="my-2"/>
-          
+
           <div className="flex justify-start gap-4">
             <Button
               variant="outline"
