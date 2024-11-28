@@ -9,7 +9,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { ObjectiveType, QuestFormApiReady } from "@/types/quest_form"
-import { formSchema, objectiveSchema } from "@/lib/forms/new_quest"
+import { formSchema } from "@/lib/forms/new_quest"
 import { cn, formatDateToAPI } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -37,7 +37,7 @@ import ConfirmObjectives from "@/components/client/quests-form/quest-objective-c
 import { NoPermission } from "@/components/no-permission"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { addDays, format } from "date-fns"
+import {  format } from "date-fns"
 
 export default function NewQuest() {
   const { data: session, status } = useSession()
@@ -107,7 +107,7 @@ export default function NewQuest() {
       mob_block: "",
       script_id: "",
       display: "",
-      
+
       require_natural_block: true,
       require_main_hand: false,
       require_time_limit: false,
@@ -149,11 +149,11 @@ export default function NewQuest() {
         Number(objective.time_limit.hours) * 3600 +
         Number(objective.time_limit.min) * 60 +
         Number(objective.time_limit.sec)
-      
+
       let task: string = ''
       if (objective.type == 'encounter' && objective.script_id !== undefined) {
         task = objective.script_id
-      } 
+      }
       else if (objective.mob_block !== undefined) {
         task = objective.mob_block
       }
@@ -178,7 +178,7 @@ export default function NewQuest() {
           : Number(objective.radius),
         rewards: [
           {
-            display_name: reward.display_name ? reward.display_name : null,
+            display_name: reward.display_name ?? null,
             balance: reward.type === "balance" ? reward.amount : null,
             item: reward.type === "item" ? String(reward.item) : null,
             count: reward.amount,
@@ -189,13 +189,10 @@ export default function NewQuest() {
     }
 
     return {
-      quest: {
-        title: data.title,
-        description: data.description,
-        start_time: formatDateToAPI(data.start),
-        end_time: formatDateToAPI(data.end),
-      },
-
+      title: data.title,
+      description: data.description,
+      start_time: formatDateToAPI(data.start),
+      end_time: formatDateToAPI(data.end),
       objectives: objectivesForApi,
     }
   }
@@ -238,8 +235,8 @@ export default function NewQuest() {
       const titleState = form.getFieldState("title")
       const descriptionState = form.getFieldState("description")
 
-      if (!((titleState.isDirty || titleState.invalid) 
-        && (descriptionState.isDirty || descriptionState.invalid))) 
+      if (!((titleState.isDirty || titleState.invalid)
+        && (descriptionState.isDirty || descriptionState.invalid)))
       return false;
     }
 
@@ -264,6 +261,8 @@ export default function NewQuest() {
           `objectives.${i}.type`,
           `objectives.${i}.amount`,
           `objectives.${i}.mob_block`,
+          `objectives.${i}.script_id`,
+          `objectives.${i}.display`,
           `objectives.${i}.require_main_hand`,
           `objectives.${i}.require_location`,
           `objectives.${i}.require_time_limit`,
@@ -275,6 +274,7 @@ export default function NewQuest() {
           `objectives.${i}.time_limit.min`,
           `objectives.${i}.time_limit.sec`,
 
+          `rewards.${i}.display_name`,
           `rewards.${i}.type`,
           `rewards.${i}.amount`,
           `rewards.${i}.item`,
@@ -354,7 +354,7 @@ export default function NewQuest() {
                       ></Textarea>
                     </FormControl>
                     <FormDescription>
-                      Descriptions should describe the quest to come. Introduce the story, 
+                      Descriptions should describe the quest to come. Introduce the story,
                       describe some of the things people will be doing (like traveling to x place, killing x mobs, etc.)
                     </FormDescription>
                     <FormMessage />
@@ -408,7 +408,7 @@ export default function NewQuest() {
                   />
                 ))}
               </CardContent>
-            
+
             <CardContent className="flex gap-4">
               <FormField
                 control={form.control}
