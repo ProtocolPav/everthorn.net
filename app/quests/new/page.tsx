@@ -38,6 +38,7 @@ import { NoPermission } from "@/components/no-permission"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import {  format } from "date-fns"
+import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 
 export default function NewQuest() {
   const { data: session, status } = useSession()
@@ -86,6 +87,20 @@ export default function NewQuest() {
       ],
     },
   })
+
+  function handleTimeChange(type: "hour" | "minute", value: string, getvalue: "end" | "start") {
+    const currentDate = form.getValues(getvalue) || new Date();
+    let newDate = new Date(currentDate);
+
+    if (type === "hour") {
+      const hour = parseInt(value, 10);
+      newDate.setHours(hour);
+    } else if (type === "minute") {
+      newDate.setMinutes(parseInt(value, 10));
+    }
+
+    form.setValue(getvalue, newDate);
+  }
 
   const [formStep, setFormStep] = useState(0)
   const [submitted, setSubmitted] = useState<boolean | undefined>(false)
@@ -414,42 +429,100 @@ export default function NewQuest() {
                 control={form.control}
                 name="start"
                 render={({ field }) => (
-                  <>
-                    <FormItem className="my-4">
-                      <FormLabel><h3>Quest Start Date</h3></FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "MM/dd/yyyy HH:mm")
+                            ) : (
+                              <span>MM/DD/YYYY HH:mm</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <div className="sm:flex">
                           <Calendar
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={{before: new Date()}}
                             initialFocus
                           />
-                          <div className='mx-4 mt-0 mb-3 text-xs'>Dates are in GMT+0 timezone</div>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </>
+                          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+                            <ScrollArea className="w-64 sm:w-auto">
+                              <div className="flex sm:flex-col p-2">
+                                {Array.from({ length: 24 }, (_, i) => i)
+                                  .reverse()
+                                  .map((hour) => (
+                                    <Button
+                                      key={hour}
+                                      size="icon"
+                                      variant={
+                                        field.value && field.value.getHours() === hour
+                                          ? "default"
+                                          : "ghost"
+                                      }
+                                      className="sm:w-full shrink-0 aspect-square"
+                                      onClick={() =>
+                                        handleTimeChange("hour", hour.toString(), "start")
+                                      }
+                                    >
+                                      {hour}
+                                    </Button>
+                                  ))}
+                              </div>
+                              <ScrollBar
+                                orientation="horizontal"
+                                className="sm:hidden"
+                              />
+                            </ScrollArea>
+                            <ScrollArea className="w-64 sm:w-auto">
+                              <div className="flex sm:flex-col p-2">
+                                {Array.from({ length: 12 }, (_, i) => i * 5).map(
+                                  (minute) => (
+                                    <Button
+                                      key={minute}
+                                      size="icon"
+                                      variant={
+                                        field.value &&
+                                        field.value.getMinutes() === minute
+                                          ? "default"
+                                          : "ghost"
+                                      }
+                                      className="sm:w-full shrink-0 aspect-square"
+                                      onClick={() =>
+                                        handleTimeChange("minute", minute.toString(), "start")
+                                      }
+                                    >
+                                      {minute.toString().padStart(2, "0")}
+                                    </Button>
+                                  )
+                                )}
+                              </div>
+                              <ScrollBar
+                                orientation="horizontal"
+                                className="sm:hidden"
+                              />
+                            </ScrollArea>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Please select your preferred date and time.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 )}
               />
 
@@ -457,42 +530,100 @@ export default function NewQuest() {
                 control={form.control}
                 name="end"
                 render={({ field }) => (
-                  <>
-                    <FormItem className="my-4">
-                      <FormLabel><h3>Quest End Date</h3></FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                  <FormItem className="flex flex-col">
+                    <FormLabel>End Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "MM/dd/yyyy HH:mm")
+                            ) : (
+                              <span>MM/DD/YYYY HH:mm</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <div className="sm:flex">
                           <Calendar
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={{before: form.getValues('start')}}
                             initialFocus
                           />
-                          <div className='mx-4 mt-0 mb-3 text-xs'>Dates are in GMT+0 timezone</div>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </>
+                          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+                            <ScrollArea className="w-64 sm:w-auto">
+                              <div className="flex sm:flex-col p-2">
+                                {Array.from({ length: 24 }, (_, i) => i)
+                                  .reverse()
+                                  .map((hour) => (
+                                    <Button
+                                      key={hour}
+                                      size="icon"
+                                      variant={
+                                        field.value && field.value.getHours() === hour
+                                          ? "default"
+                                          : "ghost"
+                                      }
+                                      className="sm:w-full shrink-0 aspect-square"
+                                      onClick={() =>
+                                        handleTimeChange("hour", hour.toString(), "end")
+                                      }
+                                    >
+                                      {hour}
+                                    </Button>
+                                  ))}
+                              </div>
+                              <ScrollBar
+                                orientation="horizontal"
+                                className="sm:hidden"
+                              />
+                            </ScrollArea>
+                            <ScrollArea className="w-64 sm:w-auto">
+                              <div className="flex sm:flex-col p-2">
+                                {Array.from({ length: 12 }, (_, i) => i * 5).map(
+                                  (minute) => (
+                                    <Button
+                                      key={minute}
+                                      size="icon"
+                                      variant={
+                                        field.value &&
+                                        field.value.getMinutes() === minute
+                                          ? "default"
+                                          : "ghost"
+                                      }
+                                      className="sm:w-full shrink-0 aspect-square"
+                                      onClick={() =>
+                                        handleTimeChange("minute", minute.toString(), "end")
+                                      }
+                                    >
+                                      {minute.toString().padStart(2, "0")}
+                                    </Button>
+                                  )
+                                )}
+                              </div>
+                              <ScrollBar
+                                orientation="horizontal"
+                                className="sm:hidden"
+                              />
+                            </ScrollArea>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Please select your preferred date and time.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 )}
               />
             </CardContent>
