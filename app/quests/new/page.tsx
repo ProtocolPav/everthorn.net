@@ -245,7 +245,7 @@ export default function NewQuest() {
 
   async function validate(): Promise<boolean> {
     if (formStep === 0) {
-      form.trigger(["title", "description"])
+      await form.trigger(["title", "description"])
 
       const titleState = form.getFieldState("title")
       const descriptionState = form.getFieldState("description")
@@ -323,7 +323,7 @@ export default function NewQuest() {
   }
 
   return (
-    <section className="container grid gap-6 pt-6 pb-8 max-w-screen-md md:py-10">
+    <section className="container grid max-w-screen-md gap-6 pb-8 pt-6 md:py-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} onBlur={validate}>
           {/* Step 1: The Basics */}
@@ -381,7 +381,7 @@ export default function NewQuest() {
 
           {/* Step 2: Objectives */}
           <div className={cn({ hidden: formStep !== 1 })}>
-            <div className="flex justify-between items-center mb-2 space-x-4">
+            <div className="mb-2 flex items-center justify-between space-x-4">
               <h2 className="text-2xl md:text-3xl">Objectives</h2>
               <Button variant="ghost" onClick={() => addObjective()}>
                 <PlusIcon />
@@ -446,7 +446,7 @@ export default function NewQuest() {
                             ) : (
                               <span>MM/DD/YYYY HH:mm</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="ml-auto size-4 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -458,9 +458,9 @@ export default function NewQuest() {
                             onSelect={field.onChange}
                             initialFocus
                           />
-                          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+                          <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
                             <ScrollArea className="w-64 sm:w-auto">
-                              <div className="flex sm:flex-col p-2">
+                              <div className="flex p-2 sm:flex-col">
                                 {Array.from({ length: 24 }, (_, i) => i)
                                   .reverse()
                                   .map((hour) => (
@@ -472,7 +472,7 @@ export default function NewQuest() {
                                           ? "default"
                                           : "ghost"
                                       }
-                                      className="sm:w-full shrink-0 aspect-square"
+                                      className="aspect-square shrink-0 sm:w-full"
                                       onClick={() =>
                                         handleTimeChange("hour", hour.toString(), "start")
                                       }
@@ -487,7 +487,7 @@ export default function NewQuest() {
                               />
                             </ScrollArea>
                             <ScrollArea className="w-64 sm:w-auto">
-                              <div className="flex sm:flex-col p-2">
+                              <div className="flex p-2 sm:flex-col">
                                 {Array.from({ length: 12 }, (_, i) => i * 5).map(
                                   (minute) => (
                                     <Button
@@ -499,7 +499,7 @@ export default function NewQuest() {
                                           ? "default"
                                           : "ghost"
                                       }
-                                      className="sm:w-full shrink-0 aspect-square"
+                                      className="aspect-square shrink-0 sm:w-full"
                                       onClick={() =>
                                         handleTimeChange("minute", minute.toString(), "start")
                                       }
@@ -547,7 +547,7 @@ export default function NewQuest() {
                             ) : (
                               <span>MM/DD/YYYY HH:mm</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="ml-auto size-4 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -559,9 +559,9 @@ export default function NewQuest() {
                             onSelect={field.onChange}
                             initialFocus
                           />
-                          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+                          <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
                             <ScrollArea className="w-64 sm:w-auto">
-                              <div className="flex sm:flex-col p-2">
+                              <div className="flex p-2 sm:flex-col">
                                 {Array.from({ length: 24 }, (_, i) => i)
                                   .reverse()
                                   .map((hour) => (
@@ -573,7 +573,7 @@ export default function NewQuest() {
                                           ? "default"
                                           : "ghost"
                                       }
-                                      className="sm:w-full shrink-0 aspect-square"
+                                      className="aspect-square shrink-0 sm:w-full"
                                       onClick={() =>
                                         handleTimeChange("hour", hour.toString(), "end")
                                       }
@@ -588,7 +588,7 @@ export default function NewQuest() {
                               />
                             </ScrollArea>
                             <ScrollArea className="w-64 sm:w-auto">
-                              <div className="flex sm:flex-col p-2">
+                              <div className="flex p-2 sm:flex-col">
                                 {Array.from({ length: 12 }, (_, i) => i * 5).map(
                                   (minute) => (
                                     <Button
@@ -600,7 +600,7 @@ export default function NewQuest() {
                                           ? "default"
                                           : "ghost"
                                       }
-                                      className="sm:w-full shrink-0 aspect-square"
+                                      className="aspect-square shrink-0 sm:w-full"
                                       onClick={() =>
                                         handleTimeChange("minute", minute.toString(), "end")
                                       }
@@ -631,7 +631,7 @@ export default function NewQuest() {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-2 mt-10">
+          <div className="mt-10 flex gap-2">
             <Button
               variant="outline"
               type="button"
