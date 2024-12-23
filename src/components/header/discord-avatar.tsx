@@ -1,5 +1,4 @@
 import { signInWithDiscord } from "@/lib/authActions";
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import {SignOut, PencilSimple} from "@phosphor-icons/react";
+import {SignOut, PencilSimple, DiscordLogo} from "@phosphor-icons/react";
 import {DiscordProfile} from "@/components/client/discord-profile";
 import Link from "next/link";
 
@@ -20,8 +19,8 @@ export function DiscordAvatar() {
     return (
       <form action={signInWithDiscord}>
         <Button type="submit" className="flex gap-2">
-          <Icons.discord className="size-6" weight="fill"/>
-          Login with Discord
+          <DiscordLogo className="size-6" weight="fill"/>
+          Login
         </Button>
       </form>
     );

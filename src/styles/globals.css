@@ -53,11 +53,11 @@
   }
 
   h1, h2, h3, h4 {
-    @apply leading-tight tracking-tighter font-extrabold
+    @apply leading-tight tracking-tight font-extrabold
   }
 
   h1 {
-    @apply text-4xl md:text-9xl;
+    @apply text-5xl md:text-8xl;
   }
 
   h2 {

@@ -17,43 +17,16 @@ import screenshot6 from '../../public/screenshots/Minecraft Screenshot 2024.04.2
 import screenshot7 from '../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.08.45.35.webp'
 import screenshot8 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
 import hero from '../../public/screenshots/Hero.png'
-import {Icons} from '@/components/icons'
+import Hero from "@/components/sections/hero";
+import {ArrowRight} from "lucide-react";
+import {PatreonLogo} from "@phosphor-icons/react";
+
 
 export default function IndexPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="mx-auto flex max-w-[980px] flex-col items-center gap-2 text-center">
-        {
-          siteConfig.latestupdate.text ?
-          <Link
-            href={siteConfig.latestupdate.link}
-            target={siteConfig.latestupdate.external ? '_blank' : ''}
-            className={buttonVariants({ variant: "outline", className: 'mb-2 h-auto' })}>
 
-          <Badge variant={'attention'}>NEW</Badge>&nbsp;&nbsp;
-          {siteConfig.latestupdate.text}
-
-          </Link>
-          :
-          <span></span>
-        }
-        <h1 className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-          Everthorn
-        </h1>
-        <p>
-          A Minecraft Bedrock community. <br className="hidden sm:inline" />
-
-        </p>
-      </div>
-      <div className="mx-auto flex gap-4">
-        <Link href={"/news"} className={buttonVariants({ variant: "secondary" })}>
-          🤔 Checkout the latest News & Updates!
-        </Link>
-      </div>
-
-      <div className="h-[800px] p-5">
-        <LayoutGrid cards={cards} />
-      </div>
+      <Hero/>
 
       <section className={'mx-auto mt-5 grid grid-rows-2 items-center gap-x-9 gap-y-7 lg:mx-0 lg:grid-cols-3 lg:items-start'}>
         <div>
@@ -67,13 +40,9 @@ export default function IndexPage() {
           <Link href={'/wiki/projects'}>
             <Button className={'mt-4 w-full justify-between'}>
               <div> Explore our Projects </div>
-              <Icons.arrow_right size={20} />
+              <ArrowRight size={20} />
             </Button>
           </Link>
-        </div>
-
-        <div className="col-span-2 row-span-2 hidden h-[500px] ps-5 lg:block">
-          <LayoutGrid cards={cards_secondary} />
         </div>
 
         <div className='row-span-1'>
@@ -87,7 +56,7 @@ export default function IndexPage() {
           <Link href={'/wiki'}>
             <Button className={'mt-4 w-full justify-between'}>
               <div> Enter the Wiki </div>
-              <Icons.arrow_right size={20} />
+              <ArrowRight size={20} />
             </Button>
           </Link>
         </div>
@@ -104,7 +73,7 @@ export default function IndexPage() {
         </p>
         <Link href={siteConfig.links.patreon} target={'_blank'}>
           <Button className={'mt-4 justify-between'} variant={'patreon'} size={'lg'}>
-            <Icons.patreon className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>
+            <PatreonLogo className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>
           </Button>
         </Link>
       </section>
@@ -112,53 +81,3 @@ export default function IndexPage() {
     </section>
   )
 }
-
-let cards: Card[]
-
-cards = [
-  {
-    id: 1,
-    className: "md:col-span-2",
-    thumbnail:
-      screenshot5,
-  },
-  {
-    id: 2,
-    className: "col-span-1",
-    thumbnail:
-      screenshot4,
-  },
-  {
-    id: 3,
-    className: "col-span-1",
-    thumbnail:
-      screenshot1,
-  },
-  {
-    id: 5,
-    className: "md:col-span-2 md:block hidden",
-    thumbnail:
-      screenshot8,
-  }
-];
-
-const cards_secondary = [
-  {
-    id: 1,
-    className: "md:col-span-2 row-span-2",
-    thumbnail:
-      screenshot2,
-  },
-  {
-    id: 2,
-    className: "col-span-",
-    thumbnail:
-      screenshot6,
-  },
-  {
-    id: 3,
-    className: "col-span-1",
-    thumbnail:
-      screenshot7,
-  }
-];

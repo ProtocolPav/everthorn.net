@@ -1,11 +1,10 @@
 "use client"
+
 import Link from "next/link"
+import Image from "next/image"
 
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { Desktop } from "@/components/header/desktop"
-import { ThemeToggle } from "@/components/theme-toggle"
 import {Button} from "@/components/ui/button";
 import {Mobile} from "@/components/header/mobile";
 
@@ -15,8 +14,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {DiscordAvatar} from "@/components/discord-avatar";
+import {DiscordAvatar} from "@/components/header/discord-avatar";
 import * as React from "react";
+import {PatreonLogo, YoutubeLogo} from "@phosphor-icons/react";
+import logo from '../../../public/everthorn.png';
 
 
 export default function SiteHeader() {
@@ -24,8 +25,8 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-sm">
       <div className="container flex h-16 items-center gap-6 sm:justify-between">
         <Link href="/" className="flex items-center">
-          {/*<Icons.logo className="h-6 w-6" />*/}
-          <span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">{siteConfig.name}</span>
+          <Image src={logo} alt={'Everthorn Logo'} width={40} height={40}/>
+          {/*<span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">{siteConfig.name}</span>*/}
         </Link>
 
         <Desktop/>
@@ -43,7 +44,7 @@ export default function SiteHeader() {
                 <TooltipTrigger>
                   <Link href={siteConfig.links.patreon} target="_blank" rel="noreferrer">
                     <Button size={'icon'} variant={'outline'}>
-                      <Icons.patreon className="size-5" weight={'fill'} />
+                      <PatreonLogo className="size-5" weight={'fill'} />
                     </Button>
                   </Link>
                 </TooltipTrigger>
@@ -57,7 +58,7 @@ export default function SiteHeader() {
                 <TooltipTrigger>
                   <Link href={siteConfig.links.youtube} target="_blank" rel="noreferrer">
                     <Button size={'icon'} variant={'outline'}>
-                      <Icons.youtube className="size-5" weight={'fill'} />
+                      <YoutubeLogo className="size-5" weight={'fill'} />
                     </Button>
                   </Link>
                 </TooltipTrigger>

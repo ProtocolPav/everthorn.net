@@ -1,7 +1,5 @@
 import * as React from "react"
 import Link from "next/link"
-
-import { NavItem } from "@/types/nav"
 import { cn } from "@/lib/utils"
 
 import {
@@ -55,7 +53,7 @@ export function Desktop() {
   const CMcheck = status === 'authenticated' && session?.user?.everthornMemberInfo.isCM
 
   return (
-      <NavigationMenu className={'hidden md:flex'}>
+      <NavigationMenu className={'hidden md:flex'} delayDuration={50}>
         <NavigationMenuList>
           {/* Home */}
           <NavigationMenuItem>

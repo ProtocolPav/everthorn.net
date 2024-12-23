@@ -4,7 +4,7 @@ import { use } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator} from "@/components/ui/separator";
-import { Icons } from "@/components/icons"
+import {ArrowLeft} from "lucide-react";
 
 export default function ProjectPage(props: {params: Promise<{projectName: string}>}) {
   const params = use(props.params);
@@ -14,7 +14,7 @@ export default function ProjectPage(props: {params: Promise<{projectName: string
     >
       <div className='hidden grid-cols-8 md:grid'>
         <div className='sticky top-20 col-span-3 self-start py-6 pl-6 pr-8 lg:pr-12'>
-          <Button variant={'link'}><Icons.arrow_left size={18}/> <div className={'ms-2'}>Back to Projects</div></Button> <br/>
+          <Button variant={'link'}><ArrowLeft size={18}/> <div className={'ms-2'}>Back to Projects</div></Button> <br/>
           <Badge variant={'outline'} className={'mx-1 mt-5'}> New Project!</Badge>
           <Badge variant={'outline'} className={'mx-1'}> Status: Ongoing</Badge>
           <h1>

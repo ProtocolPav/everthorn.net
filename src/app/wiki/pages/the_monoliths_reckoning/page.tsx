@@ -1,10 +1,5 @@
 "use client";
-import { use } from "react";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator} from "@/components/ui/separator";
-import { Icons } from "@/components/icons"
 
 export default function LorePage() {
   return (
