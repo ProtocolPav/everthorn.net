@@ -9,7 +9,7 @@ const svgToDataUri = require("mini-svg-data-uri");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+  content: ["src/app/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
