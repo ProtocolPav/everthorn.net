@@ -37,13 +37,12 @@ export default function IndexPage() {
           :
           <span></span>
         }
-        <h1 className="text-4xl md:text-7xl">
-          <span>The hub for all that is <br /> </span>
-          <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-6xl text-transparent md:text-8xl">Everthorn</span>
+        <h1 className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+          Everthorn
         </h1>
         <p>
-          Everything Everthorn. All in one place. <br className="hidden sm:inline" />
-          Find the guidelines, our world map and our newly updated wiki.
+          A Minecraft Bedrock community. <br className="hidden sm:inline" />
+
         </p>
       </div>
       <div className="mx-auto flex gap-4">
