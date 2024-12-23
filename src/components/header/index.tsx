@@ -7,7 +7,7 @@ import { Icons } from "@/components/icons"
 import { Desktop } from "@/components/header/desktop"
 import { ThemeToggle } from "@/components/theme-toggle"
 import {Button} from "@/components/ui/button";
-import {HamburgerNav} from "@/components/header/mobile";
+import {Mobile} from "@/components/header/mobile";
 
 import {
   Tooltip,
@@ -28,9 +28,10 @@ export default function SiteHeader() {
           <span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">{siteConfig.name}</span>
         </Link>
 
-        <Desktop items={siteConfig.mainNav} />
-        <HamburgerNav items={siteConfig.mainNav} />
+        <Desktop/>
+        <Mobile/>
 
+        {/* Desktop Rightside Buttons*/}
         <div className="hidden flex-1 items-center justify-end md:flex">
           <nav className="flex items-center space-x-1">
 

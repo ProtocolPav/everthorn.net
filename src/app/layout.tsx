@@ -43,7 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "min-h-screen bg-gradient-to-br from-background to-emerald-800/10 font-sans antialiased",
             fontSans.variable
           )}
 
@@ -51,7 +51,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <SessionProvider>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
-                <div className="relative flex-1 items-center justify-center bg-background bg-dot-white/15">{children}</div>
+                <div className="relative flex-1 items-center justify-center bg-dot-white/15">{children}</div>
               </div>
               <TailwindIndicator />
           </SessionProvider>
