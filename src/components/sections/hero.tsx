@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {LoadingCarousel, Tip} from "@/components/ui/loading-carousel";
 import hero from '../../../public/screenshots/Hero.png'
+import {cn} from "@/lib/utils";
 
 const carousel_tips: Tip[] = [
     {'text': 'Padova', 'image': hero},
@@ -10,9 +11,9 @@ const carousel_tips: Tip[] = [
     {'text': 'Shroomland', 'image': hero}
 ]
 
-export default function Hero() {
+export default function Hero({className}: {className?: string | undefined}) {
     return (
-        <div className="pt-4 md:pt-16">
+        <div className={cn(className, "pt-4 md:pt-16")}>
             <div className="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12">
                 <div className="lg:col-span-3">
                     <h1 className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">

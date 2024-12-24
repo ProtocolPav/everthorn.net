@@ -1,7 +1,7 @@
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import * as React from "react";
-import {CalendarDots, HardDrives, Lighthouse, Mountains, ShieldCheck} from "@phosphor-icons/react";
+import {CalendarDots, HardDrives, CastleTurret, Mountains, ShieldCheck} from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 import {ArrowRight} from "lucide-react";
 import Link from "next/link";
@@ -58,7 +58,7 @@ export default function Feature({className}: {className?: string | undefined}) {
             <Card className={'bg-background/20 bg-gradient-to-br from-background/80 to-orange-400/20'}>
                 <CardHeader className={'flex pb-0'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
-                        <Lighthouse weight={'duotone'} size={40}/>
+                        <CastleTurret weight={'duotone'} size={40}/>
                         Projects
                     </h3>
                 </CardHeader>
