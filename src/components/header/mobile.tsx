@@ -26,11 +26,13 @@ export function Mobile({ items }: MainNavProps) {
   const { data: session, status } = useSession()
   const CMcheck = status === 'authenticated' && session?.user?.everthornMemberInfo.isCM
 
+  const [buttonClick, setButtonClick] = React.useState(false);
+
   return (
     <div className="flex flex-1 items-center justify-end space-x-3 md:hidden">
       <DiscordAvatar />
 
-      <Popover>
+      <Popover open={buttonClick} onOpenChange={setButtonClick}>
         <PopoverTrigger asChild>
           <Button variant={'outline'} size={'icon'} className={'flex'}>
             <List className={'size-6'}/>
@@ -41,7 +43,7 @@ export function Mobile({ items }: MainNavProps) {
           <div className={'mt-5 grid justify-start gap-y-2 text-start'}>
             {/* Home */}
             <Link href={'/'}>
-              <Button className={'size-full justify-start'} variant={'outline'}>
+              <Button className={'size-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
                 <House className={'size-6'} weight={'fill'}/>
                 <div className='ms-2'>Home</div>
               </Button>
@@ -49,7 +51,7 @@ export function Mobile({ items }: MainNavProps) {
 
             {/* Guidelines */}
             <Link href={'/guidelines'}>
-              <Button className={'size-full justify-start'} variant={'outline'}>
+              <Button className={'size-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
                 <ShieldCheck className={'size-6'} weight={'fill'}/>
                 <div className='ms-2'>Guidelines</div>
               </Button>
@@ -57,7 +59,7 @@ export function Mobile({ items }: MainNavProps) {
 
             {/* Wiki */}
             <Link href={'/wiki'}>
-              <Button className={'h-auto w-full justify-start'} variant={'outline'}>
+              <Button className={'h-auto w-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
                 <NewspaperClipping className={'size-6'} weight={'fill'}/>
                 <div className='ms-2'>Wiki</div>
               </Button>
@@ -65,7 +67,7 @@ export function Mobile({ items }: MainNavProps) {
 
             {/* Admin */}
             <Link href={'/admin'} className={cn(CMcheck ? '': 'hidden')}>
-              <Button className={'h-auto w-full justify-start bg-gradient-to-bl from-transparent to-purple-400/20'} variant={'outline'}>
+              <Button className={'h-auto w-full justify-start bg-gradient-to-bl from-transparent to-purple-400/30'} variant={'outline'} onClick={() => setButtonClick(false)}>
                 <IdentificationBadge className={'size-6'} weight={'fill'}/>
                 <div className='ms-2'>Admin</div>
               </Button>
