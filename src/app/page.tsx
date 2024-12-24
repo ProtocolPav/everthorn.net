@@ -18,15 +18,18 @@ import screenshot7 from '../../public/screenshots/Minecraft-Screenshot-2024.04.2
 import screenshot8 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
 import hero from '../../public/screenshots/Hero.png'
 import Hero from "@/components/sections/hero";
+import Feature from "@/components/sections/feature";
 import {ArrowRight} from "lucide-react";
 import {PatreonLogo} from "@phosphor-icons/react";
 
 
 export default function IndexPage() {
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-
+    <section className="mx-5 grid items-center gap-6 pb-8 pt-6 md:mx-10 md:py-10 xl:mx-20">
+      
       <Hero/>
+
+      <Feature className={'pt-16'}/>
 
       <section className={'mx-auto mt-5 grid grid-rows-2 items-center gap-x-9 gap-y-7 lg:mx-0 lg:grid-cols-3 lg:items-start'}>
         <div>

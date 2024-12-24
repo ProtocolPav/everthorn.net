@@ -12,7 +12,7 @@ const carousel_tips: Tip[] = [
 
 export default function Hero() {
     return (
-        <div className="py-4 md:py-16">
+        <div className="pt-4 md:pt-16">
             <div className="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12">
                 <div className="lg:col-span-3">
                     <h1 className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
