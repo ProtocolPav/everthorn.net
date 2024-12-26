@@ -1,7 +1,5 @@
 "use client"
 import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
 import {
   Accordion,
   AccordionContent,
@@ -10,23 +8,29 @@ import {
 } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import * as React from "react";
+import {ShieldCheck} from "@phosphor-icons/react";
 
 
 export default function Guidelines() {
   return (
       <section className="container grid gap-6 pb-8 pt-6 md:py-10">
         <div className="flex max-w-[980px] flex-col items-start gap-2">
-          
-          <span>
-            <Badge variant={'outline'}>Last Updated: July 2024</Badge>
-          </span>
-          <h1>
-            <span>Guidelines</span>
-          </h1>
-          <p>
-            The Guidelines include all of our rules, different concepts such as
-            'Projects' and 'Quests', as well as how to connect to the server on all devices!
-          </p>
+          <Card className={'w-full bg-background/20 bg-gradient-to-tr from-background/80 to-zinc-400/20'}>
+            <CardHeader className={'flex pb-0'}>
+              <h1 className={'flex items-center justify-start gap-2'}>
+                <ShieldCheck weight={'duotone'}/>
+                Guidelines
+              </h1>
+            </CardHeader>
+            <CardContent>
+              <p>
+                The Guidelines include all of our rules, different concepts such as
+                'Projects' and 'Quests', as well as how to connect to the server on all devices!
+              </p>
+            </CardContent>
+          </Card>
           
           <Separator className="my-5" />
           
@@ -93,8 +97,11 @@ export default function Guidelines() {
                   <AccordionContent className={'text-muted-foreground'}>
                     <ul className='flex max-w-[800px] list-disc flex-col space-y-4 pl-8 pt-2'>
                       <li>
-                        <span className='font-bold'>Follow&nbsp;
-                          <Link href={'https://discord.com/tos'} className='text-purple-500 hover:underline'>Discord TOS </Link>
+                        <span className='flex gap-1 font-bold'>
+                          Follow
+                          <Link href={'https://discord.com/tos'} className='text-blue-700 underline'>
+                            Discord TOS
+                          </Link>
                         </span>
                       </li>
                       
@@ -124,7 +131,7 @@ export default function Guidelines() {
                       <Badge variant={'attention'}>Must-Read</Badge>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent className="max-w-[800px] pl-2 pt-2 text-muted-foreground">
+                  <AccordionContent className="text-muted-foreground">
                     This is possibly the most important part of these guidelines.
                     Projects is how we work here on Everthorn. They help organize ourselves
                     as well as provide a way to share progress easily. What's great is they're
