@@ -4,9 +4,9 @@ import Link from "next/link"
 import Image from "next/image"
 
 import { siteConfig } from "@/config/site"
-import { Desktop } from "@/components/header/desktop"
+import { Desktop } from "@/components/layout/header/desktop"
 import {Button} from "@/components/ui/button";
-import {Mobile} from "@/components/header/mobile";
+import {Mobile} from "@/components/layout/header/mobile";
 
 import {
   Tooltip,
@@ -14,10 +14,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {DiscordAvatar} from "@/components/header/discord-avatar";
+import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
 import * as React from "react";
 import {PatreonLogo, YoutubeLogo} from "@phosphor-icons/react";
-import logo from '../../../public/everthorn.png';
+import logo from '../../../../public/everthorn.png';
 
 
 export default function SiteHeader() {

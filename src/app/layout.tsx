@@ -5,12 +5,13 @@ import { Viewport } from 'next'
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import SiteHeader from "@/components/header"
+import SiteHeader from "src/components/layout/header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import {SessionProvider} from "next-auth/react";
 import {Toaster} from "@/components/ui/toaster";
 import React from "react";
+import SiteFooter from "@/components/layout/footer";
 
 
 export const metadata: Metadata = {
@@ -50,7 +51,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <SessionProvider>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
-                <div className="relative flex-1 items-center justify-center bg-dot-white/15">{children}</div>
+                <div className="relative flex-1 items-center justify-center bg-dot-white/15">
+                  {children}
+                  <SiteFooter />
+                </div>
               </div>
               <TailwindIndicator />
           </SessionProvider>

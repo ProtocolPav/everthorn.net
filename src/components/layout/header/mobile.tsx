@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import {DiscordAvatar} from "@/components/header/discord-avatar";
+import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
 import {useSession} from "next-auth/react";
 import {Separator} from "@/components/ui/separator";
 import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List} from "@phosphor-icons/react";
