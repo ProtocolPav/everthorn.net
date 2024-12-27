@@ -1,11 +1,9 @@
 "use client"
 import Link from "next/link"
 
-import { siteConfig } from "@/src/config/site";
-import { buttonVariants, Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
-import { Separator} from "@/src/components/ui/separator";
-import { Icons } from "@/src/components/icons"
+import { buttonVariants, Button } from "@/components/ui/button";
+import { Separator} from "@/components/ui/separator";
+import {LinkIcon} from "lucide-react";
 
 export default function IndexPage() {
   return (
@@ -21,7 +19,7 @@ export default function IndexPage() {
       <Link href={'https://everthorn.fandom.com/wiki/Everthorn_Wiki'}>
         <Button className={'justify-between'}>
           <div className={'mr-3'}>Go to the Old Wiki </div>
-          <Icons.external_link size={20} />
+          <LinkIcon size={20} />
         </Button>
       </Link>
 

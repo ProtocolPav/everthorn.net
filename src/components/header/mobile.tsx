@@ -1,7 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {Button} from "@/components/ui/button";
@@ -17,12 +16,7 @@ import {useSession} from "next-auth/react";
 import {Separator} from "@/components/ui/separator";
 import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List} from "@phosphor-icons/react";
 
-
-interface MainNavProps {
-  items?: NavItem[]
-}
-
-export function Mobile({ items }: MainNavProps) {
+export function Mobile() {
   const { data: session, status } = useSession()
   const CMcheck = status === 'authenticated' && session?.user?.everthornMemberInfo.isCM
 

@@ -1,4 +1,3 @@
-"use client"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -7,19 +6,19 @@ import { buttonVariants, Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator} from "@/components/ui/separator";
 import { LayoutGrid } from "@/components/ui/layout-grid";
-import backgroundimage from '../../public/bg.png';
-import screenshot1 from '../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.07.58.92.webp'
-import screenshot2 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 09.57.54.67.webp'
-import screenshot3 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.00.09.26.webp'
-import screenshot4 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.01.35.73.webp'
-import screenshot5 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.02.34.49.webp'
-import screenshot6 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.06.35.13.webp'
-import screenshot7 from '../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.08.45.35.webp'
-import screenshot8 from '../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
-import hero from '../../public/screenshots/Hero.png'
-import Hero from "@/components/sections/hero";
-import Feature from "@/components/sections/feature";
-import History from "@/components/sections/history";
+import backgroundimage from '../../../public/bg.png';
+import screenshot1 from '../../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.07.58.92.webp'
+import screenshot2 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 09.57.54.67.webp'
+import screenshot3 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.00.09.26.webp'
+import screenshot4 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.01.35.73.webp'
+import screenshot5 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.02.34.49.webp'
+import screenshot6 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.06.35.13.webp'
+import screenshot7 from '../../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.08.45.35.webp'
+import screenshot8 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
+import hero from '../../../public/screenshots/Hero.png'
+import Hero from "./_sections/hero";
+import Feature from "./_sections/feature";
+import History from "./_sections/history";
 import {ArrowRight} from "lucide-react";
 import {PatreonLogo} from "@phosphor-icons/react";
 

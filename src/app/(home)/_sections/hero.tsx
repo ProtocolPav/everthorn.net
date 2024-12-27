@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {LoadingCarousel, Tip} from "@/components/ui/loading-carousel";
-import hero from '../../../public/screenshots/Hero.png'
+import hero from '../../../../public/screenshots/Hero.png'
 import {cn} from "@/lib/utils";
 
 const carousel_tips: Tip[] = [

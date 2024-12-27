@@ -1,6 +1,6 @@
 import {cn} from "@/lib/utils";
 import Image from "next/image";
-import hero from '../../../public/screenshots/Hero.png'
+import hero from '../../../../public/screenshots/Hero.png'
 import {Separator} from "@/components/ui/separator";
 
 
