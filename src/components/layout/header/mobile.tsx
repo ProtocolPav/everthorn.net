@@ -1,7 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {Button} from "@/components/ui/button";
 
@@ -70,14 +69,14 @@ export function Mobile() {
             <Separator className={'my-2'}/>
 
             <div className={'flex justify-center gap-4'}>
-              <Link href={siteConfig.links.patreon} target="_blank" rel="noreferrer">
+              <Link href={'/support'} target="_blank" rel="noreferrer">
                 <Button className={'bg-gradient-to-bl from-transparent to-lime-700/40'} size={'default'} variant={'outline'}>
                   <PatreonLogo className="mr-1 size-5" weight={'fill'} />
                   Feed Thorny
                 </Button>
               </Link>
 
-              <Link href={siteConfig.links.youtube} target="_blank" rel="noreferrer">
+              <Link href={'/youtube'} target="_blank" rel="noreferrer">
                 <Button size={'icon'} variant={'outline'}>
                   <YoutubeLogo className="size-5" weight={'fill'} />
                 </Button>

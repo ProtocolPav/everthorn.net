@@ -2,7 +2,6 @@ import "@/styles/globals.css"
 import { Metadata } from "next"
 import { Viewport } from 'next'
 
-import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import SiteHeader from "src/components/layout/header"
@@ -16,10 +15,10 @@ import SiteFooter from "@/components/layout/footer";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'Everthorn',
+    template: `%s - Everthorn`,
   },
-  description: siteConfig.description,
+  description: 'Together We Stand',
   icons: {
     icon: "/everthorn.png",
     shortcut: "/everthorn.png",

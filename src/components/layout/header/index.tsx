@@ -3,7 +3,6 @@
 import Link from "next/link"
 import Image from "next/image"
 
-import { siteConfig } from "@/config/site"
 import { Desktop } from "@/components/layout/header/desktop"
 import {Button} from "@/components/ui/button";
 import {Mobile} from "@/components/layout/header/mobile";
@@ -42,7 +41,7 @@ export default function SiteHeader() {
               {/* Patreon Tooltip */}
               <Tooltip>
                 <TooltipTrigger>
-                  <Link href={siteConfig.links.patreon} target="_blank" rel="noreferrer">
+                  <Link href={'/support'} target="_blank" rel="noreferrer">
                     <Button size={'icon'} variant={'outline'}>
                       <PatreonLogo className="size-5" weight={'fill'} />
                     </Button>
@@ -56,7 +55,7 @@ export default function SiteHeader() {
               {/* YouTube Tooltip */}
               <Tooltip>
                 <TooltipTrigger>
-                  <Link href={siteConfig.links.youtube} target="_blank" rel="noreferrer">
+                  <Link href={'/youtube'} target="_blank" rel="noreferrer">
                     <Button size={'icon'} variant={'outline'}>
                       <YoutubeLogo className="size-5" weight={'fill'} />
                     </Button>
