@@ -32,6 +32,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
+import {Badge} from "@/components/ui/badge";
 import {useSession} from "next-auth/react";
 import {Toaster} from "@/components/ui/toaster";
 
@@ -73,7 +74,9 @@ export default function ApplicationForm() {
                     name="username"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel>
+                                Username <Badge variant={'secondary'} className={'bg-cyan-600'}>Automatic</Badge>
+                            </FormLabel>
                             <FormControl>
                                 <Input
                                     placeholder="ProtocolPav"
@@ -92,7 +95,9 @@ export default function ApplicationForm() {
                     name="age"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Age</FormLabel>
+                            <FormLabel>
+                                Age <Badge variant={'secondary'}>Required</Badge>
+                            </FormLabel>
                             <FormControl>
                                 <Input
                                     placeholder="22"
@@ -110,7 +115,9 @@ export default function ApplicationForm() {
                     name="interests"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>What interests you most about Minecraft?</FormLabel>
+                            <FormLabel>
+                                What interests you most about Minecraft? <Badge variant={'secondary'}>Required</Badge>
+                            </FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="Do you enjoy building, exploring, redstone? Elaborate!"
@@ -129,7 +136,9 @@ export default function ApplicationForm() {
                     name="hours"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>How active can you be?</FormLabel>
+                            <FormLabel>
+                                How active can you be? <Badge variant={'secondary'}>Required</Badge>
+                            </FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
@@ -157,7 +166,9 @@ export default function ApplicationForm() {
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Give us a short description about yourself</FormLabel>
+                            <FormLabel>
+                                Give us a short description about yourself <Badge variant={'secondary'}>Required</Badge>
+                            </FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="I am a cool person and I do cool things"
@@ -180,7 +191,6 @@ export default function ApplicationForm() {
                             <FormControl>
                                 <Input
                                     placeholder="I heard about Everthorn from..."
-
                                     type=""
                                     {...field} />
                             </FormControl>
