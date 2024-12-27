@@ -20,6 +20,7 @@ export default function SiteFooter() {
             links: [
                 { name: "Guidelines", href: "/guidelines" },
                 { name: "Wiki", href: "/wiki" },
+                { name: "Privacy", href: "/privacy" },
             ],
         },
     ];
