@@ -11,14 +11,15 @@ import { signOut } from "next-auth/react";
 import {SignOut, PencilSimple, DiscordLogo} from "@phosphor-icons/react";
 import {DiscordProfile} from "@/components/client/discord-profile";
 import Link from "next/link";
+import {cn} from "@/lib/utils";
 
-export function DiscordAvatar() {
+export function DiscordAvatar({className}: {className?: string}) {
   const {data: session, status} = useSession()
 
   if (status === "unauthenticated") {
     return (
       <form action={signInWithDiscord}>
-        <Button type="submit" className="flex gap-2">
+        <Button type="submit" className={cn(className, "flex gap-2")}>
           <DiscordLogo className="size-6" weight="fill"/>
           Login
         </Button>
