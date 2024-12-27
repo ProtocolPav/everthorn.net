@@ -1,6 +1,9 @@
 import {cn} from "@/lib/utils";
 import Image from "next/image";
-import hero from '../../../../public/screenshots/Hero.png'
+import year_2020 from 'public/screenshots/2020.png'
+import year_2019 from 'public/screenshots/2019.png'
+import year_2022 from 'public/screenshots/2022.png'
+import beyond from 'public/screenshots/beyond.png'
 import {Separator} from "@/components/ui/separator";
 
 
@@ -22,11 +25,11 @@ export default function History({className}: {className?: string | undefined}) {
                         Without knowing it, they would be the people to shape the future of this new community.
                     </p>
                 </div>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
+                <Image src={year_2019} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
             </div>
 
             <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
+                <Image src={year_2020} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
                 <div>
                     <h2 className={'text-center text-muted-foreground md:text-left'}>2020-2021</h2>
 
@@ -38,7 +41,7 @@ export default function History({className}: {className?: string | undefined}) {
                         During this time our Discord bot, Thorny, was also created!
                     </p>
                 </div>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
+                <Image src={year_2020} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
             </div>
 
             <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
@@ -54,11 +57,11 @@ export default function History({className}: {className?: string | undefined}) {
                         to ensure that this world stays around for as long as possible.
                     </p>
                 </div>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
+                <Image src={year_2022} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
             </div>
 
             <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
+                <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
                 <div>
                     <h2 className={'text-center text-muted-foreground md:text-left'}>Present</h2>
 
@@ -69,7 +72,7 @@ export default function History({className}: {className?: string | undefined}) {
                         features like Block stats and Playtime stats, and are improving our Quests and Events each day.
                     </p>
                 </div>
-                <Image src={hero} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
+                <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
             </div>
 
         </div>

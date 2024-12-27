@@ -15,7 +15,7 @@ import screenshot5 from '../../../public/screenshots/Minecraft Screenshot 2024.0
 import screenshot6 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.06.35.13.webp'
 import screenshot7 from '../../../public/screenshots/Minecraft-Screenshot-2024.04.21-10.08.45.35.webp'
 import screenshot8 from '../../../public/screenshots/Minecraft Screenshot 2024.04.21 - 10.04.18.79.webp'
-import hero from '../../../public/screenshots/Hero.png'
+import hero from '../../../public/screenshots/spawn_village.png'
 import Hero from "./_sections/hero";
 import Feature from "./_sections/feature";
 import History from "./_sections/history";

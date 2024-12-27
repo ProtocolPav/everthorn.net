@@ -1,14 +1,19 @@
 import { Button } from "@/components/ui/button";
 import {LoadingCarousel, Tip} from "@/components/ui/loading-carousel";
-import hero from '../../../../public/screenshots/Hero.png'
+import spawn from 'public/screenshots/spawn_village.png'
+import padova from 'public/screenshots/padova.png'
+import solaris from 'public/screenshots/solaris.png'
+import proving_grounds from 'public/screenshots/provingground.png'
+import shroomland from 'public/screenshots/shroomland.png'
+
 import {cn} from "@/lib/utils";
 
 const carousel_tips: Tip[] = [
-    {'text': 'Padova', 'image': hero},
-    {'text': 'Spawn Village', 'image': hero},
-    {'text': 'Solaris', 'image': hero},
-    {'text': 'Proving Grounds', 'image': hero},
-    {'text': 'Shroomland', 'image': hero}
+    {'text': 'Padova', 'image': padova},
+    {'text': 'Spawn Village', 'image': spawn},
+    {'text': 'Solaris', 'image': solaris},
+    {'text': 'Proving Grounds', 'image': proving_grounds},
+    {'text': 'Shroomland', 'image': shroomland}
 ]
 
 export default function Hero({className}: {className?: string | undefined}) {
