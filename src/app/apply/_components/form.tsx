@@ -26,13 +26,12 @@ import {
     Textarea
 } from "@/components/ui/textarea"
 import {
-    MultiSelector,
-    MultiSelectorContent,
-    MultiSelectorInput,
-    MultiSelectorItem,
-    MultiSelectorList,
-    MultiSelectorTrigger
-} from "@/components/ui/extension/multi-select"
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select"
 import {useSession} from "next-auth/react";
 import {Toaster} from "@/components/ui/toaster";
 
@@ -45,14 +44,13 @@ export default function ApplicationForm() {
         username: z.string().optional(),
         age: z.coerce.number(),
         interests: z.string(),
-        activity: z.array(z.string()).nonempty("Please select at least one item"),
+        hours: z.string(),
         description: z.string(),
         heard_from: z.string().optional(),
         other: z.string().optional()
     });
     const form = useForm < z.infer < typeof formSchema >> ({
         resolver: zodResolver(formSchema),
-        defaultValues: {activity: ['1 day']}
 
     })
 
@@ -128,28 +126,27 @@ export default function ApplicationForm() {
 
                 <FormField
                     control={form.control}
-                    name="activity"
+                    name="hours"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>How active can you be?</FormLabel>
-                            <FormControl>
-                                <MultiSelector
-                                    values={field.value}
-                                    onValuesChange={field.onChange}
-                                    loop
-                                >
-                                    <MultiSelectorTrigger>
-                                        <MultiSelectorInput placeholder="How many days will you be able to play?" />
-                                    </MultiSelectorTrigger>
-                                    <MultiSelectorContent>
-                                        <MultiSelectorList>
-                                            <MultiSelectorItem value="1 day">1 Day Each Week</MultiSelectorItem>
-                                            <MultiSelectorItem value="3 days">3 Days Each Week</MultiSelectorItem>
-                                        </MultiSelectorList>
-                                    </MultiSelectorContent>
-                                </MultiSelector>
-                            </FormControl>
-                            <FormDescription>Select multiple options.</FormDescription>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Roughly how many days will you be able to play?" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="1 day">1 Day Each Week</SelectItem>
+                                    <SelectItem value="2-3 Days">2-3 Days Each Week</SelectItem>
+                                    <SelectItem value="5+ Days">5 or More Days Each Week</SelectItem>
+                                    <SelectItem value="Weekends">Only Weekends</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormDescription>
+                                Be honest, even if you can't be very active it's good to give us something to expect!
+                                We understand that schedules change constantly.
+                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
