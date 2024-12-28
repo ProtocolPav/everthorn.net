@@ -1,7 +1,7 @@
 "use client"
 import {useSession} from "next-auth/react";
-import LogInPrompt from "@/app/apply/_components/login";
-import ApplicationForm from "@/app/apply/_components/form";
+import LogInPrompt from "@/app/(main)/apply/_components/login";
+import ApplicationForm from "@/app/(main)/apply/_components/form";
 import {Card, CardHeader, CardContent} from "@/components/ui/card";
 
 

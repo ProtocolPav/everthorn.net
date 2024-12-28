@@ -16,6 +16,11 @@ const nextConfig = {
           source: '/youtube',
           destination: 'https://www.youtube.com/@everthornMC',
           permanent: true,
+        },
+        {
+          source: '/',
+          destination: '/home',
+          permanent: true
         }
       ]
     },

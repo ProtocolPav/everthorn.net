@@ -9,7 +9,7 @@ interface projectCardProps {
 export function ProjectCard({ project }: projectCardProps) {
   return (
       <Card>
-        <Link href={`/src/app/(wiki)/wiki/projects/${project.project.project_id}`}>
+        <Link href={`/src/app/(main)/wiki/projects/${project.project.project_id}`}>
           <CardHeader>
             <CardTitle>{project.project.name}</CardTitle>
             <CardDescription>{project.project.description}</CardDescription>

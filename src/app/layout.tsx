@@ -48,12 +48,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         >
           <SessionProvider>
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="relative flex-1 items-center justify-center bg-dot-white/15">
-                  {children}
-                  <SiteFooter />
-                </div>
+              <div className="relative flex min-h-screen flex-col bg-dot-white/15">
+                {children}
               </div>
               <TailwindIndicator />
           </SessionProvider>

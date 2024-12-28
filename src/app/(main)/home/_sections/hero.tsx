@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {LoadingCarousel, Tip} from "@/components/ui/loading-carousel";
-import spawn from 'public/screenshots/spawn_village.png'
-import padova from 'public/screenshots/padova.png'
-import solaris from 'public/screenshots/solaris.png'
-import proving_grounds from 'public/screenshots/provingground.png'
-import shroomland from 'public/screenshots/shroomland.png'
+import spawn from '../../../../../public/screenshots/spawn_village.png'
+import padova from '../../../../../public/screenshots/padova.png'
+import solaris from '../../../../../public/screenshots/solaris.png'
+import proving_grounds from '../../../../../public/screenshots/provingground.png'
+import shroomland from '../../../../../public/screenshots/shroomland.png'
 
 import {cn} from "@/lib/utils";
 import Link from "next/link";

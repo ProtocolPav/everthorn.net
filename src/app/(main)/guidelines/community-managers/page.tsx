@@ -39,7 +39,7 @@ export default function CMGuidelines() {
               </Button>
             </Link>
 
-            <Link href={'/quests/new'}>
+            <Link href={'/src/app/(admin)/admin/quests/creator'}>
               <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Quest Creator
               </Button>
