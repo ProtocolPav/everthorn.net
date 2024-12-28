@@ -7,6 +7,7 @@ import proving_grounds from 'public/screenshots/provingground.png'
 import shroomland from 'public/screenshots/shroomland.png'
 
 import {cn} from "@/lib/utils";
+import Link from "next/link";
 
 const carousel_tips: Tip[] = [
     {'text': 'Padova', 'image': padova},
@@ -29,8 +30,12 @@ export default function Hero({className}: {className?: string | undefined}) {
                         We are Everthorn, and Together We Stand.
                     </p>
                     <div className="mt-5 flex flex-row gap-2 sm:items-center sm:gap-3 lg:mt-8">
-                        <Button variant={'default'}>View our World Map</Button>
-                        <Button variant={'secondary'}>Apply to Join</Button>
+                        <Link href={'/map'}>
+                            <Button variant={'default'}>View our World Map</Button>
+                        </Link>
+                        <Link href={'/apply'}>
+                            <Button variant={'secondary'}>Apply to Join</Button>
+                        </Link>
                     </div>
                 </div>
                 <div className="mt-10 lg:col-span-4 lg:mt-0">

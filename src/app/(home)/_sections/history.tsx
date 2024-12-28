@@ -5,6 +5,10 @@ import year_2019 from 'public/screenshots/2019.png'
 import year_2022 from 'public/screenshots/2022.png'
 import beyond from 'public/screenshots/beyond.png'
 import {Separator} from "@/components/ui/separator";
+import Link from "next/link";
+import {Button} from "@/components/ui/button";
+import {ArrowRight} from "lucide-react";
+import * as React from "react";
 
 
 export default function History({className}: {className?: string | undefined}) {
@@ -14,7 +18,7 @@ export default function History({className}: {className?: string | undefined}) {
                 <h2 className={'text-center'}>Our History</h2>
             </div>
 
-            <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
+            <div className={'items-center justify-center gap-5 md:grid md:grid-cols-3'}>
                 <div>
                     <h2 className={'text-center text-muted-foreground md:text-right'}>2019</h2>
 
@@ -28,7 +32,7 @@ export default function History({className}: {className?: string | undefined}) {
                 <Image src={year_2019} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
             </div>
 
-            <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
+            <div className={'items-center justify-center gap-5 md:grid md:grid-cols-3'}>
                 <Image src={year_2020} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
                 <div>
                     <h2 className={'text-center text-muted-foreground md:text-left'}>2020-2021</h2>
@@ -44,9 +48,9 @@ export default function History({className}: {className?: string | undefined}) {
                 <Image src={year_2020} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
             </div>
 
-            <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
+            <div className={'items-center justify-center gap-5 md:grid md:grid-cols-3'}>
                 <div>
-                    <h2 className={'text-center text-muted-foreground md:text-right'}>2022-2024</h2>
+                    <h2 className={'text-center text-muted-foreground md:text-right'}>2022-Present</h2>
 
                     <Separator className={'mx-auto w-1/2 md:w-full'}/>
 
@@ -60,20 +64,27 @@ export default function History({className}: {className?: string | undefined}) {
                 <Image src={year_2022} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0'}/>
             </div>
 
-            <div className={'items-center justify-center gap-4 md:grid md:grid-cols-3'}>
-                <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>
-                <div>
-                    <h2 className={'text-center text-muted-foreground md:text-left'}>Present</h2>
+            <Link href={'/about'} className={'mx-auto'}>
+                <Button size={'sm'} variant={'link'} className={'flex w-full gap-2 text-white'}>
+                    Read More About Us
+                    <ArrowRight width={15}/>
+                </Button>
+            </Link>
 
-                    <Separator className={'mx-auto w-1/2 md:w-full'}/>
+            {/*<div className={'items-center justify-center gap-5 md:grid md:grid-cols-3'}>*/}
+            {/*    <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 hidden rounded-lg md:mt-0 md:flex'}/>*/}
+            {/*    <div>*/}
+            {/*        <h2 className={'text-center text-muted-foreground md:text-left'}>Present</h2>*/}
 
-                    <p className={'text-center md:text-left'}>
-                        Today, Everthorn is thriving more than ever. We develop our own addons to add
-                        features like Block stats and Playtime stats, and are improving our Quests and Events each day.
-                    </p>
-                </div>
-                <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>
-            </div>
+            {/*        <Separator className={'mx-auto w-1/2 md:w-full'}/>*/}
+
+            {/*        <p className={'text-center md:text-left'}>*/}
+            {/*            Today, Everthorn is thriving more than ever. We develop our own addons to add*/}
+            {/*            features like Block stats and Playtime stats, and are improving our Quests and Events each day.*/}
+            {/*        </p>*/}
+            {/*    </div>*/}
+            {/*    <Image src={beyond} alt={'image'} className={'col-span-2 mx-auto mt-4 rounded-lg md:mt-0 md:hidden'}/>*/}
+            {/*</div>*/}
 
         </div>
     )
