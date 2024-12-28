@@ -85,10 +85,10 @@ export default function Objective({ form, field, index, length, create_new }: Ob
             onOpenChange={setShowThis}
             key={field.id}
           >
-            <div className="flex items-center justify-between space-x-4 mt-6">
+            <div className="mt-6 flex items-center justify-between space-x-4">
               <CollapsibleTrigger asChild>
-                <Button variant='invisible' size='sm' className="items-start m-0 p-0">
-                  <FormLabel className="text-xl md:text-2xl hover:font-extrabold font-semibold hover:cursor-pointer">Objective {index + 1}</FormLabel>
+                <Button variant='invisible' size='sm' className="m-0 items-start p-0">
+                  <FormLabel className="text-xl font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl">Objective {index + 1}</FormLabel>
                 </Button>
               </CollapsibleTrigger>
 
@@ -269,8 +269,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
               >
                 <div className="flex items-center justify-between space-x-4">
                   <CollapsibleTrigger asChild>
-                    <Button variant="invisible" size="sm" className="items-start m-0 p-0">
-                      <h3 className="text-xl md:text-2xl hover:font-bold">Requirements</h3>
+                    <Button variant="invisible" size="sm" className="m-0 items-start p-0">
+                      <h3 className="text-xl hover:font-bold md:text-2xl">Requirements</h3>
                     </Button>
                   </CollapsibleTrigger>
 
@@ -290,8 +290,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                 <CollapsibleContent>
                   {/* Objective Natural Block */}
                   <div className={cn({ hidden: form.getValues(`objectives.${index}.type`) !== "mine" })}>
-                    <h4 className="text-base mt-4">Natural Blocks</h4>
-                    <div className="border rounded-md p-3 shadow-sm my-2 ">
+                    <h4 className="mt-4 text-base">Natural Blocks</h4>
+                    <div className="my-2 rounded-md border p-3 shadow-sm ">
                       <FormField
                         control={form.control}
                         name={`objectives.${index}.require_natural_block`}
@@ -321,8 +321,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                   </div>
 
                   {/* Mainhand */}
-                  <h4 className="text-base mt-4">Main Hand</h4>
-                  <div className="border rounded-md p-3 shadow-sm my-2 ">
+                  <h4 className="mt-4 text-base">Main Hand</h4>
+                  <div className="my-2 rounded-md border p-3 shadow-sm ">
                     <FormField
                       control={form.control}
                       name={`objectives.${index}.require_main_hand`}
@@ -381,8 +381,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                   </div>
 
                   {/* Location */}
-                  <h4 className="text-base mt-2">Location</h4>
-                  <div className="border rounded-md p-3 shadow-sm my-2 ">
+                  <h4 className="mt-2 text-base">Location</h4>
+                  <div className="my-2 rounded-md border p-3 shadow-sm ">
                     <FormField
                       control={form.control}
                       name={`objectives.${index}.require_location`}
@@ -410,7 +410,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                     <div
                       className={cn(
                         { "!hidden": !requireLocation },
-                        "flex w-full justify-stretch gap-4 mt-4"
+                        "mt-4 flex w-full justify-stretch gap-4"
                       )}
                     >
                       {/* Objective X */}
@@ -471,8 +471,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                   </div>
 
                   {/* Time Limit */}
-                  <h4 className="text-base mt-2">Time Limit</h4>
-                  <div className="border rounded-md p-3 shadow-sm my-2 ">
+                  <h4 className="mt-2 text-base">Time Limit</h4>
+                  <div className="my-2 rounded-md border p-3 shadow-sm ">
                     <FormField
                       control={form.control}
                       name={`objectives.${index}.require_time_limit`}
@@ -497,7 +497,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                     <div
                       className={cn(
                         { "!hidden": !requireTimeLimit },
-                        "flex w-full justify-stretch gap-4 mt-4"
+                        "mt-4 flex w-full justify-stretch gap-4"
                       )}
                     >
                       {/* Objective Time H */}
@@ -570,8 +570,8 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                     <>
                       <div className="flex items-center justify-between space-x-4">
                         <CollapsibleTrigger asChild>
-                          <Button variant="invisible" size="sm" className="items-start m-0 p-0">
-                            <h3 className="text-xl md:text-2xl hover:font-bold">Reward</h3>
+                          <Button variant="invisible" size="sm" className="m-0 items-start p-0">
+                            <h3 className="text-xl hover:font-bold md:text-2xl">Reward</h3>
                           </Button>
                         </CollapsibleTrigger>
 
@@ -616,7 +616,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                             name={`rewards.${index}.type`}
                             render={({ field }) => (
                               <>
-                                <FormItem className="my-4 flex-auto w-2/3">
+                                <FormItem className="my-4 w-2/3 flex-auto">
                                   <FormLabel><h4 className='text-base'>Type</h4></FormLabel>
                                   <FormControl>
                                     <Select
@@ -650,7 +650,7 @@ export default function Objective({ form, field, index, length, create_new }: Ob
                             name={`rewards.${index}.amount`}
                             render={({ field }) => (
                               <>
-                                <FormItem className="my-4 flex-auto w-1/3">
+                                <FormItem className="my-4 w-1/3 flex-auto">
                                   <FormLabel><h4 className='text-base'>Amount</h4></FormLabel>
                                   <FormControl>
                                     <Input

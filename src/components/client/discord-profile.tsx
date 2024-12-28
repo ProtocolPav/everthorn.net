@@ -26,7 +26,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
                 src={profile.banner}
                 alt="Profile banner"
 
-                className="h-full w-full rounded-sm object-cover"
+                className="size-full rounded-sm object-cover"
               />
             )
             : undefined
@@ -38,7 +38,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
             src={profile.image as string}
             alt="User profile picture."
 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-16 outline outline-4 outline-background"
+            className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-full outline outline-4 outline-background"
           />
           {
             (profile.decoration)
@@ -47,7 +47,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
                   src={profile.decoration as string}
                   alt=""
 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[5.5rem]"
+                  className="absolute left-1/2 top-1/2 size-[5.5rem] -translate-x-1/2 -translate-y-1/2"
                 />
               )
               : undefined
@@ -56,7 +56,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
 
       </div>
       {/* Badges */}
-      <div className="flex justify-end my-2 mx-1 h-6 gap-1">
+      <div className="mx-1 my-2 flex h-6 justify-end gap-1">
         {
           (profile.everthornMemberInfo.isMember)
             ? (
@@ -75,8 +75,8 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
 
       {/* Nickname and username */}
       <div className="mx-3">
-        <p className="text-lg m-0"><b>{ profile.nick }</b></p>
-        <p className="text-sm m-0 -mt-1">{ profile.name }</p>
+        <p className="m-0 text-lg"><b>{ profile.nick }</b></p>
+        <p className="m-0 -mt-1 text-sm">{ profile.name }</p>
       </div>
     </div>
   )

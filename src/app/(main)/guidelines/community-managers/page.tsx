@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
 import {
   Accordion,
   AccordionContent,
@@ -96,7 +95,7 @@ export default function CMGuidelines() {
                     <br/> If somebody reports dying by a glitch, or reports corruption or griefing, you must follow this procedure.
                   </li>
 
-                  <ul className='flex max-w-[800px] list-decimal flex-col pl-8 space-y-1'>
+                  <ul className='flex max-w-[800px] list-decimal flex-col space-y-1 pl-8'>
                     <li>
                       <span className='font-bold text-attention2'>Stop the server immediately. </span>
                       9 times out of 10, we will have to rollback. Stopping the server prevents people from making progress that 
@@ -118,7 +117,7 @@ export default function CMGuidelines() {
                     <span className='font-bold text-yellow-400'>Minecraft Update Policy: </span>
                   </li>
 
-                  <ul className='flex max-w-[800px] list-disc flex-col pl-8 space-y-1'>
+                  <ul className='flex max-w-[800px] list-disc flex-col space-y-1 pl-8'>
                     <li>
                       <span className='font-bold text-attention2'>Updates happen automatically. </span>
                       Each time the server starts, it checks and applies any updates that are released by Mojang.
@@ -132,7 +131,7 @@ export default function CMGuidelines() {
                     </li>
 
                     <li>
-                      <span className='font-extrabold text-attention2 text-lg'>INFORM EZIO!!! </span>
+                      <span className='text-lg font-extrabold text-attention2'>INFORM EZIO!!! </span>
                       Perhaps the most important thing. DO NOT update if Ezio isn't available. He needs to check
                       and update Amethyst if necessary. If Amethyst is not updated, our services like Chat-Link and
                       Player Logs break!
@@ -164,7 +163,7 @@ export default function CMGuidelines() {
                     <br/> If somebody reports dying by a glitch, or reports corruption or griefing, you must follow this procedure.
                   </li>
 
-                  <ul className='flex max-w-[800px] list-decimal flex-col pl-8 space-y-1'>
+                  <ul className='flex max-w-[800px] list-decimal flex-col space-y-1 pl-8'>
                     <li>
                       <span className='font-bold text-attention2'>Stop the server immediately. </span>
                       9 times out of 10, we will have to rollback. Stopping the server prevents people from making progress that 
@@ -187,7 +186,7 @@ export default function CMGuidelines() {
                     <br/> Corruption and crashes are not as easy to spot anymore, but with the help of Amethyst, it has become easier.
                   </li>
 
-                  <ul className='flex max-w-[800px] list-decimal flex-col pl-8 space-y-1'>
+                  <ul className='flex max-w-[800px] list-decimal flex-col space-y-1 pl-8'>
                     <li>
                       <span className='font-bold text-attention2'>Check the world for corrupted chunks. </span>
                       The easiest way to spot corruption are corrupted chunks. They usually happen at spawn, but can also happen elsewhere,
@@ -212,7 +211,7 @@ export default function CMGuidelines() {
                     <br/> Currently automatic updates are disabled due to technical reasons. You can ignore this section.
                   </li>
 
-                  <ul className='flex max-w-[800px] list-disc flex-col pl-8 space-y-1'>
+                  <ul className='flex max-w-[800px] list-disc flex-col space-y-1 pl-8'>
                     <li>
                       <span className='font-bold text-attention2'>Updates happen automatically. </span>
                       Each time the server starts, it checks and applies any updates that are released by Mojang.
@@ -226,7 +225,7 @@ export default function CMGuidelines() {
                     </li>
 
                     <li>
-                      <span className='font-extrabold text-attention2 text-lg'>INFORM EZIO & PAV!!! </span>
+                      <span className='text-lg font-extrabold text-attention2'>INFORM EZIO & PAV!!! </span>
                       Perhaps the most important thing. DO NOT update if Ezio or Pav isn't available. They need to check
                       and update Amethyst if necessary. If Amethyst is not updated, our services like Chat-Link and
                       Player Logs break!
@@ -271,7 +270,7 @@ export default function CMGuidelines() {
                   </li>
                   
                   <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                    <p className='mx-3 text-slate-300 text-sm my-0'>
+                    <p className='mx-3 my-0 text-sm text-slate-300'>
                       Set up a tour for them. <b className={'text-yellow-400'}>Tours can be done by ANYONE, so long as they
                       have been a member on Everthorn for enough time.</b> However, you are still responsible for setting one up.
                     </p>
@@ -285,7 +284,7 @@ export default function CMGuidelines() {
                   </li>
                   
                   <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                    <p className='mx-3 text-slate-300 text-sm my-0'>
+                    <p className='mx-3 my-0 text-sm text-slate-300'>
                       A New Recruit must be part of a project. Either their own, or someone elses. <br/>
                       <b className={'text-yellow-400'}> It is YOUR JOB to keep track of all New Recruits to ensure that they are indeed in a project. </b>
                       <br/><br/>
@@ -330,7 +329,7 @@ export default function CMGuidelines() {
                     </ul>
                     
                     <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                      <p className='mx-3 text-sm my-0 text-yellow-400 font-bold'>
+                      <p className='mx-3 my-0 text-sm font-bold text-yellow-400'>
                         The Wait List is essentially informing other CM's that this project needs some
                         discussion before we accept it.
                       </p>
@@ -350,7 +349,7 @@ export default function CMGuidelines() {
                     </ul>
                     
                     <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                      <p className='mx-3 text-slate-300 text-sm my-0'>
+                      <p className='mx-3 my-0 text-sm text-slate-300'>
                         You can't undo a project acceptance. So make sure everything is fine BEFORE accepting :)
                       </p>
                     </section>

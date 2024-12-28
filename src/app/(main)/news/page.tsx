@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator} from "@/components/ui/separator";

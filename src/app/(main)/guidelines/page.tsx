@@ -153,7 +153,7 @@ export default function Guidelines() {
                       </li>
                     </ul>
                     <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                      <p className='mx-3 text-slate-300 text-sm my-0'>
+                      <p className='mx-3 my-0 text-sm text-slate-300'>
                         Projects will <span className="font-bold">almost always</span> be accepted! The only reason a project
                         will be denied is that it is deemed too large, or it is too close to another project and the project lead has plans
                         for that area.
@@ -316,7 +316,7 @@ export default function Guidelines() {
                     </ul>
                     
                     <section className={'mt-4 rounded-lg bg-slate-800 py-2'}>
-                      <p className='mx-3 text-slate-300 my-0 text-sm'>
+                      <p className='mx-3 my-0 text-sm text-slate-300'>
                         You are recommended to ping a Community Manager (or the Owner) to whitelist you.
                         We are not always online, but pinging ensures a quick response.
                       </p>
@@ -338,16 +338,16 @@ export default function Guidelines() {
                     </ul>
 
                     <section className={'mt-4 rounded-lg bg-yellow-800 py-2'}>
-                      <p className='mx-3 text-slate-300 my-0 text-lg font-extrabold'>
+                      <p className='mx-3 my-0 text-lg font-extrabold text-slate-300'>
                         IF YOU PLAY ON PS4/5 PLEASE READ THIS!!!
                       </p>
-                      <p className='mx-3 text-slate-300 my-0 text-lg mt-2'>
+                      <p className='mx-3 my-0 mt-2 text-lg text-slate-300'>
                         To get you whitelisted, the process is the same, however
                         after a Community Manager whitelists you, they will ask you to
                         change your gamertag again, you must set this one to your PSN, whereas
                         the first gamertag should be your Microsoft one.
                       </p>
-                      <p className='mx-3 text-slate-300 my-0 text-lg mt-2'>
+                      <p className='mx-3 my-0 mt-2 text-lg text-slate-300'>
                         This is important because our systems will not work properly otherwise.
                       </p>
                     </section>
