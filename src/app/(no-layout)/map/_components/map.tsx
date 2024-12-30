@@ -84,8 +84,8 @@ export default function WorldMap()  {
 
             <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
                 {all_projects.map(project => (
-                    <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]}>
-                        <LTooltip offset={[0, -8]} direction={'left'} permanent={true}>{project.name}</LTooltip>
+                    <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]} bubblingMouseEvents={true}>
+                        <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{project.name}</LTooltip>
                         <Popup
                             offset={[0, -24]}
                             closeButton={false}
