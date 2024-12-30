@@ -7,18 +7,21 @@ import L from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 import Link from "next/link";
-import mapPin from '../../../../../public/map-pin.svg'
+import mapPin from '/public/map-pin.svg'
+import projectPin from 'public/project-pin.png'
 import {Lighthouse} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import {MouseCoordinatesControl} from "./coordinate_control";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+
+import 'react-leaflet-markercluster/styles'
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
-        const { x: tileX, y: tileY, z: zoom } = coords;
-
-        return `https://everthorn.net/map/tiles/zoom.${zoom}/${Math.floor(tileX / 10)}/${Math.floor(tileY / 10)}/tile.${tileX}.${tileY}.png`
+        const { x, y, z } = coords;
+        return `https://everthorn.net/map/tiles/zoom.${z}/${Math.floor(x / 10)}/${Math.floor(y / 10)}/tile.${x}.${y}.png`
     }
 }
 
@@ -43,10 +46,18 @@ const CustomTileLayerComponent = () => {
 };
 
 const markerIcon = new L.Icon({
-    iconUrl: mapPin.src,
+    iconUrl: projectPin.src,
     iconSize: [24, 24],
-    iconAnchor: [12, 24],
+    iconAnchor: [0, 24],
 });
+
+function createClusterCustomIcon (cluster: any ) {
+    return L.divIcon({
+        html: `<span>${cluster.getChildCount()}</span>`,
+        className: cluster.getChildCount() > 5 ? 'marker-cluster-many' : 'marker-cluster',
+        iconSize: L.point(40, 40),
+    });
+};
 
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
@@ -71,49 +82,50 @@ export default function WorldMap()  {
             <ZoomControl/>
             <MouseCoordinatesControl/>
 
-            {all_projects.map(project => (
-                <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]}>
-                    <LTooltip offset={[8, -8]}>{project.name}</LTooltip>
-                    <Popup
-                        offset={[0, -24]}
-                        closeButton={false}
-                        autoPan={true}
-                    >
-                        <TooltipProvider>
-                            <h3 className={'text-md flex items-center gap-1 text-foreground'}>
-                                <Lighthouse weight={'duotone'} size={25}/>
-                                {project.name}
-                            </h3>
-                            <p className={'text-sm text-foreground'}>
-                                Project by:
-                                <Tooltip delayDuration={0}>
-                                    {/*@ts-ignore*/}
-                                    <TooltipTrigger className={'ml-1 font-semibold hover:underline'}>{project.owner.gamertag}</TooltipTrigger>
-                                    {/*@ts-ignore*/}
-                                    <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
-                                </Tooltip>
-                                <br/>
-                                Coordinates: {project.coordinates.join(', ')} <br/>
-                            </p>
+            <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
+                {all_projects.map(project => (
+                    <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]}>
+                        <LTooltip offset={[0, -8]} direction={'left'} permanent={true}>{project.name}</LTooltip>
+                        <Popup
+                            offset={[0, -24]}
+                            closeButton={false}
+                            autoPan={true}
+                        >
+                            <TooltipProvider>
+                                <h3 className={'text-md flex items-center gap-1 text-foreground'}>
+                                    <Lighthouse weight={'duotone'} size={25}/>
+                                    {project.name}
+                                </h3>
+                                <p className={'text-sm text-foreground'}>
+                                    Project by:
+                                    <Tooltip delayDuration={0}>
+                                        {/*@ts-ignore*/}
+                                        <TooltipTrigger className={'ml-1 font-semibold hover:underline'}>{project.owner.gamertag}</TooltipTrigger>
+                                        {/*@ts-ignore*/}
+                                        <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
+                                    </Tooltip>
+                                    <br/>
+                                    Coordinates: {project.coordinates.join(', ')} <br/>
+                                </p>
 
-                            <div className={'flex gap-1'}>
-                                <Link href={`/wiki/${project.project_id}`}>
-                                    <Button variant={'secondary'} size={'sm'} className={'mx-auto text-center'}>
-                                        Wiki Page
-                                    </Button>
-                                </Link>
+                                <div className={'flex gap-1'}>
+                                    <Link href={`/wiki/${project.project_id}`}>
+                                        <Button variant={'secondary'} size={'sm'} className={'mx-auto text-center'}>
+                                            Wiki Page
+                                        </Button>
+                                    </Link>
 
-                                <Link href={`/wiki/${project.project_id}`}>
-                                    <Button variant={'outline'} size={'sm'} className={'mx-auto text-center text-accent-foreground'}>
-                                        Copy Coords
-                                    </Button>
-                                </Link>
-                            </div>
-                        </TooltipProvider>
-                    </Popup>
-                </Marker>
-            ))}
-
+                                    <Link href={`/wiki/${project.project_id}`}>
+                                        <Button variant={'outline'} size={'sm'} className={'mx-auto text-center text-accent-foreground'}>
+                                            Copy Coords
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </TooltipProvider>
+                        </Popup>
+                    </Marker>
+                ))}
+            </MarkerClusterGroup>
         </MapContainer>
     );
 };
