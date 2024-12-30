@@ -8,7 +8,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
-      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+guilds+guilds.members.read',
+      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds+guilds.members.read',
       token: 'https://discord.com/api/oauth2/token',
       userinfo: 'https://discord.com/api/users/@me',
       profile(profile: DiscordProfile) {
@@ -61,7 +61,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               },
             });
 
-            console.log(guildsResponse.body)
             guilds = await guildsResponse.json();
 
             const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
@@ -73,7 +72,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             if (everthornGuild) {
               const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
-              console.log(everthornUserResponse.body)
 
               if (everthornUserResponse.ok) {
                 const userData = (await everthornUserResponse.json());
