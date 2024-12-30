@@ -1,16 +1,12 @@
 export interface Project {
-  project: {
-    project_id: string,
-    name: string,
-    description: string,
-    coordinates_x: number,
-    coordinates_y: number,
-    coordinates_z: number,
-    thread_id: number,
-    started_on: number,
-    completed_on: number,
-    owner_id: number
-  },
+  project_id: string,
+  name: string,
+  description: string,
+  coordinates: number[],
+  thread_id: number,
+  started_on: number,
+  completed_on: number,
+  owner: object,
   members: {
     members: number[]
   },

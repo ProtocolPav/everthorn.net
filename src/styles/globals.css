@@ -87,3 +87,15 @@
     max-width: var(--max-width, 700px);
   }
 }
+
+.leaflet-container {
+  @apply bg-background !important;
+}
+
+.leaflet-popup-content-wrapper {
+  @apply bg-background/50 backdrop-blur-md border-2 border-background/70 rounded-lg !important;
+}
+
+.leaflet-popup-tip {
+  @apply bg-background !important;
+}

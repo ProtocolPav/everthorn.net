@@ -26,7 +26,7 @@ export default function CMGuidelines() {
           <p style={{ "--max-width": "900px" } as React.CSSProperties}>
             Everything that's important for the CM's to function properly.
             <br/>
-            <Link href={'/map/unmined.index.html'}>
+            <Link href={'/src/app/(no-layout)/map/page.tsx'}>
               <Button variant={'secondary'} className={'mx-1 mt-5 h-auto'}>
                 Community Manager Map
               </Button>
