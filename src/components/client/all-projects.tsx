@@ -30,7 +30,7 @@ export function AllProjects() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
           filtered.map((project) => (
-            <ProjectCard project={project} key={project.project.project_id} />
+            <ProjectCard project={project} key={project.project_id} />
           ))
         }
       </div>

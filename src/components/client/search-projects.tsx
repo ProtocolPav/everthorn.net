@@ -13,7 +13,7 @@ function search(val: string, projects: Project[], setProjects: (projects: Projec
     const searchWords: string[] = val.trim().toLowerCase().split(/\s+/)
 
     return searchWords.every((word) =>
-      project.project.name.toLowerCase().includes(word) || project.project.project_id.includes(word)
+      project.name.toLowerCase().includes(word) || project.project_id.includes(word)
     )
   })
 
