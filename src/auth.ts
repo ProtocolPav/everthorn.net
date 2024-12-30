@@ -61,6 +61,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               },
             });
 
+            console.log(guildsResponse.body)
             guilds = await guildsResponse.json();
 
             const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
@@ -71,7 +72,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             };
 
             if (everthornGuild) {
-              const everthornUserResponse = await fetch(`http://everthorn.net:8000/api/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
+              const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
+              console.log(everthornUserResponse.body)
+
               if (everthornUserResponse.ok) {
                 const userData = (await everthornUserResponse.json());
                 everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
