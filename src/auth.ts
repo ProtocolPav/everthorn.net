@@ -4,11 +4,12 @@ import { JWT } from "next-auth/jwt";
 import { EverthornMemberInfo, Guild } from "@/types/discord";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  debug: true,
   providers: [
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
-      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds+guilds.members.read',
+      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+guilds+guilds.members.read',
       token: 'https://discord.com/api/oauth2/token',
       userinfo: 'https://discord.com/api/users/@me',
       profile(profile: DiscordProfile) {
