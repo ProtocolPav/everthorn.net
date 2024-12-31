@@ -21,7 +21,7 @@ export const CoordinatesControl = () => {
     }, [map]);
 
     return (
-        <Button variant={'outline'} className={'flex w-[110px] bg-background/30 p-1 font-mono'} >
+        <Button variant={'invisible'} className={'flex w-[110px] text-[15px] p-1 font-mono'} >
             {coordinates.x}, {coordinates.z}
         </Button>
     );

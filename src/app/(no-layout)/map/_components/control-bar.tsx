@@ -7,27 +7,30 @@ import {Button} from "@/components/ui/button";
 import Control from 'react-leaflet-custom-control'
 import {CardsThree} from "@phosphor-icons/react";
 import { ChevronDown } from "lucide-react";
+import {House} from '@phosphor-icons/react'
 import {PinsControl} from "@/app/(no-layout)/map/_components/pins-control";
 import {Toggle} from "../_types/toggle";
+import {LayersControl} from "@/app/(no-layout)/map/_components/layers-control";
 
-export const ControlBar = ({pins, layers}: {pins: Toggle[], layers: Toggle[]}) => {
+export const ControlBar = (
+    {pins, update_pins, layers, update_layers}:
+    {pins: Toggle[], update_pins: Function, layers: Toggle[], update_layers: Function}) => {
     return (
         <Control position={'topleft'}>
             <Card className={'bg-background/60 backdrop-blur-sm'}>
                 <CardContent className={'flex gap-1 p-1'}>
                     <Button variant={'outline'} size={'icon'} className={'bg-background/60'}>
                         <Link href="/home">
-                            <Image src={logo} alt={'logo'} className={'size-10 p-1.5'}/>
+                            <Image src={logo} alt={'logo'} className={'size-7'}/>
+                            {/*<House weight={'duotone'} className={'size-7 fill-white'}/>*/}
                         </Link>
                     </Button>
 
                     <CoordinatesControl/>
 
-                    <Button variant={'outline'} className={'flex gap-1 bg-background/30 p-2'}>
-                        <CardsThree weight={'duotone'} size={20}/> <ChevronDown size={15}/>
-                    </Button>
+                    <LayersControl layers={layers} update_layers={update_layers}/>
 
-                    <PinsControl pins={pins}/>
+                    <PinsControl pins={pins} update_pins={update_pins}/>
                 </CardContent>
             </Card>
         </Control>

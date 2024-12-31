@@ -1,13 +1,12 @@
-import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker} from "react-leaflet";
+import {Tooltip as LTooltip, Popup, useMap, Marker} from "react-leaflet";
 import React from "react";
-import {Player} from "@/hooks/use-players"
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {Lighthouse} from "@phosphor-icons/react";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
-import L from "leaflet";
+import L, {latLng} from "leaflet";
 import projectPin from "/public/project-pin.png";
 
 const markerIcon = new L.Icon({
@@ -24,14 +23,20 @@ function createClusterCustomIcon (cluster: any ) {
     });
 }
 
-export const ProjectLayer = React.memo(({all_projects}: {all_projects: Project[]}) => {
+export const ProjectLayer = React.memo(({all_projects, visible, labels}: {all_projects: Project[], visible: boolean, labels: boolean}) => {
+    if (!visible) return null
+
     return (
-        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true}>
             {all_projects.map(project => (
-                <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]}>
-                    <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{project.name}</LTooltip>
+                <Marker
+                    icon={markerIcon}
+                    position={[-project.coordinates[2], project.coordinates[0]]}
+                    key={`${project.project_id}-${labels}`}
+                >
+                    <LTooltip offset={[4, -12]} direction={'left'} permanent={labels}>{project.name}</LTooltip>
                     <Popup
-                        offset={[0, -24]}
+                        offset={[4, -20]}
                         closeButton={false}
                         autoPan={true}
                     >
@@ -72,3 +77,5 @@ export const ProjectLayer = React.memo(({all_projects}: {all_projects: Project[]
         </MarkerClusterGroup>
     )
 })
+
+ProjectLayer.displayName = "ProjectLayer";

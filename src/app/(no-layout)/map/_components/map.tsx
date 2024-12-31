@@ -16,6 +16,10 @@ import {Toggle} from "../_types/toggle";
 
 import projectPin from "/public/project-pin.png";
 import playerPin from "/public/steve.webp";
+import grass_block from '/public/grass_block.png'
+import stone from 'public/stone.png'
+import netherrack from 'public/netherrack.png'
+import deepslate from 'public/deepslate.png'
 import {Tag} from '@phosphor-icons/react'
 
 // Extend L.TileLayer for Custom Tile URL Generation
@@ -34,8 +38,8 @@ const CustomTileLayerComponent = () => {
         // Add the custom Tile Layer to the map
         const customTileLayer = new CustomTileLayer("", {
             maxZoom: 2,
-            minZoom:-6,
-            updateInterval:0,
+            minZoom:-5,
+            updateInterval:10,
             keepBuffer:50
         });
         customTileLayer.addTo(map);
@@ -51,18 +55,49 @@ const CustomTileLayerComponent = () => {
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
 
-    const pintoggles: Toggle[] = [
+    const [pintoggles, setpintoggles]: [Toggle[], Function] = React.useState([
         {id: 'projects', name: 'Projects', image: projectPin, visible: true},
         {id: 'project_label', name: 'Project Labels', icon: Tag, visible: true},
         {id: 'players', name: 'Players', image: playerPin, visible: false},
-    ]
+    ])
+
+    function update_pins(id: string) {
+        const new_pins = pintoggles.map((pin, index) => {
+            if (pin.id === id) {
+                return {id: pin.id, visible: !pin.visible, name: pin.name, icon: pin.icon, image: pin.image};
+            } else {
+                return pin
+            }
+        })
+
+        setpintoggles(new_pins);
+    }
+
+    const [layertoggles, setlayertoggles]: [Toggle[], Function] = React.useState([
+        {id: 'overworld', name: 'Overworld', image: grass_block, visible: true},
+        {id: 'underground', name: 'Underground', image: stone, visible: false},
+        {id: 'subway', name: 'Subway', image: deepslate, visible: false},
+        {id: 'nether', name: 'Nether', image: netherrack, visible: false},
+    ])
+
+    function update_layers(id: string) {
+        const new_layers = layertoggles.map((layer, index) => {
+            if (layer.id === id) {
+                return {id: layer.id, visible: true, name: layer.name, icon: layer.icon, image: layer.image};
+            } else {
+                return {id: layer.id, visible: false, name: layer.name, icon: layer.icon, image: layer.image};
+            }
+        })
+
+        setlayertoggles(new_layers);
+    }
 
     const { projects, isLoading, isError } = useProjects();
     if (isError) {throw Error()}
     const all_projects: Project[] = isLoading ? [] : projects.projects
 
-    const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
-    const all_players: Player[] = isLoading2 ? [{gamertag: 'Test1', location: [2000, 60, 0]}] : players
+    // const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
+    // const all_players: Player[] = isLoading2 ? [{gamertag: 'Test1', location: [2000, 60, 0]}] : players
 
     return (
         <MapContainer
@@ -77,10 +112,10 @@ export default function WorldMap()  {
             attributionControl={false}
         >
             <CustomTileLayerComponent/>
-            <ControlBar pins={pintoggles} layers={[]} />
+            <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
 
             {/*<PlayerLayer players={all_players} />*/}
-            <ProjectLayer all_projects={all_projects}/>
+            <ProjectLayer all_projects={all_projects} visible={pintoggles[0].visible} labels={pintoggles[1].visible}/>
 
         </MapContainer>
     );
