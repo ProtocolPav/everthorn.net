@@ -6,22 +6,23 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
-import Link from "next/link";
-import mapPin from '/public/map-pin.svg'
-import projectPin from 'public/project-pin.png'
-import {Lighthouse} from "@phosphor-icons/react";
-import {Button} from "@/components/ui/button";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import {MouseCoordinatesControl} from "./coordinate_control";
-import MarkerClusterGroup from "react-leaflet-markercluster";
 
 import 'react-leaflet-markercluster/styles'
+import {usePlayers, Player} from "@/hooks/use-players";
+import {PlayerLayer} from "@/app/(no-layout)/map/_components/player_layer";
+import {ProjectLayer} from "@/app/(no-layout)/map/_components/project_layer";
+import {ControlBar} from "@/app/(no-layout)/map/_components/control-bar";
+import {Toggle} from "../_types/toggle";
+
+import projectPin from "/public/project-pin.png";
+import playerPin from "/public/steve.webp";
+import {Tag} from '@phosphor-icons/react'
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
         const { x, y, z } = coords;
-        return `https://everthorn.net/map/tiles/zoom.${z}/${Math.floor(x / 10)}/${Math.floor(y / 10)}/tile.${x}.${y}.png`
+        return `/map/tiles/zoom.${z}/${Math.floor(x / 10)}/${Math.floor(y / 10)}/tile.${x}.${y}.png`
     }
 }
 
@@ -33,7 +34,9 @@ const CustomTileLayerComponent = () => {
         // Add the custom Tile Layer to the map
         const customTileLayer = new CustomTileLayer("", {
             maxZoom: 2,
-            minZoom:-6
+            minZoom:-6,
+            updateInterval:0,
+            keepBuffer:50
         });
         customTileLayer.addTo(map);
 
@@ -45,26 +48,21 @@ const CustomTileLayerComponent = () => {
     return null;
 };
 
-const markerIcon = new L.Icon({
-    iconUrl: projectPin.src,
-    iconSize: [24, 24],
-    iconAnchor: [0, 24],
-});
-
-function createClusterCustomIcon (cluster: any ) {
-    return L.divIcon({
-        html: `<span>${cluster.getChildCount()}</span>`,
-        className: cluster.getChildCount() > 5 ? 'marker-cluster-many' : 'marker-cluster',
-        iconSize: L.point(40, 40),
-    });
-};
-
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
 
+    const pintoggles: Toggle[] = [
+        {id: 'projects', name: 'Projects', image: projectPin, visible: true},
+        {id: 'project_label', name: 'Project Labels', icon: Tag, visible: true},
+        {id: 'players', name: 'Players', image: playerPin, visible: false},
+    ]
+
     const { projects, isLoading, isError } = useProjects();
-    if (isError) {return (<div>Error!</div>)}
+    if (isError) {throw Error()}
     const all_projects: Project[] = isLoading ? [] : projects.projects
+
+    const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
+    const all_players: Player[] = isLoading2 ? [{gamertag: 'Test1', location: [2000, 60, 0]}] : players
 
     return (
         <MapContainer
@@ -79,53 +77,11 @@ export default function WorldMap()  {
             attributionControl={false}
         >
             <CustomTileLayerComponent/>
-            <ZoomControl/>
-            <MouseCoordinatesControl/>
+            <ControlBar pins={pintoggles} layers={[]} />
 
-            <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
-                {all_projects.map(project => (
-                    <Marker icon={markerIcon} position={[-project.coordinates[2], project.coordinates[0]]} bubblingMouseEvents={true}>
-                        <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{project.name}</LTooltip>
-                        <Popup
-                            offset={[0, -24]}
-                            closeButton={false}
-                            autoPan={true}
-                        >
-                            <TooltipProvider>
-                                <h3 className={'text-md flex items-center gap-1 text-foreground'}>
-                                    <Lighthouse weight={'duotone'} size={25}/>
-                                    {project.name}
-                                </h3>
-                                <p className={'text-sm text-foreground'}>
-                                    Project by:
-                                    <Tooltip delayDuration={0}>
-                                        {/*@ts-ignore*/}
-                                        <TooltipTrigger className={'ml-1 font-semibold hover:underline'}>{project.owner.gamertag}</TooltipTrigger>
-                                        {/*@ts-ignore*/}
-                                        <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
-                                    </Tooltip>
-                                    <br/>
-                                    Coordinates: {project.coordinates.join(', ')} <br/>
-                                </p>
+            {/*<PlayerLayer players={all_players} />*/}
+            <ProjectLayer all_projects={all_projects}/>
 
-                                <div className={'flex gap-1'}>
-                                    <Link href={`/wiki/${project.project_id}`}>
-                                        <Button variant={'secondary'} size={'sm'} className={'mx-auto text-center'}>
-                                            Wiki Page
-                                        </Button>
-                                    </Link>
-
-                                    <Link href={`/wiki/${project.project_id}`}>
-                                        <Button variant={'outline'} size={'sm'} className={'mx-auto text-center text-accent-foreground'}>
-                                            Copy Coords
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </TooltipProvider>
-                        </Popup>
-                    </Marker>
-                ))}
-            </MarkerClusterGroup>
         </MapContainer>
     );
 };

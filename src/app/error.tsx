@@ -1,6 +1,8 @@
 'use client' // Error boundaries must be Client Components
 
 import { useEffect } from 'react'
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Error({
                                   error,
@@ -15,16 +17,11 @@ export default function Error({
     }, [error])
 
     return (
-        <div>
+        <div className={'container mx-auto my-auto items-center text-center'}>
             <h2>Something went wrong!</h2>
-            <button
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
-            >
-                Try again
-            </button>
+            <Link href='/home'>
+                <Button className={'my-5'}>Go Home</Button>
+            </Link>
         </div>
     )
 }
