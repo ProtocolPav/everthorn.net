@@ -4,7 +4,6 @@ import { JWT } from "next-auth/jwt";
 import { EverthornMemberInfo, Guild } from "@/types/discord";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  debug: true,
   providers: [
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
