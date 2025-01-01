@@ -26,7 +26,7 @@ export default function Hero({className}: {className?: string | undefined}) {
                         Everthorn
                     </h1>
                     <p className="mt-3 text-lg text-muted-foreground">
-                        Explore Everthorn, a Minecraft Bedrock Community that's been going on for 5+ years. <br/>
+                        Explore Everthorn, a Minecraft Bedrock Community that's been together for 5+ years. <br/>
                         We are Everthorn, and Together We Stand.
                     </p>
                     <div className="mt-5 flex flex-row gap-2 sm:items-center sm:gap-3 lg:mt-8">
