@@ -3,17 +3,22 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarHeader,
+    SidebarHeader, SidebarMenuSkeleton,
     SidebarSeparator
 } from "@/components/ui/sidebar"
 import {PanelLogo} from "@/app/(admin)/admin/_components/sidebar/header";
 import {Exit} from "@/app/(admin)/admin/_components/sidebar/footer";
 import {NavGroup, NavItems} from "@/app/(admin)/admin/_components/sidebar/nav-group";
-import {CastleIcon, ChartLineIcon, EthernetPortIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
+import {BookIcon, CastleIcon, ChartLineIcon, EthernetPortIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
 import React from "react";
 
 export function AdminSidebar() {
     const server_items: NavItems[] = [
+        {
+            title: 'Guidelines',
+            url: '/admin/guidelines',
+            icon: BookIcon,
+        },
         {
             title: 'Statistics',
             url: '/admin/server/',
