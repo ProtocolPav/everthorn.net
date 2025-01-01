@@ -95,11 +95,11 @@ export function Desktop() {
                     Enter the main Everthorn Wiki, the place to see everything
                   </ListItem>
 
-                  <ListItem href={'/wiki/projects'} title={'Project Pages'}>
+                  <ListItem href={'/wiki'} title={'Project Pages'}>
                     View a list of every project page, and nothing else
                   </ListItem>
 
-                  <ListItem href={'/wiki/map'} title={'World Map'}>
+                  <ListItem href={'/map'} title={'World Map'}>
                     View an interactive world map of our current world
                   </ListItem>
                 </ul>
@@ -129,7 +129,7 @@ export function Desktop() {
                     The main dashboard. You can view server stats and more
                   </ListItem>
 
-                  <ListItem href={'/admin/quests/new'} title={'Quest Creator'}>
+                  <ListItem href={'/admin/quests/creator'} title={'Quest Creator'}>
                     Quick link to Quest Creator. Also accessible via dashboard
                   </ListItem>
 
