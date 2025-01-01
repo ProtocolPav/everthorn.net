@@ -1,4 +1,4 @@
-import {useMap, ZoomControl} from "react-leaflet";
+import {useMap} from "react-leaflet";
 import React, { useState, useEffect } from "react";
 import L from "leaflet";
 import {Button} from "@/components/ui/button";
@@ -21,7 +21,7 @@ export const CoordinatesControl = () => {
     }, [map]);
 
     return (
-        <Button variant={'invisible'} className={'flex w-[110px] text-[15px] p-1 font-mono'} >
+        <Button variant={'invisible'} className={'flex w-[110px] p-1 font-mono text-[15px]'} >
             {coordinates.x}, {coordinates.z}
         </Button>
     );

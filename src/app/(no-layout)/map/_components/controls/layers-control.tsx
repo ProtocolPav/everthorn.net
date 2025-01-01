@@ -1,4 +1,4 @@
-import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import {Toggle} from "../../_types/toggle";
 import React, {useState} from "react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";

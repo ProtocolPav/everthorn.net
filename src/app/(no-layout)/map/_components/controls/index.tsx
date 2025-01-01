@@ -5,16 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import Control from 'react-leaflet-custom-control'
-import {CardsThree} from "@phosphor-icons/react";
-import { ChevronDown } from "lucide-react";
-import {House} from '@phosphor-icons/react'
-import {PinsControl} from "@/app/(no-layout)/map/_components/pins-control";
-import {Toggle} from "../_types/toggle";
-import {LayersControl} from "@/app/(no-layout)/map/_components/layers-control";
+import {PinsControl} from "./pins-control";
+import {Toggle} from "../../_types/toggle";
+import {LayersControl} from "./layers-control";
 
-export const ControlBar = (
+export default function ControlBar (
     {pins, update_pins, layers, update_layers}:
-    {pins: Toggle[], update_pins: Function, layers: Toggle[], update_layers: Function}) => {
+    {pins: Toggle[], update_pins: Function, layers: Toggle[], update_layers: Function}) {
     return (
         <Control position={'topleft'}>
             <Card className={'bg-background/60 backdrop-blur-sm'}>
