@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
 
     if (status === "loading") {
-        return <p>Loading...</p>
+        return <p className={'m-auto justify-center'}>Loading...</p>
     }
 
     if (
