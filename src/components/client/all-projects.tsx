@@ -4,7 +4,7 @@ import { Project } from "@/types/projects";
 import { ProjectCard } from "@/components/client/project-card";
 import { useEffect, useState } from "react";
 import SearchProjects from "./search-projects";
-import { useProjects } from "@/lib/everthorn-api-hooks/projects";
+import { useProjects } from "@/hooks/use-projects";
 
 export function AllProjects() {
   const { projects, isLoading, isError } = useProjects()
