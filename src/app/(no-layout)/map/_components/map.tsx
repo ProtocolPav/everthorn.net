@@ -96,8 +96,8 @@ export default function WorldMap()  {
     if (isError) {throw Error()}
     const all_projects: Project[] = isLoading ? [] : projects.projects
 
-    // const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
-    // const all_players: Player[] = isLoading2 ? [{gamertag: 'Test1', location: [2000, 60, 0]}] : players
+    const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
+    const all_players: Player[] = (isLoading2 || isError2) ? [{gamertag: 'Test', location: [2000, 60, 0], hidden: false}] : players
 
     return (
         <MapContainer
@@ -114,7 +114,7 @@ export default function WorldMap()  {
             <CustomTileLayerComponent/>
             <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
 
-            {/*<PlayerLayer players={all_players} />*/}
+            <PlayerLayer players={all_players} />
             <ProjectLayer all_projects={all_projects} visible={pintoggles[0].visible} labels={pintoggles[1].visible}/>
 
         </MapContainer>

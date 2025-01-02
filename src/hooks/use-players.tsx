@@ -3,6 +3,7 @@ import useSWR from "swr"
 export interface Player {
     gamertag: string
     location: number[]
+    hidden: boolean
 }
 
 export function usePlayers(): {players: Player[], isError: any, isLoading: boolean} {
