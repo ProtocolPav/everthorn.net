@@ -29,11 +29,7 @@ const nextConfig = {
       {
         source: '/nexuscore-api/:path*',
         destination: 'https://api.everthorn.net/:path*'
-      },
-      {
-        source: '/localapi/:path*',
-        destination: 'http://localhost:8000/:path*', // Proxy to backend
-      },
+      }
     ]
   }
 }
