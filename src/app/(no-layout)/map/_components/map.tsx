@@ -37,7 +37,7 @@ const CustomTileLayerComponent = () => {
     React.useEffect(() => {
         // Add the custom Tile Layer to the map
         const customTileLayer = new CustomTileLayer("", {
-            maxNativeZoom: 3,
+            maxNativeZoom: 2,
             maxZoom: 6,
             minZoom:-5,
             updateInterval:10,
