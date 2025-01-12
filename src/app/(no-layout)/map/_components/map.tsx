@@ -25,8 +25,8 @@ import {Tag} from '@phosphor-icons/react'
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
-        const { x, y, z } = coords;
-        return `/map/tiles/zoom.${z}/${Math.floor(x / 10)}/${Math.floor(y / 10)}/tile.${x}.${y}.png`
+        const { x, y: z, z: zoom } = coords;
+        return `/amethyst/map/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
     }
 }
 
@@ -37,7 +37,8 @@ const CustomTileLayerComponent = () => {
     React.useEffect(() => {
         // Add the custom Tile Layer to the map
         const customTileLayer = new CustomTileLayer("", {
-            maxZoom: 2,
+            maxNativeZoom: 3,
+            maxZoom: 6,
             minZoom:-5,
             updateInterval:10,
             keepBuffer:50

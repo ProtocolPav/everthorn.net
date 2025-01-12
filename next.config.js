@@ -29,6 +29,10 @@ const nextConfig = {
       {
         source: '/nexuscore-api/:path*',
         destination: 'https://api.everthorn.net/:path*'
+      },
+      {
+        source: '/amethyst/:path*',
+        destination: 'http://amethyst:8000/:path*'
       }
     ]
   }
