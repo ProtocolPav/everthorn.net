@@ -39,7 +39,7 @@ export default function UHC() {
                     <li>No phantoms, and sleeping is disabled.</li>
                     <li>Custom crafting recipes:</li>
                     <p className="ml-8 list-inside list-disc">
-                        <li><b>Enchanted Apple</b>: 8 Gold Blocks + 1 Apple</li>
+                        <li><b>Enchanted (Notch) Apple</b>: 8 Gold Blocks + 1 Apple</li>
                         <li><b>Golden Apple</b>: 8 Gold Nuggets + 1 Apple</li>
                     </p>
                 </p>
@@ -79,7 +79,7 @@ export default function UHC() {
                     <li>Jump from Y320 to Y-50 <Badge variant={'outline'}>640 Blocks</Badge><sup>1</sup></li>
                     <li>Survive past Halftime <Badge variant={'outline'}>10 Mineral Blocks</Badge><sup>4</sup></li>
                     <li>Kill 15 Skeletons <Badge variant={'outline'}>+40 XP Levels</Badge></li>
-                    <li>Obtain a Blaze Rod <Badge variant={'outline'}>3 Nugs</Badge>s</li>
+                    <li>Obtain a Blaze Rod <Badge variant={'outline'}>3 Nugs</Badge></li>
                 </p>
 
                 {/* Netherite Challenges */}
@@ -89,7 +89,7 @@ export default function UHC() {
                     <li>Collect all 16 colored wool <Badge variant={'outline'}>Shulker Box</Badge></li>
                     <li>Eliminate a team <Badge variant={'outline'}>Steve Head</Badge></li>
                     <li>Mine 128 ores<sup>5</sup> <Badge variant={'outline'}>64 Ores</Badge><sup>4</sup></li>
-                    <li>Obtain a Trial Key <Badge variant={'outline'}>Fully Enchanted Mace</Badge><sup>6</sup></li>
+                    <li>Obtain an Ominous Trial Key <Badge variant={'outline'}>Enchanted Mace</Badge><sup>6</sup></li>
                 </p>
 
                 {/* Footnotes */}
@@ -100,7 +100,7 @@ export default function UHC() {
                         "Diamond Sword Enchantments: Mending, Unbreaking III, Sharpness IV, Fire Aspect II, Looting III.",
                         "Ore rewards include Copper, Iron, Gold, Diamond, Emerald, Lapis, Redstone.",
                         "Valid ores: Gold, Diamond, Iron, Emerald, Redstone, Ancient Debris.",
-                        "Mace Enchantments: Mending, Unbreaking III, Density V, Wind Burst III, Fire Aspect II.",
+                        "Mace Enchantments: Mending, Unbreaking III, Density IV, Wind Burst I, Fire Aspect II.",
                     ].map((note, index) => (
                         <>
                             {index + 1}. {note}

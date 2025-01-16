@@ -35,6 +35,7 @@ import {
 import {Badge} from "@/components/ui/badge";
 import {useSession} from "next-auth/react";
 import {Toaster} from "@/components/ui/toaster";
+import webhook_content from "@/app/(main)/apply/_components/webhook_content";
 
 export default function ApplicationForm() {
     const { data: session, status } = useSession()
@@ -55,14 +56,51 @@ export default function ApplicationForm() {
 
     })
 
+    async function submitToDiscord(values: z.infer < typeof formSchema >) {
+        if (process.env.NEXT_PUBLIC_APPLY_WEBHOOK_URL) {
+            let response = await fetch(
+                process.env.NEXT_PUBLIC_APPLY_WEBHOOK_URL, {
+                    method: "POST",
+                    body: webhook_content(values),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+                )
+
+            let status = response.status
+
+            if (status === 204) {
+                toast({
+                    title: 'Application Submitted!',
+                    description: 'If we accept your application, you can expect a Friend Request on Discord within 24 hours!'
+                });
+            } else {
+                throw new Error(`Webhook error code ${status}`)
+            }
+        } else {
+            throw new Error('Webhook not provided')
+        }
+    }
+
     function onSubmit(values: z.infer < typeof formSchema > ) {
+        values.username = session?.user?.name ? session?.user?.name : 'Unknown'
         try {
-            console.log(values);
-            toast({title: 'Application Submitted!', description: JSON.stringify(values, null, 2)});
+            if (!session?.user.everthornMemberInfo.isMember) {
+                submitToDiscord(values)
+            } else {
+                throw new Error('Already a member!')
+            }
+
         } catch (error) {
             console.error("Form submission error", error);
-            toast({title:'Error', description:'There was an error submitting your application.', variant:'destructive'});
+            toast({
+                title:'There was an error submitting your application.',
+                description:'Please try again. If the issue persists, you can manually submit your application on Reddit to u/Skavandross',
+                variant:'destructive'}
+            );
         }
+
     }
 
     return (
@@ -84,7 +122,7 @@ export default function ApplicationForm() {
                                     value={"@" + (session?.user?.name ? session?.user?.name : 'None')}
                                 />
                             </FormControl>
-                            <FormDescription>We need your Discord Username so we can contact you if your application gets accepted.</FormDescription>
+                            <FormDescription>We need your Discord Username to be able to contact you :)</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -104,7 +142,7 @@ export default function ApplicationForm() {
                                     type="number"
                                     {...field} />
                             </FormControl>
-                            <FormDescription>You age will not be shared with anyone other than the recruitment team</FormDescription>
+                            <FormDescription>Your age will not be shared with anyone other than Everthorn Staff</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -122,6 +160,7 @@ export default function ApplicationForm() {
                                 <Textarea
                                     placeholder="Do you enjoy building, exploring, redstone? Elaborate!"
                                     className="resize-none"
+                                    maxLength={900}
                                     {...field}
                                 />
                             </FormControl>
@@ -147,8 +186,9 @@ export default function ApplicationForm() {
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="1 day">1 Day Each Week</SelectItem>
-                                    <SelectItem value="2-3 Days">2-3 Days Each Week</SelectItem>
-                                    <SelectItem value="5+ Days">5 or More Days Each Week</SelectItem>
+                                    <SelectItem value="2 Days">2 Days Each Week</SelectItem>
+                                    <SelectItem value="3 Days">3 Days Each Week</SelectItem>
+                                    <SelectItem value="4+ Days">4+ Days Each Week</SelectItem>
                                     <SelectItem value="Weekends">Only Weekends</SelectItem>
                                 </SelectContent>
                             </Select>
@@ -173,10 +213,11 @@ export default function ApplicationForm() {
                                 <Textarea
                                     placeholder="I am a cool person and I do cool things"
                                     className="resize-none"
+                                    maxLength={900}
                                     {...field}
                                 />
                             </FormControl>
-                            <FormDescription>What's your best characteristics? Do you like working with others or do you prefer to be a lone wolf? Most importantly... Your thoughts on Diorite?</FormDescription>
+                            <FormDescription>What's your best characteristics? Do you like working with others or do you prefer to be a lone wolf? Most importantly... Your thoughts on Diorite? 👀</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -188,12 +229,19 @@ export default function ApplicationForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>How did you hear about us?</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="I heard about Everthorn from..."
-                                    type=""
-                                    {...field} />
-                            </FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="I heard about Everthorn from..." />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="friends">My Friends</SelectItem>
+                                    <SelectItem value="recruitment_post">A Reddit Advertisement</SelectItem>
+                                    <SelectItem value="website">I just stumbled across this website</SelectItem>
+                                    <SelectItem value="other">Other</SelectItem>
+                                </SelectContent>
+                            </Select>
                             <FormDescription>Was it from a friend, an advertisement, or did you just stumble across us? We're curious!</FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -210,6 +258,7 @@ export default function ApplicationForm() {
                                 <Textarea
                                     placeholder=""
                                     className="resize-none"
+                                    maxLength={900}
                                     {...field}
                                 />
                             </FormControl>

@@ -34,7 +34,7 @@ export default function Hero({className}: {className?: string | undefined}) {
                             <Button variant={'default'}>View our World Map</Button>
                         </Link>
                         <Link href={'/apply'}>
-                            <Button variant={'secondary'}>Apply to Join</Button>
+                            <Button variant={'secondary'}>Join Us</Button>
                         </Link>
                     </div>
                 </div>
