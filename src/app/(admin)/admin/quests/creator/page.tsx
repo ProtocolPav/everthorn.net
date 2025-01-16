@@ -34,15 +34,12 @@ import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import Objective from "@/components/client/quests-form/objective"
 import ConfirmObjectives from "@/components/client/quests-form/quest-objective-confirm"
-import { NoPermission } from "@/components/no-permission"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import {  format } from "date-fns"
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 
 export default function NewQuest() {
-  const { data: session, status } = useSession()
-
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -309,17 +306,6 @@ export default function NewQuest() {
     }
 
     return true;
-  }
-
-  if (status === "loading") {
-    return <p>Loading...</p>
-  }
-
-  if (
-    status === "unauthenticated" ||
-    !session?.user?.everthornMemberInfo.isCM
-  ) {
-    return <NoPermission status={status} />
   }
 
   return (

@@ -27,6 +27,7 @@ class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
         return `/amethyst/map/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        // return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 
@@ -41,7 +42,7 @@ const CustomTileLayerComponent = () => {
             maxZoom: 6,
             minZoom:-5,
             updateInterval:10,
-            keepBuffer:50
+            keepBuffer:50,
         });
         customTileLayer.addTo(map);
 
@@ -98,7 +99,7 @@ export default function WorldMap()  {
     const all_projects: Project[] = isLoading ? [] : projects.projects
 
     const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
-    const all_players: Player[] = (isLoading2 || isError2) ? [{gamertag: 'Test', location: [2000, 60, 0], hidden: false}] : players
+    const all_players: Player[] = (isLoading2 || isError2) ? [] : players
 
     return (
         <MapContainer
