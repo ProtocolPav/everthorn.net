@@ -1,6 +1,6 @@
 export default function webhook_content(values: any) {
     return JSON.stringify({
-        content: "<@&864915135297617922 New application rolled in. " +
+        content: "<@&864915135297617922> New application rolled in. " +
             "If you like it, send them a friend request. " +
             "React with :saluting_face: if you have sent a friend request.\n\n" +
             "> Refferals can be either `friends`, `recruitment_post`, `website` (Means they randomly found the website), `other` or null",

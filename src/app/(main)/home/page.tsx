@@ -20,6 +20,7 @@ import Feature from "./_sections/feature";
 import History from "./_sections/history";
 import {ArrowRight} from "lucide-react";
 import {PatreonLogo} from "@phosphor-icons/react";
+import WorldMap from "@/app/(no-layout)/map/_components/map";
 
 
 export default function IndexPage() {
@@ -31,7 +32,6 @@ export default function IndexPage() {
             <Feature className={'pt-16'}/>
 
             <History className={'mx-0 pt-16 md:mx-24'}/>
-
 
 
             {/*<section className={'mx-auto mt-5 grid grid-rows-2 items-center gap-x-9 gap-y-7 lg:mx-0 lg:grid-cols-3 lg:items-start'}>*/}
@@ -73,11 +73,11 @@ export default function IndexPage() {
             {/*  <h1 className="text-3xl font-bold md:text-6xl">*/}
             {/*  <span>Even Thorny has to eat. </span>*/}
             {/*  </h1>*/}
-            {/*  <p style={{ "--max-width": "99999px" } as React.CSSProperties}>*/}
+            {/*  <p>*/}
             {/*    Support the server by becoming a <b className={'text-attention2'}>Patron!</b> <br /> Donating helps keep*/}
             {/*    Everthorn running, and also provides Thorny with dinner every night.*/}
             {/*  </p>*/}
-            {/*  <Link href={siteConfig.links.patreon} target={'_blank'}>*/}
+            {/*  <Link href={'/support'} target={'_blank'}>*/}
             {/*    <Button className={'mt-4 justify-between'} variant={'patreon'} size={'lg'}>*/}
             {/*      <PatreonLogo className={'size-6'} weight={'fill'} /> <div className='ms-2'>Feed Thorny </div>*/}
             {/*    </Button>*/}
