@@ -63,7 +63,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             guilds = await guildsResponse.json();
 
-            const everthornGuild = guilds.find((guild) => guild.id === "611008530077712395");
+            const everthornGuild = guilds?.find((guild) => guild.id === "611008530077712395");
             everthornMemberInfo = {
               isMember: !!everthornGuild,
               everthorn: everthornGuild?.id,
