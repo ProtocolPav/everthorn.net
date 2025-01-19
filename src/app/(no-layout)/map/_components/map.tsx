@@ -63,7 +63,7 @@ export default function WorldMap()  {
     const [pintoggles, setpintoggles]: [Toggle[], Function] = React.useState([
         {id: 'projects', name: 'Projects', image: projectPin, visible: true},
         {id: 'project_label', name: 'Project Labels', icon: Tag, visible: true},
-        {id: 'players', name: 'Players', image: playerPin, visible: false},
+        {id: 'players', name: 'Players', image: playerPin, visible: true},
     ])
 
     function update_pins(id: string) {
