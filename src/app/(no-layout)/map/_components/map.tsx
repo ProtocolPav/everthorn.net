@@ -22,6 +22,9 @@ import netherrack from 'public/netherrack.png'
 import deepslate from 'public/deepslate.png'
 import {Tag} from '@phosphor-icons/react'
 
+import {LeafletRightClickProvider} from "react-leaflet-rightclick";
+import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
+
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
@@ -102,23 +105,28 @@ export default function WorldMap()  {
     const all_players: Player[] = (isLoading2 || isError2) ? [] : players
 
     return (
-        <MapContainer
-            center={position}
-            zoom={0}
-            style={{width: "100%", height: "100%"}}
-            className={'z-0 flex'}
-            zoomControl={false}
-            crs={L.CRS.Simple}
-            maxBounds={[[2200, 2200], [-2200, -2200]]}
-            maxBoundsViscosity={0.03}
-            attributionControl={false}
-        >
-            <CustomTileLayerComponent/>
-            <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
+        <LeafletRightClickProvider>
+            <MapContainer
+                center={position}
+                zoom={0}
+                style={{width: "100%", height: "100%"}}
+                className={'z-0 flex'}
+                zoomControl={false}
+                crs={L.CRS.Simple}
+                maxBounds={[[2200, 2200], [-2200, -2200]]}
+                maxBoundsViscosity={0.03}
+                attributionControl={false}
+            >
+                <CustomTileLayerComponent/>
+                <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
+                <LeafletContextMenu/>
 
-            <PlayerLayer players={all_players} />
-            <ProjectLayer all_projects={all_projects} visible={pintoggles[0].visible} labels={pintoggles[1].visible}/>
+                <PlayerLayer players={all_players} visible={pintoggles[2].visible} />
+                <ProjectLayer all_projects={all_projects} visible={pintoggles[0].visible} labels={pintoggles[1].visible}/>
 
-        </MapContainer>
+
+            </MapContainer>
+        </LeafletRightClickProvider>
+
     );
 };
