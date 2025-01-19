@@ -111,10 +111,6 @@
   border: none !important;
 }
 
-.leaflet-tile {
-  image-rendering: pixelated;
-}
-
 @layer base {
   .marker-cluster {
     @apply absolute bg-green-500/90 rounded-full outline outline-8 outline-green-500/40 size-10 leading-10 text-center font-bold text-lg  text-green-900;
