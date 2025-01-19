@@ -65,7 +65,14 @@ export const ProjectLayer = React.memo(({all_projects, visible, labels}: {all_pr
                                 </Link>
 
                                 <Link href={`/wiki/${project.project_id}`}>
-                                    <Button variant={'outline'} size={'sm'} className={'mx-auto text-center text-accent-foreground'}>
+                                    <Button
+                                        variant={'outline'}
+                                        size={'sm'}
+                                        className={'mx-auto text-center text-accent-foreground'}
+                                        onClick={async () => {
+                                            await navigator.clipboard.writeText(`${project.name} ${project.coordinates[0]}, ${project.coordinates[1]}, ${project.coordinates[2]}`)
+                                        }}
+                                    >
                                         Copy Coords
                                     </Button>
                                 </Link>
