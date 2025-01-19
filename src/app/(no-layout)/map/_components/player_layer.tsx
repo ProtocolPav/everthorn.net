@@ -15,7 +15,7 @@ export function PlayerLayer ({players}: {players: Player[]}) {
         <div className={'z-400'}>
             {players?.map(player => (
             <LeafletTrackingMarker duration={100} rotationAngle={0} icon={playerIcon} position={[-player.location[2], player.location[0]]} bubblingMouseEvents={true}>
-                <Tooltip className={'z-40'} offset={[0, 10]} direction={'bottom'} permanent={true}>
+                <Tooltip offset={[0, 10]} direction={'bottom'} permanent={true}>
                     {player.gamertag}
                 </Tooltip>
             </LeafletTrackingMarker>
