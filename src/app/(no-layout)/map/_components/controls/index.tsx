@@ -33,7 +33,7 @@ export default function ControlBar (
                         <PinsControl pins={pins} update_pins={update_pins}/>
                     </CardContent>
                     <CardFooter className={'flex justify-center gap-1 rounded-b-md bg-white/20 px-0 py-0.5 text-[10px]'}>
-                        <b className={'rounded-full bg-attention px-1'}>BETA</b>
+                        <b className={'rounded-full bg-attention px-1.5'}>BETA</b>
                         May not work as expected
                     </CardFooter>
                 </Card>
