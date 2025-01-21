@@ -2,12 +2,13 @@ import {Tooltip as LTooltip, Popup, useMap, Marker} from "react-leaflet";
 import React from "react";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import {Lighthouse} from "@phosphor-icons/react";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
 import L, {latLng} from "leaflet";
 import projectPin from "/public/project-pin.png";
+import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import Image from "next/image";
 
 const markerIcon = new L.Icon({
     iconUrl: projectPin.src,
@@ -23,26 +24,26 @@ function createClusterCustomIcon (cluster: any ) {
     });
 }
 
-export const ProjectLayer = React.memo(({all_projects, visible, labels}: {all_projects: Project[], visible: boolean, labels: boolean}) => {
-    if (!visible) return null
+export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: Project[], toggle: Toggle}) => {
+    if (!toggle.visible) return null
 
     return (
-        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true}>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={30}>
             {all_projects.map(project => (
                 <Marker
                     icon={markerIcon}
                     position={[-project.coordinates[2], project.coordinates[0]]}
-                    key={`${project.project_id}-${labels}`}
+                    key={`${project.project_id}-${toggle.label_visible}`}
                 >
-                    <LTooltip offset={[4, -12]} direction={'left'} permanent={labels}>{project.name}</LTooltip>
+                    <LTooltip offset={[4, -12]} direction={'left'} permanent={toggle.label_visible}>{project.name}</LTooltip>
                     <Popup
                         offset={[4, -20]}
                         closeButton={false}
                         autoPan={true}
                     >
                         <TooltipProvider>
-                            <h3 className={'text-md flex items-center gap-1 text-foreground'}>
-                                <Lighthouse weight={'duotone'} size={25}/>
+                            <h3 className={'flex items-center gap-1 text-[19px] text-foreground'}>
+                                <Image src={projectPin} alt={'project pin'} width={20}/>
                                 {project.name}
                             </h3>
                             <p className={'text-sm text-foreground'}>

@@ -16,11 +16,12 @@ import {Toggle} from "../_types/toggle";
 
 import projectPin from "/public/project-pin.png";
 import playerPin from "/public/steve.webp";
+import farmPin from "/public/farm.png"
+import shopPin from "/public/shop.png"
 import grass_block from '/public/grass_block.png'
 import stone from 'public/stone.png'
 import netherrack from 'public/netherrack.png'
 import deepslate from 'public/deepslate.png'
-import {Tag} from '@phosphor-icons/react'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
 import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
@@ -29,8 +30,8 @@ import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
 class CustomTileLayer extends L.TileLayer {
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        return `/amethyst/map/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        // return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        //return `/amethyst/map/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 
@@ -61,15 +62,22 @@ export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
 
     const [pintoggles, setpintoggles]: [Toggle[], Function] = React.useState([
-        {id: 'projects', name: 'Projects', image: projectPin, visible: true},
-        {id: 'project_label', name: 'Project Labels', icon: Tag, visible: true},
-        {id: 'players', name: 'Players', image: playerPin, visible: true},
+        {id: 'projects', name: 'Projects', image: projectPin, visible: true, label_visible: true},
+        {id: 'players', name: 'Players', image: playerPin, visible: true, label_visible: true},
+        {id: 'farms', name: 'Farms', image: farmPin, visible: false, label_visible: true},
+        {id: 'shops', name: 'Shops', image: shopPin, visible: false, label_visible: true},
     ])
 
-    function update_pins(id: string) {
+    function update_pins(id: string, toggle_label?: boolean) {
         const new_pins = pintoggles.map((pin, index) => {
             if (pin.id === id) {
-                return {id: pin.id, visible: !pin.visible, name: pin.name, icon: pin.icon, image: pin.image};
+                return {
+                    id: pin.id,
+                    visible: toggle_label ? pin.visible : !pin.visible,
+                    label_visible: toggle_label ? !pin.label_visible : pin.label_visible,
+                    name: pin.name,
+                    icon: pin.icon,
+                    image: pin.image};
             } else {
                 return pin
             }
@@ -121,9 +129,8 @@ export default function WorldMap()  {
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
                 <LeafletContextMenu/>
 
-                <PlayerLayer players={all_players} visible={pintoggles[2].visible} />
-                <ProjectLayer all_projects={all_projects} visible={pintoggles[0].visible} labels={pintoggles[1].visible}/>
-
+                <PlayerLayer players={all_players} toggle={pintoggles[1]} />
+                <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>
 
             </MapContainer>
         </LeafletRightClickProvider>

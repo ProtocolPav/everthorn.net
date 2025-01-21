@@ -7,4 +7,5 @@ export interface Toggle {
     image?: StaticImageData;
     name: string;
     visible: boolean;
+    label_visible?: boolean;
 }
