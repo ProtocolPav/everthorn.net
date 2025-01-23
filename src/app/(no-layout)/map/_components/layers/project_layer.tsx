@@ -28,7 +28,7 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
     if (!toggle.visible) return null
 
     return (
-        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={30}>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={50}>
             {all_projects.map(project => (
                 <Marker
                     icon={markerIcon}

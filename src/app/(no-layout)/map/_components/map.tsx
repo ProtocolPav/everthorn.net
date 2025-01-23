@@ -3,7 +3,7 @@
 import React from "react";
 import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import L, {TileLayerOptions} from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 
@@ -28,20 +28,27 @@ import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
+    layer: string
+
+    constructor(layer: string, options: TileLayerOptions) {
+        super("", options);
+        this.layer = layer;
+    }
+
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        //return `/amethyst/map/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        //return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 
 // React Component to Add Custom Tile Layer
-const CustomTileLayerComponent = () => {
+function CustomTileLayerComponent ({layer}: {layer: string}) {
     const map = useMap();
 
     React.useEffect(() => {
         // Add the custom Tile Layer to the map
-        const customTileLayer = new CustomTileLayer("", {
+        const customTileLayer = new CustomTileLayer(layer, {
             maxNativeZoom: 2,
             maxZoom: 6,
             minZoom:-5,
@@ -53,10 +60,10 @@ const CustomTileLayerComponent = () => {
         return () => {
             map.removeLayer(customTileLayer);
         };
-    }, [map]);
+    }, [map, layer]);
 
     return null;
-};
+}
 
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
@@ -125,7 +132,7 @@ export default function WorldMap()  {
                 maxBoundsViscosity={0.03}
                 attributionControl={false}
             >
-                <CustomTileLayerComponent/>
+                <CustomTileLayerComponent layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}/>
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
                 <LeafletContextMenu/>
 
