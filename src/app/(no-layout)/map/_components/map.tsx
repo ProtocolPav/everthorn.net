@@ -95,9 +95,8 @@ export default function WorldMap()  {
 
     const [layertoggles, setlayertoggles]: [Toggle[], Function] = React.useState([
         {id: 'overworld', name: 'Overworld', image: grass_block, visible: true},
-        {id: 'underground', name: 'Underground', image: stone, visible: false},
-        {id: 'subway', name: 'Subway', image: deepslate, visible: false},
-        {id: 'nether', name: 'Nether', image: netherrack, visible: false},
+        {id: 'subway', name: 'Subway (y-48)', image: deepslate, visible: false},
+        {id: 'nether', name: 'Nether (y40)', image: netherrack, visible: false},
     ])
 
     function update_layers(id: string) {
