@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
-    "@minecraft/vanilla-data": "^1.20.80",
+    "@minecraft/vanilla-data": "^1.21.50",
     "@phosphor-icons/react": "^2.1.6",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
