@@ -23,21 +23,11 @@ export function AdminSidebar() {
             title: 'Statistics',
             url: '/admin/server/',
             icon: ChartLineIcon,
-            items: [
-                {title: 'Today View', url: '/admin/server/statistics/today'},
-                {title: 'Weekly View', url: '/admin/server/statistics/weekly'},
-                {title: 'Monthly View', url: '/admin/server/statistics/monthly'},
-                {title: 'Full View', url: '/admin/server/statistics/'},
-            ]
         },
         {
             title: 'Console',
             url: '/admin/server/console',
             icon: EthernetPortIcon,
-            items: [
-                {title: 'Schedule Messages', url: '/admin/server/console/message'},
-                {title: 'Whitelist', url: '/admin/server/console/whitelist'},
-            ]
         },
         {
             title: 'Interaction Logs',
@@ -48,10 +38,6 @@ export function AdminSidebar() {
             title: 'Quests',
             url: '/admin/quests',
             icon: ShieldQuestionIcon,
-            items: [
-                {title: 'Creator', url: '/admin/quests/creator'},
-                {title: 'Manager', url: '/admin/quests/manager'},
-            ]
         },
         {
             title: 'Project Applications',
