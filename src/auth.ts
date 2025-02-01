@@ -54,44 +54,42 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const now = Date.now() / 1000;
 
           // Check if cache exists and is still valid
-          if (!token.guildCacheExpiry || now > token.guildCacheExpiry) {
+          if (!token.guildCacheExpiry || now == token.guildCacheExpiry) {
             const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
               headers: {
                 Authorization: `Bearer ${token.accessToken}`,
               },
             });
 
-            guilds = await guildsResponse.json();
+            if (guildsResponse.ok) {
+              guilds = await guildsResponse.json();
 
-            const everthornGuild = guilds?.find((guild) => guild.id === "611008530077712395");
-            everthornMemberInfo = {
-              isMember: !!everthornGuild,
-              everthorn: everthornGuild?.id,
-              isCM: false
-            };
+              const everthornGuild = guilds?.find((guild) => guild.id === "611008530077712395");
+              everthornMemberInfo = {
+                isMember: !!everthornGuild,
+                everthorn: everthornGuild?.id,
+                isCM: false
+              };
 
-            if (everthornGuild) {
-              const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
+              if (everthornGuild) {
+                const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
 
-              if (everthornUserResponse.ok) {
-                const userData = (await everthornUserResponse.json());
-                everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+                if (everthornUserResponse.ok) {
+                  const userData = (await everthornUserResponse.json());
+                  everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+                }
               }
+
+              if (process.env.DEV?.toLowerCase() === "true") {
+                everthornMemberInfo.isCM = true
+              }
+
+              // Update token with cached data and expiry
+              token.everthornMemberInfo = everthornMemberInfo;
             }
 
-            if (process.env.DEV?.toLowerCase() === "true") {
-              everthornMemberInfo.isCM = true
-            }
-
-            // Update token with cached data and expiry
-            token.everthornMemberInfo = everthornMemberInfo;
             token.guildCacheExpiry = now + 3600; // Cache expiry set to 1 hour
-          } else {
-            // Use cached data
-            everthornMemberInfo = token.everthornMemberInfo;
           }
-
-          token.everthornMemberInfo = everthornMemberInfo;
         } catch (err: Error | any) {
           console.log(err?.stack);
         }
