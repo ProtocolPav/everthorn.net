@@ -1,5 +1,5 @@
-import NextAuth, { Session } from "next-auth";
-import DiscordProvider, {DiscordProfile} from "next-auth/providers/discord";
+import NextAuth, { Profile, Session, User } from "next-auth";
+import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
 import { JWT } from "next-auth/jwt";
 import { EverthornMemberInfo, Guild } from "@/types/discord";
 
@@ -12,7 +12,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       token: 'https://discord.com/api/oauth2/token',
       userinfo: 'https://discord.com/api/users/@me',
       profile(profile: DiscordProfile) {
-        return {
+        return { // I'm gonna cry about this bc yes
           id: profile.id,
           nick: profile.global_name ?? profile.username, // Fallback to username if global_name is null
           name: profile.username,
@@ -34,16 +34,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       if (profile) {
-        token.id = profile.id as string;
-        token.nick = (profile.global_name ?? profile.username) as string;
-        token.name = profile.username as string;
-        token.email = profile.email as string;
-        token.image = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
-        token.banner = profile.banner ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=600` : null;
-        token.decoration = (profile.avatar_decoration_data) ? `https://cdn.discordapp.com/avatar-decoration-presets/${(profile.avatar_decoration_data as { asset: string, sku_id: string}).asset}` : null;
-        token.banner_color = profile.banner_color as string;
-        token.discriminator = profile.discriminator as string;
-        token.verified = profile.verified as boolean;
+        token = profile as JWT
       }
 
       if (token.accessToken) {
@@ -98,16 +89,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
-      session.user.id = token.id as string;
-      session.user.nick = token.nick as string;
-      session.user.name = token.name as string;
-      session.user.email = token.email as string;
-      session.user.image = token.image as string;
-      session.user.banner = token.banner as string;
-      session.user.banner_color = token.banner_color as string;
-      session.user.decoration = token.decoration as string;
-      session.user.discriminator = token.discriminator as string;
-      session.user.verified = token.verified as boolean;
+      session.user = token
       session.user.everthornMemberInfo = token.everthornMemberInfo;
       return session;
     },
