@@ -14,12 +14,12 @@ import {ProjectLayer} from "@/app/(no-layout)/map/_components/layers/project_lay
 import ControlBar from "@/app/(no-layout)/map/_components/controls";
 import {Toggle} from "../_types/toggle";
 
-import project from "/public/map/ui/project.png";
-import player from "/public/map/ui/steve.png";
-import farm from "/public/map/ui/farm.png"
-import relic from "/public/map/ui/relic.png"
-import shop from "/public/map/ui/shop.png"
-import grass_block from '/public/map/ui/grass_block.png'
+import project from "public/map/ui/project.png";
+import player from "public/map/ui/steve.png";
+import farm from "public/map/ui/farm.png"
+import relic from "public/map/ui/relic.png"
+import shop from "public/map/ui/shop.png"
+import grass_block from 'public/map/ui/grass_block.png'
 import netherrack from 'public/map/ui/netherrack.png'
 import deepslate from 'public/map/ui/deepslate.png'
 

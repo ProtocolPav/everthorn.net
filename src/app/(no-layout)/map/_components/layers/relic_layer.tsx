@@ -6,7 +6,7 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
 import L, {latLng} from "leaflet";
-import relicPin from "/public/map/pins/relic.png";
+import relicPin from "public/map/pins/relic.png";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import Image from "next/image";
 

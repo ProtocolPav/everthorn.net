@@ -2,7 +2,7 @@ import {Tooltip} from "react-leaflet";
 import React from "react";
 import {Player} from "@/hooks/use-players"
 import L from "leaflet";
-import mapPin from "/public/map/pins/steve.png";
+import mapPin from "public/map/pins/steve.png";
 import { LeafletTrackingMarker } from "react-leaflet-tracking-marker";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 

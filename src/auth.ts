@@ -54,7 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const now = Date.now() / 1000;
 
           // Check if cache exists and is still valid
-          if (!token.guildCacheExpiry || now == token.guildCacheExpiry) {
+          if (!token.guildCacheExpiry || now >= token.guildCacheExpiry) {
             const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
               headers: {
                 Authorization: `Bearer ${token.accessToken}`,
