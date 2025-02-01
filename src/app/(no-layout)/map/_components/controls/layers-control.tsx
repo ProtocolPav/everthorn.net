@@ -12,7 +12,7 @@ export const LayersControl = ({layers, update_layers}: {layers: Toggle[], update
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
-            <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)}>
+            <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)} asChild>
                 <Button variant={'outline'} className={'flex gap-1 bg-background/30 p-2'}>
                     <CardsThree weight={'duotone'} size={20}/> <ChevronDown size={15}/>
                 </Button>
@@ -29,6 +29,7 @@ export const LayersControl = ({layers, update_layers}: {layers: Toggle[], update
                 <h3 className={'px-0.5 text-sm'}>Map Layers</h3>
                 {layers.map(layer => (
                     <Button
+                        key={layer.id}
                         variant={'invisible'}
                         size={'sm'}
                         className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (layer.visible ? 'bg-cyan-200/10' : ''))}

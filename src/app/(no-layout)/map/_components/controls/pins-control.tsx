@@ -19,7 +19,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
-            <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)}>
+            <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)} asChild>
                 <Button variant={'outline'} className={'flex gap-1 bg-background/30 p-2'}>
                     <MapPinArea weight={'duotone'} size={20}/> <ChevronDown size={15}/>
                 </Button>
@@ -34,7 +34,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
             >
                 <h3 className={'flex px-0.5 text-center text-sm'}>Map Pins</h3>
                 {pins.map(pin => (
-                    <div className={'flex gap-1'}>
+                    <div className={'flex gap-1'} key={pin.id}>
                         <Button
                             variant={'invisible'}
                             size={'sm'}
