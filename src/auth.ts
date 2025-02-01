@@ -35,6 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (profile) {
         token = { ...token, ...profile } as JWT
+        token.nick = token.global_name as string
         console.log("Profile check: ", token)
       }
 
