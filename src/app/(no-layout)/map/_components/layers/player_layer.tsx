@@ -2,8 +2,7 @@ import {Tooltip} from "react-leaflet";
 import React from "react";
 import {Player} from "@/hooks/use-players"
 import L from "leaflet";
-import mapPin from "/public/steve.webp";
-import mapPin2 from "/public/steve_underground.webp";
+import mapPin from "/public/map/pins/steve.png";
 import { LeafletTrackingMarker } from "react-leaflet-tracking-marker";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 
@@ -13,8 +12,9 @@ const playerIcon = new L.Icon({
 });
 
 const playerUndergroundIcon = new L.Icon({
-    iconUrl: mapPin2.src,
+    iconUrl: mapPin.src,
     iconSize: [24, 24],
+    className: "grayscale contrast-125"
 });
 
 export function PlayerLayer ({players, toggle}: {players: Player[], toggle: Toggle}) {

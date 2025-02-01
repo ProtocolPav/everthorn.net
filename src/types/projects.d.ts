@@ -13,10 +13,5 @@ export interface Project {
   status: {
     status: "pending" | "ongoing" | "abandoned" | "completed",
     status_since: string
-  },
-  content: {
-    content: string,
-    content_since: string,
-    content_edited_by: number
   }
 }

@@ -6,14 +6,28 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
 import L, {latLng} from "leaflet";
-import projectPin from "/public/project-pin.png";
+import projectPin from "/public/map/pins/project.png";
+import abandonedPin from "/public/map/pins/abandoned.png";
+import completedPin from "/public/map/pins/completed.png";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import Image from "next/image";
 
-const markerIcon = new L.Icon({
+const project_icon = new L.Icon({
     iconUrl: projectPin.src,
-    iconSize: [26, 26],
-    iconAnchor: [0, 26],
+    iconSize: [25.6, 41.6],
+    iconAnchor: [0, 41.6],
+});
+
+const abandoned_icon = new L.Icon({
+    iconUrl: abandonedPin.src,
+    iconSize: [25.6, 41.6],
+    iconAnchor: [0, 41.6],
+});
+
+const completed_icon = new L.Icon({
+    iconUrl: completedPin.src,
+    iconSize: [25.6, 41.6],
+    iconAnchor: [0, 41.6],
 });
 
 function createClusterCustomIcon (cluster: any ) {
@@ -31,7 +45,7 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={50}>
             {all_projects.map(project => (
                 <Marker
-                    icon={markerIcon}
+                    icon={project_icon}
                     position={[-project.coordinates[2], project.coordinates[0]]}
                     key={`${project.project_id}-${toggle.label_visible}`}
                 >

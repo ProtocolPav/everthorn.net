@@ -41,8 +41,8 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                             className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (pin.visible ? 'bg-cyan-200/10' : ''))}
                             onClick={() => {update_pins(pin.id)}}
                         >
-                            {pin.image ? <Image src={pin.image} alt={'pin icon'} width={20}/> : null}
-                            {pin.icon ? <pin.icon weight={'duotone'} size={20}/> : null}
+                            {pin.image ? <Image src={pin.image} alt={'pin icon'} width={24}/> : null}
+                            {pin.icon ? <pin.icon weight={'duotone'} size={24}/> : null}
                             {pin.name}
                         </Button>
                         <Button
