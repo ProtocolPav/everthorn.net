@@ -1,6 +1,7 @@
-import {Tooltip as LTooltip, Popup, useMap, Marker} from "react-leaflet";
+import {Tooltip as LTooltip, Popup, Marker, useMap} from "react-leaflet";
 import React from "react";
 import MarkerClusterGroup from "react-leaflet-markercluster";
+import "react-leaflet-markercluster/styles"
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";

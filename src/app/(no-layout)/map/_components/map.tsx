@@ -7,7 +7,6 @@ import L, {TileLayerOptions} from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 
-import 'react-leaflet-markercluster/styles'
 import {usePlayers, Player} from "@/hooks/use-players";
 import {PlayerLayer} from "@/app/(no-layout)/map/_components/layers/player_layer";
 import {ProjectLayer} from "@/app/(no-layout)/map/_components/layers/project_layer";
