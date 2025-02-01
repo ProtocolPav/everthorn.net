@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 224, 71%, 4%;
+    --foreground: 213, 31%, 91%;
+
+    --muted: 223, 47%, 11%;
+    --muted-foreground: 215.4, 16.3%, 66.9%;
+
+    --accent: 216, 34%, 17%;
+    --accent-foreground: 210, 40%, 98%;
+
+    --popover: 224, 71%, 4%;
+    --popover-foreground: 215, 20.2%, 65.1%;
+
+    --border: 216, 34%, 17%;
+    --input: 216, 34%, 17%;
+
+    --card: 224, 71%, 4%;
+    --card-foreground: 213, 31%, 91%;
+
+    --primary: 120, 97%, 94%;
+    --primary-foreground: 222.2, 47.4%, 1.2%;
+
+    --secondary: 222.2, 47.4%, 11.2%;
+    --secondary-foreground: 210, 40%, 98%;
+
+    --destructive: 0, 63%, 31%;
+    --destructive-foreground: 210, 40%, 98%;
+
+    --attention: 250, 100%, 40%;
+    --attention-foreground: 60, 40%, 90%;
+
+    --attention-text: 173, 60%, 60%;
+
+    --ring: 216, 34%, 47%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4 {
+    @apply leading-tight tracking-tight font-extrabold
+  }
+
+  h1 {
+    @apply text-5xl md:text-8xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl
+  }
+
+  h3 {
+    @apply text-2xl md:text-xl font-semibold tracking-tight
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold
+  }
+
+  p {
+    @apply mt-2 text-lg text-muted-foreground;
+
+    max-width: var(700px);
+  }
+}
+
+.leaflet-container {
+  @apply bg-background !important;
+}
+
+.leaflet-popup-content-wrapper {
+  @apply bg-background/50 backdrop-blur-md border-2 border-background/70 rounded-lg !important;
+}
+
+.leaflet-popup-tip {
+  @apply bg-background !important;
+}
+
+.leaflet-tooltip {
+  @apply bg-background/80 border-none rounded-sm text-white text-[10px] py-0.5 !important;
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  border: none !important;
+}
+
+@layer base {
+  .marker-cluster {
+    @apply absolute bg-green-500/90 rounded-full outline outline-8 outline-green-500/40 size-10 leading-10 text-center font-bold text-lg  text-green-900;
+  }
+
+  .marker-cluster-many {
+    @apply marker-cluster bg-orange-500/90 outline-orange-500/40 text-orange-900;
+  }
+}
