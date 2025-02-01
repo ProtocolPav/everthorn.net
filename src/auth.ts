@@ -34,7 +34,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       if (profile) {
-        token = profile as JWT
+        token = { ...token, ...profile } as JWT
+        console.log("Profile check: ", token)
       }
 
       if (token.accessToken) {
@@ -90,7 +91,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       session.user = token
-      session.user.everthornMemberInfo = token.everthornMemberInfo;
       return session;
     },
   },
