@@ -8,6 +8,7 @@ import {Badge} from "@/components/ui/badge";
 import Image from "next/image";
 import placeholder from '/public/screenshots/beyond.png'
 import {cn} from "@/lib/utils";
+import Link from "next/link";
 
 export default function Quests() {
     const [api, setApi] = React.useState<CarouselApi>()
@@ -15,6 +16,11 @@ export default function Quests() {
     return (
         <section className="mx-5 grid items-center gap-6 pb-8 pt-6">
             <h2>Everthorn Quests</h2>
+            <Link href={'/quests/creator'}>
+                <Button>
+                    Create New Quest
+                </Button>
+            </Link>
 
             <Carousel setApi={setApi} className={'rounded-xl p-2'}>
                 <div className={'flex justify-between'}>
