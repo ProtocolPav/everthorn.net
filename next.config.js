@@ -13,17 +13,26 @@ const nextConfig = {
           permanent: true,
         },
         {
-          source: '/wiki/pages',
-          destination: '/wiki',
+          source: '/youtube',
+          destination: 'https://www.youtube.com/@everthornMC',
           permanent: true,
         },
+        {
+          source: '/',
+          destination: '/home',
+          permanent: true
+        }
       ]
     },
   async rewrites() {
     return [
       {
         source: '/nexuscore-api/:path*',
-        destination: 'http://everthorn.net:8000/api/:path*'
+        destination: 'https://api.everthorn.net/:path*'
+      },
+      {
+        source: '/amethyst/:path*',
+        destination: 'http://amethyst:8000/:path*'
       }
     ]
   }
