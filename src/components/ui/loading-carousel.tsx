@@ -207,6 +207,7 @@ export function LoadingCarousel({
                     }}
                 >
                     <CarouselContent>
+                        {/* @ts-ignore */}
                         <AnimatePresence initial={false} custom={direction}>
                             {(displayTips || []).map((tip, index) => (
                                 <CarouselItem key={index}>
