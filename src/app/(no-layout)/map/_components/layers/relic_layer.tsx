@@ -16,7 +16,13 @@ const relic_icon = new L.Icon({
     iconAnchor: [0, 41.6],
 });
 
-export const ProjectLayer = React.memo(({all_relics, toggle}: {all_relics: Project[], toggle: Toggle}) => {
+interface Relic {
+    id: string
+    name: string
+    coordinates: number[]
+}
+
+export const RelicLayer = React.memo(({all_relics, toggle}: {all_relics: Relic[], toggle: Toggle}) => {
     if (!toggle.visible) return null
 
     return (
@@ -25,7 +31,7 @@ export const ProjectLayer = React.memo(({all_relics, toggle}: {all_relics: Proje
             <Marker
                 icon={relic_icon}
                 position={[-relic.coordinates[2], relic.coordinates[0]]}
-                key={`${relic.project_id}-${toggle.label_visible}`}
+                key={`${relic.id}-${toggle.label_visible}`}
             >
                 <LTooltip offset={[4, -12]} direction={'left'} permanent={toggle.label_visible}>{relic.name}</LTooltip>
                 <Popup
@@ -39,36 +45,20 @@ export const ProjectLayer = React.memo(({all_relics, toggle}: {all_relics: Proje
                             {relic.name}
                         </h3>
                         <p className={'text-sm text-foreground'}>
-                            Project by:
-                            <Tooltip delayDuration={0}>
-                                {/*@ts-ignore*/}
-                                <TooltipTrigger className={'ml-1 font-semibold hover:underline'}>{project.owner.gamertag}</TooltipTrigger>
-                                {/*@ts-ignore*/}
-                                <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
-                            </Tooltip>
-                            <br/>
                             Coordinates: {relic.coordinates.join(', ')} <br/>
                         </p>
 
                         <div className={'flex gap-1'}>
-                            <Link href={`/wiki/${relic.project_id}`}>
-                                <Button variant={'secondary'} size={'sm'} className={'mx-auto text-center'}>
-                                    Wiki Page
-                                </Button>
-                            </Link>
-
-                            <Link href={`/wiki/${relic.project_id}`}>
-                                <Button
-                                    variant={'outline'}
-                                    size={'sm'}
-                                    className={'mx-auto text-center text-accent-foreground'}
-                                    onClick={async () => {
-                                        await navigator.clipboard.writeText(`${relic.name} ${relic.coordinates[0]}, ${relic.coordinates[1]}, ${relic.coordinates[2]}`)
-                                    }}
-                                >
-                                    Copy Coords
-                                </Button>
-                            </Link>
+                            <Button
+                                variant={'outline'}
+                                size={'sm'}
+                                className={'mx-auto text-center text-accent-foreground'}
+                                onClick={async () => {
+                                    await navigator.clipboard.writeText(`${relic.name} ${relic.coordinates[0]}, ${relic.coordinates[1]}, ${relic.coordinates[2]}`)
+                                }}
+                            >
+                                Copy Coords
+                            </Button>
                         </div>
                     </TooltipProvider>
                 </Popup>
@@ -78,4 +68,4 @@ export const ProjectLayer = React.memo(({all_relics, toggle}: {all_relics: Proje
     )
 })
 
-ProjectLayer.displayName = "ProjectLayer";
+RelicLayer.displayName = "RelicLayer";
