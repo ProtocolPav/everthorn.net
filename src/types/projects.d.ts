@@ -6,7 +6,7 @@ export interface Project {
   thread_id: number,
   started_on: number,
   completed_on: number,
-  owner: object,
+  owner: {gamertag: string, username: string, [key: string]: any},
   members: {
     members: number[]
   },
