@@ -93,11 +93,14 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply bg-background/50 backdrop-blur-md border-2 border-background/70 rounded-lg !important;
+  @apply bg-background/50 backdrop-blur-md border rounded-lg shadow-2xl shadow-black !important;
+}
+.leaflet-popup-content {
+  @apply m-1.5 !important;
 }
 
 .leaflet-popup-tip {
-  @apply bg-background !important;
+  @apply opacity-0 !important;
 }
 
 .leaflet-tooltip {
@@ -113,7 +116,7 @@
 
 @layer base {
   .marker-cluster {
-    @apply absolute bg-green-500/90 rounded-full outline outline-8 outline-green-500/40 size-10 leading-10 text-center font-bold text-lg  text-green-900;
+    @apply absolute bg-green-500/90 rounded-full outline outline-8 outline-green-500/40 size-10 leading-10 text-center font-bold text-lg text-green-900;
   }
 
   .marker-cluster-many {

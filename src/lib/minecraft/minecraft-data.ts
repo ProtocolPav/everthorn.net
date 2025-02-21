@@ -4,5 +4,5 @@ export const items = Object.values(MinecraftItemTypes).map((item) => String(item
 
 export const blocks = Object.values(MinecraftBlockTypes).map((block) => String(block))
 
-export const entities = Object.values(MinecraftEntityTypes).map((entity) => `minecraft:${entity}`)
+export const entities = Object.values(MinecraftEntityTypes).map((entity) => String(entity))
 

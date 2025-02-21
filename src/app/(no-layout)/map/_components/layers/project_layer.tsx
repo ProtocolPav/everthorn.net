@@ -12,6 +12,7 @@ import abandonedPin from "public/map/pins/abandoned.png";
 import completedPin from "public/map/pins/completed.png";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import Image from "next/image";
+import {ClipboardText} from "@phosphor-icons/react";
 
 const project_icon = new L.Icon({
     iconUrl: projectPin.src,
@@ -31,6 +32,19 @@ const completed_icon = new L.Icon({
     iconAnchor: [0, 41.6],
 });
 
+function get_icon(project: Project) {
+    switch (project.status) {
+        case "abandoned":
+            return abandoned_icon
+        case "completed":
+            return completed_icon
+
+        default:
+            return project_icon
+
+    }
+}
+
 function createClusterCustomIcon (cluster: any ) {
     return L.divIcon({
         html: `<span>${cluster.getChildCount()}</span>`,
@@ -46,31 +60,28 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={50}>
             {all_projects.map(project => (
                 <Marker
-                    icon={project_icon}
+                    icon={get_icon(project)}
                     position={[-project.coordinates[2], project.coordinates[0]]}
                     key={`${project.project_id}-${toggle.label_visible}`}
                 >
                     <LTooltip offset={[4, -12]} direction={'left'} permanent={toggle.label_visible}>{project.name}</LTooltip>
                     <Popup
-                        offset={[4, -20]}
+                        offset={[4, -15]}
                         closeButton={false}
                         autoPan={true}
                     >
                         <TooltipProvider>
-                            <h3 className={'flex items-center gap-1 text-[19px] text-foreground'}>
-                                <Image src={projectPin} alt={'project pin'} width={20}/>
+                            <h3 className={'flex justify-center text-[19px] text-foreground'}>
                                 {project.name}
                             </h3>
                             <p className={'text-sm text-foreground'}>
                                 Project by:
                                 <Tooltip delayDuration={0}>
-                                    {/*@ts-ignore*/}
                                     <TooltipTrigger className={'ml-1 font-semibold hover:underline'}>{project.owner.gamertag}</TooltipTrigger>
-                                    {/*@ts-ignore*/}
                                     <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
                                 </Tooltip>
                                 <br/>
-                                Coordinates: {project.coordinates.join(', ')} <br/>
+                                Status: {project.status}
                             </p>
 
                             <div className={'flex gap-1'}>
@@ -80,18 +91,16 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
                                     </Button>
                                 </Link>
 
-                                <Link href={`/wiki/${project.project_id}`}>
-                                    <Button
-                                        variant={'outline'}
-                                        size={'sm'}
-                                        className={'mx-auto text-center text-accent-foreground'}
-                                        onClick={async () => {
-                                            await navigator.clipboard.writeText(`${project.name} ${project.coordinates[0]}, ${project.coordinates[1]}, ${project.coordinates[2]}`)
-                                        }}
-                                    >
-                                        Copy Coords
-                                    </Button>
-                                </Link>
+                                <Button
+                                    variant={'outline'}
+                                    size={'sm'}
+                                    className={'mx-auto text-center font-mono text-accent-foreground'}
+                                    onClick={async () => {
+                                        await navigator.clipboard.writeText(`${project.name} ${project.coordinates[0]}, ${project.coordinates[1]}, ${project.coordinates[2]}`)
+                                    }}
+                                >
+                                    {project.coordinates.join(', ')}
+                                </Button>
                             </div>
                         </TooltipProvider>
                     </Popup>

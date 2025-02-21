@@ -11,6 +11,12 @@ const playerIcon = new L.Icon({
     iconSize: [24, 24],
 });
 
+const hiddenPlayerIcon = new L.Icon({
+    iconUrl: mapPin.src,
+    iconSize: [24, 24],
+    className: 'opacity-35'
+});
+
 const playerUndergroundIcon = new L.Icon({
     iconUrl: mapPin.src,
     iconSize: [24, 24],
@@ -22,17 +28,17 @@ export function PlayerLayer ({players, toggle}: {players: Player[], toggle: Togg
 
     return (
         <div>
-            {players?.filter(player => (!player.hidden)).map(player => (
+            {players?.map(player => (
             <LeafletTrackingMarker
                 duration={100}
                 rotationAngle={0}
-                icon={player.location[1] < 40 ? playerUndergroundIcon : playerIcon}
+                icon={player.hidden ? hiddenPlayerIcon : player.location[1] < 40 ? playerUndergroundIcon : playerIcon}
                 position={[-player.location[2], player.location[0]]}
                 bubblingMouseEvents={true}
                 key={`${player.gamertag}-${toggle.label_visible}`}
             >
-                <Tooltip offset={[0, 10]} direction={'bottom'} permanent={toggle.label_visible}>
-                    {player.gamertag}
+                <Tooltip offset={[0, 10]} direction={'bottom'} permanent={!player.hidden ? toggle.label_visible : false}>
+                    {!player.hidden ? player.gamertag : null}
                 </Tooltip>
             </LeafletTrackingMarker>
         ))}

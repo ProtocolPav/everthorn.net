@@ -24,6 +24,8 @@ import deepslate from 'public/map/ui/deepslate.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
 import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
+import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
+import {usePins} from "@/hooks/use-pins";
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
@@ -118,6 +120,11 @@ export default function WorldMap()  {
     const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
     const all_players: Player[] = (isLoading2 || isError2) ? [] : players
 
+    const { pins, isLoading: isLoading3, isError: isError3 } = usePins();
+    const farm_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'farm');
+    const relic_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'relic');
+    const shop_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'shop');
+
     return (
         <LeafletRightClickProvider>
             <MapContainer
@@ -136,6 +143,9 @@ export default function WorldMap()  {
                 <LeafletContextMenu/>
 
                 <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>
+                <PinLayer pins={relic_pins} toggle={pintoggles[2]}/>
+                <PinLayer pins={farm_pins} toggle={pintoggles[3]}/>
+                <PinLayer pins={shop_pins} toggle={pintoggles[4]}/>
                 <PlayerLayer players={all_players} toggle={pintoggles[1]} />
 
             </MapContainer>

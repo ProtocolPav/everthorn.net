@@ -6,12 +6,7 @@ export interface Project {
   thread_id: number,
   started_on: number,
   completed_on: number,
-  owner: object,
-  members: {
-    members: number[]
-  },
-  status: {
-    status: "pending" | "ongoing" | "abandoned" | "completed",
-    status_since: string
-  }
+  owner: {gamertag: string, username: string, [key: string]: any},
+  status: "pending" | "ongoing" | "abandoned" | "completed",
+  status_since: string
 }
