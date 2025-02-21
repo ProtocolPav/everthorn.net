@@ -24,7 +24,8 @@ import deepslate from 'public/map/ui/deepslate.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
 import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
-import {RelicLayer} from "@/app/(no-layout)/map/_components/layers/relic_layer";
+import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
+import {usePins} from "@/hooks/use-pins";
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
@@ -37,8 +38,8 @@ class CustomTileLayer extends L.TileLayer {
 
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        //return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        //return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 
@@ -119,13 +120,10 @@ export default function WorldMap()  {
     const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
     const all_players: Player[] = (isLoading2 || isError2) ? [] : players
 
-    const all_relics = [
-        {id: 'cere_relic', name: 'Statue of Cere', coordinates: [1340, 60, 1030]},
-        {id: 'dalvasha', name: 'Dalvasha Temple', coordinates: [-1604, 60, 266]},
-        {id: 'eireann', name: 'Carthage Senate', coordinates: [1444, 60, -1444]},
-        {id: 'asbahamael', name: 'Asbahamael Castle', coordinates: [-734, 60, -374]},
-        {id: 'blackwood', name: 'Blackwood Tower', coordinates: [366, 60, -876]},
-    ]
+    const { pins, isLoading: isLoading3, isError: isError3 } = usePins();
+    const farm_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'farm');
+    const relic_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'relic');
+    const shop_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'shop');
 
     return (
         <LeafletRightClickProvider>
@@ -145,7 +143,9 @@ export default function WorldMap()  {
                 <LeafletContextMenu/>
 
                 <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>
-                <RelicLayer all_relics={all_relics} toggle={pintoggles[2]}/>
+                <PinLayer pins={relic_pins} toggle={pintoggles[2]}/>
+                <PinLayer pins={farm_pins} toggle={pintoggles[3]}/>
+                <PinLayer pins={shop_pins} toggle={pintoggles[4]}/>
                 <PlayerLayer players={all_players} toggle={pintoggles[1]} />
 
             </MapContainer>

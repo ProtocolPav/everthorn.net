@@ -7,11 +7,6 @@ export interface Project {
   started_on: number,
   completed_on: number,
   owner: {gamertag: string, username: string, [key: string]: any},
-  members: {
-    members: number[]
-  },
-  status: {
-    status: "pending" | "ongoing" | "abandoned" | "completed",
-    status_since: string
-  }
+  status: "pending" | "ongoing" | "abandoned" | "completed",
+  status_since: string
 }

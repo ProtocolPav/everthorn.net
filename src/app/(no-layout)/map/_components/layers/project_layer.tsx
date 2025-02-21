@@ -32,6 +32,19 @@ const completed_icon = new L.Icon({
     iconAnchor: [0, 41.6],
 });
 
+function get_icon(project: Project) {
+    switch (project.status) {
+        case "abandoned":
+            return abandoned_icon
+        case "completed":
+            return completed_icon
+
+        default:
+            return project_icon
+
+    }
+}
+
 function createClusterCustomIcon (cluster: any ) {
     return L.divIcon({
         html: `<span>${cluster.getChildCount()}</span>`,
@@ -47,7 +60,7 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={50}>
             {all_projects.map(project => (
                 <Marker
-                    icon={project_icon}
+                    icon={get_icon(project)}
                     position={[-project.coordinates[2], project.coordinates[0]]}
                     key={`${project.project_id}-${toggle.label_visible}`}
                 >
@@ -68,7 +81,7 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
                                     <TooltipContent side={'right'} className={'bg-background/90'}>Discord: @{project.owner.username}</TooltipContent>
                                 </Tooltip>
                                 <br/>
-                                Status: {project.status?.status}
+                                Status: {project.status}
                             </p>
 
                             <div className={'flex gap-1'}>
