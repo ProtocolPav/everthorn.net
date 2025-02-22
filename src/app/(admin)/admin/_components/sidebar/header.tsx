@@ -9,7 +9,6 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Image from "next/image";
-import {SignOut} from "@phosphor-icons/react";
 import Link from "next/link";
 
 export function PanelLogo(){

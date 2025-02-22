@@ -4,7 +4,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader, SidebarMenuSkeleton,
-    SidebarSeparator
+    SidebarSeparator, SidebarTrigger
 } from "@/components/ui/sidebar"
 import {PanelLogo} from "@/app/(admin)/admin/_components/sidebar/header";
 import {Exit} from "@/app/(admin)/admin/_components/sidebar/footer";
