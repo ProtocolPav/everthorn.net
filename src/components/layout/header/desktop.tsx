@@ -129,8 +129,8 @@ export function Desktop() {
                     The main dashboard. You can view server stats and more
                   </ListItem>
 
-                  <ListItem href={'/admin/quests/creator'} title={'Quest Creator'}>
-                    Quick link to Quest Creator. Also accessible via dashboard
+                  <ListItem href={'/admin/quests/creator/v2'} title={'Quest Creator v2'} className={'bg-gradient-to-tl from-transparent to-yellow-300/10'}>
+                    NEW! Quick link to Quest Creator. Also accessible via dashboard
                   </ListItem>
 
                   <ListItem href={'/admin/guidelines'} title={'CM Guidelines'}>
