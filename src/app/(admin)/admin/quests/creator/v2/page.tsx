@@ -14,6 +14,8 @@ import {Textarea} from "@/components/ui/textarea";
 import {QuestTitle} from "./_components/title"
 import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
 import {QuestDates} from "@/app/(admin)/admin/quests/creator/v2/_components/dates";
+import {Separator} from "@/components/ui/separator";
+import {QuestObjectives} from "@/app/(admin)/admin/quests/creator/v2/_components/objectives";
 
 export default function QuestsCreator() {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -27,6 +29,7 @@ export default function QuestsCreator() {
     };
 
     async function onSubmit(form: z.infer<typeof formSchema>): Promise<void> {
+        console.log('submitted')
         console.log(form)
     }
 
@@ -45,12 +48,22 @@ export default function QuestsCreator() {
             <section className="grid items-center gap-6 pb-8">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <Card className={'md:w-4/5'}>
-                            <CardContent className={'px-3 py-2'}>
+                        <Card className={'bg-background/70 md:w-4/5'}>
+                            
+                            <CardContent className={'p-3'}>
                                 <QuestTitle form={form} />
                                 <QuestDescription form={form}/>
                                 <QuestDates form={form}/>
+                                <Separator/>
+                                <QuestObjectives form={form}/>
                             </CardContent>
+                            
+                            <CardFooter className={'p-3'}>
+                                <Button variant={'secondary'} type={'submit'}>
+                                    Submit
+                                </Button>
+                            </CardFooter>
+
                         </Card>
                     </form>
                 </Form>
