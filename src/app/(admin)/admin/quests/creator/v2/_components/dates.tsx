@@ -20,7 +20,7 @@ export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchem
             control={form.control}
             name="range"
             render={({ field }) => (
-                <FormItem className="my-4">
+                <FormItem className="my-4 md:w-2/6">
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>

@@ -1,7 +1,7 @@
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
-import { useFieldArray } from "react-hook-form"
+import { useFieldArray, UseFormGetValues } from "react-hook-form"
 import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import * as React from "react";
 import {Button} from "@/components/ui/button";
@@ -10,9 +10,9 @@ import {Objective} from "./objective";
 
 export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
     function addObjective() {
-        const objectives = form.getValues("objectives") ? form.getValues("objectives") : []
+        let objectives = form.getValues("objectives")
 
-        objectives.push({
+        const new_objective = {
             objective: "",
             display: "",
             description: "",
@@ -26,8 +26,10 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
             require_location: false,
             location: undefined,
             location_radius: 100,
-            rewards: [],
-        })
+            rewards: []
+        }
+
+        !objectives ? objectives = [new_objective] : objectives.push(new_objective)
 
         form.setValue("objectives", objectives)
     }
@@ -47,7 +49,7 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
                         <FormMessage/>
 
                         {objective_fields.map((field, index) => (
-                            <Objective form={form} index={index}/>
+                            <Objective key={index} form={form} index={index}/>
                         ))}
                     </div>
                 )}

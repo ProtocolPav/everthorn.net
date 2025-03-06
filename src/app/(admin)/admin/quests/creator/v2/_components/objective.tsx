@@ -1,7 +1,7 @@
 import {useFieldArray, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "@/app/(admin)/admin/quests/creator/v2/_types/schema";
-import {FormField} from "@/components/ui/form";
+import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import * as React from "react";
@@ -14,6 +14,9 @@ import {useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
 import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Icon} from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
+import {Textarea} from "@/components/ui/textarea";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Input} from "@/components/ui/input";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -67,21 +70,20 @@ export function Objective({ form, index }: ObjectiveProps) {
                         open={open}
                         onOpenChange={setOpen}
                     >
-                        <div className={'flex justify-between'}>
-                            <CollapsibleTrigger className={'align-center flex w-full gap-1.5'}>
+                        <div className={'flex justify-between gap-1.5'}>
+                            <CollapsibleTrigger asChild>
                                 <Button size={'icon'} variant={'ghost'} className={'size-8'}>
                                     <ChevronDownIcon
                                         size={15}
-                                        className={cn(
-                                            { "rotate-180": open },
-                                            "transition-all"
-                                        )}
+                                        className={cn({ "rotate-180": open }, "transition-all")}
                                     />
                                 </Button>
+                            </CollapsibleTrigger>
 
-                                <h4 className={'my-auto'}>
+                            <CollapsibleTrigger asChild className={'w-full'}>
+                                <FormLabel className="text-2xl font-semibold hover:cursor-pointer hover:font-extrabold">
                                     {`${index + 1}. ${form.getValues(`objectives.${index}.objective`)}`}
-                                </h4>
+                                </FormLabel>
                             </CollapsibleTrigger>
 
                             <div className={'flex gap-1'}>
@@ -97,8 +99,60 @@ export function Objective({ form, index }: ObjectiveProps) {
                         </div>
 
 
-                        <CollapsibleContent>
-                            dsadsadsa
+                        <CollapsibleContent className={'flex flex-col gap-2 p-1'}>
+                            <FormField
+                                control={form.control}
+                                name={`objectives.${index}.description`}
+                                render={({ field }) => (
+                                    <FormItem className={'mt-3'}>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Objective flavour text goes here. Any big story reveals?"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <div className={'flex grid-cols-2 gap-2 md:grid-cols-3'}>
+                                <FormField
+                                    control={form.control}
+                                    name={`objectives.${index}.objective_type`}
+                                    render={({ field }) => (
+                                        <FormItem className={'w-44'}>
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder={'Kill...'} />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="kill">Kill</SelectItem>
+                                                        <SelectItem value="mine">Mine</SelectItem>
+                                                        <SelectItem value="encounter">Custom Encounter</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name={`objectives.${index}.objective_count`}
+                                    render={({ field }) => (
+                                        <FormItem className={'md:w-20'}>
+                                            <FormControl>
+                                                <Input type="number" placeholder="43" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                            </div>
                         </CollapsibleContent>
                     </Collapsible>
                 )}

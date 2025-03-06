@@ -9,8 +9,8 @@ const formRewardSchema = z.object({
 const formObjectiveSchema = z.object({
     objective: z.string(),
     display: z.string().optional(),
-    description: z.string().max(300),
-    objective_count: z.number(),
+    description: z.string().max(300).min(30, "The Objective Flavour should be at least 30 characters"),
+    objective_count: z.coerce.number(),
     objective_type: z.string(),
     natural_block: z.boolean().default(false),
     require_timer: z.boolean().default(false),
