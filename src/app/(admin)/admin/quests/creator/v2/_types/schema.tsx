@@ -9,10 +9,9 @@ const formRewardSchema = z.object({
 const formObjectiveSchema = z.object({
     objective: z.string(),
     display: z.string().optional(),
-    order: z.number(),
     description: z.string().max(300),
     objective_count: z.number(),
-    objective_type: z.enum(["mine", "kill", "encounter"]),
+    objective_type: z.string(),
     natural_block: z.boolean().default(false),
     require_timer: z.boolean().default(false),
     objective_timer: z.number().optional(),
@@ -58,6 +57,6 @@ export const formSchema = z.object({
         to: z.date()
     }),
     title: z.string(),
-    description: z.string().max(300).min(50, "At least 50 characters"),
-    objectives: z.array(formObjectiveSchema).min(1, "There must be at least one objective"),
+    description: z.string().max(300).min(50, "The Quest Flavour should be at least 50 characters"),
+    objectives: z.array(formObjectiveSchema).nonempty("There must be at least one objective"),
 });
