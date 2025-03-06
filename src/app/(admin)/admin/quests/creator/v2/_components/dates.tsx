@@ -35,28 +35,32 @@ export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchem
                                     {field.value?.from ? (
                                         field.value.to ? (
                                             <>
-                                                {format(field.value.from, "LLL dd, y")} - {' '}
-                                                {format(field.value.to, "LLL dd, y")}
+                                                {format(field.value.from, "LLL dd, y haaa")} - {' '}
+                                                {format(field.value.to, "LLL dd, y haaa")}
                                             </>
                                         ) : (
-                                            format(field.value.from, "LLL dd, y")
+                                            format(field.value.from, "LLL dd, y haaa")
                                         )
                                     ) : (
                                         <span>Pick a date</span>
                                     )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    <CalendarIcon className="ml-auto size-4 opacity-50" />
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
                                 initialFocus
-                                showOutsideDays={false}
                                 mode="range"
                                 defaultMonth={field.value?.from}
                                 selected={field.value}
-                                onSelect={field.onChange}
-                                numberOfMonths={2}
+                                onSelect={(e) => {
+                                    if (e?.from && e?.to) {
+                                        e.from.setHours(16 - e.from.getTimezoneOffset()/60)
+                                        e.to.setHours(16 - e.to.getTimezoneOffset()/60)
+                                    }
+                                    field.onChange(e)
+                                }}
                             />
                         </PopoverContent>
                     </Popover>
