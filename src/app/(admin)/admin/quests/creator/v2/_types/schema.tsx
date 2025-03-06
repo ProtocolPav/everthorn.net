@@ -53,8 +53,10 @@ const formObjectiveSchema = z.object({
 );
 
 export const formSchema = z.object({
-    start_time: z.date(),
-    end_time: z.date(),
+    range: z.object({
+        from: z.date(),
+        to: z.date()
+    }),
     title: z.string(),
     description: z.string().max(300).min(50, "At least 50 characters"),
     objectives: z.array(formObjectiveSchema).min(1, "There must be at least one objective"),
