@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import {useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
-import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube} from "@phosphor-icons/react";
+import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Icon} from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 
 interface ObjectiveProps {
@@ -32,7 +32,29 @@ export function Objective({ form, index }: ObjectiveProps) {
         const objectives = form.getValues("objectives")
         objectives.splice(index, 1)
         form.setValue("objectives", objectives)
-        console.log(form.getValues())
+    }
+
+    function getRequirementIcons() {
+        const objective = form.getValues(`objectives.${index}`);
+        let icons = [];
+
+        objective.require_location ? icons.push(MapPinSimpleArea) : null;
+        objective.require_mainhand ? icons.push(HandGrabbing) : null;
+        objective.require_timer ? icons.push(Timer) : null;
+        objective.natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
+
+        return (
+            <>
+                {icons.map((IconComponent, index) => (
+                    <Button key={index} size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
+                        <IconComponent
+                            size={20}
+                            weight={'fill'}
+                        />
+                    </Button>
+                ))}
+            </>
+        );
     }
 
     return (
@@ -63,33 +85,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </CollapsibleTrigger>
 
                             <div className={'flex gap-1'}>
-                                <Button size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
-                                    <Timer
-                                        size={20}
-                                        weight={'fill'}
-                                    />
-                                </Button>
-
-                                <Button size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
-                                    <HandGrabbing
-                                        size={20}
-                                        weight={'fill'}
-                                    />
-                                </Button>
-
-                                <Button size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
-                                    <Cube
-                                        size={20}
-                                        weight={'fill'}
-                                    />
-                                </Button>
-
-                                <Button size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
-                                    <MapPinSimpleArea
-                                        size={20}
-                                        weight={'fill'}
-                                    />
-                                </Button>
+                                {getRequirementIcons()}
 
                                 <Button size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
                                     <Trash
