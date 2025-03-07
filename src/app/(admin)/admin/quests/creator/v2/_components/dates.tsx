@@ -42,7 +42,7 @@ export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchem
                                             format(field.value.from, "LLL dd, y haaa")
                                         )
                                     ) : (
-                                        <span>Pick a date</span>
+                                        <span>When does the quest start and end?</span>
                                     )}
                                     <CalendarIcon className="ml-auto size-4 opacity-50" />
                                 </Button>
