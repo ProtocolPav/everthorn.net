@@ -12,13 +12,25 @@ import {
 } from "@/components/ui/collapsible"
 import {useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
-import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Sword, Shovel, BracketsCurly, IconProps} from "@phosphor-icons/react";
+import {
+    TreasureChest,
+    Trash,
+    Timer,
+    MapPinSimpleArea,
+    HandGrabbing,
+    Cube,
+    Sword,
+    Shovel,
+    BracketsCurly,
+    IconProps
+} from "@phosphor-icons/react";
 import {capitalizeCase, cn} from "@/lib/utils";
 import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
 import {ObjectiveType} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_type";
 import {ObjectiveCount} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_count";
-import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
-import {blocks, entities} from "@/lib/minecraft/minecraft-data";
+import {ObjectiveReference} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_reference";
+import {Separator} from "@/components/ui/separator";
+import {RequirementNatural} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_natural";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -48,10 +60,10 @@ export function Objective({ form, index }: ObjectiveProps) {
         objective.require_location ? icons.push(MapPinSimpleArea) : null;
         objective.require_mainhand ? icons.push(HandGrabbing) : null;
         objective.require_timer ? icons.push(Timer) : null;
-        objective.natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
+        objective.require_natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
 
         return (
-            <>
+            <div className={'flex gap-1'}>
                 {icons.map((IconComponent, index) => (
                     <Button key={index} size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
                         <IconComponent
@@ -60,7 +72,19 @@ export function Objective({ form, index }: ObjectiveProps) {
                         />
                     </Button>
                 ))}
-            </>
+            </div>
+        );
+    }
+
+    function getRewardIcon() {
+        return (
+            <Button variant={'ghost'} className={'flex h-8 gap-1 bg-gray-400/5 p-1 text-xs'}>
+                {objective.rewards && objective.rewards.length > 0 ? objective.rewards.length : 0}
+                <TreasureChest
+                    size={18}
+                    weight={'fill'}
+                />
+            </Button>
         );
     }
 
@@ -74,6 +98,15 @@ export function Objective({ form, index }: ObjectiveProps) {
                 <div className={'flex gap-1 text-lg font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
                     {type === 'kill' ? <Sword {...iconProps}/> : <Shovel {...iconProps}/>}
                     {capitalizeCase(type)} {objective.objective_count}
+                    {objective.objective ? capitalizeCase(objective.objective.split(":")[1].replaceAll("_", " ")) : null}
+                </div>
+            )
+        }
+        else if (type === 'encounter' && objective.display) {
+            return (
+                <div className={'flex gap-1 text-lg font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
+                    <BracketsCurly {...iconProps}/>
+                    {capitalizeCase(objective.display)}
                 </div>
             )
         }
@@ -96,7 +129,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                     >
                         <div className={'flex justify-between gap-1.5'}>
                             <CollapsibleTrigger asChild>
-                                <Button size={'icon'} variant={'ghost'} className={'flex size-9 gap-0.5 p-0.5'}>
+                                <Button variant={'ghost'} className={'flex size-9 gap-0.5 p-1.5'}>
                                     {index+1}
                                     <ChevronDownIcon
                                         size={15}
@@ -111,7 +144,8 @@ export function Objective({ form, index }: ObjectiveProps) {
                                 </FormLabel>
                             </CollapsibleTrigger>
 
-                            <div className={'flex gap-1'}>
+                            <div className={'hidden gap-1 md:flex'}>
+                                {getRewardIcon()}
                                 {getRequirementIcons()}
 
                                 <Button size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
@@ -123,8 +157,19 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </div>
                         </div>
 
+                        <div className={'flex justify-between gap-1 md:hidden'}>
+                            {getRewardIcon()}
+                            {getRequirementIcons()}
 
-                        <CollapsibleContent className={'flex flex-col gap-2 p-1'}>
+                            <Button size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
+                                <Trash
+                                    size={15}
+                                    weight={'fill'}
+                                />
+                            </Button>
+                        </div>
+
+                        <CollapsibleContent className={'flex flex-col gap-2 px-1'}>
                             <QuestDescription
                                 form={form}
                                 field_name={`objectives.${index}.description`}
@@ -132,33 +177,17 @@ export function Objective({ form, index }: ObjectiveProps) {
                             />
 
                             <div className={'flex flex-wrap gap-2 md:gap-2'}>
-                                <div className={'flex gap-2 md:gap-2'}>
+                                <div className={'flex gap-2'}>
                                     <ObjectiveType form={form} index={index} />
                                     <ObjectiveCount form={form} index={index} />
                                 </div>
 
-                                <FormField
-                                    control={form.control}
-                                    name={`objectives.${index}.objective`}
-                                    render={() => (
-                                        <FormItem>
-                                            <VirtualizedCombobox
-                                                options={
-                                                    form.getValues(`objectives.${index}.objective_type`) === "mine"
-                                                        ? blocks
-                                                        : entities
-                                                }
-                                                searchPlaceholder={'minecraft:creeper...'}
-                                                onOptionSelect={(value: string) => {
-                                                    form.setValue(`objectives.${index}.objective`, value)
-                                                }}
-                                                preselect={form.getValues(`objectives.${index}.objective`)}
-                                            />
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                <ObjectiveReference form={form} index={index} objective={objective} />
                             </div>
+
+                            <Separator className={'my-2'}/>
+
+                            <RequirementNatural form={form} objective_index={index} objective={objective} />
                         </CollapsibleContent>
                     </Collapsible>
                 )}

@@ -71,7 +71,7 @@ const VirtualizedCommand = ({
     <Command shouldFilter={false} onKeyDown={handleKeyDown}>
       <CommandInput onValueChange={handleSearch} placeholder={placeholder} />
       <CommandEmpty>No item found.</CommandEmpty>
-      <ScrollArea ref={parentRef} className="h-40 overflow-auto md:h-64">
+      <ScrollArea ref={parentRef} className="h-40 overflow-auto p-1 pr-2.5 md:h-64">
         <div
           style={{
             height: `${virtualizer.getTotalSize()}px`,
