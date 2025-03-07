@@ -25,12 +25,13 @@ import {
     IconProps
 } from "@phosphor-icons/react";
 import {capitalizeCase, cn} from "@/lib/utils";
-import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
-import {ObjectiveType} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_type";
-import {ObjectiveCount} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_count";
-import {ObjectiveReference} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_reference";
+import {QuestDescription} from "./description";
+import {ObjectiveType} from "./objective_type";
+import {ObjectiveCount} from "./objective_count";
+import {ObjectiveReference} from "./objective_reference";
 import {Separator} from "@/components/ui/separator";
-import {RequirementNatural} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_natural";
+import {RequirementNatural} from "./requirement_natural";
+import {RequirementTimer} from "./requirement_timer";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -169,25 +170,30 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </Button>
                         </div>
 
-                        <CollapsibleContent className={'flex flex-col gap-2 px-1'}>
-                            <QuestDescription
-                                form={form}
-                                field_name={`objectives.${index}.description`}
-                                placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
-                            />
+                        <CollapsibleContent className={'flex flex-col gap-2 p-0 m-0'}>
+                            <div className={'p-1'}>
+                                <QuestDescription
+                                    form={form}
+                                    field_name={`objectives.${index}.description`}
+                                    placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
+                                />
 
-                            <div className={'flex flex-wrap gap-2 md:gap-2'}>
-                                <div className={'flex gap-2'}>
-                                    <ObjectiveType form={form} index={index} />
-                                    <ObjectiveCount form={form} index={index} />
+                                <div className={'flex flex-wrap gap-2 md:gap-2'}>
+                                    <div className={'flex gap-2'}>
+                                        <ObjectiveType form={form} index={index} />
+                                        <ObjectiveCount form={form} index={index} />
+                                    </div>
+
+                                    <ObjectiveReference form={form} index={index} objective={objective} />
                                 </div>
 
-                                <ObjectiveReference form={form} index={index} objective={objective} />
+                                <Separator className={'my-4'}/>
+
+                                <div className={'flex flex-col gap-2'}>
+                                    <RequirementNatural form={form} objective_index={index} objective={objective} />
+                                    <RequirementTimer form={form} objective_index={index} objective={objective} />
+                                </div>
                             </div>
-
-                            <Separator className={'my-2'}/>
-
-                            <RequirementNatural form={form} objective_index={index} objective={objective} />
                         </CollapsibleContent>
                     </Collapsible>
                 )}

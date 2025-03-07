@@ -14,7 +14,7 @@ export function QuestTitle({form}: {form: UseFormReturn<z.infer<typeof formSchem
                 <FormItem className="">
                     <FormControl className={'text-xl font-semibold'}>
                         <Input
-                            className={'border-none px-0 text-2xl md:text-3xl'}
+                            className={'border-none bg-transparent px-0 text-2xl md:text-3xl'}
                             placeholder="Quest Title"
                             {...field}
                         />
