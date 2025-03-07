@@ -71,7 +71,7 @@ const VirtualizedCommand = ({
     <Command shouldFilter={false} onKeyDown={handleKeyDown}>
       <CommandInput onValueChange={handleSearch} placeholder={placeholder} />
       <CommandEmpty>No item found.</CommandEmpty>
-      <CommandGroup ref={parentRef} className="h-40 overflow-auto md:h-64">
+      <ScrollArea ref={parentRef} className="h-40 overflow-auto md:h-64">
         <div
           style={{
             height: `${virtualizer.getTotalSize()}px`,
@@ -105,7 +105,7 @@ const VirtualizedCommand = ({
             </CommandItem>
           ))}
         </div>
-      </CommandGroup>
+      </ScrollArea>
     </Command>
   )
 }
@@ -121,7 +121,7 @@ interface VirtualizedComboboxProps {
 
 export function VirtualizedCombobox({
   options,
-  searchPlaceholder = "Search items...",
+  searchPlaceholder = "minecraft:creeper...",
   onOptionSelect,
   preselect,
 }: VirtualizedComboboxProps) {
