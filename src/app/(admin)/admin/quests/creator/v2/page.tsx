@@ -8,9 +8,7 @@ import {formSchema} from "./_types/schema"
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
+import {Form} from "@/components/ui/form";
 import {QuestTitle} from "./_components/title"
 import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
 import {QuestDates} from "@/app/(admin)/admin/quests/creator/v2/_components/dates";
@@ -20,7 +18,11 @@ import {QuestObjectives} from "@/app/(admin)/admin/quests/creator/v2/_components
 export default function QuestsCreator() {
     const form = useForm<z.infer<typeof formSchema>>({
         mode: "onChange",
-        resolver: zodResolver(formSchema)
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            title: "",
+            description: "",
+        }
     })
 
     const handleonChange = (field: any) => async (event: any) => {
@@ -52,7 +54,11 @@ export default function QuestsCreator() {
                             
                             <CardContent className={'p-3'}>
                                 <QuestTitle form={form} />
-                                <QuestDescription form={form}/>
+                                <QuestDescription
+                                    form={form}
+                                    field_name={'description'}
+                                    placeholder={'A flavourful quest hook! Get people wishing they could do this quest!'}
+                                />
                                 <QuestDates form={form}/>
                                 <Separator/>
                                 <QuestObjectives form={form}/>

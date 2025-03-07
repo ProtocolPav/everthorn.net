@@ -49,7 +49,7 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
                         <FormMessage/>
 
                         {objective_fields.map((field, index) => (
-                            <Objective key={index} form={form} index={index}/>
+                            <Objective key={field.id} form={form} index={index}/>
                         ))}
                     </div>
                 )}

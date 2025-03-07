@@ -5,17 +5,23 @@ import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/for
 import * as React from "react";
 import {Textarea} from "@/components/ui/textarea";
 
-export function QuestDescription({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+interface DescriptionProps {
+    form: UseFormReturn<z.infer<typeof formSchema>>
+    field_name: 'description' | `objectives.${number}.description`
+    placeholder: string
+}
+
+export function QuestDescription({form, field_name, placeholder}: DescriptionProps) {
     return (
         <FormField
             control={form.control}
-            name="description"
+            name={field_name}
             render={({ field }) => (
                 <FormItem className="my-4 max-w-full">
                     <FormControl className={'text-xl'}>
                         <Textarea
                             className={'text-sm'}
-                            placeholder="A flavourful quest hook! Get people wanting more..."
+                            placeholder={placeholder}
                             {...field}
                         />
                     </FormControl>

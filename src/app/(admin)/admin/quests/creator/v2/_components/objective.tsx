@@ -1,4 +1,4 @@
-import {useFieldArray, UseFormReturn} from "react-hook-form";
+import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "@/app/(admin)/admin/quests/creator/v2/_types/schema";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/collapsible"
 import {useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
-import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Icon} from "@phosphor-icons/react";
-import {cn} from "@/lib/utils";
-import {Textarea} from "@/components/ui/textarea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Input} from "@/components/ui/input";
+import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Sword, Axe, BracketsCurly, IconProps} from "@phosphor-icons/react";
+import {capitalizeCase, cn} from "@/lib/utils";
+import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
+import {ObjectiveType} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_type";
+import {ObjectiveCount} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_count";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -26,6 +26,8 @@ interface ObjectiveProps {
 export function Objective({ form, index }: ObjectiveProps) {
     const [open, setOpen] = useState(true)
 
+    const objective = form.watch(`objectives.${index}`);
+
     const {fields: reward_fields} = useFieldArray({
         name: `objectives.${index}.rewards`,
         control: form.control,
@@ -34,11 +36,11 @@ export function Objective({ form, index }: ObjectiveProps) {
     function removeObjective() {
         const objectives = form.getValues("objectives")
         objectives.splice(index, 1)
+        console.log(objectives)
         form.setValue("objectives", objectives)
     }
 
     function getRequirementIcons() {
-        const objective = form.getValues(`objectives.${index}`);
         let icons = [];
 
         objective.require_location ? icons.push(MapPinSimpleArea) : null;
@@ -60,6 +62,22 @@ export function Objective({ form, index }: ObjectiveProps) {
         );
     }
 
+    function ObjectiveDisplayComponent() {
+        const type = objective.objective_type
+
+        const iconProps: IconProps = { weight: 'fill', size: 30, className: 'my-auto' }
+
+        if (type && type !== 'encounter') {
+            return (
+                <div className={'flex gap-1'}>
+                    {type === 'kill' ? <Sword {...iconProps}/> : <Axe {...iconProps}/>}
+                    {capitalizeCase(type)}
+                </div>
+            )
+        }
+        return (<div>Objective {index+1}</div>)
+    }
+
     return (
         <Card className={'p-1.5'}>
             <FormField
@@ -72,7 +90,8 @@ export function Objective({ form, index }: ObjectiveProps) {
                     >
                         <div className={'flex justify-between gap-1.5'}>
                             <CollapsibleTrigger asChild>
-                                <Button size={'icon'} variant={'ghost'} className={'size-8'}>
+                                <Button size={'icon'} variant={'ghost'} className={'flex size-9 gap-0.5 p-0.5'}>
+                                    {index+1}
                                     <ChevronDownIcon
                                         size={15}
                                         className={cn({ "rotate-180": open }, "transition-all")}
@@ -81,8 +100,8 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </CollapsibleTrigger>
 
                             <CollapsibleTrigger asChild className={'w-full'}>
-                                <FormLabel className="text-2xl font-semibold hover:cursor-pointer hover:font-extrabold">
-                                    {`${index + 1}. ${form.getValues(`objectives.${index}.objective`)}`}
+                                <FormLabel className="flex gap-1 text-2xl font-semibold hover:cursor-pointer hover:font-extrabold">
+                                    <ObjectiveDisplayComponent />
                                 </FormLabel>
                             </CollapsibleTrigger>
 
@@ -100,58 +119,15 @@ export function Objective({ form, index }: ObjectiveProps) {
 
 
                         <CollapsibleContent className={'flex flex-col gap-2 p-1'}>
-                            <FormField
-                                control={form.control}
-                                name={`objectives.${index}.description`}
-                                render={({ field }) => (
-                                    <FormItem className={'mt-3'}>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Objective flavour text goes here. Any big story reveals?"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                            <QuestDescription
+                                form={form}
+                                field_name={`objectives.${index}.description`}
+                                placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
                             />
 
                             <div className={'flex grid-cols-2 gap-2 md:grid-cols-3'}>
-                                <FormField
-                                    control={form.control}
-                                    name={`objectives.${index}.objective_type`}
-                                    render={({ field }) => (
-                                        <FormItem className={'w-44'}>
-                                            <FormControl>
-                                                <Select onValueChange={field.onChange}>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder={'Kill...'} />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="kill">Kill</SelectItem>
-                                                        <SelectItem value="mine">Mine</SelectItem>
-                                                        <SelectItem value="encounter">Custom Encounter</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name={`objectives.${index}.objective_count`}
-                                    render={({ field }) => (
-                                        <FormItem className={'md:w-20'}>
-                                            <FormControl>
-                                                <Input type="number" placeholder="43" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
+                                <ObjectiveType form={form} index={index}/>
+                                <ObjectiveCount form={form} index={index}/>
                             </div>
                         </CollapsibleContent>
                     </Collapsible>
