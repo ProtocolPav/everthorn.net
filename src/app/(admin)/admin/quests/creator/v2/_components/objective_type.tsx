@@ -5,7 +5,7 @@ import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Sword, Axe, BracketsCurly} from "@phosphor-icons/react";
+import {Sword, Shovel, BracketsCurly} from "@phosphor-icons/react";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -32,7 +32,7 @@ export function ObjectiveType({ form, index }: ObjectiveProps) {
                                 </SelectItem>
                                 <SelectItem value="mine">
                                     <div className={'flex gap-1 align-baseline'}>
-                                        <Axe weight={'fill'} size={18}/> Mine
+                                        <Shovel weight={'fill'} size={18}/> Mine
                                     </div>
                                 </SelectItem>
                                 <SelectItem value="encounter">

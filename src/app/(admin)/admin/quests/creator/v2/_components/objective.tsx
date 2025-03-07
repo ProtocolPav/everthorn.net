@@ -12,11 +12,13 @@ import {
 } from "@/components/ui/collapsible"
 import {useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
-import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Sword, Axe, BracketsCurly, IconProps} from "@phosphor-icons/react";
+import {Trash, Timer, MapPinSimpleArea, HandGrabbing, Cube, Sword, Shovel, BracketsCurly, IconProps} from "@phosphor-icons/react";
 import {capitalizeCase, cn} from "@/lib/utils";
 import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_components/description";
 import {ObjectiveType} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_type";
 import {ObjectiveCount} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_count";
+import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
+import {blocks, entities} from "@/lib/minecraft/minecraft-data";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -24,7 +26,7 @@ interface ObjectiveProps {
 }
 
 export function Objective({ form, index }: ObjectiveProps) {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     const objective = form.watch(`objectives.${index}`);
 
@@ -65,17 +67,21 @@ export function Objective({ form, index }: ObjectiveProps) {
     function ObjectiveDisplayComponent() {
         const type = objective.objective_type
 
-        const iconProps: IconProps = { weight: 'fill', size: 30, className: 'my-auto' }
+        const iconProps: IconProps = { weight: 'fill', className: 'my-auto size-5 md:size-7' }
 
         if (type && type !== 'encounter') {
             return (
-                <div className={'flex gap-1'}>
-                    {type === 'kill' ? <Sword {...iconProps}/> : <Axe {...iconProps}/>}
-                    {capitalizeCase(type)}
+                <div className={'flex gap-1 text-lg font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
+                    {type === 'kill' ? <Sword {...iconProps}/> : <Shovel {...iconProps}/>}
+                    {capitalizeCase(type)} {objective.objective_count}
                 </div>
             )
         }
-        return (<div>Objective {index+1}</div>)
+        return (
+            <div className={'text-lg font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
+                Objective {index+1}
+            </div>
+        )
     }
 
     return (
@@ -100,7 +106,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </CollapsibleTrigger>
 
                             <CollapsibleTrigger asChild className={'w-full'}>
-                                <FormLabel className="flex gap-1 text-2xl font-semibold hover:cursor-pointer hover:font-extrabold">
+                                <FormLabel>
                                     <ObjectiveDisplayComponent />
                                 </FormLabel>
                             </CollapsibleTrigger>
@@ -125,9 +131,33 @@ export function Objective({ form, index }: ObjectiveProps) {
                                 placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
                             />
 
-                            <div className={'flex grid-cols-2 gap-2 md:grid-cols-3'}>
-                                <ObjectiveType form={form} index={index}/>
-                                <ObjectiveCount form={form} index={index}/>
+                            <div className={'flex flex-wrap gap-2 md:gap-2'}>
+                                <div className={'flex gap-2 md:gap-2'}>
+                                    <ObjectiveType form={form} index={index} />
+                                    <ObjectiveCount form={form} index={index} />
+                                </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name={`objectives.${index}.objective`}
+                                    render={() => (
+                                        <FormItem>
+                                            <VirtualizedCombobox
+                                                options={
+                                                    form.getValues(`objectives.${index}.objective_type`) === "mine"
+                                                        ? blocks
+                                                        : entities
+                                                }
+                                                searchPlaceholder={'minecraft:creeper...'}
+                                                onOptionSelect={(value: string) => {
+                                                    form.setValue(`objectives.${index}.objective`, value)
+                                                }}
+                                                preselect={form.getValues(`objectives.${index}.objective`)}
+                                            />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                         </CollapsibleContent>
                     </Collapsible>
