@@ -5,7 +5,7 @@ import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Sword, Shovel, BracketsCurly} from "@phosphor-icons/react";
+import {Sword, Shovel, BracketsCurly, LockKey} from "@phosphor-icons/react";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -38,6 +38,21 @@ export function ObjectiveType({ form, index }: ObjectiveProps) {
                                 <SelectItem value="encounter">
                                     <div className={'flex gap-1 align-baseline'}>
                                         <BracketsCurly weight={'fill'} size={18}/> Custom
+                                    </div>
+                                </SelectItem>
+                                <SelectItem value="horde" disabled>
+                                    <div className={'flex gap-1 align-baseline'}>
+                                        <LockKey weight={'fill'} size={18}/> Horde Kill
+                                    </div>
+                                </SelectItem>
+                                <SelectItem value="visit" disabled>
+                                    <div className={'flex gap-1 align-baseline'}>
+                                        <LockKey weight={'fill'} size={18}/> Visit
+                                    </div>
+                                </SelectItem>
+                                <SelectItem value="place" disabled>
+                                    <div className={'flex gap-1 align-baseline'}>
+                                        <LockKey weight={'fill'} size={18}/> Place
                                     </div>
                                 </SelectItem>
                             </SelectContent>

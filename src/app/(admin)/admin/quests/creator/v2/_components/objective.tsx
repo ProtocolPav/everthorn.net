@@ -22,6 +22,7 @@ import {
     Sword,
     Shovel,
     BracketsCurly,
+    Info,
     IconProps
 } from "@phosphor-icons/react";
 import {capitalizeCase, cn} from "@/lib/utils";
@@ -171,7 +172,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                             </Button>
                         </div>
 
-                        <CollapsibleContent className={'flex flex-col gap-2 p-0 m-0'}>
+                        <CollapsibleContent className={'m-0 flex flex-col gap-2 p-0'}>
                             <div className={'p-1'}>
                                 <QuestDescription
                                     form={form}
@@ -179,7 +180,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                                     placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
                                 />
 
-                                <div className={'flex flex-wrap gap-2 md:gap-2'}>
+                                <div className={'flex w-full flex-wrap gap-2 md:gap-2'}>
                                     <div className={'flex gap-2'}>
                                         <ObjectiveType form={form} index={index} />
                                         <ObjectiveCount form={form} index={index} />

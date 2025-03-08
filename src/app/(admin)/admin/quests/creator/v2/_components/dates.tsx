@@ -52,6 +52,7 @@ export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchem
                             <Calendar
                                 initialFocus
                                 mode="range"
+                                weekStartsOn={1}
                                 defaultMonth={field.value?.from}
                                 selected={field.value}
                                 onSelect={(e) => {

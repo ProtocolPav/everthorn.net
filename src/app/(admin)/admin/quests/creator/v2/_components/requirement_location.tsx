@@ -26,7 +26,10 @@ const inputProps = {
 
 export function RequirementLocation({form, objective_index, objective}: RequirementProps) {
     return (
-        <div className={cn({hidden: objective.objective_type === "encounter"}, "rounded-md border bg-secondary/40 p-3 shadow-sm")}>
+        <div className={cn(
+            {hidden: objective.objective_type === "encounter" || objective.objective_type === ''},
+            "rounded-md border bg-secondary/40 p-3 shadow-sm"
+        )}>
             <FormField
                 control={form.control}
                 name={`objectives.${objective_index}.require_location`}

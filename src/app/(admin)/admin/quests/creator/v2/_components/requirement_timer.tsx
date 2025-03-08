@@ -51,7 +51,10 @@ export function RequirementTimer({form, objective_index, objective}: Requirement
     }
 
     return (
-        <div className={"rounded-md border bg-secondary/40 p-3 shadow-sm"}>
+        <div className={cn(
+            {hidden: objective.objective_type === ''},
+            "rounded-md border bg-secondary/40 p-3 shadow-sm"
+        )}>
             <FormField
                 control={form.control}
                 name={`objectives.${objective_index}.require_timer`}
