@@ -19,9 +19,39 @@ interface RequirementProps {
     objective: any
 }
 
+const inputProps = {
+    type: "number",
+    placeholder: "00",
+    max: 20,
+    className: 'h-fit w-8 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+}
+
 export function RequirementTimer({form, objective_index, objective}: RequirementProps) {
+    const [hour, setHour] = React.useState<number>(0)
+    const [minute, setMinute] = React.useState<number>(0)
+    const [second, setSecond] = React.useState<number>(0)
+
+    React.useEffect(() => {
+        form.setValue(
+            `objectives.${objective_index}.objective_timer`,
+            second + minute * 60 + hour * 60 * 60
+        );
+    }, [hour, minute, second, objective_index, form]);
+
+    function handleHours(event: React.ChangeEvent<HTMLInputElement>) {
+        event.target.valueAsNumber ? setHour(event.target.valueAsNumber) : setHour(0)
+    }
+
+    function handleMinutes(event: React.ChangeEvent<HTMLInputElement>) {
+        event.target.valueAsNumber ? setMinute(event.target.valueAsNumber) : setMinute(0)
+    }
+
+    function handleSeconds(event: React.ChangeEvent<HTMLInputElement>) {
+        event.target.valueAsNumber ? setSecond(event.target.valueAsNumber) : setSecond(0)
+    }
+
     return (
-        <div className={"rounded-md border p-3 shadow-sm bg-secondary/60"}>
+        <div className={"rounded-md border bg-secondary/40 p-3 shadow-sm"}>
             <FormField
                 control={form.control}
                 name={`objectives.${objective_index}.require_timer`}
@@ -42,15 +72,18 @@ export function RequirementTimer({form, objective_index, objective}: Requirement
                 )}
             />
 
-            <div className={cn(!objective.require_timer ? "!hidden" : "", "mt-1 flex w-full justify-stretch gap-4")}>
+            <div className={cn(!objective.require_timer ? "!hidden" : "", "mt-1.5 flex w-full justify-stretch gap-4")}>
                 <FormField
                     control={form.control}
                     name={`objectives.${objective_index}.objective_timer`}
                     render={({ field }) => (
                         <FormItem className="flex-1">
-                            <FormLabel>Hours</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Hours" {...field} />
+                                <div className={'flex items-center gap-0.5'}>
+                                    <Input {...inputProps} onChange={handleHours} /> h
+                                    <Input {...inputProps} onChange={handleMinutes} /> m
+                                    <Input {...inputProps} onChange={handleSeconds} /> s
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

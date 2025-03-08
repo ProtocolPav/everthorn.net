@@ -20,7 +20,7 @@ interface RequirementProps {
 
 export function RequirementNatural({form, objective_index, objective}: RequirementProps) {
     return (
-        <div className={cn({hidden: objective.objective_type !== "mine"}, "rounded-md border p-3 shadow-sm ")}>
+        <div className={cn({hidden: objective.objective_type !== "mine"}, "rounded-md border p-3 shadow-sm bg-secondary/40")}>
             <FormField
                 control={form.control}
                 name={`objectives.${objective_index}.require_natural_block`}
