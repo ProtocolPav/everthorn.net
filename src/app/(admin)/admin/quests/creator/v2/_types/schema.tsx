@@ -56,7 +56,7 @@ export const formSchema = z.object({
         from: z.date(),
         to: z.date()
     }),
-    title: z.string(),
+    title: z.string().min(1, 'Include a Quest Title'),
     description: z.string().max(300).min(50, "The Quest Flavour should be at least 50 characters"),
     objectives: z.array(formObjectiveSchema).nonempty("There must be at least one objective"),
 });

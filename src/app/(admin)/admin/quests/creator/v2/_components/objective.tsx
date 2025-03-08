@@ -32,6 +32,7 @@ import {ObjectiveReference} from "./objective_reference";
 import {Separator} from "@/components/ui/separator";
 import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
+import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -96,7 +97,7 @@ export function Objective({ form, index }: ObjectiveProps) {
 
         if (type && type !== 'encounter') {
             return (
-                <div className={'flex gap-1 text-lg font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
+                <div className={'flex gap-1 text-xl font-semibold hover:cursor-pointer hover:font-extrabold md:text-2xl'}>
                     {type === 'kill' ? <Sword {...iconProps}/> : <Shovel {...iconProps}/>}
                     {capitalizeCase(type)} {objective.objective_count}
                     {objective.objective ? capitalizeCase(objective.objective.split(":")[1].replaceAll("_", " ")) : null}
@@ -192,6 +193,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                                 <div className={'flex flex-col gap-2'}>
                                     <RequirementNatural form={form} objective_index={index} objective={objective} />
                                     <RequirementTimer form={form} objective_index={index} objective={objective} />
+                                    <RequirementLocation form={form} objective_index={index} objective={objective} />
                                 </div>
                             </div>
                         </CollapsibleContent>

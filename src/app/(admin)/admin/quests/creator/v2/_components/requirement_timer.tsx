@@ -79,7 +79,8 @@ export function RequirementTimer({form, objective_index, objective}: Requirement
                     render={({ field }) => (
                         <FormItem className="flex-1">
                             <FormControl>
-                                <div className={'flex items-center gap-0.5'}>
+                                <div className={'flex items-center gap-0.5 text-sm'}>
+                                    <div className={'mr-0.5'}>Complete within</div>
                                     <Input {...inputProps} onChange={handleHours} /> h
                                     <Input {...inputProps} onChange={handleMinutes} /> m
                                     <Input {...inputProps} onChange={handleSeconds} /> s
