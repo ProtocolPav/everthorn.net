@@ -1,7 +1,7 @@
 import {FormControl, FormField, FormItem, FormMessage, FormDescription} from "@/components/ui/form";
 import {Textarea} from "@/components/ui/textarea";
 import * as React from "react";
-import {UseFormReturn} from "react-hook-form";
+import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
@@ -14,32 +14,39 @@ interface ObjectiveProps {
     objective: any
 }
 
+
 export function ObjectiveReference({ form, index, objective }: ObjectiveProps) {
+    function getInputBox(field: any) {
+        if (objective.objective_type !== 'encounter') {
+            return (
+                <VirtualizedCombobox
+                    options={
+                        form.getValues(`objectives.${index}.objective_type`) === "mine"
+                            ? blocks
+                            : entities
+                    }
+                    searchPlaceholder={'Select Objective'}
+                    onOptionSelect={(value: string) => {
+                        form.setValue(`objectives.${index}.objective`, value)
+                    }}
+                    preselect={objective.objective}
+                />
+            )
+        }
+
+        else {
+            return ( <Input type={'text'} placeholder={'quest:your_event...'} {...field}/> )
+        }
+
+    }
+
     return (
         <FormField
             control={form.control}
             name={`objectives.${index}.objective`}
             render={({field}) => (
                 <FormItem>
-                    {objective.objective_type !== 'encounter' ?
-                        <VirtualizedCombobox
-                            options={
-                                form.getValues(`objectives.${index}.objective_type`) === "mine"
-                                    ? blocks
-                                    : entities
-                            }
-                            searchPlaceholder={'Select Objective'}
-                            onOptionSelect={(value: string) => {
-                                form.setValue(`objectives.${index}.objective`, value)
-                            }}
-                            preselect={objective.objective}
-                        />
-
-                        :
-                        <>
-                            <Input type={'text'} placeholder={'quest:your_event...'} {...field}/>
-                        </>
-                    }
+                    {getInputBox(field)}
                     <FormMessage />
                 </FormItem>
             )}

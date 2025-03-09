@@ -115,8 +115,7 @@ interface VirtualizedComboboxProps {
   searchPlaceholder?: string
   onOptionSelect: (selectOption: string) => void
   preselect?: string | null
-  width?: string
-  height?: string
+  className: string
 }
 
 export function VirtualizedCombobox({
@@ -124,6 +123,7 @@ export function VirtualizedCombobox({
   searchPlaceholder = "minecraft:creeper...",
   onOptionSelect,
   preselect,
+  className
 }: VirtualizedComboboxProps) {
   const [open, setOpen] = React.useState<boolean>(false)
   const [selectedOption, setSelectedOption] = React.useState<string>(preselect ?? "")
@@ -135,7 +135,7 @@ export function VirtualizedCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="max-w-full justify-between"
+          className={cn("max-w-full justify-between", className)}
         >
           {selectedOption
             ? options.find((option) => option === selectedOption)

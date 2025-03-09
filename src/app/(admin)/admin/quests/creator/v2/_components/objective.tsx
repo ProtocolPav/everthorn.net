@@ -34,6 +34,7 @@ import {Separator} from "@/components/ui/separator";
 import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
 import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
+import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_mainhand";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -195,6 +196,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                                     <RequirementNatural form={form} objective_index={index} objective={objective} />
                                     <RequirementTimer form={form} objective_index={index} objective={objective} />
                                     <RequirementLocation form={form} objective_index={index} objective={objective} />
+                                    <RequirementMainhand form={form} objective_index={index} objective={objective} />
                                 </div>
                             </div>
                         </CollapsibleContent>

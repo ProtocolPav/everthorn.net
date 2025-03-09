@@ -68,6 +68,9 @@ export default function QuestsCreator() {
                                 <Button variant={'secondary'} type={'submit'}>
                                     Submit
                                 </Button>
+                                <Button variant={'secondary'} onClick={() => onSubmit(form.getValues())}>
+                                    Copy
+                                </Button>
                             </CardFooter>
 
                         </Card>
