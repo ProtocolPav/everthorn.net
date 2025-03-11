@@ -35,6 +35,7 @@ import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
 import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
 import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_mainhand";
+import {Rewards} from "@/app/(admin)/admin/quests/creator/v2/_components/rewards";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -46,15 +47,9 @@ export function Objective({ form, index }: ObjectiveProps) {
 
     const objective = form.watch(`objectives.${index}`);
 
-    const {fields: reward_fields} = useFieldArray({
-        name: `objectives.${index}.rewards`,
-        control: form.control,
-    })
-
     function removeObjective() {
         const objectives = form.getValues("objectives")
         objectives.splice(index, 1)
-        console.log(objectives)
         form.setValue("objectives", objectives)
     }
 
@@ -190,14 +185,19 @@ export function Objective({ form, index }: ObjectiveProps) {
                                     <ObjectiveReference form={form} index={index} objective={objective} />
                                 </div>
 
-                                <Separator className={'my-4'}/>
+                                <Separator className={cn({hidden: objective.objective_type === ''}, 'my-4')}/>
 
                                 <div className={'flex flex-col gap-2'}>
+                                    <h3>Requirements</h3>
                                     <RequirementNatural form={form} objective_index={index} objective={objective} />
                                     <RequirementTimer form={form} objective_index={index} objective={objective} />
                                     <RequirementLocation form={form} objective_index={index} objective={objective} />
                                     <RequirementMainhand form={form} objective_index={index} objective={objective} />
                                 </div>
+
+                                <Separator className={'mt-4'}/>
+
+                                <Rewards form={form} objective_index={index} objective={objective} />
                             </div>
                         </CollapsibleContent>
                     </Collapsible>

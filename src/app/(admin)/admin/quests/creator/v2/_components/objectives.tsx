@@ -24,7 +24,7 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
             require_mainhand: false,
             mainhand: "",
             require_location: false,
-            location: undefined,
+            location: [0 ,0] as [number, number],
             location_radius: 100,
             rewards: []
         }
@@ -55,7 +55,7 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
                 )}
             />
 
-            <Button variant="secondary" onClick={() => addObjective()} className={'mt-3 flex gap-2 w-full justify-center'}>
+            <Button variant={'secondary'} onClick={() => addObjective()} className={'mt-3 flex w-full justify-center gap-2'}>
                 <PlusIcon size={18} /> Add Objective
             </Button>
         </div>
