@@ -25,11 +25,6 @@ export default function QuestsCreator() {
         }
     })
 
-    const handleonChange = (field: any) => async (event: any) => {
-        form.setValue(field.name, event.target.value);
-        await form.trigger(field.name);
-    };
-
     async function onSubmit(form: z.infer<typeof formSchema>): Promise<void> {
         console.log('submitted')
         console.log(form)

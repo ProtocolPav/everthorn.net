@@ -103,6 +103,21 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                                 />
                             </Button>
                         </FormLabel>
+
+                        <FormField
+                            control={form.control}
+                            name={`objectives.${objective_index}.rewards.${reward_index}.display_name`}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className={'flex items-center gap-1 mt-2'}>
+                                            <Input className={'h-8'} placeholder={'Display Name'} {...field} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 )}
             />
