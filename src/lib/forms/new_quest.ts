@@ -81,8 +81,7 @@ export const rewardSchema = z.object({
   item: z.string().optional(),
 })
 
-export const formSchema = z
-  .object({
+export const formSchema = z.object({
     title: z
       .string({ required_error: "MARS!!! Did you forget to add a title? ;-;" })
       .min(1, { message: "" })
