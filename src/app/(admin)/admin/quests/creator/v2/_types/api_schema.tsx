@@ -40,9 +40,9 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): ApiSchema {
 
         obj.rewards?.forEach((reward) => {
             objectiveRewards.push({
-                balance: reward.reward === 'balance' ? reward.amount : null,
+                balance: reward.reward === 'nugs_balance' ? reward.amount : null,
                 display_name: reward.display_name ? reward.display_name : null,
-                item: reward.reward !== 'balance' ? reward.reward : null,
+                item: reward.reward !== 'nugs_balance' ? reward.reward : null,
                 count: reward.amount
             })
         })
