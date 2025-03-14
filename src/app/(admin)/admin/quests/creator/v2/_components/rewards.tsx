@@ -40,7 +40,7 @@ export function Rewards({form, objective_index, objective}: RewardProps) {
         <div className={'mt-3'}>
             <div className={'mb-2 flex items-center justify-between gap-3'}>
                 <h3>{objective.rewards.length} Reward{objective.rewards.length === 1 ? '' : 's'}</h3>
-                <Button variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'} onClick={() => addReward()}>
+                <Button type={'button'} variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'} onClick={() => addReward()}>
                     <PlusIcon size={18} /> Add Reward
                 </Button>
             </div>

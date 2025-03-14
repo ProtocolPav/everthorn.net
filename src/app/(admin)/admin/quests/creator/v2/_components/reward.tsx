@@ -110,7 +110,7 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <div className={'flex items-center gap-1 mt-2'}>
+                                        <div className={'mt-2 flex items-center gap-1'}>
                                             <Input className={'h-8'} placeholder={'Display Name'} {...field} />
                                         </div>
                                     </FormControl>

@@ -14,8 +14,14 @@ import {QuestDescription} from "@/app/(admin)/admin/quests/creator/v2/_component
 import {QuestDates} from "@/app/(admin)/admin/quests/creator/v2/_components/dates";
 import {Separator} from "@/components/ui/separator";
 import {QuestObjectives} from "@/app/(admin)/admin/quests/creator/v2/_components/objectives";
+import {formatDataToApi} from "./_types/api_schema";
+import {Toaster} from "@/components/ui/toaster";
+import {useToast} from "@/components/ui/use-toast";
 
 export default function QuestsCreator() {
+    const [submitted, setSubmitted] = React.useState(false);
+    const { toast } = useToast()
+
     const form = useForm<z.infer<typeof formSchema>>({
         mode: "onChange",
         resolver: zodResolver(formSchema),
@@ -26,8 +32,42 @@ export default function QuestsCreator() {
     })
 
     async function onSubmit(form: z.infer<typeof formSchema>): Promise<void> {
-        console.log('submitted')
-        console.log(form)
+        let apiReadyData = formatDataToApi(form)
+
+        const questResponse = await fetch("/nexuscore-api/v0.1/quests", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(apiReadyData),
+        })
+
+        if (questResponse.ok) {
+            setSubmitted(true)
+            toast({
+                title: "Success!",
+                description: "The quest has been submitted!",
+            })
+        } else {
+            toast({
+                title: "Error!",
+                description: `
+            Something went wrong!
+            ${questResponse.status}: ${questResponse.statusText}
+          `,
+                variant: "destructive",
+            })
+        }
+    }
+
+    async function onCopy(form: z.infer<typeof formSchema>) {
+        let apiReadyData = formatDataToApi(form)
+        await navigator.clipboard.writeText(JSON.stringify(apiReadyData, null, 2))
+
+        toast({
+            title: "Copied To Clipboard",
+            description: `${JSON.stringify(apiReadyData)}`,
+        })
     }
 
     return (
@@ -59,18 +99,26 @@ export default function QuestsCreator() {
                                 <QuestObjectives form={form}/>
                             </CardContent>
                             
-                            <CardFooter className={'p-3'}>
-                                <Button variant={'secondary'} type={'submit'}>
+                            <CardFooter className={'flex justify-between gap-3 p-3'}>
+                                <Button variant={'secondary'} type={'submit'} disabled={submitted}>
                                     Submit
                                 </Button>
-                                <Button variant={'secondary'} onClick={() => onSubmit(form.getValues())}>
-                                    Copy
-                                </Button>
+
+                                <div className={'flex gap-3'}>
+                                    <Button variant={'ghost'} type={'button'} disabled>
+                                        Load JSON
+                                    </Button>
+                                    
+                                    <Button variant={'ghost'} type={'button'} onClick={async () => onCopy(form.getValues())}>
+                                        Copy JSON
+                                    </Button>
+                                </div>
                             </CardFooter>
 
                         </Card>
                     </form>
                 </Form>
+                <Toaster />
             </section>
         </>
 

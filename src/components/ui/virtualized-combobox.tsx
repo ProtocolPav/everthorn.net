@@ -115,7 +115,7 @@ interface VirtualizedComboboxProps {
   searchPlaceholder?: string
   onOptionSelect: (selectOption: string) => void
   preselect?: string | null
-  className: string
+  className?: string
 }
 
 export function VirtualizedCombobox({

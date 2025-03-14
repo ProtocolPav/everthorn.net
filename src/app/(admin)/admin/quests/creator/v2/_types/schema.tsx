@@ -3,7 +3,7 @@ import { z } from "zod";
 const formRewardSchema = z.object({
     display_name: z.string().optional(),
     reward: z.string(),
-    amount: z.number(),
+    amount: z.coerce.number(),
 })
 
 export const formObjectiveSchema = z.object({

@@ -10,7 +10,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ChevronDownIcon} from "lucide-react";
 import {
     TreasureChest,
@@ -36,6 +36,7 @@ import {RequirementTimer} from "./requirement_timer";
 import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
 import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_mainhand";
 import {Rewards} from "@/app/(admin)/admin/quests/creator/v2/_components/rewards";
+import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_display";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -184,6 +185,8 @@ export function Objective({ form, index }: ObjectiveProps) {
 
                                     <ObjectiveReference form={form} index={index} objective={objective} />
                                 </div>
+
+                                <ObjectiveDisplay form={form} index={index} objective={objective} />
 
                                 <Separator className={cn({hidden: objective.objective_type === ''}, 'my-4')}/>
 
