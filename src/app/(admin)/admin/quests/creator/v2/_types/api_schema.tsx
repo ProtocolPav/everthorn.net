@@ -71,3 +71,7 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): ApiSchema {
         objectives: apiObjectives
     }
 }
+
+// export function formatApiToData(data: ApiSchema): z.infer<typeof formSchema> {
+//     return {}
+// }
