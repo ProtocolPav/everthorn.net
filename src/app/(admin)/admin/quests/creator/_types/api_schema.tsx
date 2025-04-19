@@ -1,4 +1,4 @@
-import {formSchema} from "./schema";
+import {formObjectiveSchema, formSchema} from "./schema";
 import {z} from "zod";
 import {formatDateToAPI} from "@/lib/utils";
 
@@ -24,7 +24,7 @@ interface ObjectiveSchema {
     rewards: RewardSchema[] | null
 }
 
-interface ApiSchema {
+export interface ApiSchema {
     start_time: string,
     end_time: string,
     title: string,
@@ -72,6 +72,58 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): ApiSchema {
     }
 }
 
-// export function formatApiToData(data: ApiSchema): z.infer<typeof formSchema> {
-//     return {}
-// }
+export function formatApiToData(data: ApiSchema): z.infer<typeof formSchema> {
+    let formObjectives: z.infer<typeof formObjectiveSchema>[] = data.objectives.map((obj) => {
+        return {
+            description: obj.description,
+            objective: obj.objective,
+            objective_type: obj.objective_type,
+            objective_count: obj.objective_count,
+            display: obj.display ? obj.display : undefined,
+            require_natural_block: obj.natural_block,
+            require_timer: !!obj.objective_timer,
+            objective_timer: obj.objective_timer ? obj.objective_timer : undefined,
+            require_mainhand: !!obj.required_mainhand,
+            mainhand: obj.required_mainhand ? obj.required_mainhand : undefined,
+            require_location: !!obj.required_location,
+            location: obj.required_location ? obj.required_location as [number, number] : undefined,
+            location_radius: obj.location_radius ? obj.location_radius : undefined,
+            rewards: obj.rewards?.map((reward) => {
+                return {
+                    reward: reward.item ? reward.item : 'nugs_balance',
+                    display_name: reward.display_name ? reward.display_name : undefined,
+                    amount: reward.item ? reward.count : reward.balance ? reward.balance : 0,
+                }
+            })
+        }
+    })
+
+    if (formObjectives.length === 0) {
+        formObjectives.push({
+            description: '',
+            objective: '',
+            objective_type: '',
+            objective_count: 0,
+            display: undefined,
+            require_natural_block: false,
+            require_timer: false,
+            objective_timer: undefined,
+            require_mainhand: false,
+            mainhand: undefined,
+            require_location: false,
+            location: undefined,
+            location_radius: undefined,
+            rewards: []
+        })
+    }
+
+    return {
+        range: {
+            from: new Date(data.start_time),
+            to: new Date(data.end_time)
+        },
+        title: data.title,
+        description: data.description,
+        objectives: formObjectives as [z.infer<typeof formObjectiveSchema>, ...z.infer<typeof formObjectiveSchema>[]]
+    }
+}

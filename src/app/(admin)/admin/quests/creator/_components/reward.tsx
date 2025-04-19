@@ -1,6 +1,6 @@
 import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/creator/v2/_types/schema";
+import {formSchema} from "@/app/(admin)/admin/quests/creator/_types/schema";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";

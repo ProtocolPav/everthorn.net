@@ -1,6 +1,6 @@
 import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/creator/v2/_types/schema";
+import {formSchema} from "@/app/(admin)/admin/quests/creator/_types/schema";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
@@ -33,10 +33,10 @@ import {ObjectiveReference} from "./objective_reference";
 import {Separator} from "@/components/ui/separator";
 import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
-import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
-import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_mainhand";
-import {Rewards} from "@/app/(admin)/admin/quests/creator/v2/_components/rewards";
-import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_display";
+import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/_components/requirement_location";
+import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/_components/requirement_mainhand";
+import {Rewards} from "@/app/(admin)/admin/quests/creator/_components/rewards";
+import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/creator/_components/objective_display";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>

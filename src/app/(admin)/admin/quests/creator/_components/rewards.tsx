@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import {Objective} from "./objective";
 import {TreasureChest} from "@phosphor-icons/react";
-import {Reward} from "@/app/(admin)/admin/quests/creator/v2/_components/reward";
+import {Reward} from "@/app/(admin)/admin/quests/creator/_components/reward";
 
 interface RewardProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
