@@ -14,7 +14,7 @@ import { format } from "date-fns"
 import {Calendar} from "@/components/ui/calendar";
 import {CalendarIcon} from "lucide-react";
 
-export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+export function QuestDates({form, disable}: {form: UseFormReturn<z.infer<typeof formSchema>>, disable?: boolean}) {
     return (
         <FormField
             control={form.control}
@@ -27,6 +27,7 @@ export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchem
                                 <Button
                                     id="date"
                                     variant={"outline"}
+                                    disabled={disable}
                                     className={cn(
                                         "w-full justify-between text-left font-normal",
                                         !field.value && "text-muted-foreground"

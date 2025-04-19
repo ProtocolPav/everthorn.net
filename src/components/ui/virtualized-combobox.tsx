@@ -115,7 +115,8 @@ interface VirtualizedComboboxProps {
   searchPlaceholder?: string
   onOptionSelect: (selectOption: string) => void
   preselect?: string | null
-  className?: string
+  className?: string,
+  disabled?: boolean
 }
 
 export function VirtualizedCombobox({
@@ -123,7 +124,8 @@ export function VirtualizedCombobox({
   searchPlaceholder = "minecraft:creeper...",
   onOptionSelect,
   preselect,
-  className
+  className,
+  disabled
 }: VirtualizedComboboxProps) {
   const [open, setOpen] = React.useState<boolean>(false)
   const [selectedOption, setSelectedOption] = React.useState<string>(preselect ?? "")
@@ -132,6 +134,7 @@ export function VirtualizedCombobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          disabled={disabled}
           variant="outline"
           role="combobox"
           aria-expanded={open}

@@ -1,6 +1,6 @@
 import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/creator/_types/schema";
+import {formSchema} from "@/app/(admin)/admin/quests/editor/_types/schema";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
@@ -28,6 +28,7 @@ interface RewardProps {
     objective_index: number
     reward_index: number
     objective: any
+    disable?: boolean
 }
 
 const inputProps = {
@@ -35,7 +36,7 @@ const inputProps = {
     className: 'h-8 w-14 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 }
 
-export function Reward({ form, objective_index, reward_index, objective }: RewardProps) {
+export function Reward({ form, objective_index, reward_index, objective, disable }: RewardProps) {
     function removeReward() {
         const rewards = form.getValues(`objectives.${objective_index}.rewards`)
         rewards?.splice(reward_index, 1)
@@ -60,7 +61,7 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                                         <FormItem>
                                             <FormControl>
                                                 <div className={'flex items-center gap-1'}>
-                                                    <Input placeholder={'0'} {...inputProps} {...field} /> of
+                                                    <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} /> of
                                                 </div>
 
                                             </FormControl>
@@ -77,6 +78,7 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                                             <FormControl>
                                                 <div className={'flex items-center gap-1'}>
                                                     <VirtualizedCombobox
+                                                        disabled={disable}
                                                         className={'h-8'}
                                                         options={rewards}
                                                         searchPlaceholder="Item"
@@ -96,7 +98,7 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                                 />
                             </div>
 
-                            <Button size={'icon'} variant={'destructive'} className={'size-8'} onClick={removeReward}>
+                            <Button disabled={disable} size={'icon'} variant={'destructive'} className={'size-8'} onClick={removeReward}>
                                 <Trash
                                     size={15}
                                     weight={'fill'}
@@ -111,7 +113,7 @@ export function Reward({ form, objective_index, reward_index, objective }: Rewar
                                 <FormItem>
                                     <FormControl>
                                         <div className={'mt-2 flex items-center gap-1'}>
-                                            <Input className={'h-8'} placeholder={'Display Name'} {...field} />
+                                            <Input disabled={disable} className={'h-8'} placeholder={'Display Name'} {...field} />
                                         </div>
                                     </FormControl>
                                     <FormMessage/>

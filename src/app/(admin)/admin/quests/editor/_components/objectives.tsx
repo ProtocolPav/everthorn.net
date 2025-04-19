@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import {Objective} from "./objective";
 
-export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+export function QuestObjectives({form, disable}: {form: UseFormReturn<z.infer<typeof formSchema>>, disable?: boolean}) {
     function addObjective() {
         let objectives = form.getValues("objectives")
 
@@ -49,13 +49,13 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
                         <FormMessage/>
 
                         {objective_fields.map((field, index) => (
-                            <Objective key={field.id} form={form} index={index}/>
+                            <Objective key={field.id} form={form} index={index} disable={disable}/>
                         ))}
                     </div>
                 )}
             />
 
-            <Button variant={'secondary'} onClick={() => addObjective()} className={'mt-3 flex w-full justify-center gap-2'}>
+            <Button disabled={disable} variant={'secondary'} onClick={() => addObjective()} className={'mt-3 flex w-full justify-center gap-2'}>
                 <PlusIcon size={18} /> Add Objective
             </Button>
         </div>

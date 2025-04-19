@@ -19,6 +19,7 @@ interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     objective_index: number
     objective: any
+    disable?: boolean
 }
 
 const inputProps = {
@@ -26,7 +27,7 @@ const inputProps = {
     className: 'h-fit w-14 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 }
 
-export function RequirementMainhand({form, objective_index, objective}: RequirementProps) {
+export function RequirementMainhand({form, objective_index, objective, disable}: RequirementProps) {
     return (
         <div className={cn(
             {hidden: objective.objective_type === "encounter" || objective.objective_type === ''},
@@ -44,6 +45,7 @@ export function RequirementMainhand({form, objective_index, objective}: Requirem
                             </FormLabel>
                             <FormControl>
                                 <Switch
+                                    disabled={disable}
                                     className="!m-0"
                                     checked={objective.require_mainhand}
                                     onCheckedChange={field.onChange}
@@ -63,6 +65,7 @@ export function RequirementMainhand({form, objective_index, objective}: Requirem
                             <FormControl>
                                 <div className={'flex items-center gap-1'}>
                                     <VirtualizedCombobox
+                                        disabled={disable}
                                         className={'h-8'}
                                         options={items}
                                         searchPlaceholder="Item"

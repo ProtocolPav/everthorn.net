@@ -8,9 +8,10 @@ import {Input} from "@/components/ui/input";
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     index: number
+    disable?: boolean
 }
 
-export function ObjectiveCount({ form, index }: ObjectiveProps) {
+export function ObjectiveCount({ form, index, disable }: ObjectiveProps) {
     return (
         <FormField
             control={form.control}
@@ -22,7 +23,7 @@ export function ObjectiveCount({ form, index }: ObjectiveProps) {
                     render={({ field }) => (
                         <FormItem className={'md:w-20'}>
                             <FormControl>
-                                <Input type="number" placeholder="43" {...field} />
+                                <Input disabled={disable} type="number" placeholder="43" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

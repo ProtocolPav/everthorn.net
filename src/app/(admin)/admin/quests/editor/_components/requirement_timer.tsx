@@ -17,6 +17,7 @@ interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     objective_index: number
     objective: any
+    disable?: boolean
 }
 
 const inputProps = {
@@ -26,7 +27,7 @@ const inputProps = {
     className: 'h-fit w-8 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 }
 
-export function RequirementTimer({form, objective_index, objective}: RequirementProps) {
+export function RequirementTimer({form, objective_index, objective, disable}: RequirementProps) {
     const [hour, setHour] = React.useState<number>(0)
     const [minute, setMinute] = React.useState<number>(0)
     const [second, setSecond] = React.useState<number>(0)
@@ -66,6 +67,7 @@ export function RequirementTimer({form, objective_index, objective}: Requirement
                         </FormLabel>
                         <FormControl>
                             <Switch
+                                disabled={disable}
                                 className="!m-0"
                                 checked={objective.require_timer}
                                 onCheckedChange={field.onChange}
@@ -84,9 +86,9 @@ export function RequirementTimer({form, objective_index, objective}: Requirement
                             <FormControl>
                                 <div className={'flex items-center gap-0.5 text-sm'}>
                                     <div className={'mr-0.5'}>Complete within</div>
-                                    <Input {...inputProps} onChange={handleHours} /> h
-                                    <Input {...inputProps} onChange={handleMinutes} /> m
-                                    <Input {...inputProps} onChange={handleSeconds} /> s
+                                    <Input disabled={disable} {...inputProps} onChange={handleHours} /> h
+                                    <Input disabled={disable} {...inputProps} onChange={handleMinutes} /> m
+                                    <Input disabled={disable} {...inputProps} onChange={handleSeconds} /> s
                                 </div>
                             </FormControl>
                             <FormMessage />

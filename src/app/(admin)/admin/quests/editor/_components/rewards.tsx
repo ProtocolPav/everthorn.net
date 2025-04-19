@@ -8,15 +8,16 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import {Objective} from "./objective";
 import {TreasureChest} from "@phosphor-icons/react";
-import {Reward} from "@/app/(admin)/admin/quests/creator/_components/reward";
+import {Reward} from "@/app/(admin)/admin/quests/editor/_components/reward";
 
 interface RewardProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     objective_index: number
     objective: any
+    disable?: boolean
 }
 
-export function Rewards({form, objective_index, objective}: RewardProps) {
+export function Rewards({form, objective_index, objective, disable}: RewardProps) {
     function addReward() {
         let rewards = form.getValues(`objectives.${objective_index}.rewards`)
 
@@ -40,7 +41,7 @@ export function Rewards({form, objective_index, objective}: RewardProps) {
         <div className={'mt-3'}>
             <div className={'mb-2 flex items-center justify-between gap-3'}>
                 <h3>{objective.rewards.length} Reward{objective.rewards.length === 1 ? '' : 's'}</h3>
-                <Button type={'button'} variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'} onClick={() => addReward()}>
+                <Button disabled={disable} type={'button'} variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'} onClick={() => addReward()}>
                     <PlusIcon size={18} /> Add Reward
                 </Button>
             </div>
@@ -54,6 +55,7 @@ export function Rewards({form, objective_index, objective}: RewardProps) {
 
                         {reward_fields.map((field, index) => (
                             <Reward
+                                disable={disable}
                                 key={field.id}
                                 form={form}
                                 reward_index={index}

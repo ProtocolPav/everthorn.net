@@ -9,9 +9,10 @@ interface DescriptionProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     field_name: 'description' | `objectives.${number}.description`
     placeholder: string
+    disable?: boolean
 }
 
-export function QuestDescription({form, field_name, placeholder}: DescriptionProps) {
+export function QuestDescription({form, field_name, placeholder, disable}: DescriptionProps) {
     return (
         <FormField
             control={form.control}
@@ -20,6 +21,7 @@ export function QuestDescription({form, field_name, placeholder}: DescriptionPro
                 <FormItem className="my-4 max-w-full">
                     <FormControl className={'text-xl'}>
                         <Textarea
+                            disabled={disable}
                             className={'text-sm'}
                             placeholder={placeholder}
                             {...field}

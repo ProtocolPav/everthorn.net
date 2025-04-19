@@ -129,7 +129,7 @@ export function Desktop() {
                     The main dashboard. You can view server stats and more
                   </ListItem>
 
-                  <ListItem href={'/admin/quests/creator'} title={'Quest Creator v2'} className={'bg-gradient-to-tl from-transparent to-yellow-300/10'}>
+                  <ListItem href={'/admin/quests/editor/new'} title={'Quest Creator v2'} className={'bg-gradient-to-tl from-transparent to-yellow-300/10'}>
                     NEW! Quick link to Quest Creator. Also accessible via dashboard
                   </ListItem>
 

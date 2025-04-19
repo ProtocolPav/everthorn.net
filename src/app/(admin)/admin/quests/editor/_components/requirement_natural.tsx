@@ -16,9 +16,10 @@ interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     objective_index: number
     objective: any
+    disable?: boolean
 }
 
-export function RequirementNatural({form, objective_index, objective}: RequirementProps) {
+export function RequirementNatural({form, objective_index, objective, disable}: RequirementProps) {
     return (
         <div className={cn({hidden: objective.objective_type !== "mine"}, "rounded-md border p-3 shadow-sm bg-secondary/40")}>
             <FormField
@@ -33,6 +34,7 @@ export function RequirementNatural({form, objective_index, objective}: Requireme
                             </FormLabel>
                             <FormControl>
                                 <Switch
+                                    disabled={disable}
                                     className="!m-0"
                                     checked={objective.require_natural_block}
                                     onCheckedChange={field.onChange}

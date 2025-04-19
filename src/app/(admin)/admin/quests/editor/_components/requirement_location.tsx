@@ -17,6 +17,7 @@ interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     objective_index: number
     objective: any
+    disable?: boolean;
 }
 
 const inputProps = {
@@ -24,7 +25,7 @@ const inputProps = {
     className: 'h-fit w-14 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 }
 
-export function RequirementLocation({form, objective_index, objective}: RequirementProps) {
+export function RequirementLocation({form, objective_index, objective, disable}: RequirementProps) {
     return (
         <div className={cn(
             {hidden: objective.objective_type === "encounter" || objective.objective_type === ''},
@@ -42,6 +43,7 @@ export function RequirementLocation({form, objective_index, objective}: Requirem
                             </FormLabel>
                             <FormControl>
                                 <Switch
+                                    disabled={disable}
                                     className="!m-0"
                                     checked={objective.require_location}
                                     onCheckedChange={field.onChange}
@@ -65,7 +67,7 @@ export function RequirementLocation({form, objective_index, objective}: Requirem
                                     <FormItem>
                                         <FormControl>
                                             <div className={'flex items-center gap-1'}>
-                                                Around <Input placeholder={'x'} {...inputProps} {...field} />,
+                                                Around <Input disabled={disable} placeholder={'x'} {...inputProps} {...field} />,
                                             </div>
                                         </FormControl>
                                     </FormItem>
@@ -79,7 +81,7 @@ export function RequirementLocation({form, objective_index, objective}: Requirem
                                     <FormItem>
                                         <FormControl>
                                             <div className={'flex items-center'}>
-                                                <Input placeholder={'y'} {...inputProps} {...field} />
+                                                <Input disabled={disable} placeholder={'y'} {...inputProps} {...field} />
                                             </div>
                                         </FormControl>
                                     </FormItem>
@@ -93,7 +95,7 @@ export function RequirementLocation({form, objective_index, objective}: Requirem
                                     <FormItem>
                                         <FormControl>
                                             <div className={'flex items-center gap-1'}>
-                                                ( radius <Input placeholder={'0'} {...inputProps} {...field} />)
+                                                ( radius <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} />)
                                             </div>
                                         </FormControl>
                                     </FormItem>
