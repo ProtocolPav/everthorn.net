@@ -36,14 +36,17 @@ import {Badge} from "@/components/ui/badge";
 import {useSession} from "next-auth/react";
 import {Toaster} from "@/components/ui/toaster";
 import webhook_content from "@/app/(main)/apply/_components/webhook_content";
+import {useState} from "react";
 
 export default function ApplicationForm() {
     const { data: session, status } = useSession()
+    const [submitted, setSubmitted] = useState(false)
 
     const {toast} = useToast()
 
     const formSchema = z.object({
         username: z.string().optional(),
+        timezone: z.string().optional(),
         age: z.coerce.number(),
         interests: z.string(),
         hours: z.string(),
@@ -53,7 +56,6 @@ export default function ApplicationForm() {
     });
     const form = useForm < z.infer < typeof formSchema >> ({
         resolver: zodResolver(formSchema),
-
     })
 
     async function submitToDiscord(values: z.infer < typeof formSchema >) {
@@ -85,12 +87,24 @@ export default function ApplicationForm() {
 
     function onSubmit(values: z.infer < typeof formSchema > ) {
         values.username = session?.user?.name ? session?.user?.name : 'Unknown'
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        const parts = new Intl.DateTimeFormat('en-US', {
+            timeZone: tz,
+            timeZoneName: 'shortOffset',
+        }).formatToParts(new Date());
+
+        const offsetPart = parts.find(part => part.type === 'timeZoneName');
+        const offset = offsetPart?.value ?? '';  // empty string fallback if undefined
+
+        values.timezone = `${tz} (${offset})`;
         try {
-            if (!session?.user.everthornMemberInfo.isMember) {
+            // if (!session?.user.everthornMemberInfo.isMember) {
                 submitToDiscord(values)
-            } else {
-                throw new Error('Already a member!')
-            }
+                setSubmitted(true)
+            // } else {
+            //     throw new Error('Already a member!')
+            // }
 
         } catch (error) {
             console.error("Form submission error", error);
@@ -267,7 +281,7 @@ export default function ApplicationForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={submitted}>Submit</Button>
             </form>
         <Toaster/>
         </Form>
