@@ -99,12 +99,12 @@ export default function ApplicationForm() {
 
         values.timezone = `${tz} (${offset})`;
         try {
-            // if (!session?.user.everthornMemberInfo.isMember) {
+            if (!session?.user.everthornMemberInfo.isMember) {
                 submitToDiscord(values)
                 setSubmitted(true)
-            // } else {
-            //     throw new Error('Already a member!')
-            // }
+            } else {
+                throw new Error('Already a member!')
+            }
 
         } catch (error) {
             console.error("Form submission error", error);
