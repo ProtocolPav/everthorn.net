@@ -16,12 +16,14 @@ import {
     Shovel,
     BracketsCurly,
     Info,
-    IconProps
+    IconProps, Check
 } from "@phosphor-icons/react";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
 import {rewards} from "@/lib/minecraft/minecraft-data";
 import {Input} from "@/components/ui/input";
 import {PlusIcon} from "lucide-react";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {cn} from "@/lib/utils";
 
 interface RewardProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -44,86 +46,86 @@ export function Reward({ form, objective_index, reward_index, objective, disable
     }
 
     return (
-        <Card className={'p-1.5'}>
-            <FormField
-                control={form.control}
-                name={`objectives.${objective_index}.rewards.${reward_index}`}
-                render={() => (
-                    <div className={''}>
-                        <FormLabel className={'flex items-center justify-between gap-2'}>
-                            <div className={'flex items-center gap-1'}>
-                                <TreasureChest size={20} weight={'fill'} className={'hidden md:block'} />
+        <Popover>
+            <PopoverTrigger
+                disabled={disable}
+                className={"relative grid items-center gap-1 rounded-md border bg-secondary/40 p-2.5 text-sm shadow-sm"}
+            >
+                <div className={'flex items-center gap-1.5'}>
+                    <TreasureChest size={20} weight={'fill'}/>
+                    {objective.rewards[reward_index].display_name ? objective.rewards[reward_index].display_name : objective.rewards[reward_index].reward}
+                </div>
+                <div className={'font-mono text-gray-500'}>
+                    {objective.rewards[reward_index].amount} of {objective.rewards[reward_index].reward}
+                </div>
 
-                                <FormField
-                                    control={form.control}
-                                    name={`objectives.${objective_index}.rewards.${reward_index}.amount`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <div className={'flex items-center gap-1'}>
-                                                    <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} /> of
-                                                </div>
-
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name={`objectives.${objective_index}.rewards.${reward_index}.reward`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <div className={'flex items-center gap-1'}>
-                                                    <VirtualizedCombobox
-                                                        disabled={disable}
-                                                        className={'h-8'}
-                                                        options={rewards}
-                                                        searchPlaceholder="Item"
-                                                        onOptionSelect={(value: string) => {
-                                                            form.setValue(
-                                                                `objectives.${objective_index}.rewards.${reward_index}.reward`,
-                                                                value
-                                                            )
-                                                        }}
-                                                        preselect={form.getValues(`objectives.${objective_index}.rewards.${reward_index}.reward`)}
-                                                    />
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <Button disabled={disable} size={'icon'} variant={'destructive'} className={'size-8'} onClick={removeReward}>
-                                <Trash
-                                    size={15}
-                                    weight={'fill'}
-                                />
-                            </Button>
-                        </FormLabel>
-
-                        <FormField
-                            control={form.control}
-                            name={`objectives.${objective_index}.rewards.${reward_index}.display_name`}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className={'mt-2 flex items-center gap-1'}>
-                                            <Input disabled={disable} className={'h-8'} placeholder={'Display Name'} {...field} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
+                <div className={'absolute -right-1 -top-1 flex gap-1.5 text-xs'}>
+                    <div className={'size-4 rounded-sm bg-blue-500 p-0'}>
+                        {reward_index + 1}
                     </div>
-                )}
-            />
-        </Card>
 
+                    <Button type={'button'} size={'icon'} variant={'destructive'} className={'size-4 rounded-sm p-0'} onClick={removeReward}>
+                        <Trash size={12} weight={'fill'}/>
+                    </Button>
+                </div>
+            </PopoverTrigger>
+
+            <PopoverContent className={'w-fit space-y-2 p-2'}>
+                <FormField
+                    control={form.control}
+                    name={`objectives.${objective_index}.rewards.${reward_index}.display_name`}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <Input disabled={disable} className={'h-8'} placeholder={'Display Name'} {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <div className={'flex items-center gap-1'}>
+                    <FormField
+                        control={form.control}
+                        name={`objectives.${objective_index}.rewards.${reward_index}.amount`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className={'flex items-center gap-1'}>
+                                        <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} /> of
+                                    </div>
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name={`objectives.${objective_index}.rewards.${reward_index}.reward`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <VirtualizedCombobox
+                                        disabled={disable}
+                                        className={'h-8'}
+                                        options={rewards}
+                                        searchPlaceholder="Item"
+                                        onOptionSelect={(value: string) => {
+                                            form.setValue(
+                                                `objectives.${objective_index}.rewards.${reward_index}.reward`,
+                                                value
+                                            )
+                                        }}
+                                        preselect={form.getValues(`objectives.${objective_index}.rewards.${reward_index}.reward`)}
+                                    />
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+            </PopoverContent>
+        </Popover>
     )
 }
