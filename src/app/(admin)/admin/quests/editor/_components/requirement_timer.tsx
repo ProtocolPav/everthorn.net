@@ -20,7 +20,7 @@ interface RequirementProps {
 
 const inputProps = {
     type: "number",
-    placeholder: "00",
+    placeholder: "0",
     max: 20,
     className: 'h-fit w-8 p-1 text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 }
@@ -97,15 +97,15 @@ export function RequirementTimer({form, objective_index, objective, disable}: Re
                             <FormControl>
                                 <div className={'flex gap-3 text-sm'}>
                                     <div className={'flex items-center gap-1'}>
-                                        <Input value={hour} disabled={disable} {...inputProps} onChange={handleHours} />
+                                        <Input value={hour === 0 ? '' : hour} disabled={disable} {...inputProps} onChange={handleHours} />
                                         Hours
                                     </div>
                                     <div className={'flex items-center gap-1'}>
-                                        <Input value={minute} disabled={disable} {...inputProps} onChange={handleMinutes} />
+                                        <Input value={minute === 0 ? '' : minute} disabled={disable} {...inputProps} onChange={handleMinutes} />
                                         Minutes
                                     </div>
                                     <div className={'flex items-center gap-1'}>
-                                        <Input value={second} disabled={disable} {...inputProps} onChange={handleSeconds} />
+                                        <Input value={second === 0 ? '' : second} disabled={disable} {...inputProps} onChange={handleSeconds} />
                                         Seconds
                                     </div>
                                 </div>

@@ -23,7 +23,7 @@ export function ObjectiveCount({ form, index, disable }: ObjectiveProps) {
                     render={({ field }) => (
                         <FormItem className={'md:w-20'}>
                             <FormControl>
-                                <Input disabled={disable} type="number" placeholder="43" {...field} />
+                                <Input disabled={disable} type="number" placeholder="12" {...field} value={field.value === 0 ? '' : field.value} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
