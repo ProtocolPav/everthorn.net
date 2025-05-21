@@ -83,7 +83,7 @@ export function formatApiToData(data: ApiSchema): z.infer<typeof formSchema> {
             require_natural_block: obj.natural_block,
             objective_timer: obj.objective_timer ? obj.objective_timer : undefined,
             mainhand: obj.required_mainhand ? obj.required_mainhand : undefined,
-            location: obj.required_location as [number | null, number | null],
+            location: obj.required_location ? obj.required_location as [number | null, number | null] : [null, null],
             location_radius: obj.location_radius ? obj.location_radius : undefined,
             rewards: obj.rewards?.map((reward) => {
                 return {

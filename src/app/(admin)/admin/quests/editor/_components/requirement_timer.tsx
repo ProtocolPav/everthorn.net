@@ -26,9 +26,12 @@ const inputProps = {
 }
 
 export function RequirementTimer({form, objective_index, objective, disable}: RequirementProps) {
-    const [hour, setHour] = React.useState<number>(0)
-    const [minute, setMinute] = React.useState<number>(0)
-    const [second, setSecond] = React.useState<number>(0)
+    const objectiveTimer = form.getValues(`objectives.${objective_index}.objective_timer`) ?? 0;
+
+    const [hour, setHour] = React.useState<number>(() => Math.floor(objectiveTimer / 3600));
+    const [minute, setMinute] = React.useState<number>(() => Math.floor((objectiveTimer % 3600) / 60));
+    const [second, setSecond] = React.useState<number>(() => objectiveTimer % 60);
+
     const [open, setOpen] = React.useState(false)
 
     React.useEffect(() => {
