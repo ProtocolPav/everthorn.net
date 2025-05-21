@@ -55,10 +55,10 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): ApiSchema {
             objective_count: obj.objective_count,
             objective_type: obj.objective_type,
             natural_block: obj.require_natural_block,
-            objective_timer: obj.require_timer && obj.objective_timer ? obj.objective_timer : null,
-            required_mainhand: obj.require_mainhand && obj.mainhand ? obj.mainhand : null,
-            required_location: obj.require_location && obj.location ? obj.location : null,
-            location_radius: obj.require_location && obj.location_radius ? obj.location_radius : null,
+            objective_timer: obj.objective_timer ? obj.objective_timer : null,
+            required_mainhand: obj.mainhand ? obj.mainhand : null,
+            required_location: obj.location[0] && obj.location[1] ? obj.location : null,
+            location_radius: obj.location_radius ? obj.location_radius : null,
             rewards: objectiveRewards ? objectiveRewards : null
         })
     })
@@ -81,12 +81,9 @@ export function formatApiToData(data: ApiSchema): z.infer<typeof formSchema> {
             objective_count: obj.objective_count,
             display: obj.display ? obj.display : undefined,
             require_natural_block: obj.natural_block,
-            require_timer: !!obj.objective_timer,
             objective_timer: obj.objective_timer ? obj.objective_timer : undefined,
-            require_mainhand: !!obj.required_mainhand,
             mainhand: obj.required_mainhand ? obj.required_mainhand : undefined,
-            require_location: !!obj.required_location,
-            location: obj.required_location ? obj.required_location as [number, number] : undefined,
+            location: obj.required_location as [number | null, number | null],
             location_radius: obj.location_radius ? obj.location_radius : undefined,
             rewards: obj.rewards?.map((reward) => {
                 return {

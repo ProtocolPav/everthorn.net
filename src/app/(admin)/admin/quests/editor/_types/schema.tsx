@@ -13,12 +13,9 @@ export const formObjectiveSchema = z.object({
     objective_count: z.coerce.number().min(1, "Must be ≥1"),
     objective_type: z.string(),
     require_natural_block: z.boolean().default(false),
-    require_timer: z.boolean().default(false),
     objective_timer: z.coerce.number().optional(),
-    require_mainhand: z.boolean().default(false),
     mainhand: z.string().optional(),
-    require_location: z.boolean().default(false),
-    location: z.tuple([z.coerce.number(), z.coerce.number()]).optional(),
+    location: z.tuple([z.coerce.number().nullable(), z.coerce.number().nullable()]),
     location_radius: z.coerce.number().default(100).optional(),
     rewards: z.array(formRewardSchema).optional(),
 }).refine(
@@ -26,28 +23,6 @@ export const formObjectiveSchema = z.object({
     {
         message: "Custom Encounters require a Display Text",
         path: ["display"],
-    }
-)
-.refine(
-    (data) => !data.require_timer || (data.require_timer && data.objective_timer !== undefined),
-    {
-        message: "You forgot to fill in the Timer Requirement!",
-        path: ["objective_timer"],
-    }
-)
-.refine(
-    (data) => !data.require_mainhand || (data.require_mainhand && data.mainhand !== undefined),
-    {
-        message: "You forgot to fill in the Mainhand Requirement!",
-        path: ["mainhand"],
-    }
-)
-.refine(
-    (data) => !data.require_location ||
-        (data.require_location && data.location !== undefined && data.location_radius !== undefined),
-    {
-        message: "You forgot to fill in the Location Requirement!",
-        path: ["location"],
     }
 );
 

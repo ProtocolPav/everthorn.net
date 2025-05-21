@@ -95,7 +95,7 @@ export default function QuestsCreator() {
         <section className="grid items-center gap-6 pb-8">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <Card className={'bg-gray-400/5 shadow-xl backdrop-blur-sm md:w-4/5'}>
+                    <Card className={'bg-gray-500/5 shadow-xl backdrop-blur-sm md:w-4/5'}>
                         {submitted &&
                             <CardContent className={'p-3'}>
                                 <Alert className={'bg-attention/30'}>

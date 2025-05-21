@@ -58,9 +58,9 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
     function getRequirementIcons() {
         let icons = [];
 
-        objective.require_location ? icons.push(MapPinSimpleArea) : null;
-        objective.require_mainhand ? icons.push(HandGrabbing) : null;
-        objective.require_timer ? icons.push(Timer) : null;
+        objective.location[0] && objective.location[1] ? icons.push(MapPinSimpleArea) : null;
+        objective.mainhand ? icons.push(HandGrabbing) : null;
+        objective.objective_timer ? icons.push(Timer) : null;
         objective.require_natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
 
         return (
@@ -78,15 +78,17 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
     }
 
     function getRewardIcon() {
-        return (
-            <Button type={'button'} variant={'ghost'} className={'flex h-8 gap-1 bg-gray-400/5 p-1 text-xs'}>
-                {objective.rewards && objective.rewards.length > 0 ? objective.rewards.length : 0}
-                <TreasureChest
-                    size={18}
-                    weight={'fill'}
-                />
-            </Button>
-        );
+        if (objective.rewards && objective.rewards.length > 0) {
+            return (
+                <Button type={'button'} variant={'ghost'} className={'flex h-8 gap-1 bg-gray-400/5 p-1 text-xs'}>
+                    {objective.rewards.length}
+                    <TreasureChest
+                        size={18}
+                        weight={'fill'}
+                    />
+                </Button>
+            )
+        }
     }
 
     function ObjectiveDisplayComponent() {
@@ -192,8 +194,8 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
 
                                 <Separator className={cn({hidden: objective.objective_type === ''}, 'my-4')}/>
 
-                                <div className={'flex flex-col gap-2'}>
-                                    <h3>Requirements</h3>
+                                <h3>Requirements</h3>
+                                <div className={'mt-2 flex flex-wrap gap-2'}>
                                     <RequirementNatural form={form} objective_index={index} objective={objective} disable={disable} />
                                     <RequirementTimer form={form} objective_index={index} objective={objective} disable={disable} />
                                     <RequirementLocation form={form} objective_index={index} objective={objective} disable={disable} />
