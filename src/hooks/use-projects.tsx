@@ -1,7 +1,7 @@
 import useSWR from "swr"
 import {Project} from "@/types/projects";
 
-export function useProjects(): {projects: {projects: Project[]}, isError: any, isLoading: boolean} {
+export function useProjects(): {projects: Project[], isError: any, isLoading: boolean} {
     const fetcher = (url: string) => fetch(url)
         .then((res) => res.json());
 

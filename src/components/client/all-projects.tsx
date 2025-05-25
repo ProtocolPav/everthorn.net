@@ -12,7 +12,7 @@ export function AllProjects() {
   const [filtered, setFiltered] = useState<Project[]>([])
 
   useEffect(() => {
-    if (projects !== undefined) setFiltered(projects.projects)
+    if (projects !== undefined) setFiltered(projects)
   }, [projects, isLoading, isError])
 
   if (isLoading) {
@@ -26,7 +26,7 @@ export function AllProjects() {
 
   return (
     <>
-      <SearchProjects projects={projects.projects} setProjects={setFiltered} />
+      <SearchProjects projects={projects} setProjects={setFiltered} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
           filtered.map((project) => (
