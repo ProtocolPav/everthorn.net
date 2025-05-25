@@ -1,6 +1,6 @@
 import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/creator/v2/_types/schema";
+import {formSchema} from "@/app/(admin)/admin/quests/editor/_types/schema";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
@@ -33,17 +33,18 @@ import {ObjectiveReference} from "./objective_reference";
 import {Separator} from "@/components/ui/separator";
 import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
-import {RequirementLocation} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_location";
-import {RequirementMainhand} from "@/app/(admin)/admin/quests/creator/v2/_components/requirement_mainhand";
-import {Rewards} from "@/app/(admin)/admin/quests/creator/v2/_components/rewards";
-import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/creator/v2/_components/objective_display";
+import {RequirementLocation} from "@/app/(admin)/admin/quests/editor/_components/requirement_location";
+import {RequirementMainhand} from "@/app/(admin)/admin/quests/editor/_components/requirement_mainhand";
+import {Rewards} from "@/app/(admin)/admin/quests/editor/_components/rewards";
+import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/editor/_components/objective_display";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     index: number
+    disable?: boolean
 }
 
-export function Objective({ form, index }: ObjectiveProps) {
+export function Objective({ form, index, disable }: ObjectiveProps) {
     const [open, setOpen] = useState(false)
 
     const objective = form.watch(`objectives.${index}`);
@@ -57,15 +58,15 @@ export function Objective({ form, index }: ObjectiveProps) {
     function getRequirementIcons() {
         let icons = [];
 
-        objective.require_location ? icons.push(MapPinSimpleArea) : null;
-        objective.require_mainhand ? icons.push(HandGrabbing) : null;
-        objective.require_timer ? icons.push(Timer) : null;
+        objective.location[0] && objective.location[1] ? icons.push(MapPinSimpleArea) : null;
+        objective.mainhand ? icons.push(HandGrabbing) : null;
+        objective.objective_timer ? icons.push(Timer) : null;
         objective.require_natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
 
         return (
             <div className={'flex gap-1'}>
                 {icons.map((IconComponent, index) => (
-                    <Button key={index} size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
+                    <Button type={'button'} key={index} size={'icon'} variant={'ghost'} className={'size-8 bg-gray-400/5'}>
                         <IconComponent
                             size={20}
                             weight={'fill'}
@@ -77,15 +78,17 @@ export function Objective({ form, index }: ObjectiveProps) {
     }
 
     function getRewardIcon() {
-        return (
-            <Button variant={'ghost'} className={'flex h-8 gap-1 bg-gray-400/5 p-1 text-xs'}>
-                {objective.rewards && objective.rewards.length > 0 ? objective.rewards.length : 0}
-                <TreasureChest
-                    size={18}
-                    weight={'fill'}
-                />
-            </Button>
-        );
+        if (objective.rewards && objective.rewards.length > 0) {
+            return (
+                <Button type={'button'} variant={'ghost'} className={'flex h-8 gap-1 bg-gray-400/5 p-1 text-xs'}>
+                    {objective.rewards.length}
+                    <TreasureChest
+                        size={18}
+                        weight={'fill'}
+                    />
+                </Button>
+            )
+        }
     }
 
     function ObjectiveDisplayComponent() {
@@ -148,7 +151,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                                 {getRewardIcon()}
                                 {getRequirementIcons()}
 
-                                <Button size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
+                                <Button disabled={disable} size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
                                     <Trash
                                         size={15}
                                         weight={'fill'}
@@ -161,7 +164,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                             {getRewardIcon()}
                             {getRequirementIcons()}
 
-                            <Button size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
+                            <Button disabled={disable} size={'icon'} variant={'destructive'} className={'ml-1 size-8'} onClick={removeObjective}>
                                 <Trash
                                     size={15}
                                     weight={'fill'}
@@ -172,6 +175,7 @@ export function Objective({ form, index }: ObjectiveProps) {
                         <CollapsibleContent className={'m-0 flex flex-col gap-2 p-0'}>
                             <div className={'p-1'}>
                                 <QuestDescription
+                                    disable={disable}
                                     form={form}
                                     field_name={`objectives.${index}.description`}
                                     placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
@@ -179,28 +183,28 @@ export function Objective({ form, index }: ObjectiveProps) {
 
                                 <div className={'flex w-full flex-wrap gap-2 md:gap-2'}>
                                     <div className={'flex gap-2'}>
-                                        <ObjectiveType form={form} index={index} />
-                                        <ObjectiveCount form={form} index={index} />
+                                        <ObjectiveType form={form} index={index} disable={disable} />
+                                        <ObjectiveCount form={form} index={index} disable={disable} />
                                     </div>
 
-                                    <ObjectiveReference form={form} index={index} objective={objective} />
+                                    <ObjectiveReference form={form} index={index} objective={objective} disable={disable} />
                                 </div>
 
-                                <ObjectiveDisplay form={form} index={index} objective={objective} />
+                                <ObjectiveDisplay disable={disable} form={form} index={index} objective={objective} />
 
                                 <Separator className={cn({hidden: objective.objective_type === ''}, 'my-4')}/>
 
-                                <div className={'flex flex-col gap-2'}>
-                                    <h3>Requirements</h3>
-                                    <RequirementNatural form={form} objective_index={index} objective={objective} />
-                                    <RequirementTimer form={form} objective_index={index} objective={objective} />
-                                    <RequirementLocation form={form} objective_index={index} objective={objective} />
-                                    <RequirementMainhand form={form} objective_index={index} objective={objective} />
+                                <h3>Requirements</h3>
+                                <div className={'mt-2 flex flex-wrap gap-2'}>
+                                    <RequirementNatural form={form} objective_index={index} objective={objective} disable={disable} />
+                                    <RequirementTimer form={form} objective_index={index} objective={objective} disable={disable} />
+                                    <RequirementLocation form={form} objective_index={index} objective={objective} disable={disable} />
+                                    <RequirementMainhand form={form} objective_index={index} objective={objective} disable={disable} />
                                 </div>
 
                                 <Separator className={'mt-4'}/>
 
-                                <Rewards form={form} objective_index={index} objective={objective} />
+                                <Rewards form={form} objective_index={index} objective={objective} disable={disable} />
                             </div>
                         </CollapsibleContent>
                     </Collapsible>

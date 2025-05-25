@@ -5,7 +5,7 @@ import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/for
 import {Input} from "@/components/ui/input";
 import * as React from "react";
 
-export function QuestTitle({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+export function QuestTitle({form, disable}: {form: UseFormReturn<z.infer<typeof formSchema>>, disable?: boolean}) {
     return (
         <FormField
             control={form.control}
@@ -14,6 +14,7 @@ export function QuestTitle({form}: {form: UseFormReturn<z.infer<typeof formSchem
                 <FormItem className="">
                     <FormControl className={'text-xl font-semibold'}>
                         <Input
+                            disabled={disable}
                             className={'border-none bg-transparent px-0 text-2xl md:text-3xl'}
                             placeholder="Quest Title"
                             {...field}

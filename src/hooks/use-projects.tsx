@@ -5,7 +5,7 @@ export function useProjects(): {projects: {projects: Project[]}, isError: any, i
     const fetcher = (url: string) => fetch(url)
         .then((res) => res.json());
 
-    const { data, error, isLoading } = useSWR("/nexuscore-api/v0.1/projects", fetcher)
+    const { data, error, isLoading } = useSWR("/nexuscore-api/v0.2/projects", fetcher)
 
     return {
         projects: data,

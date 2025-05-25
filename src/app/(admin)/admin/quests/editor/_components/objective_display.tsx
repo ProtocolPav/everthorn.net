@@ -12,10 +12,11 @@ interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     index: number
     objective: any
+    disable?: boolean
 }
 
 
-export function ObjectiveDisplay({ form, index, objective }: ObjectiveProps) {
+export function ObjectiveDisplay({ form, index, objective, disable }: ObjectiveProps) {
     if (objective.objective_type === 'encounter') {
         return (
             <FormField
@@ -23,7 +24,7 @@ export function ObjectiveDisplay({ form, index, objective }: ObjectiveProps) {
                 name={`objectives.${index}.display`}
                 render={({field}) => (
                     <FormItem className={'mt-3'}>
-                        <Input type={'text'} placeholder={'Your Custom Objective Task Display'} {...field}/>
+                        <Input disabled={disable} type={'text'} placeholder={'Your Custom Objective Task Display'} {...field}/>
                         <FormMessage/>
                     </FormItem>
                 )}

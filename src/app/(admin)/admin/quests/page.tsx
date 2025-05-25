@@ -16,7 +16,7 @@ export default function Quests() {
     return (
         <section className="mx-5 grid items-center gap-6 pb-8 pt-6">
             <h2>Everthorn Quests</h2>
-            <Link href={'/admin/quests/creator/v2'}>
+            <Link href={'/admin/quests/editor/new'}>
                 <Button>
                     Create New Quest
                 </Button>

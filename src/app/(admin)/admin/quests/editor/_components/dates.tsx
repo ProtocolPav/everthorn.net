@@ -14,19 +14,20 @@ import { format } from "date-fns"
 import {Calendar} from "@/components/ui/calendar";
 import {CalendarIcon} from "lucide-react";
 
-export function QuestDates({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+export function QuestDates({form, disable}: {form: UseFormReturn<z.infer<typeof formSchema>>, disable?: boolean}) {
     return (
         <FormField
             control={form.control}
             name="range"
             render={({ field }) => (
-                <FormItem className="my-4 md:w-2/6">
+                <FormItem className="my-4 md:w-1/2">
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>
                                 <Button
                                     id="date"
                                     variant={"outline"}
+                                    disabled={disable}
                                     className={cn(
                                         "w-full justify-between text-left font-normal",
                                         !field.value && "text-muted-foreground"

@@ -13,6 +13,7 @@ export default function webhook_content(values: any) {
                         name: "General Info",
                         value: `**Discord:** \`\@${values.username}\`\n` +
                                 `**Age:** ||${values.age}||\n` +
+                                `**TZ:** ${values.timezone}\n` +
                                 `**Activity:** ${values.hours}\n` +
                                 `**Refferal:** \`${values.heard_from ? values.heard_from : "other"}\``,
                         inline: false

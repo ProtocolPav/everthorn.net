@@ -12,14 +12,16 @@ interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     index: number
     objective: any
+    disable?: boolean
 }
 
 
-export function ObjectiveReference({ form, index, objective }: ObjectiveProps) {
+export function ObjectiveReference({ form, index, objective, disable }: ObjectiveProps) {
     function getInputBox(field: any) {
         if (objective.objective_type !== 'encounter') {
             return (
                 <VirtualizedCombobox
+                    disabled={disable}
                     options={
                         form.getValues(`objectives.${index}.objective_type`) === "mine"
                             ? blocks
@@ -35,7 +37,7 @@ export function ObjectiveReference({ form, index, objective }: ObjectiveProps) {
         }
 
         else {
-            return ( <Input type={'text'} placeholder={'quest:your_event...'} {...field}/> )
+            return ( <Input disabled={disable} type={'text'} placeholder={'quest:your_event...'} {...field}/> )
         }
 
     }

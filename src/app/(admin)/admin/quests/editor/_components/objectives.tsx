@@ -1,5 +1,5 @@
 import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
+import {undefined, z} from "zod";
 import {formSchema} from "../_types/schema";
 import { useFieldArray, UseFormGetValues } from "react-hook-form"
 import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import {Objective} from "./objective";
 
-export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
+export function QuestObjectives({form, disable}: {form: UseFormReturn<z.infer<typeof formSchema>>, disable?: boolean}) {
     function addObjective() {
         let objectives = form.getValues("objectives")
 
@@ -19,12 +19,9 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
             objective_count: 0,
             objective_type: "",
             require_natural_block: false,
-            require_timer: false,
             objective_timer: 0,
-            require_mainhand: false,
             mainhand: "",
-            require_location: false,
-            location: [0 ,0] as [number, number],
+            location: [null, null] as [number | null, number | null],
             location_radius: 100,
             rewards: []
         }
@@ -49,13 +46,13 @@ export function QuestObjectives({form}: {form: UseFormReturn<z.infer<typeof form
                         <FormMessage/>
 
                         {objective_fields.map((field, index) => (
-                            <Objective key={field.id} form={form} index={index}/>
+                            <Objective key={field.id} form={form} index={index} disable={disable}/>
                         ))}
                     </div>
                 )}
             />
 
-            <Button variant={'secondary'} onClick={() => addObjective()} className={'mt-3 flex w-full justify-center gap-2'}>
+            <Button disabled={disable} variant={'secondary'} onClick={() => addObjective()} className={'mt-3 flex w-full justify-center gap-2'}>
                 <PlusIcon size={18} /> Add Objective
             </Button>
         </div>

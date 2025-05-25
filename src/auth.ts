@@ -72,7 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               };
 
               if (everthornGuild) {
-                const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.1/users/guild/${everthornGuild.id}/${token.id}`);
+                const everthornUserResponse = await fetch(`https://api.everthorn.net/v0.2/users/guild/${everthornGuild.id}/${token.id}`);
 
                 if (everthornUserResponse.ok) {
                   const userData = (await everthornUserResponse.json());

@@ -10,9 +10,10 @@ import {Sword, Shovel, BracketsCurly, LockKey} from "@phosphor-icons/react";
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
     index: number
+    disable?: boolean
 }
 
-export function ObjectiveType({ form, index }: ObjectiveProps) {
+export function ObjectiveType({ form, index, disable }: ObjectiveProps) {
     return (
         <FormField
             control={form.control}
@@ -20,7 +21,7 @@ export function ObjectiveType({ form, index }: ObjectiveProps) {
             render={({ field }) => (
                 <FormItem className={'w-44'}>
                     <FormControl>
-                        <Select onValueChange={field.onChange} {...field}>
+                        <Select disabled={disable} onValueChange={field.onChange} {...field}>
                             <SelectTrigger>
                                 <SelectValue placeholder={'Kill...'} />
                             </SelectTrigger>
