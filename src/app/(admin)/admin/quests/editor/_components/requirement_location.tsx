@@ -7,11 +7,15 @@ import {
     Timer,
     MapPinSimpleArea,
     HandGrabbing,
-    Cube
+    Cube, Check, XCircle, ArrowUUpLeft
 } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 import {Switch} from "@/components/ui/switch";
 import {Input} from "@/components/ui/input";
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 
 interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -26,87 +30,89 @@ const inputProps = {
 }
 
 export function RequirementLocation({form, objective_index, objective, disable}: RequirementProps) {
+    const [open, setOpen] = React.useState(false)
+
     return (
-        <div className={cn(
-            {hidden: objective.objective_type === "encounter" || objective.objective_type === ''},
-            "rounded-md border bg-secondary/40 p-3 shadow-sm"
-        )}>
-            <FormField
-                control={form.control}
-                name={`objectives.${objective_index}.require_location`}
-                render={({ field }) => (
-                    <FormItem>
-                        <div className={'flex justify-between'}>
-                            <FormLabel className={'flex items-center gap-1'}>
-                                <MapPinSimpleArea size={20} weight={'fill'}/>
-                                Require Location
-                            </FormLabel>
-                            <FormControl>
-                                <Switch
-                                    disabled={disable}
-                                    className="!m-0"
-                                    checked={objective.require_location}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                        </div>
-                    </FormItem>
-                )}
-            />
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger disabled={disable} className={cn(
+                objective.location[0] && objective.location[1] ? 'border-blue-500/50' : '',
+                "relative grid items-center gap-1 rounded-md border bg-secondary/40 p-2.5 text-sm shadow-sm",
+                {hidden: objective.objective_type === "encounter" || objective.objective_type === ''},
+            )}>
+                <div className={'flex items-center gap-1'}>
+                    <MapPinSimpleArea size={20} weight={'fill'}/>
+                    Require Location
+                </div>
+                <div hidden={!objective.location[0] || !objective.location[1]} className={'font-mono text-gray-500'}>
+                    {objective.location_radius} blocks around [{objective.location[0]}, {objective.location[1]}]
+                </div>
+                <div className={cn(
+                    {hidden: !objective.location[0] || !objective.location[1]},
+                    'absolute -right-1 -top-1 rounded-sm bg-blue-500 p-0.5'
+                )}>
+                    <Check size={12} weight={'bold'}/>
+                </div>
+            </PopoverTrigger>
 
-            <div className={cn(!objective.require_location ? "!hidden" : "", "mt-1.5 flex flex-wrap items-center gap-1 text-sm")}>
-                <FormField
-                    control={form.control}
-                    name={`objectives.${objective_index}.location`}
-                    render={({ field }) => (
-                        <>
-                            <FormField
-                                control={form.control}
-                                name={`objectives.${objective_index}.location.0`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <div className={'flex items-center gap-1'}>
-                                                Around <Input disabled={disable} placeholder={'x'} {...inputProps} {...field} />,
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+            <PopoverContent className={'w-fit space-y-2 p-2'}>
+                <div className={'flex items-center justify-between gap-1'}>
+                    <h3 className={'text-lg'}>
+                        Complete around...
+                    </h3>
 
-                            <FormField
-                                control={form.control}
-                                name={`objectives.${objective_index}.location.1`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <div className={'flex items-center'}>
-                                                <Input disabled={disable} placeholder={'y'} {...inputProps} {...field} />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                    <Button size={'sm'} type={'reset'} variant={'secondary'} className={'flex h-8 gap-1'} onClick={() => {
+                        form.setValue(`objectives.${objective_index}.location`, [null, null]);
+                        setOpen(false);
+                    }}>
+                        <ArrowUUpLeft size={15}/>
+                        Undo
+                    </Button>
+                </div>
 
-                            <FormField
-                                control={form.control}
-                                name={`objectives.${objective_index}.location_radius`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <div className={'flex items-center gap-1'}>
-                                                ( radius <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} />)
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                <div className={'flex gap-2'}>
+                    <FormField
+                        control={form.control}
+                        name={`objectives.${objective_index}.location_radius`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className={'flex items-center gap-1'}>
+                                        <Input disabled={disable} placeholder={'0'} {...inputProps} {...field} /> blocks around
+                                    </div>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
-                            <FormMessage/>
-                        </>
-                    )}
-                />
-            </div>
-        </div>
+                    <FormField
+                        control={form.control}
+                        name={`objectives.${objective_index}.location.0`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className={'flex items-center gap-1'}>
+                                        <Input disabled={disable} placeholder={'x'} {...inputProps} {...field} value={field.value ?? ''} />,
+                                    </div>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name={`objectives.${objective_index}.location.1`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className={'flex items-center'}>
+                                        <Input disabled={disable} placeholder={'y'} {...inputProps} {...field} value={field.value ?? ''} />
+                                    </div>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+            </PopoverContent>
+        </Popover>
     )
 }

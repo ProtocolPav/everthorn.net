@@ -7,10 +7,11 @@ import {
     Timer,
     MapPinSimpleArea,
     HandGrabbing,
-    Cube
+    Cube, Check
 } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 import {Switch} from "@/components/ui/switch";
+import {Badge} from "@/components/ui/badge";
 
 interface RequirementProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -21,33 +22,31 @@ interface RequirementProps {
 
 export function RequirementNatural({form, objective_index, objective, disable}: RequirementProps) {
     return (
-        <div className={cn({hidden: objective.objective_type !== "mine"}, "rounded-md border p-3 shadow-sm bg-secondary/40")}>
-            <FormField
-                control={form.control}
-                name={`objectives.${objective_index}.require_natural_block`}
-                render={({ field }) => (
-                    <FormItem>
-                        <div className={'flex justify-between'}>
-                            <FormLabel className={'flex items-center gap-1'}>
-                                <Cube size={20} weight={'fill'}/>
-                                Require Natural Blocks
-                            </FormLabel>
-                            <FormControl>
-                                <Switch
-                                    disabled={disable}
-                                    className="!m-0"
-                                    checked={objective.require_natural_block}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                        </div>
-
-                        <FormDescription className="text-xs">
-                            Blocks will take ~2 seconds to be processed if enabled
-                        </FormDescription>
-                    </FormItem>
-                )}
-            />
+        <div
+            className={cn(
+                objective.require_natural_block ? 'border-blue-500/50' : '',
+                "relative grid cursor-pointer items-center gap-1 rounded-md border bg-secondary/40 p-2.5 text-sm shadow-sm",
+                { hidden: objective.objective_type !== "mine" },
+            )}
+            onClick={() => {
+                const newValue = !form.getValues(`objectives.${objective_index}.require_natural_block`);
+                form.setValue(`objectives.${objective_index}.require_natural_block`, newValue);
+            }}
+            role="button"
+        >
+            <div className={'flex items-center gap-1'}>
+                <Cube size={20} weight={'fill'}/>
+                Require Natural Blocks
+            </div>
+            <div hidden={!objective.require_natural_block} className={'font-mono text-gray-500'}>
+                Performance Impact
+            </div>
+            <div className={cn(
+                {hidden: !objective.require_natural_block},
+                'absolute -right-1 -top-1 rounded-sm p-0.5 bg-blue-500'
+            )}>
+                <Check size={12} weight={'bold'}/>
+            </div>
         </div>
     )
 }

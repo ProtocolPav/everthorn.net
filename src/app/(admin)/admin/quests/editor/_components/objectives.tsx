@@ -1,5 +1,5 @@
 import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
+import {undefined, z} from "zod";
 import {formSchema} from "../_types/schema";
 import { useFieldArray, UseFormGetValues } from "react-hook-form"
 import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
@@ -19,12 +19,9 @@ export function QuestObjectives({form, disable}: {form: UseFormReturn<z.infer<ty
             objective_count: 0,
             objective_type: "",
             require_natural_block: false,
-            require_timer: false,
             objective_timer: 0,
-            require_mainhand: false,
             mainhand: "",
-            require_location: false,
-            location: [0 ,0] as [number, number],
+            location: [null, null] as [number | null, number | null],
             location_radius: 100,
             rewards: []
         }
