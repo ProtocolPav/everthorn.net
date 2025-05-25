@@ -49,7 +49,7 @@ export default function QuestsCreator() {
     async function onSubmit(form: z.infer<typeof formSchema>): Promise<void> {
         let apiReadyData = formatDataToApi(form)
 
-        const questResponse = await fetch("/nexuscore-api/v0.1/quests", {
+        const questResponse = await fetch("/nexuscore-api/v0.2/quests", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

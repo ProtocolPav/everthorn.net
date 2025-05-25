@@ -10,7 +10,7 @@ export function useQuest(id: string | undefined): {quest: ApiSchema | null, isEr
     const shouldFetch = !!id && id !== "new";
 
     const { data, error, isLoading } = useSWR(
-        shouldFetch ? `/nexuscore-api/v0.1/quests/${id}` : null,
+        shouldFetch ? `/nexuscore-api/v0.2/quests/${id}` : null,
         fetcher
     )
 
