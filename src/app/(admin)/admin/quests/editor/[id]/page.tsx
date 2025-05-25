@@ -38,7 +38,7 @@ export default function QuestsCreator() {
 
     React.useEffect(() => {
         if (quest) {
-            const data = formatApiToData(quest.quest); // Remove .quest if you fixed the hook return!
+            const data = formatApiToData(quest); // Remove .quest if you fixed the hook return!
             form.setValue('title', data.title);
             form.setValue('description', data.description);
             form.setValue('range', data.range);
