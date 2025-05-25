@@ -115,7 +115,7 @@ export default function WorldMap()  {
 
     const { projects, isLoading, isError } = useProjects();
     if (isError) {throw Error()}
-    const all_projects: Project[] = isLoading ? [] : projects.projects
+    const all_projects: Project[] = isLoading ? [] : projects
 
     const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
     const all_players: Player[] = (isLoading2 || isError2) ? [] : players
