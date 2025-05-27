@@ -27,6 +27,8 @@ import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
 import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
+import '@luomus/leaflet-smooth-wheel-zoom'
+
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     layer: string
@@ -38,8 +40,8 @@ class CustomTileLayer extends L.TileLayer {
 
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        //return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        //return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 
@@ -128,6 +130,9 @@ export default function WorldMap()  {
     return (
         <LeafletRightClickProvider>
             <MapContainer
+                scrollWheelZoom={false}
+                smoothSensitivity={5}
+                smoothWheelZoom={true}
                 center={position}
                 zoom={0}
                 style={{width: "100%", height: "100%"}}
