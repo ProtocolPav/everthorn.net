@@ -184,7 +184,9 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
                                     placeholder={'Describe what people should be doing, how, and why. Storyify it up!'}
                                 />
 
-                                <div className={'flex w-full flex-wrap gap-2 md:gap-2'}>
+                                <ObjectiveDisplay disable={disable} form={form} index={index} objective={objective} />
+
+                                <div className={'w-full gap-2 md:flex'}>
                                     <div className={'flex gap-2'}>
                                         <ObjectiveType form={form} index={index} disable={disable} />
                                         <ObjectiveCount form={form} index={index} disable={disable} />
@@ -193,11 +195,16 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
                                     <ObjectiveReference form={form} index={index} objective={objective} disable={disable} />
                                 </div>
 
-                                <ObjectiveDisplay disable={disable} form={form} index={index} objective={objective} />
-
                                 <Separator className={cn({hidden: objective.objective_type === ''}, 'my-4')}/>
 
-                                <h3>Requirements</h3>
+                                <h3 className={'flex justify-between'}>
+                                    Customization
+
+                                    <Button type={'button'} variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'}>
+                                        <Gear weight={'fill'} size={18}/>
+                                        Advanced
+                                    </Button>
+                                </h3>
                                 <div className={'mt-2 flex flex-wrap gap-2'}>
                                     <RequirementNatural form={form} objective_index={index} objective={objective} disable={disable} />
                                     <RequirementTimer form={form} objective_index={index} objective={objective} disable={disable} />
