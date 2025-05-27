@@ -1,12 +1,11 @@
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/editor/_types/schema";
+import {formSchema, formatApiToData} from "@/app/(admin)/admin/quests/editor/_types/schema";
 import {Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
-import {formatApiToData} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
 import * as React from "react";
 import {useToast} from "@/components/ui/use-toast";
 

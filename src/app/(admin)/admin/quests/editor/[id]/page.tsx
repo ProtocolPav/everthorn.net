@@ -2,8 +2,7 @@
 import * as React from "react";
 import {Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import Link from "next/link";
-import {formSchema} from "../_types/schema"
+import {formSchema, formatApiToData, formatDataToApi} from "../_types/schema"
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -13,7 +12,6 @@ import {QuestDescription} from "@/app/(admin)/admin/quests/editor/_components/de
 import {QuestDates} from "@/app/(admin)/admin/quests/editor/_components/dates";
 import {Separator} from "@/components/ui/separator";
 import {QuestObjectives} from "@/app/(admin)/admin/quests/editor/_components/objectives";
-import {formatApiToData, formatDataToApi} from "../_types/api_schema";
 import {Toaster} from "@/components/ui/toaster";
 import {useToast} from "@/components/ui/use-toast";
 import {LoadJSON} from "@/app/(admin)/admin/quests/editor/_components/load_json";
@@ -38,7 +36,7 @@ export default function QuestsCreator() {
 
     React.useEffect(() => {
         if (quest) {
-            const data = formatApiToData(quest); // Remove .quest if you fixed the hook return!
+            const data = formatApiToData(quest)
             form.setValue('title', data.title);
             form.setValue('description', data.description);
             form.setValue('range', data.range);
