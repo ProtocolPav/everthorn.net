@@ -23,6 +23,8 @@ export function QuestObjectives({form, disable}: {form: UseFormReturn<z.infer<ty
             mainhand: "",
             location: [null, null] as [number | null, number | null],
             location_radius: 100,
+            continue_on_fail: false,
+            required_deaths: 0,
             rewards: []
         }
 
