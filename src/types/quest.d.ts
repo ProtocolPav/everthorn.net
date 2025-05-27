@@ -17,6 +17,8 @@ interface ObjectiveSchema {
     required_mainhand: string | null,
     location_radius: number | null,
     required_location: number[] | null,
+    continue_on_fail: boolean,
+    required_deaths: number | null,
     rewards: RewardSchema[] | null
 }
 

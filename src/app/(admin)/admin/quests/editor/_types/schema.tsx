@@ -15,6 +15,8 @@ export const formObjectiveSchema = z.object({
     objective_count: z.coerce.number().min(1, "Must be ≥1"),
     objective_type: z.string(),
     require_natural_block: z.boolean().default(false),
+    continue_on_fail: z.boolean().default(false),
+    required_deaths: z.coerce.number().optional(),
     objective_timer: z.coerce.number().optional(),
     mainhand: z.string().optional(),
     location: z.tuple([z.coerce.number().nullable(), z.coerce.number().nullable()]),
@@ -65,6 +67,8 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): QuestSchema {
             required_mainhand: obj.mainhand ? obj.mainhand : null,
             required_location: obj.location[0] && obj.location[1] ? obj.location as number[] : null,
             location_radius: obj.location_radius ? obj.location_radius : null,
+            continue_on_fail: obj.continue_on_fail,
+            required_deaths: obj.required_deaths ? obj.required_deaths : null,
             rewards: objectiveRewards ? objectiveRewards : null
         })
     })
@@ -91,6 +95,8 @@ export function formatApiToData(data: QuestSchema): z.infer<typeof formSchema> {
             mainhand: obj.required_mainhand ? obj.required_mainhand : undefined,
             location: obj.required_location ? obj.required_location as [number | null, number | null] : [null, null],
             location_radius: obj.location_radius ? obj.location_radius : undefined,
+            continue_on_fail: obj.continue_on_fail,
+            required_deaths: obj.required_deaths ? obj.required_deaths : undefined,
             rewards: obj.rewards?.map((reward) => {
                 return {
                     reward: reward.item ? reward.item : 'nugs_balance',
@@ -113,6 +119,8 @@ export function formatApiToData(data: QuestSchema): z.infer<typeof formSchema> {
             mainhand: undefined,
             location: [null, null],
             location_radius: undefined,
+            continue_on_fail: false,
+            required_deaths: undefined,
             rewards: []
         })
     }

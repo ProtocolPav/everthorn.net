@@ -1,8 +1,8 @@
-import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
+import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "@/app/(admin)/admin/quests/editor/_types/schema";
-import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Card, CardContent} from "@/components/ui/card";
+import {FormField, FormLabel} from "@/components/ui/form";
+import {Card} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import * as React from "react";
 import {
@@ -10,8 +10,8 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import {useEffect, useState} from "react";
-import {ChevronDownIcon} from "lucide-react";
+import {useState} from "react";
+import {ChevronDownIcon, PlusIcon} from "lucide-react";
 import {
     TreasureChest,
     Trash,
@@ -22,8 +22,7 @@ import {
     Sword,
     Shovel,
     BracketsCurly,
-    Info,
-    IconProps
+    IconProps, FastForwardCircle, Skull, Gear
 } from "@phosphor-icons/react";
 import {capitalizeCase, cn} from "@/lib/utils";
 import {QuestDescription} from "./description";
@@ -37,6 +36,8 @@ import {RequirementLocation} from "@/app/(admin)/admin/quests/editor/_components
 import {RequirementMainhand} from "@/app/(admin)/admin/quests/editor/_components/requirement_mainhand";
 import {Rewards} from "@/app/(admin)/admin/quests/editor/_components/rewards";
 import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/editor/_components/objective_display";
+import {RequirementContinue} from "@/app/(admin)/admin/quests/editor/_components/requirement_continue";
+import {RequirementDeaths} from "@/app/(admin)/admin/quests/editor/_components/requirement_deaths";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
@@ -62,6 +63,8 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
         objective.mainhand ? icons.push(HandGrabbing) : null;
         objective.objective_timer ? icons.push(Timer) : null;
         objective.require_natural_block && objective.objective_type === 'mine' ? icons.push(Cube) : null;
+        objective.continue_on_fail ? icons.push(FastForwardCircle) : null;
+        objective.required_deaths ? icons.push(Skull) : null;
 
         return (
             <div className={'flex gap-1'}>
@@ -121,7 +124,7 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
     }
 
     return (
-        <Card className={'p-1.5'}>
+        <Card className={'p-1.5 shadow-[0px_0px_17px_1px_rgba(0,_0,_0,_0.2)]'}>
             <FormField
                 control={form.control}
                 name={`objectives.${index}`}
@@ -200,6 +203,8 @@ export function Objective({ form, index, disable }: ObjectiveProps) {
                                     <RequirementTimer form={form} objective_index={index} objective={objective} disable={disable} />
                                     <RequirementLocation form={form} objective_index={index} objective={objective} disable={disable} />
                                     <RequirementMainhand form={form} objective_index={index} objective={objective} disable={disable} />
+                                    <RequirementContinue form={form} objective_index={index} objective={objective} disable={disable} />
+                                    <RequirementDeaths form={form} objective_index={index} objective={objective} disable={disable} />
                                 </div>
 
                                 <Separator className={'mt-4'}/>
