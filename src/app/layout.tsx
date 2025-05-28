@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "white" },
   ],
 }
 
@@ -48,10 +49,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         >
           <SessionProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <div className="relative flex min-h-screen flex-col bg-dot-white/15">
                 {children}
               </div>
               <TailwindIndicator />
+            </ThemeProvider>
           </SessionProvider>
         </body>
       </html>
