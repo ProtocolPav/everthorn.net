@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@config "../../tailwind.config.js"
-
 @layer base {
   :root {
     --background: 0, 0%, 100%;
