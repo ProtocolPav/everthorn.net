@@ -1,9 +1,9 @@
 /*@import url('@/styles/leaflet.css');*/
-
-@config "../../tailwind.config.js"
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@config "../../tailwind.config.js"
 
 @layer base {
   :root {
