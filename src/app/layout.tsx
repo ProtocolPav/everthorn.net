@@ -43,7 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            "min-h-screen bg-gradient-to-br from-background to-emerald-800/10 font-sans antialiased",
+            "min-h-screen bg-gradient-to-br from-background to-emerald-500/15 font-sans antialiased dark:to-emerald-800/10",
             fontSans.variable
           )}
 
