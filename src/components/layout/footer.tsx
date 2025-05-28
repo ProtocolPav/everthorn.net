@@ -1,6 +1,8 @@
 "use client"
 import logo from '../../../public/everthorn.png';
 import Image from "next/image";
+import {ThemeToggle} from "@/components/theme-toggle";
+import * as React from "react";
 
 
 
@@ -34,9 +36,11 @@ export default function SiteFooter() {
                         <Image src={logo} alt={'logo'} width={40} />
                         <h4 className={'text-muted-foreground'}>Everthorn</h4>
                     </span>
-                    <p className="mt-6 text-sm text-muted-foreground">
+                    <p className="mb-2 mt-6 text-sm text-muted-foreground">
                         A Minecraft Bedrock Community that's been going on for 5+ years.
                     </p>
+
+                    <ThemeToggle/>
                 </div>
 
                 <div className="mx-auto grid grid-cols-2 gap-6 lg:gap-20">
