@@ -1,5 +1,6 @@
-@import url('@/styles/leaflet.css');
+/*@import url('@/styles/leaflet.css');*/
 
+@config "../../tailwind.config.js"
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
