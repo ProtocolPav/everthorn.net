@@ -50,7 +50,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <div className="relative flex min-h-screen flex-col bg-dot-white/15">
+              <div className="relative flex min-h-screen flex-col bg-dot-black/20 dark:bg-dot-white/15">
                 {children}
               </div>
               <TailwindIndicator />
