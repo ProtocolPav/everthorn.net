@@ -2,7 +2,7 @@ import "@/styles/globals.css"
 import { Metadata } from "next"
 import { Viewport } from 'next'
 
-import { fontSans } from "@/lib/fonts"
+import {fontMinecraftSeven, fontMinecraftTen, fontMono, fontSans} from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
+            fontSans.variable, fontMinecraftTen.variable, fontMono.variable, fontMinecraftSeven.variable
           )}
         >
           <SessionProvider>
