@@ -13,7 +13,7 @@ function ContextMenuComponent(event: LeafletMouseEvent | null) {
         ? { z: -Math.floor(event.latlng.lat), x: Math.floor(event?.latlng.lng) }
         : {x:0, z:0}
     return (
-        <Card className={'rounded-tl-none bg-background/60 backdrop-blur-sm'}>
+        <Card className={'rounded-tl-none bg-background/60 backdrop-blur-sm p-0'}>
             <CardContent className={'flex gap-1 p-0'}>
                 <div className={'m-auto flex px-3 font-mono text-[15px]'} >
                     {coordinates.x}, {coordinates.z}
