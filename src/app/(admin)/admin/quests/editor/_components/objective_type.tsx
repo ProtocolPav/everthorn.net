@@ -22,7 +22,7 @@ export function ObjectiveType({ form, index, disable }: ObjectiveProps) {
                 <FormItem className={'w-44'}>
                     <FormControl>
                         <Select disabled={disable} onValueChange={field.onChange} {...field}>
-                            <SelectTrigger>
+                            <SelectTrigger className={'w-full'}>
                                 <SelectValue placeholder={'Kill...'} />
                             </SelectTrigger>
                             <SelectContent>

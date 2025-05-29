@@ -4,13 +4,11 @@ import { Viewport } from 'next'
 
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import SiteHeader from "src/components/layout/header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import {SessionProvider} from "next-auth/react";
-import {Toaster} from "@/components/ui/toaster";
 import React from "react";
-import SiteFooter from "@/components/layout/footer";
+import {Toaster} from "@/components/ui/sonner";
 
 
 export const metadata: Metadata = {
@@ -43,16 +41,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
-            "min-h-screen bg-gradient-to-br from-background to-emerald-500/15 font-sans antialiased dark:to-emerald-800/10",
+            "min-h-screen bg-background font-sans antialiased",
             fontSans.variable
           )}
-
         >
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <div className="relative flex min-h-screen flex-col bg-dot-black/20 dark:bg-dot-white/15">
                 {children}
               </div>
+              <Toaster/>
               <TailwindIndicator />
             </ThemeProvider>
           </SessionProvider>

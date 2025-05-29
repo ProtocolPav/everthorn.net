@@ -1,8 +1,7 @@
 "use client"
 import * as React from "react";
-import {Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter} from "@/components/ui/card";
+import {Card, CardContent, CardFooter} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import Link from "next/link";
 import {formSchema} from "../_types/schema"
 import {useForm} from "react-hook-form";
 import {z} from "zod";
@@ -14,8 +13,7 @@ import {QuestDates} from "@/app/(admin)/admin/quests/editor/_components/dates";
 import {Separator} from "@/components/ui/separator";
 import {QuestObjectives} from "@/app/(admin)/admin/quests/editor/_components/objectives";
 import {formatApiToData, formatDataToApi} from "../_types/api_schema";
-import {Toaster} from "@/components/ui/toaster";
-import {useToast} from "@/components/ui/use-toast";
+import { toast } from 'sonner';
 import {LoadJSON} from "@/app/(admin)/admin/quests/editor/_components/load_json";
 import {useParams} from "next/navigation";
 import {useQuest} from "@/hooks/use-quest";
@@ -24,7 +22,6 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 export default function QuestsCreator() {
     const params = useParams<{ id: string }>()
     const [submitted, setSubmitted] = React.useState(params.id !== 'new');
-    const { toast } = useToast()
     const { quest, isLoading, isError } = useQuest(params.id);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -59,19 +56,10 @@ export default function QuestsCreator() {
 
         if (questResponse.ok) {
             setSubmitted(true)
-            toast({
-                title: "Success!",
-                description: "The quest has been submitted!",
-            })
+            toast.success("The quest has been submitted. Go advertise it!")
         } else {
-            toast({
-                title: "Error!",
-                description: `
-            Something went wrong!
-            ${questResponse.status}: ${questResponse.statusText}
-          `,
-                variant: "destructive",
-            })
+            toast.error("Something went wrong", {
+                description: `${questResponse.status}: ${questResponse.statusText}`})
         }
     }
 
@@ -79,10 +67,7 @@ export default function QuestsCreator() {
         let apiReadyData = formatDataToApi(form)
         await navigator.clipboard.writeText(JSON.stringify(apiReadyData, null, 2))
 
-        toast({
-            title: "Copied To Clipboard",
-            description: `${JSON.stringify(apiReadyData)}`,
-        })
+        toast.info('Copied to clipboard!')
     }
 
     if (isLoading) {
@@ -95,7 +80,7 @@ export default function QuestsCreator() {
         <section className="grid items-center gap-6 pb-8">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <Card className={'bg-gray-500/5 shadow-xl backdrop-blur-sm md:w-4/5'}>
+                    <Card className={'bg-gray-500/5 shadow-xl p-0 backdrop-blur-sm md:w-4/5'}>
                         {submitted &&
                             <CardContent className={'p-3'}>
                                 <Alert className={'bg-attention/30'}>
@@ -137,7 +122,6 @@ export default function QuestsCreator() {
                     </Card>
                 </form>
             </Form>
-            <Toaster />
         </section>
     )
 }

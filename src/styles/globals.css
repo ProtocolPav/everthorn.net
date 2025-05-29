@@ -113,9 +113,37 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4 {
+    @apply leading-tight tracking-tight font-extrabold
+  }
+
+  h1 {
+    @apply text-5xl md:text-8xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl
+  }
+
+  h3 {
+    @apply text-2xl md:text-xl font-semibold tracking-tight
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold
+  }
+
+  p {
+    @apply mt-2 text-lg text-muted-foreground;
+
+    max-width: 700px;
   }
 }

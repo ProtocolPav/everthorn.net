@@ -40,12 +40,12 @@ export default function SiteHeader() {
             <TooltipProvider delayDuration={300}>
               {/* Patreon Tooltip */}
               <Tooltip>
-                <TooltipTrigger>
-                  <Link href={'/support'} target="_blank" rel="noreferrer">
-                    <Button size={'icon'} variant={'outline'}>
+                <TooltipTrigger asChild>
+                  <Button asChild size={'icon'} variant={'outline'}>
+                    <Link href={'/support'} target="_blank" rel="noreferrer">
                       <PatreonLogo className="size-5" weight={'fill'} />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent align={'end'} alignOffset={-40}>
                   <p className={'mx-auto my-0 text-center text-sm'}>Feed Thorny on Patreon</p>
@@ -54,12 +54,12 @@ export default function SiteHeader() {
 
               {/* YouTube Tooltip */}
               <Tooltip>
-                <TooltipTrigger>
-                  <Link href={'/youtube'} target="_blank" rel="noreferrer">
-                    <Button size={'icon'} variant={'outline'}>
+                <TooltipTrigger asChild>
+                  <Button asChild size={'icon'} variant={'outline'}>
+                    <Link href={'/youtube'} target="_blank" rel="noreferrer">
                       <YoutubeLogo className="size-5" weight={'fill'} />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent align={'end'} alignOffset={4}>
                   <p className={'mx-auto my-0 text-center text-sm'}>Everthorn Youtube Channel</p>

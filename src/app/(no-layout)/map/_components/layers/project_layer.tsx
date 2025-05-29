@@ -13,6 +13,7 @@ import completedPin from "public/map/pins/completed.png";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import Image from "next/image";
 import {ClipboardText} from "@phosphor-icons/react";
+import {toast} from "sonner";
 
 const project_icon = new L.Icon({
     iconUrl: projectPin.src,
@@ -96,7 +97,8 @@ export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: P
                                     size={'sm'}
                                     className={'mx-auto text-center font-mono text-accent-foreground'}
                                     onClick={async () => {
-                                        await navigator.clipboard.writeText(`${project.name} ${project.coordinates[0]}, ${project.coordinates[1]}, ${project.coordinates[2]}`)
+                                        await navigator.clipboard.writeText(`${project.coordinates[0]} ${project.coordinates[1]} ${project.coordinates[2]}`)
+                                        toast.info('Copied to clipboard!', {description: `${project.coordinates[0]} ${project.coordinates[1]} ${project.coordinates[2]}`})
                                     }}
                                 >
                                     {project.coordinates.join(', ')}

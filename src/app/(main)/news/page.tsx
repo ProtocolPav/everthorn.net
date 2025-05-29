@@ -1,10 +1,4 @@
-import Link from "next/link"
-
-import { buttonVariants, Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator} from "@/components/ui/separator";
-import { LayoutGrid } from "@/components/ui/layout-grid";
-import backgroundimage from '../public/bg.png';
 
 export default function IndexPage() {
   return (

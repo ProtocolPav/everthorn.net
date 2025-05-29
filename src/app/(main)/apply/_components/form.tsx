@@ -1,5 +1,4 @@
 "use client"
-import {useToast} from "@/components/ui/use-toast";
 import {
     useForm
 } from "react-hook-form"
@@ -34,15 +33,13 @@ import {
 } from "@/components/ui/select"
 import {Badge} from "@/components/ui/badge";
 import {useSession} from "next-auth/react";
-import {Toaster} from "@/components/ui/toaster";
 import webhook_content from "@/app/(main)/apply/_components/webhook_content";
 import {useState} from "react";
+import {toast} from 'sonner'
 
 export default function ApplicationForm() {
     const { data: session, status } = useSession()
     const [submitted, setSubmitted] = useState(false)
-
-    const {toast} = useToast()
 
     const formSchema = z.object({
         username: z.string().optional(),
@@ -73,9 +70,8 @@ export default function ApplicationForm() {
             let status = response.status
 
             if (status === 204) {
-                toast({
-                    title: 'Application Submitted!',
-                    description: 'If we accept your application, you can expect a Friend Request on Discord within 24 hours!'
+                toast.success('Application Submitted!', {
+                    description: 'Thanks for applying. Check your discord for a friend request soon :)'
                 });
             } else {
                 throw new Error(`Webhook error code ${status}`)
@@ -108,10 +104,8 @@ export default function ApplicationForm() {
 
         } catch (error) {
             console.error("Form submission error", error);
-            toast({
-                title:'There was an error submitting your application.',
-                description:'Please try again. If the issue persists, you can manually submit your application on Reddit to u/Skavandross',
-                variant:'destructive'}
+            toast.error('There was an error submitting your application.', {
+                description: 'Please try again. If the issue persists, you can manually submit your application on Reddit to u/Skavandross'}
             );
         }
 
@@ -283,7 +277,6 @@ export default function ApplicationForm() {
                 />
                 <Button type="submit" disabled={submitted}>Submit</Button>
             </form>
-        <Toaster/>
         </Form>
 
     )

@@ -8,8 +8,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
+  NavigationMenuTrigger, navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 
 import {
@@ -57,27 +56,23 @@ export function Desktop() {
         <NavigationMenuList>
           {/* Home */}
           <NavigationMenuItem>
-            <Link href={'/'}>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Home
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link href={'/'}>Home</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
 
           {/* Guidelines */}
           <NavigationMenuItem>
-            <Link href={'/guidelines'}>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Guidelines
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link href={'/guidelines'}>Guidelines</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
 
           {/* Wiki */}
           <NavigationMenuItem>
             <NavigationMenuTrigger>Wiki</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className={'grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
+              <div className={'grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
                 <Card className={'bg-gradient-to-bl from-background to-cyan-400/20'}>
                   <CardHeader>
                     <h3>Everthorn Wiki</h3>
@@ -111,14 +106,13 @@ export function Desktop() {
           <NavigationMenuItem className={cn(CMcheck ? '': 'hidden')}>
             <NavigationMenuTrigger>Admin Dashboard</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className={'grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
+              <div className={'grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
                 <Card className={'bg-gradient-to-br from-background to-purple-400/20'}>
                   <CardHeader>
                     <h3>Admin Dashboard</h3>
                   </CardHeader>
                   <CardContent>
                     <p className={'text-sm'}>
-                      Community Managers only. <br/>
                       The one place you need to manage everything server-related
                     </p>
                   </CardContent>
@@ -126,15 +120,15 @@ export function Desktop() {
 
                 <ul className={'grid'}>
                   <ListItem href={'/admin'} title={'Dashboard'}>
-                    The main dashboard. You can view server stats and more
+                    View server statistics, manage players, and more
                   </ListItem>
 
-                  <ListItem href={'/admin/quests/editor/new'} title={'Quest Creator v2'} className={'bg-gradient-to-tl from-transparent to-yellow-300/10'}>
-                    NEW! Quick link to Quest Creator. Also accessible via dashboard
+                  <ListItem href={'/admin/quests/editor/new'} title={'Quest Editor'} className={'bg-gradient-to-tl from-transparent to-yellow-300/10'}>
+                    Create new Quests
                   </ListItem>
 
                   <ListItem href={'/admin/guidelines'} title={'CM Guidelines'}>
-                    Quick link to CM Guidelines. Also accessible via dashboard
+                    All you need to know to be a great Community Manager
                   </ListItem>
                 </ul>
               </div>
