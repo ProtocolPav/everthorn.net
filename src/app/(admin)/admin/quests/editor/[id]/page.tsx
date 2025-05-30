@@ -3,7 +3,6 @@ import * as React from "react";
 import {Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {formSchema, formatApiToData, formatDataToApi} from "../_types/schema"
-import {formSchema} from "../_types/schema"
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -80,7 +79,7 @@ export default function QuestsCreator() {
         <section className="grid items-center gap-6 pb-8">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <Card className={'bg-gray-500/5 shadow-xl backdrop-blur-sm md:w-4/5'}>
+                    <Card className={'bg-gray-500/5 shadow-xl backdrop-blur-sm md:w-4/5 p-0'}>
                         {submitted &&
                             <CardContent className={'p-3'}>
                                 <Alert className={'bg-attention/30'}>
