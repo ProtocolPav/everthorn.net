@@ -9,13 +9,20 @@ import Image from "next/image";
 import placeholder from '/public/screenshots/beyond.png'
 import {cn} from "@/lib/utils";
 import Link from "next/link";
+import {useEffect} from "react";
+import {usePageTitle} from "@/hooks/use-context";
 
 export default function Quests() {
     const [api, setApi] = React.useState<CarouselApi>()
 
+    const { setTitle } = usePageTitle();
+
+    useEffect(() => {
+        setTitle('Quests Dashboard');
+    }, [setTitle]);
+
     return (
         <section className="mx-5 grid items-center gap-6 pb-8 pt-6">
-            <h2>Everthorn Quests</h2>
             <Link href={'/admin/quests/editor/new'}>
                 <Button>
                     Create New Quest

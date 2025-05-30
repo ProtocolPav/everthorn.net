@@ -9,30 +9,15 @@ import {
 import {PanelLogo} from "@/app/(admin)/admin/_components/sidebar/header";
 import {Exit} from "@/app/(admin)/admin/_components/sidebar/footer";
 import {NavGroup, NavItems} from "@/app/(admin)/admin/_components/sidebar/nav-group";
-import {BookIcon, CastleIcon, ChartLineIcon, EthernetPortIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
+import {BookIcon, CastleIcon, ChartLineIcon, EthernetPortIcon, HomeIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
 import React from "react";
 
 export function AdminSidebar() {
     const server_items: NavItems[] = [
         {
-            title: 'Guidelines',
-            url: '/admin/guidelines',
-            icon: BookIcon,
-        },
-        {
-            title: 'Statistics',
-            url: '/admin/server/',
-            icon: ChartLineIcon,
-        },
-        {
-            title: 'Console',
-            url: '/admin/server/console',
-            icon: EthernetPortIcon,
-        },
-        {
-            title: 'Interaction Logs',
-            url: '/admin/server/interactions',
-            icon: ScanTextIcon,
+            title: 'Dashboard',
+            url: '/admin/',
+            icon: HomeIcon,
         },
         {
             title: 'Quests',
@@ -40,9 +25,9 @@ export function AdminSidebar() {
             icon: ShieldQuestionIcon,
         },
         {
-            title: 'Project Applications',
-            url: '/admin/server/projects',
-            icon: CastleIcon,
+            title: 'Guidelines',
+            url: '/admin/guidelines',
+            icon: BookIcon,
         },
     ]
 
@@ -54,15 +39,14 @@ export function AdminSidebar() {
     ]
 
     return (
-        <Sidebar variant={'floating'} collapsible={'icon'}>
+        <Sidebar variant={'inset'} collapsible={'offcanvas'}>
             <SidebarHeader>
                 <PanelLogo />
             </SidebarHeader>
             <SidebarContent>
                 <NavGroup title={'Server'} items={server_items}/>
-                <NavGroup title={'Wiki Administration'} items={wiki_items}/>
+                {/*<NavGroup title={'Wiki Administration'} items={wiki_items}/>*/}
             </SidebarContent>
-            <SidebarSeparator />
             <SidebarFooter>
                 <Exit/>
             </SidebarFooter>

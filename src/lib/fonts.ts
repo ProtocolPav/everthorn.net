@@ -8,6 +8,7 @@ export const fontSans = Geist({
 
 export const fontMono = Source_Code_Pro({
   variable: "--font-mono",
+  subsets: ["latin-ext"],
   weight: "400"
 })
 

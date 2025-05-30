@@ -115,26 +115,19 @@ export default function ApplicationForm() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto max-w-3xl space-y-8 pt-10">
 
-                <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>
-                                Username <Badge variant={'secondary'} className={'bg-cyan-600'}>Automatic</Badge>
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="ProtocolPav"
-                                    disabled={false}
-                                    value={"@" + (session?.user?.name ? session?.user?.name : 'None')}
-                                />
-                            </FormControl>
-                            <FormDescription>We need your Discord Username to be able to contact you :)</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <FormItem>
+                    <FormLabel>
+                        Username <Badge variant={'secondary'} className={'bg-cyan-600'}>Automatic</Badge>
+                    </FormLabel>
+                    <FormControl>
+                        <Input
+                            readOnly={true}
+                            value={"@" + (session?.user?.name ? session?.user?.name : 'None')}
+                        />
+                    </FormControl>
+                    <FormDescription>We need your Discord Username to be able to contact you :)</FormDescription>
+                    <FormMessage />
+                </FormItem>
 
                 <FormField
                     control={form.control}

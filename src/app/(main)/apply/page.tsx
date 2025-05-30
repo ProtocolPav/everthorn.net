@@ -20,7 +20,7 @@ export default function MyForm() {
     return (
         <div className={'flex justify-center py-10'}>
             <Card className={'md:w-1/2'}>
-                <CardHeader><h2 className={'text-center'}>Everthorn Application Form</h2></CardHeader>
+                <CardHeader><h2 className={'text-center'}>Let's Join Everthorn</h2></CardHeader>
                     <CardContent className={'grid grid-cols-1 gap-4'}>
                         <ApplicationForm/>
                     </CardContent>
