@@ -35,6 +35,7 @@ export default async function Image() {
                 >
                     {/* Background image */}
                     <img
+                        // @ts-ignore
                         src={spawnVillageImage}
                         alt="Spawn Village"
                         style={{
@@ -61,6 +62,7 @@ export default async function Image() {
 
                     {/* Centered logo */}
                     <img
+                        // @ts-ignore
                         src={everthornLogo}
                         alt="Everthorn Logo"
                         style={{
