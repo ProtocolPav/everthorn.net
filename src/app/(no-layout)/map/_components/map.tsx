@@ -2,7 +2,6 @@
 
 import React from "react";
 import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import L, {TileLayerOptions} from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
@@ -27,6 +26,8 @@ import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
 import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
+import 'leaflet/dist/leaflet.css'
+
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
     layer: string
@@ -38,8 +39,8 @@ class CustomTileLayer extends L.TileLayer {
 
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        //return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        //return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+        return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
     }
 }
 

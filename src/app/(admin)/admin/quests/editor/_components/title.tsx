@@ -15,7 +15,7 @@ export function QuestTitle({form, disable}: {form: UseFormReturn<z.infer<typeof 
                     <FormControl className={'text-xl font-semibold'}>
                         <Input
                             disabled={disable}
-                            className={'border-none bg-transparent px-0 text-2xl md:text-3xl'}
+                            className={'border-none bg-transparent dark:bg-transparent px-0 text-2xl md:text-3xl'}
                             placeholder="Quest Title"
                             {...field}
                         />

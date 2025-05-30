@@ -7,12 +7,11 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import * as React from "react";
-import {useToast} from "@/components/ui/use-toast";
+import {toast} from 'sonner'
 
 export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const [textArea, setTextArea] = React.useState('');
-    const { toast } = useToast()
 
     return (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -47,8 +46,7 @@ export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>
                                     JSON.parse(text)
                                     setTextArea(text);
                                 } catch (err) {
-                                    toast({
-                                        title: "Oops",
+                                    toast.error('Oops', {
                                         description: "Failed to load this file. Are you sure its valid JSON?",
                                     })
                                 }
@@ -63,7 +61,7 @@ export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>
                     </div>
 
                     <Textarea
-                        className={'text-white'}
+                        className={'text-white field-sizing-fixed'}
                         placeholder={'Paste in your saved Quest JSON file to be able to edit it!'}
                         onChange={(e) => {
                             setTextArea(e.target.value)
@@ -77,8 +75,7 @@ export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>
                         form.setValue('range', data.range)
                         form.setValue('objectives', data.objectives)
                         setDialogOpen(false);
-                        toast({
-                            title: "Happy Editing!",
+                        toast.success("Happy Editing!", {
                             description: `Successfully loaded ${data.title}. Edit away, my child!`,
                         })
                     }}>

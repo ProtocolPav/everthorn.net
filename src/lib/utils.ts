@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function capitalizeCase(str: string): string {
-  var myStr = str.split(' ')
-  var sentenceStr = ''
+  let myStr = str.split(' ')
+  let sentenceStr = ''
   for (let i in myStr) {
     sentenceStr = sentenceStr.concat(" ", myStr[i].charAt(0).toUpperCase() + myStr[i].slice(1).toLowerCase())
   }

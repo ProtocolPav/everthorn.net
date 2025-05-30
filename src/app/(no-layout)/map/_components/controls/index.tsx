@@ -14,12 +14,11 @@ export default function ControlBar (
     return (
         <div className={'leaflet-top leaflet-left'}>
             <div className={'leaflet-control flex items-center gap-2'}>
-                <Card className={'bg-background/60 backdrop-blur-sm'}>
+                <Card className={'bg-background/60 backdrop-blur-sm p-0 gap-0'}>
                     <CardContent className={'flex gap-1 p-1'}>
-                        <Button key={'home'} variant={'outline'} size={'icon'} className={'bg-background/60'}>
+                        <Button asChild key={'home'} variant={'outline'} size={'icon'} className={'bg-background/60'}>
                             <Link href="/home">
-                                <Image src={logo} alt={'logo'} className={'size-7'}/>
-                                {/*<House weight={'duotone'} className={'size-7 fill-white'}/>*/}
+                                <Image src={logo} alt={'logo'} className={'size-6'}/>
                             </Link>
                         </Button>
 
