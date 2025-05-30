@@ -1,16 +1,14 @@
 "use client"
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
-import {ArrowLeft, ArrowRight} from "@phosphor-icons/react";
 import * as React from "react";
 import {Carousel, CarouselContent, CarouselItem, CarouselApi} from "@/components/ui/carousel";
 import {Button} from "@/components/ui/button";
-import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils";
 import Link from "next/link";
 import {useEffect} from "react";
 import {usePageTitle} from "@/hooks/use-context";
 import {useQuestList} from "@/hooks/use-quest-list";
-import {Clock, PlusIcon, Target, Trophy} from "lucide-react";
+import {Clock, Plus, Target, Trophy, ArrowLeft, ArrowRight} from "@phosphor-icons/react";
 import {ApiSchema} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
 
 export default function Quests() {
@@ -47,7 +45,7 @@ export default function Quests() {
                     <div className="flex gap-1 flex-shrink-0 items-center">
                         <Button asChild>
                             <Link href="/admin/quests/editor/new">
-                                <PlusIcon/> Create
+                                <Plus/> Create
                             </Link>
                         </Button>
 
@@ -122,6 +120,43 @@ export default function Quests() {
                                     </CarouselItem>
                                 )
                             })}
+
+                            {isLoading || isError || !quests || quests.length === 0 && (
+                                <CarouselItem
+                                    key={'no-quests'}
+                                    className={cn(
+                                        "pl-1 md:pl-4",
+                                        "basis-[calc(100vw-3rem)] sm:basis-[280px] md:basis-1/2 lg:basis-1/3 xl:basis-1/4",
+                                        "max-w-[calc(100vw-3rem)] sm:max-w-[280px]"
+                                    )}
+                                >
+                                    <Card className={cn(
+                                        'hover:cursor-pointer hover:border-foreground/30 transition-all duration-300 border-dashed'
+                                    )}>
+                                        <Link href={`/admin/quests/editor/new`}>
+                                            <CardContent className="flex gap-2 flex-col items-center justify-center text-center">
+                                                <div className="p-3 rounded-full bg-primary/10 text-primary">
+                                                    <Trophy className="size-8" />
+                                                </div>
+
+                                                <h4 className="font-semibold text-lg text-foreground">
+                                                    No Active Quests
+                                                </h4>
+
+                                                <p className="text-sm text-muted-foreground">
+                                                    Create a quest now, the people are growing restless...
+                                                </p>
+
+                                                <div className="flex items-center gap-2 text-primary font-medium text-sm">
+                                                    <span>Create Quest</span>
+                                                    <ArrowRight className="size-4" />
+                                                </div>
+                                            </CardContent>
+                                        </Link>
+                                    </Card>
+                                </CarouselItem>
+
+                            )}
                         </CarouselContent>
                     </Carousel>
                 </div>
