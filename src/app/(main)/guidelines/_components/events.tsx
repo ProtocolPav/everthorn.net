@@ -6,7 +6,7 @@ import {Badge} from "@/components/ui/badge";
 
 export default function EventsRules() {
     return (
-        <GuidelineItem name={'Events, Quests & Monthly Market'}>
+        <GuidelineItem name={'Events, Quests & Market'}>
             <div className="grid gap-6">
                 <div className="grid gap-4">
                     <div className="flex items-start gap-3">

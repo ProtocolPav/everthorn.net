@@ -34,8 +34,8 @@ export default function ProjectRules() {
                                 <AlertDescription>
                                     <div>
                                         First timers should start small.
-                                        Large projects require you to have completed at least one project beforehand and
-                                        will otherwise be denied.
+                                        Large projects require you to have completed <strong>at least one project</strong> beforehand and
+                                        will otherwise be <strong>denied.</strong>
                                     </div>
                                 </AlertDescription>
                             </Alert>

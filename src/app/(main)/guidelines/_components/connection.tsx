@@ -12,7 +12,7 @@ export default function ConnectionRules() {
                         <ListChecks weight={'duotone'} className="size-5 text-lime-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>First Steps</h5>
-                            <p className="text-sm mb-3 max-w-4/6">
+                            <p className="text-sm mb-3 md:max-w-4/6">
                                 You should read through these guidelines. Everything you need to know is here.
                                 Everything marked with <Badge variant={'attention'}>Must Read</Badge> is highly important.
                                 Everything else is good to know too though!
