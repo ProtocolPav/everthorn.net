@@ -13,7 +13,7 @@ import {
 import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
 import {useSession} from "next-auth/react";
 import {Separator} from "@/components/ui/separator";
-import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List} from "@phosphor-icons/react";
+import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List, MapTrifold} from "@phosphor-icons/react";
 
 export function Mobile() {
   const { data: session, status } = useSession()
@@ -32,7 +32,7 @@ export function Mobile() {
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent align={'end'} className={'w-full bg-gradient-to-tr from-popover to-emerald-400/10'}>
+        <PopoverContent align={'end'} className={'w-full bg-background'}>
           <div className={'mt-5 grid justify-start gap-y-2 text-start'}>
             {/* Home */}
             <Link href={'/'}>
@@ -47,6 +47,14 @@ export function Mobile() {
               <Button className={'size-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
                 <ShieldCheck className={'size-6'} weight={'fill'}/>
                 <div className='ms-2'>Guidelines</div>
+              </Button>
+            </Link>
+
+            {/* Map */}
+            <Link href={'/map'}>
+              <Button className={'h-auto w-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
+                <MapTrifold className={'size-6'} weight={'fill'}/>
+                <div className='ms-2'>World Map</div>
               </Button>
             </Link>
 
