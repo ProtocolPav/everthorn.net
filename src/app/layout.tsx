@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'Everthorn',
     images: [
       {
-        url: '/opengraph-image',
+        url: 'https://everthorn.net/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'Everthorn',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Everthorn',
     description: 'Together We Stand',
-    images: ['/opengraph-image'],
+    images: ['https://everthorn.net/opengraph-image.png'],
   },
 }
 
