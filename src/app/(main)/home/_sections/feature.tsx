@@ -11,8 +11,8 @@ import Link from "next/link";
 export default function Feature({className}: {className?: string | undefined}) {
     return (
         <div className={cn(className, 'grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5')}>
-            <Card className={'bg-background/20 bg-gradient-to-bl from-background to-cyan-400/20'}>
-                <CardHeader className={'flex pb-0'}>
+            <Card className={'bg-background/20 bg-gradient-to-bl from-background to-cyan-400/20 gap-0'}>
+                <CardHeader className={'flex'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
                         <HardDrives weight={'duotone'} size={40}/>
                         Custom Server
@@ -26,7 +26,7 @@ export default function Feature({className}: {className?: string | undefined}) {
                 </CardContent>
             </Card>
 
-            <Card className={'bg-background/20 bg-gradient-to-tr from-background/80 to-rose-400/20'}>
+            <Card className={'bg-background/20 bg-gradient-to-tr from-background/80 to-rose-400/20 gap-0'}>
                 <CardHeader className={'flex pb-0'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
                         <Mountains weight={'duotone'} size={40}/>
@@ -41,7 +41,7 @@ export default function Feature({className}: {className?: string | undefined}) {
                 </CardContent>
             </Card>
 
-            <Card className={'bg-background/20 bg-gradient-to-tl from-background/80 to-blue-400/20'}>
+            <Card className={'bg-background/20 bg-gradient-to-tl from-background/80 to-blue-400/20 gap-0'}>
                 <CardHeader className={'flex pb-0'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
                         <CalendarDots weight={'duotone'} size={40}/>
@@ -56,7 +56,7 @@ export default function Feature({className}: {className?: string | undefined}) {
                 </CardContent>
             </Card>
 
-            <Card className={'bg-background/20 bg-gradient-to-br from-background/80 to-orange-400/20'}>
+            <Card className={'bg-background/20 bg-gradient-to-br from-background/80 to-orange-400/20 gap-0'}>
                 <CardHeader className={'flex pb-0'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
                         <CastleTurret weight={'duotone'} size={40}/>
@@ -71,7 +71,7 @@ export default function Feature({className}: {className?: string | undefined}) {
                 </CardContent>
             </Card>
 
-            <Card className={'bg-background/20 bg-gradient-to-bl from-background/80 to-violet-400/20'}>
+            <Card className={'bg-background/20 bg-gradient-to-bl from-background/80 to-violet-400/20 gap-0'}>
                 <CardHeader className={'flex pb-0'}>
                     <h3 className={'flex items-center justify-start gap-2 text-xl'}>
                         <ShieldCheck weight={'duotone'} size={40}/>

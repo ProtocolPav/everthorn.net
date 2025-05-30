@@ -16,7 +16,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
     <div className="mb-4">
       {/* Top banner and profile picture */}
       <div
-        className={ cn("relative h-24 w-full rounded-sm", { "h-14": !profile.banner })}
+        className={ cn("relative h-24 w-full rounded-xs", { "h-14": !profile.banner })}
         style={{ backgroundColor: profile.banner_color as string }}
       >
         {
@@ -26,7 +26,7 @@ export function DiscordProfile({ profile }: DiscordProfileProps) {
                 src={profile.banner}
                 alt="Profile banner"
 
-                className="size-full rounded-sm object-cover"
+                className="size-full rounded-xs object-cover"
               />
             )
             : undefined
