@@ -12,6 +12,7 @@ import {Toaster} from "@/components/ui/sonner";
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://everthorn.net'),
   title: {
     default: 'Everthorn',
     template: `%s - Everthorn`,
@@ -22,7 +23,30 @@ export const metadata: Metadata = {
     shortcut: "/everthorn.png",
     apple: "/everthorn.png",
   },
+  openGraph: {
+    title: 'Everthorn',
+    description: 'Together We Stand',
+    url: 'https://everthorn.net',
+    siteName: 'Everthorn',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Everthorn',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Everthorn',
+    description: 'Together We Stand',
+    images: ['/opengraph-image'],
+  },
 }
+
 
 export const viewport: Viewport = {
   themeColor: [
