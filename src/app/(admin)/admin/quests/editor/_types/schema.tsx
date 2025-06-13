@@ -37,6 +37,9 @@ export const formSchema = z.object({
     }),
     title: z.string().min(1, 'Include a Quest Title'),
     description: z.string().max(800).min(50, "The Quest Flavour should be at least 50 characters"),
+    created_by: z.coerce.number(),
+    tags: z.array(z.string()),
+    quest_type: z.string(),
     objectives: z.array(formObjectiveSchema).nonempty("There must be at least one objective"),
 });
 
@@ -78,6 +81,9 @@ export function formatDataToApi(form: z.infer<typeof formSchema>): QuestSchema {
         end_time: formatDateToAPI(form.range.to),
         title: form.title,
         description: form.description,
+        created_by: form.created_by,
+        tags: form.tags,
+        quest_type: form.quest_type,
         objectives: apiObjectives
     }
 }
@@ -132,6 +138,9 @@ export function formatApiToData(data: QuestSchema): z.infer<typeof formSchema> {
         },
         title: data.title,
         description: data.description,
+        created_by: data.created_by,
+        tags: data.tags,
+        quest_type: data.quest_type,
         objectives: formObjectives as [z.infer<typeof formObjectiveSchema>, ...z.infer<typeof formObjectiveSchema>[]]
     }
 }

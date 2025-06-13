@@ -27,5 +27,8 @@ export interface QuestSchema {
     end_time: string,
     title: string,
     description: string,
+    created_by: number,
+    tags: string[],
+    quest_type: string,
     objectives: ObjectiveSchema[]
 }
