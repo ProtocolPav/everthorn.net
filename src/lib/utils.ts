@@ -28,3 +28,22 @@ export function formatDateToAPI(date: Date): string {
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
+
+export function formatPlaytime (seconds: number) {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  if (days > 0) {
+    return `${days}d ${hours}h ${minutes}m`;
+  } else if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${minutes}m`;
+  }
+}
+
+export function parseUTCTimestamp(utcTimestamp: string) {
+  const utcString = utcTimestamp.includes('Z') ? utcTimestamp : utcTimestamp + 'Z';
+  return new Date(utcString);
+};

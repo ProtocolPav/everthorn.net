@@ -1,0 +1,86 @@
+// hooks/use-admin-data.ts
+import useSWR from 'swr';
+import { GuildPlaytime, OnlineUser, LeaderboardEntry, PlaytimeData, ServerStatus, UserQuest } from '@/types/admin';
+
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export function useGuildPlaytime(guildId: string) {
+    const { data, error, isLoading } = useSWR<GuildPlaytime>(
+        `/nexuscore-api/v0.2/guilds/${guildId}/playtime`,
+        fetcher
+    );
+
+    return {
+        playtime: data,
+        isLoading,
+        isError: error
+    };
+}
+
+export function useOnlinePlayers(guildId: string) {
+    const { data, error, isLoading } = useSWR<{ users: OnlineUser[] }>(
+        `/nexuscore-api/v0.2/guilds/${guildId}/online`,
+        fetcher,
+        { refreshInterval: 5000 }
+    );
+
+    return {
+        players: data?.users || [],
+        isLoading,
+        isError: error
+    };
+}
+
+export function useLeaderboard(guildId: string, month: string) {
+    const { data, error, isLoading } = useSWR<{ leaderboard: LeaderboardEntry[] }>(
+        `/nexuscore-api/v0.2/guilds/${guildId}/leaderboard/playtime/${month}`,
+        fetcher
+    );
+
+    return {
+        leaderboard: data?.leaderboard || [],
+        isLoading,
+        isError: error
+    };
+}
+
+export function usePlayerPlaytime(thornyId: number) {
+    const { data, error, isLoading } = useSWR<PlaytimeData>(
+        thornyId ? `/nexuscore-api/v0.2/users/${thornyId}/playtime` : null,
+        fetcher
+    );
+
+    return {
+        playtime: data,
+        isLoading,
+        isError: error
+    };
+}
+
+export function usePlayerQuest(thornyId: number) {
+    const { data, error, isLoading } = useSWR<UserQuest>(
+        thornyId ? `/nexuscore-api/v0.2/users/${thornyId}/quest/active` : null,
+        fetcher
+    );
+
+    return {
+        quest: data,
+        isLoading,
+        isError: error
+    };
+}
+
+export function useServerStatus() {
+    const { data, error, isLoading } = useSWR<ServerStatus>(
+        '/amethyst/server/details',
+        fetcher,
+        { refreshInterval: 10000 }
+    );
+
+    return {
+        status: data,
+        isLoading,
+        isError: error
+    };
+}
