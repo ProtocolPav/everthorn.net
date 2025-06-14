@@ -24,128 +24,157 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function CardOverview({
-    playtime,
-    playtimeLoading,
-    playersLoading,
-    players,
-    statusLoading,
-    status
-}: Props) {
+                                         playtime,
+                                         playtimeLoading,
+                                         playersLoading,
+                                         players,
+                                         statusLoading,
+                                         status
+                                     }: Props) {
+    const chartData = (() => {
+        const monthlyData = playtime?.monthly_playtime || [];
+        let cumulative = 0;
+        return monthlyData.map(month => {
+            cumulative += month.total;
+            return {
+                month: month.month,
+                cumulative: cumulative
+            };
+        });
+    })();
+
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-            <Card className={'p-4 relative overflow-hidden'}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            {/* Total Playtime Card with Chart Background */}
+            <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 h-20">
                 {/* Background Chart */}
-                <div className="absolute inset-0 opacity-60">
+                <div className="absolute inset-0 opacity-30">
                     <ChartContainer config={chartConfig} className="h-full w-full">
                         <AreaChart
-                            data={((): any => {
-                                // Create cumulative monthly data
-                                const monthlyData = playtime?.monthly_playtime || [];
-                                let cumulative = 0;
-                                return monthlyData.map(month => {
-                                    cumulative += month.total;
-                                    return {
-                                        month: month.month,
-                                        cumulative: cumulative
-                                    };
-                                });
-                            })()}
+                            data={chartData}
                             margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
                         >
                             <Area
                                 dataKey="cumulative"
                                 type="natural"
-                                fill="var(--chart-5)"
-                                fillOpacity={0.2}
-                                stroke="var(--chart-5)"
+                                fill="var(--chart-1)"
+                                fillOpacity={0.3}
+                                stroke="var(--chart-1)"
+                                strokeWidth={1}
                             />
                         </AreaChart>
                     </ChartContainer>
                 </div>
 
-                {/* Content Layer */}
-                <div className="relative z-10">
-                    <CardHeader className="flex flex-row items-center justify-between px-0">
-                        <CardTitle className="text-sm font-medium">Total Playtime</CardTitle>
-                        <Clock className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent className={'px-0'}>
-                        <div className="text-2xl font-bold">
+                {/* Content */}
+                <div className="relative z-10 p-3 h-full flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                            Total Playtime
+                        </p>
+                        <div className="text-lg font-bold leading-none">
                             {playtimeLoading ? (
-                                <Skeleton className="h-8 w-24" />
+                                <Skeleton className="h-5 w-16" />
                             ) : (
                                 formatPlaytime(playtime?.total_playtime || 0)
                             )}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            That's {Math.round((playtime?.total_playtime || 0) / 3600)} hours
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                            That's {Math.round((playtime?.total_playtime || 0) / 3600)} hours!
                         </p>
-                    </CardContent>
+                    </div>
+                    <div className="p-1.5 rounded-md bg-blue-100 dark:bg-blue-900/30 ml-2">
+                        <Clock className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                    </div>
                 </div>
             </Card>
 
-            <Card className={'p-4'}>
-                <CardHeader className="flex flex-row items-center justify-between px-0">
-                    <CardTitle className="text-sm font-medium">Unique Players</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className={'px-0'}>
-                    <div className="text-2xl font-bold">
-                        {playtimeLoading ? (
-                            <Skeleton className="h-8 w-16" />
-                        ) : (
-                            playtime?.total_unique_players?.toLocaleString() || '0'
-                        )}
+            {/* Unique Players Card */}
+            <Card className="border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 h-20">
+                <div className="p-3 h-full flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                            Players
+                        </p>
+                        <div className="text-lg font-bold leading-none">
+                            {playtimeLoading ? (
+                                <Skeleton className="h-5 w-12" />
+                            ) : (
+                                playtime?.total_unique_players?.toLocaleString() || '0'
+                            )}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                            Since 2021
+                        </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                        Total registered players
-                    </p>
-                </CardContent>
+                    <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30 ml-2">
+                        <Users className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                    </div>
+                </div>
             </Card>
 
-            <Card className={'p-4'}>
-                <CardHeader className="flex flex-row items-center justify-between px-0">
-                    <CardTitle className="text-sm font-medium">Online Now</CardTitle>
-                    <Activity className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className={'px-0'}>
-                    <div className="text-2xl font-bold">
-                        {playersLoading ? (
-                            <Skeleton className="h-8 w-8" />
-                        ) : (
-                            players?.length || '0'
-                        )}
+            {/* Online Players Card */}
+            <Card className="border-0 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 h-20">
+                <div className="p-3 h-full flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                            Online
+                        </p>
+                        <div className="text-lg font-bold leading-none">
+                            {playersLoading ? (
+                                <Skeleton className="h-5 w-8" />
+                            ) : (
+                                players?.length || '0'
+                            )}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                            Active
+                        </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                        Currently active players
-                    </p>
-                </CardContent>
+                    <div className="flex items-center gap-2 ml-2">
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                        <div className="p-1.5 rounded-md bg-orange-100 dark:bg-orange-900/30">
+                            <Activity className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
+                        </div>
+                    </div>
+                </div>
             </Card>
 
-            <Card className={'p-4'}>
-                <CardHeader className="flex flex-row items-center justify-between px-0">
-                    <CardTitle className="text-sm font-medium">Server Status</CardTitle>
-                    <Server className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className={'px-0'}>
-                    <div className="flex items-center gap-2">
-                        {statusLoading ? (
-                            <Skeleton className="h-5 w-16" />
-                        ) : (
-                            <Badge variant={status?.server_online ? "default" : "destructive"}>
-                                {status?.server_online ? 'Online' : 'Offline'}
-                            </Badge>
-                        )}
+            {/* Server Status Card */}
+            <Card className="border-0 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/20 dark:to-violet-950/20 h-20">
+                <div className="p-3 h-full flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                            Server
+                        </p>
+                        <div className="text-lg font-bold leading-none">
+                            {statusLoading ? (
+                                <Skeleton className="h-5 w-16" />
+                            ) : (
+                                status?.server_online ? 'Running' : 'Down'
+                            )}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                            {status?.uptime ? `${status.uptime.split(' ')[0]} days uptime` : 'No uptime data'}
+                        </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 ml-2">
                         {statusLoading ? (
-                            <Skeleton className="h-3 w-20" />
+                            <Skeleton className="h-1.5 w-1.5 rounded-full" />
                         ) : (
-                            status?.uptime ? `Uptime: ${status.uptime}` : 'Server status'
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                                status?.server_online
+                                    ? 'bg-green-500 animate-pulse'
+                                    : 'bg-red-500 animate-pulse'
+                            }`} />
                         )}
-                    </p>
-                </CardContent>
+                        <div className="p-1.5 rounded-md bg-purple-100 dark:bg-purple-900/30">
+                            <Server className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+                        </div>
+                    </div>
+                </div>
             </Card>
+
         </div>
     )
 }
