@@ -133,7 +133,7 @@ export default function ServerWeeklyPlaytime({ data }: WeeklyPlaytimeChartProps)
 
                         return (
                             <div
-                                className="bg-background/95 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 pt-0 min-w-[200px]">
+                                className="bg-background/70 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 pt-0 min-w-[200px]">
                                 {/* Compact header with week number and date range */}
                                 <div className="pb-2 mb-2 border-b border-border/50">
                                     <p className="font-semibold text-foreground text-xs">
