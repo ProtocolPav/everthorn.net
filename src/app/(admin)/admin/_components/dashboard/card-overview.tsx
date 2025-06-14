@@ -4,6 +4,8 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {formatPlaytime} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
+import {ChartConfig, ChartContainer} from "@/components/ui/chart";
+import { Area, AreaChart } from "recharts";
 
 interface Props {
     playtime?: GuildPlaytime;
@@ -13,6 +15,13 @@ interface Props {
     status?: ServerStatus;
     statusLoading: boolean;
 }
+
+const chartConfig = {
+    playtime: {
+        label: "Playtime",
+        color: "hsl(var(--chart-1))",
+    },
+} satisfies ChartConfig;
 
 export default function CardOverview({
     playtime,
@@ -24,23 +33,55 @@ export default function CardOverview({
 }: Props) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-            <Card className={'p-4'}>
-                <CardHeader className="flex flex-row items-center justify-between px-0">
-                    <CardTitle className="text-sm font-medium">Total Playtime</CardTitle>
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className={'px-0'}>
-                    <div className="text-2xl font-bold">
-                        {playtimeLoading ? (
-                            <Skeleton className="h-8 w-24" />
-                        ) : (
-                            formatPlaytime(playtime?.total_playtime || 0)
-                        )}
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                        That's {Math.round((playtime?.total_playtime || 0) / 3600)} hours
-                    </p>
-                </CardContent>
+            <Card className={'p-4 relative overflow-hidden'}>
+                {/* Background Chart */}
+                <div className="absolute inset-0 opacity-60">
+                    <ChartContainer config={chartConfig} className="h-full w-full">
+                        <AreaChart
+                            data={((): any => {
+                                // Create cumulative monthly data
+                                const monthlyData = playtime?.monthly_playtime || [];
+                                let cumulative = 0;
+                                return monthlyData.map(month => {
+                                    cumulative += month.total;
+                                    return {
+                                        month: month.month,
+                                        cumulative: cumulative
+                                    };
+                                });
+                            })()}
+                            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+                        >
+                            <Area
+                                dataKey="cumulative"
+                                type="natural"
+                                fill="var(--chart-5)"
+                                fillOpacity={0.2}
+                                stroke="var(--chart-5)"
+                            />
+                        </AreaChart>
+                    </ChartContainer>
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10">
+                    <CardHeader className="flex flex-row items-center justify-between px-0">
+                        <CardTitle className="text-sm font-medium">Total Playtime</CardTitle>
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent className={'px-0'}>
+                        <div className="text-2xl font-bold">
+                            {playtimeLoading ? (
+                                <Skeleton className="h-8 w-24" />
+                            ) : (
+                                formatPlaytime(playtime?.total_playtime || 0)
+                            )}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            That's {Math.round((playtime?.total_playtime || 0) / 3600)} hours
+                        </p>
+                    </CardContent>
+                </div>
             </Card>
 
             <Card className={'p-4'}>
