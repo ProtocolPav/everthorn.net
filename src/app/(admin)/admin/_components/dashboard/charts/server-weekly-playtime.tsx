@@ -24,7 +24,7 @@ const chartConfig = {
 export default function ServerWeeklyPlaytime({ data }: WeeklyPlaytimeChartProps) {
     if (!data || data.length === 0) {
         return (
-            <div className="h-64 flex flex-col items-center justify-center text-muted-foreground bg-muted/20 rounded-lg border-2 border-dashed border-border">
+            <div className="h-72 flex flex-col items-center justify-center text-muted-foreground bg-muted/20 rounded-lg border-2 border-dashed border-border">
                 <div className="w-16 h-16 mb-4 rounded-full bg-muted flex items-center justify-center">
                     <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -50,7 +50,7 @@ export default function ServerWeeklyPlaytime({ data }: WeeklyPlaytimeChartProps)
 
     if (!hasValidData) {
         return (
-            <div className="h-64 flex flex-col items-center justify-center text-muted-foreground bg-muted/20 rounded-lg border border-border">
+            <div className="h-72 flex flex-col items-center justify-center text-muted-foreground bg-muted/20 rounded-lg border border-border">
                 <div className="w-16 h-16 mb-4 rounded-full bg-muted flex items-center justify-center">
                     <svg className="w-8 h-8 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -105,28 +105,30 @@ export default function ServerWeeklyPlaytime({ data }: WeeklyPlaytimeChartProps)
 
                         const data = payload[0].payload;
 
-                        // Calculate week date range using ISO week format
+                        // Calculate week date range using proper ISO week format
                         const getWeekDateRange = (year: number, week: number) => {
-                            const startDate = new Date();
-                            startDate.setFullYear(year);
-                            startDate.setMonth(0, 1); // January 1st
+                            // ISO week starts on Monday and week 1 contains January 4th
+                            const jan4 = new Date(year, 0, 4); // January 4th
+                            const jan4Day = jan4.getDay(); // 0 = Sunday, 1 = Monday, etc.
 
-                            // Find the first Monday of the year
-                            const dayOfWeek = startDate.getDay();
-                            const daysToMonday = dayOfWeek === 0 ? 1 : 8 - dayOfWeek;
-                            startDate.setDate(startDate.getDate() + daysToMonday);
+                            // Find the Monday of week 1 (the Monday of the week containing Jan 4th)
+                            const week1Monday = new Date(jan4);
+                            week1Monday.setDate(jan4.getDate() - (jan4Day === 0 ? 6 : jan4Day - 1));
 
-                            // Add weeks to get to the target week
-                            startDate.setDate(startDate.getDate() + (week - 1) * 7);
+                            // Calculate the start date of the target week
+                            const startDate = new Date(week1Monday);
+                            startDate.setDate(week1Monday.getDate() + (week - 1) * 7);
 
+                            // End date is 6 days after start date
                             const endDate = new Date(startDate);
-                            endDate.setDate(endDate.getDate() + 6);
+                            endDate.setDate(startDate.getDate() + 6);
 
                             return {
                                 start: startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                                 end: endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                             };
                         };
+
 
                         const currentYear = new Date().getFullYear();
                         const weekRange = getWeekDateRange(currentYear, data.week);
