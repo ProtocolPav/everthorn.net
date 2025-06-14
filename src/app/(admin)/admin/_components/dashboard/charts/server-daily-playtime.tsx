@@ -1,6 +1,6 @@
 'use client';
 
-import { XAxis, YAxis, CartesianGrid, Area, AreaChart } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Area, AreaChart, ResponsiveContainer } from 'recharts';
 import { formatPlaytime } from "@/lib/utils";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
@@ -62,7 +62,7 @@ export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
     }
 
     return (
-        <ChartContainer config={chartConfig} className="h-72 w-full">
+        <ResponsiveContainer className={'h-72 w-full'}>
             <AreaChart
                 accessibilityLayer
                 data={processedData}
@@ -194,6 +194,6 @@ export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
                 />
 
             </AreaChart>
-        </ChartContainer>
+        </ResponsiveContainer>
     );
 }

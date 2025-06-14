@@ -120,7 +120,7 @@ export default function Statistics({
                             </CardDescription>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Badge variant={'outline'}>
+                            <Badge variant={'outline'} className={'hidden lg:flex'}>
                                 <ChartBar />
                                 Showing last 12 months
                             </Badge>
@@ -143,20 +143,17 @@ export default function Statistics({
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-sm bg-chart-2" />
+                                <div className="w-2 h-2 rounded-xs bg-chart-2" />
                                 <span>Monthly Playtime</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-sm bg-chart-3 opacity-80" />
+                                <div className="w-2 h-2 rounded-xs bg-chart-3 opacity-80" />
                                 <span>Predictions</span>
                             </div>
                         </div>
                         <div className="text-xs text-muted-foreground/70 flex items-center gap-1">
                             <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                            Live data • Updated {new Date().toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric'
-                        })}
+                            Live data
                         </div>
                     </div>
                 </CardContent>
@@ -190,16 +187,13 @@ export default function Statistics({
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-sm bg-chart-1" />
+                                <div className="w-2 h-2 rounded-xs bg-chart-1" />
                                 <span>Daily Playtime</span>
                             </div>
                         </div>
                         <div className="text-xs text-muted-foreground/70 flex items-center gap-1">
                             <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                            Live data • Updated {new Date().toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric'
-                        })}
+                            Live data
                         </div>
                     </div>
                 </CardContent>
@@ -233,16 +227,13 @@ export default function Statistics({
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-sm bg-chart-4" />
+                                <div className="w-2 h-2 rounded-xs bg-chart-4" />
                                 <span>Weekly Playtime</span>
                             </div>
                         </div>
                         <div className="text-xs text-muted-foreground/70 flex items-center gap-1">
                             <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                            Live data • Updated {new Date().toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric'
-                        })}
+                            Live data
                         </div>
                     </div>
                 </CardContent>
@@ -258,7 +249,7 @@ export default function Statistics({
                             </div>
 
                             <div className="flex items-center gap-2">
-                                <Badge variant={'outline'}>
+                                <Badge variant={'outline'} className={'hidden lg:flex'}>
                                     <ChartBar />
                                     Showing last 24 hours
                                 </Badge>
@@ -282,7 +273,7 @@ export default function Statistics({
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-sm bg-chart-2" />
+                                <div className="w-2 h-2 rounded-xs bg-chart-2" />
                                 <span>Players Online</span>
                             </div>
                         </div>

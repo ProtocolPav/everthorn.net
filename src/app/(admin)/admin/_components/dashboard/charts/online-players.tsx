@@ -2,7 +2,7 @@
 'use client';
 
 import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 const chartConfig = {
     players: {
@@ -21,7 +21,7 @@ interface Props {
 
 export default function OnlinePlayersChart({ data }: Props) {
     return (
-        <ChartContainer config={chartConfig} className="h-72 w-full">
+        <ResponsiveContainer className={'h-72 w-full'}>
             <AreaChart
                 accessibilityLayer
                 data={data}
@@ -115,6 +115,6 @@ export default function OnlinePlayersChart({ data }: Props) {
                 />
 
             </AreaChart>
-        </ChartContainer>
+        </ResponsiveContainer>
     );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { XAxis, YAxis, CartesianGrid, Bar, BarChart, Cell, Rectangle } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Bar, BarChart, Cell, Rectangle, ResponsiveContainer } from 'recharts';
 import { formatPlaytime } from "@/lib/utils";
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip } from '@/components/ui/chart';
 import {Badge} from "@/components/ui/badge";
@@ -116,7 +116,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
     };
 
     return (
-        <ChartContainer config={chartConfig} className="h-64 w-full">
+        <ResponsiveContainer className={'h-72 w-full'}>
             <BarChart
                 accessibilityLayer
                 data={processedData}
@@ -303,6 +303,6 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                 </Bar>
 
             </BarChart>
-        </ChartContainer>
+        </ResponsiveContainer>
     );
 }
