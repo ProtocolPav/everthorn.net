@@ -3,6 +3,7 @@
 import { XAxis, YAxis, CartesianGrid, Bar, BarChart, Cell, Rectangle } from 'recharts';
 import { formatPlaytime } from "@/lib/utils";
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
+import {Badge} from "@/components/ui/badge";
 
 interface MonthlyPlaytimeChartProps {
     data: Array<{
@@ -212,13 +213,13 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                         return (
                             <div className="bg-background/70 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 min-w-[200px]">
                                 <div className="pb-2 mb-2 border-b border-border/50">
-                                    <p className="font-semibold text-foreground text-xs">
+                                    <p className="font-semibold text-foreground text-xs flex gap-1 items-center">
                                         {new Date(label).toLocaleDateString('en-US', {
                                             month: 'long',
                                             year: 'numeric'
                                         })}
                                         {data.isCurrentMonth && (
-                                            <span className="ml-2 text-xs text-muted-foreground">(Current)</span>
+                                            <Badge variant={"info"}>Ongoing</Badge>
                                         )}
                                     </p>
                                 </div>
@@ -232,7 +233,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                                                     style={{backgroundColor: chartConfig.actual.color}}
                                                 />
                                                 <span className="text-xs text-muted-foreground">
-                                                    {data.isCurrentMonth ? "Actual" : "Total"}
+                                                    {data.isCurrentMonth ? "Current" : "Total"}
                                                 </span>
                                             </div>
                                             <span
@@ -251,7 +252,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                                                     className="w-1 h-4 rounded-sm"
                                                     style={{backgroundColor: chartConfig.predicted.color}}
                                                 />
-                                                <span className="text-xs text-muted-foreground">Predicted</span>
+                                                <span className="text-xs text-muted-foreground">Estimate</span>
                                             </div>
                                             <span
                                                 className="font-semibold text-xs"
@@ -264,7 +265,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
 
                                     {predictedValue > 0 && (
                                         <div className="flex items-center justify-between pt-1 border-t border-border/50">
-                                            <span className="text-xs text-muted-foreground">Total (Est.)</span>
+                                            <span className="text-xs text-muted-foreground">Predicted Total</span>
                                             <span className="font-semibold text-xs text-foreground">
                                                 {formatPlaytime(total)}
                                             </span>
