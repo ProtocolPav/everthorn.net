@@ -2,8 +2,9 @@
 
 import { XAxis, YAxis, CartesianGrid, Bar, BarChart, Cell, Rectangle } from 'recharts';
 import { formatPlaytime } from "@/lib/utils";
-import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip } from '@/components/ui/chart';
 import {Badge} from "@/components/ui/badge";
+import {Minus, TrendUp, TrendDown, ChartBar} from "@phosphor-icons/react";
 
 interface MonthlyPlaytimeChartProps {
     data: Array<{
@@ -289,12 +290,13 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                 <Bar
                     dataKey="predicted"
                     stackId="a"
-                    fill="url(#diagonalCross)"
+                    fill={chartConfig.predicted.color}
                     opacity={0.8}
                 >
                     {processedData.map((entry, index) => (
                         <Cell
                             key={`cell-predicted-${index}`}
+                            fill="url(#diagonalCross)"
                             radius={entry.predicted > 0 ? [8, 8, 0, 0] as any : 0}
                         />
                     ))}
