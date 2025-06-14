@@ -3,7 +3,7 @@ import ServerDailyPlaytime from "@/app/(admin)/admin/_components/dashboard/chart
 import {formatPlaytime} from "@/lib/utils";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
 import ServerMonthlyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-monthly-playtime";
-import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown} from "@phosphor-icons/react";
+import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown, Calendar} from "@phosphor-icons/react";
 import {Badge} from "@/components/ui/badge";
 
 interface Props {
@@ -54,8 +54,8 @@ export default function Statistics({
     };
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="col-span-2 p-4 bg-card/40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card className="lg:col-span-2 p-4 bg-card/40">
                 <CardHeader className="px-0">
                     <div className="flex items-start justify-between">
                         <div className="space-y-1">
@@ -92,7 +92,7 @@ export default function Statistics({
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1.5">
                                 <div className="w-2 h-2 rounded-sm bg-chart-2" />
-                                <span>Playtime</span>
+                                <span>Monthly Playtime</span>
                             </div>
                             <div className="flex items-center gap-1.5">
                                 <div className="w-2 h-2 rounded-sm bg-chart-3 opacity-80" />
@@ -110,13 +110,46 @@ export default function Statistics({
                 </CardContent>
             </Card>
 
-            <Card className={'p-4'}>
-                <CardHeader className={'px-0'}>
-                    <CardTitle>Daily Playtime Trend</CardTitle>
-                    <CardDescription>Player activity over the last 7 days</CardDescription>
+            <Card className="p-4 bg-card/40">
+                <CardHeader className="px-0">
+                    <div className="flex items-start justify-between">
+                        <div className="space-y-1">
+                            <CardTitle className="text-xl font-semibold flex items-center gap-2">
+                                <Calendar />
+                                Daily Playtime
+                            </CardTitle>
+                            <CardDescription className="text-sm text-muted-foreground">
+                                See the current trends and plan accordingly
+                            </CardDescription>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Badge variant={'outline'}>
+                                <ChartBar />
+                                Showing last 7 days
+                            </Badge>
+                        </div>
+                    </div>
                 </CardHeader>
-                <CardContent className={'px-0'}>
+
+                <CardContent className="px-0 grid gap-3">
                     <ServerDailyPlaytime data={playtime?.daily_playtime || []} />
+
+                    {/* Enhanced footer with additional context */}
+                    <div className="flex items-center justify-between pt-2 border-t border-border/30">
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-2 h-2 rounded-sm bg-chart-1" />
+                                <span>Daily Playtime</span>
+                            </div>
+                        </div>
+                        <div className="text-xs text-muted-foreground/70 flex items-center gap-1">
+                            <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
+                            Live data • Updated {new Date().toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        })}
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
 
