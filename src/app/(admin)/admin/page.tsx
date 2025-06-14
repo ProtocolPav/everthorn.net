@@ -2,22 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {formatPlaytime, parseUTCTimestamp} from "@/lib/utils";
-import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGuildPlaytime, useOnlinePlayers, useLeaderboard, useServerStatus } from '@/hooks/use-admin-data';
-import { formatDistanceToNow } from 'date-fns';
-import { Activity, Users, Clock, Server, TrendingUp, Gamepad2, ExternalLink } from 'lucide-react';
-import ServerDailyPlaytime from './_components/dashboard/charts/server-daily-playtime';
+import { useGuildPlaytime, useOnlinePlayers, useServerStatus } from '@/hooks/use-admin-data';
 import ServerControlPanel from './_components/dashboard/ServerControlPanel';
-import { Skeleton } from '@/components/ui/skeleton';
 import CardOverview from "@/app/(admin)/admin/_components/dashboard/card-overview";
 import Statistics from "@/app/(admin)/admin/_components/dashboard/statistics";
-import OnlinePlayers from "@/app/(admin)/admin/_components/dashboard/online-players";
-import Leaderboard from "@/app/(admin)/admin/_components/dashboard/leaderboard";
 import {Alert, AlertDescription} from "@/components/ui/alert";
 import {Info} from "@phosphor-icons/react";
 import * as React from "react";
@@ -70,9 +60,8 @@ export default function AdminPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="overview" className="space-y-6">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
                     <TabsTrigger value="server">Server Control</TabsTrigger>
                 </TabsList>
 
@@ -85,10 +74,6 @@ export default function AdminPage() {
                         status={status}
                         statusLoading={statusLoading}
                     />
-                </TabsContent>
-
-                <TabsContent value="leaderboard" className="space-y-6">
-                    <Leaderboard selectedGuildId={selectedGuildId} />
                 </TabsContent>
 
                 <TabsContent value="server">

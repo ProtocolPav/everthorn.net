@@ -32,9 +32,13 @@ export function useOnlinePlayers(guildId: string) {
     };
 }
 
-export function useLeaderboard(guildId: string, month: string) {
+export function useLeaderboards(guildId: string, type: string, month?: string) {
+    const endpoint = type === 'playtime'
+        ? `/nexuscore-api/v0.2/guilds/${guildId}/leaderboard/playtime/${month}`
+        : `/nexuscore-api/v0.2/guilds/${guildId}/leaderboard/${type}`;
+
     const { data, error, isLoading } = useSWR<{ leaderboard: LeaderboardEntry[] }>(
-        `/nexuscore-api/v0.2/guilds/${guildId}/leaderboard/playtime/${month}`,
+        endpoint,
         fetcher
     );
 
