@@ -193,7 +193,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                     tickLine={false}
                     axisLine={false}
                     tickMargin={4}
-                    domain={[0, 'dataMax']}
+                    domain={[0, 'dataMax + 259200']}
                     allowDecimals={false}
                     className="text-xs fill-muted-foreground"
                     tickFormatter={formatTimeAxis}

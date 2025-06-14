@@ -23,32 +23,32 @@ export default function Statistics({
 }: Props) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className={'col-span-2'}>
-                <CardHeader>
+            <Card className={'col-span-2 p-4'}>
+                <CardHeader className={'px-0'}>
                     <CardTitle>Monthly Playtime</CardTitle>
                     <CardDescription>Player activity over the last 30 days</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className={'px-0'}>
                     <ServerMonthlyPlaytime data={playtime?.monthly_playtime || []} />
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
+            <Card className={'p-4'}>
+                <CardHeader className={'px-0'}>
                     <CardTitle>Daily Playtime Trend</CardTitle>
                     <CardDescription>Player activity over the last 7 days</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className={'px-0'}>
                     <ServerDailyPlaytime data={playtime?.daily_playtime || []} />
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
+            <Card className={'p-4'}>
+                <CardHeader className={'px-0'}>
                     <CardTitle>Weekly Statistics</CardTitle>
                     <CardDescription>Recent weekly performance</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className={'px-0'}>
                     <div className="space-y-4">
                         {playtime?.weekly_playtime?.slice(0, 3).map((week, index) => (
                             <div key={week.week} className="flex items-center justify-between p-3 border rounded-lg">

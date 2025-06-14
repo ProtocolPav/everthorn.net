@@ -63,7 +63,7 @@ export interface GuildPlaytime {
     }>;
     monthly_playtime: Array<{
         month: string;
-        playtime: number;
+        total: number;
     }>;
     peak_playtime_periods: any;
     peak_active_periods: any;
