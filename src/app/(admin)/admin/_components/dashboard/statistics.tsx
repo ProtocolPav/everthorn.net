@@ -3,12 +3,14 @@ import ServerDailyPlaytime from "@/app/(admin)/admin/_components/dashboard/chart
 import {formatPlaytime} from "@/lib/utils";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
 import ServerMonthlyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-monthly-playtime";
-import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown, Calendar, Users} from "@phosphor-icons/react";
+import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown, Calendar, Users, Info} from "@phosphor-icons/react";
 import {Badge} from "@/components/ui/badge";
 import ServerWeeklyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-weekly-playtime";
 import OnlinePlayersChart from "@/app/(admin)/admin/_components/dashboard/charts/online-players";
 import {Activity} from "lucide-react";
 import OnlinePlayersList from "@/app/(admin)/admin/_components/dashboard/online-players";
+import {Alert, AlertDescription} from "@/components/ui/alert";
+import * as React from "react";
 
 interface Props {
     playtime?: GuildPlaytime;
@@ -285,14 +287,8 @@ export default function Statistics({
                             </div>
                         </div>
                         <div className="text-xs text-muted-foreground/70 flex items-center gap-1">
-                            <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                            Live data • Updated {new Date().toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            second: 'numeric',
-                        })}
+                            <div className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />
+                            Fake data
                         </div>
                     </div>
                 </CardContent>
