@@ -119,7 +119,7 @@ export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
                 />
 
                 <ChartTooltip
-                    cursor={{stroke: "var(--muted-foreground)", strokeWidth: 1, strokeDasharray: "3 3"}}
+                    cursor={{ fill: 'var(--muted)', opacity: 0.7 }}
                     content={({active, payload, label}) => {
                         if (!active || !payload || payload.length === 0) return null;
 
@@ -127,7 +127,7 @@ export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
 
                         return (
                             <div
-                                className="bg-background/95 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 min-w-[200px]">
+                                className="bg-background/70 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 min-w-[200px]">
                                 {/* Compact header with full date */}
                                 <div className="pb-2 mb-2 border-b border-border/50">
                                     <p className="font-semibold text-foreground text-xs">
