@@ -212,7 +212,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                         const total = actualValue + predictedValue;
 
                         return (
-                            <div className="bg-background/70 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 min-w-[200px]">
+                            <div className="bg-background/70 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 pt-0 min-w-[200px]">
                                 <div className="pb-2 mb-2 border-b border-border/50">
                                     <p className="font-semibold text-foreground text-xs flex gap-1 items-center">
                                         {new Date(label).toLocaleDateString('en-US', {
