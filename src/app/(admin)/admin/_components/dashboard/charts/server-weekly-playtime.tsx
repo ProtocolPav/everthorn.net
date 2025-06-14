@@ -63,7 +63,7 @@ export default function ServerWeeklyPlaytime({ data }: WeeklyPlaytimeChartProps)
     }
 
     return (
-        <ChartContainer config={chartConfig} className="h-full w-full">
+        <ChartContainer config={chartConfig} className="h-72 w-full">
             <AreaChart
                 accessibilityLayer
                 data={processedData}
