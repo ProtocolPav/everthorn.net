@@ -2,6 +2,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import ServerDailyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-daily-playtime";
 import {formatPlaytime} from "@/lib/utils";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
+import ServerMonthlyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-monthly-playtime";
 
 interface Props {
     playtime?: GuildPlaytime;
@@ -22,10 +23,20 @@ export default function Statistics({
 }: Props) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className={'col-span-2'}>
+                <CardHeader>
+                    <CardTitle>Monthly Playtime</CardTitle>
+                    <CardDescription>Player activity over the last 30 days</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ServerMonthlyPlaytime data={playtime?.monthly_playtime || []} />
+                </CardContent>
+            </Card>
+
             <Card>
                 <CardHeader>
                     <CardTitle>Daily Playtime Trend</CardTitle>
-                    <CardDescription>Player activity over the last 30 days</CardDescription>
+                    <CardDescription>Player activity over the last 7 days</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ServerDailyPlaytime data={playtime?.daily_playtime || []} />
