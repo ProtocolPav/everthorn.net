@@ -1,78 +1,96 @@
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {Activity, ExternalLink, Gamepad2} from "lucide-react";
-import {Badge} from "@/components/ui/badge";
-import {formatDistanceToNow} from "date-fns";
-import {parseUTCTimestamp} from "@/lib/utils";
-import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
-import {useRouter} from "next/navigation";
+// admin/_components/dashboard/OnlinePlayersList.tsx
+'use client';
 
-interface Props {
-    playtime?: GuildPlaytime;
-    playtimeLoading: boolean;
+import { Skeleton } from '@/components/ui/skeleton';
+import { Users, Gamepad2 } from 'lucide-react';
+import { OnlineUser } from '@/types/admin';
+import { formatDistanceToNow } from 'date-fns';
+import { useRouter } from "next/navigation";
+
+interface OnlinePlayersListProps {
     players: OnlineUser[];
     playersLoading: boolean;
-    status?: ServerStatus;
-    statusLoading: boolean;
 }
 
-export default function OnlinePlayers({
-    playtime,
-    playtimeLoading,
-    playersLoading,
-    players,
-    statusLoading,
-    status
-}: Props) {
+const parseUTCTimestamp = (utcTimestamp: string) => {
+    const utcString = utcTimestamp.includes('Z') ? utcTimestamp : utcTimestamp + 'Z';
+    return new Date(utcString);
+};
+
+export default function OnlinePlayersList({ players, playersLoading }: OnlinePlayersListProps) {
     const router = useRouter();
 
     const viewUserProfile = (thornyId: number) => {
         router.push(`/admin/users/${thornyId}`);
     };
 
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Activity className="h-5 w-5" />
-                    Online Players ({players?.length || 0})
-                </CardTitle>
-                <CardDescription>Currently active players in the guild</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {players?.map((player) => (
-                        <div
-                            key={player.thorny_id}
-                            className="p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors"
-                            onClick={() => viewUserProfile(player.thorny_id)}
-                        >
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="font-medium">Player ID {player.thorny_id}</p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Discord: {player.discord_id}
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Badge variant="outline">
-                                        <Gamepad2 className="h-3 w-3 mr-1" />
-                                        Online
-                                    </Badge>
-                                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                                </div>
+    // Loading state
+    if (playersLoading) {
+        return (
+            <div className="space-y-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex items-center h-72 justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                            <Skeleton className="w-8 h-8 rounded-full" />
+                            <div>
+                                <Skeleton className="h-4 w-20 mb-1" />
+                                <Skeleton className="h-3 w-16" />
                             </div>
-                            <p className="text-xs text-muted-foreground mt-2">
-                                Connected: {formatDistanceToNow(new Date(parseUTCTimestamp(player.session)), { addSuffix: true })}
+                        </div>
+                        <Skeleton className="h-4 w-4" />
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    // Empty state
+    if (!players || players.length === 0) {
+        return (
+            <div className="h-72 text-center py-8 text-muted-foreground">
+                <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm font-medium">No players online</p>
+                <p className="text-xs">Players will appear here when they join</p>
+            </div>
+        );
+    }
+
+    // Main content
+    return (
+        <div className="space-y-2 h-72">
+            {players.slice(0, 8).map((player) => (
+                <div
+                    key={player.thorny_id}
+                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent cursor-pointer transition-colors"
+                    onClick={() => viewUserProfile(player.thorny_id)}
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span className="text-sm font-medium">
+                                {player.thorny_id.toString().slice(-2)}
+                            </span>
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium">Player {player.thorny_id}</p>
+                            <p className="text-xs text-muted-foreground">
+                                Session: {formatDistanceToNow(parseUTCTimestamp(player.session), { addSuffix: true })}
                             </p>
                         </div>
-                    ))}
-                </div>
-                {players?.length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                        No players currently online
                     </div>
-                )}
-            </CardContent>
-        </Card>
-    )
+                    <div className="flex items-center gap-2">
+                        <Gamepad2 className="h-4 w-4 text-green-500" />
+                    </div>
+                </div>
+            ))}
+
+            {/* Show more indicator */}
+            {players.length > 8 && (
+                <div className="text-center pt-3 border-t border-border/30">
+                    <p className="text-xs text-muted-foreground">
+                        +{players.length - 8} more players online
+                    </p>
+                </div>
+            )}
+        </div>
+    );
 }

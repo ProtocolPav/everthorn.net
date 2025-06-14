@@ -72,24 +72,12 @@ export default function AdminPage() {
             <Tabs defaultValue="overview" className="space-y-6">
                 <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="players">Players</TabsTrigger>
                     <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
                     <TabsTrigger value="server">Server Control</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="overview" className="space-y-6">
                     <Statistics
-                        playtime={playtime}
-                        playtimeLoading={playtimeLoading}
-                        players={players}
-                        playersLoading={playersLoading}
-                        status={status}
-                        statusLoading={statusLoading}
-                    />
-                </TabsContent>
-
-                <TabsContent value="players" className="space-y-6">
-                    <OnlinePlayers
                         playtime={playtime}
                         playtimeLoading={playtimeLoading}
                         players={players}
