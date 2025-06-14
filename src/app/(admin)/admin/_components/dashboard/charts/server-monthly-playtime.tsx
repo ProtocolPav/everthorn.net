@@ -1,8 +1,8 @@
 'use client';
 
-import { XAxis, YAxis, CartesianGrid, Area, AreaChart } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Bar, BarChart } from 'recharts';
 import { formatPlaytime } from "@/lib/utils";
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart';
 
 interface MonthlyPlaytimeChartProps {
     data: Array<{
@@ -57,8 +57,8 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
     }
 
     return (
-        <ChartContainer config={chartConfig} className="h-full w-full">
-            <AreaChart
+        <ChartContainer config={chartConfig} className="h-64 w-full">
+            <BarChart
                 accessibilityLayer
                 data={processedData}
                 margin={{
@@ -114,7 +114,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                 />
 
                 <ChartTooltip
-                    cursor={{stroke: "var(--muted-foreground)", strokeWidth: 1, strokeDasharray: "3 3"}}
+                    cursor={{ fill: 'hsl(var(--muted))', opacity: 0.3 }}
                     content={({active, payload, label}) => {
                         if (!active || !payload || payload.length === 0) return null;
 
@@ -156,16 +156,13 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                     }}
                 />
 
-                <Area
+                <Bar
                     dataKey="playtime"
-                    type="natural"
                     fill={chartConfig.playtime.color}
-                    fillOpacity={0.2}
-                    stroke={chartConfig.playtime.color}
-                    strokeWidth={2}
+                    radius={8}
                 />
 
-            </AreaChart>
+            </BarChart>
         </ChartContainer>
     );
 }
