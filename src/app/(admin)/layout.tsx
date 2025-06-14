@@ -14,12 +14,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         return <p className={'m-auto justify-center'}>Loading...</p>
     }
 
-    // if (
-    //     status === "unauthenticated" ||
-    //     !session?.user?.everthornMemberInfo.isCM
-    // ) {
-    //     return <NoPermission status={status} />
-    // }
+    if (
+        status === "unauthenticated" ||
+        !session?.user?.everthornMemberInfo.isCM
+    ) {
+        return <NoPermission status={status} />
+    }
 
     return (
         <SidebarProvider>
