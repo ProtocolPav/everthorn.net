@@ -1,8 +1,8 @@
-// admin/components/PlaytimeChart.tsx
 'use client';
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
-import {formatPlaytime} from "@/lib/utils";
+import { XAxis, YAxis, CartesianGrid, Area, AreaChart } from 'recharts';
+import { formatPlaytime } from "@/lib/utils";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 interface PlaytimeChartProps {
     data: Array<{
@@ -13,6 +13,13 @@ interface PlaytimeChartProps {
         average_playtime_per_session: number;
     }>;
 }
+
+const chartConfig = {
+    playtime: {
+        label: "Total Playtime",
+        color: "var(--chart-1)",
+    },
+} satisfies ChartConfig
 
 export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
     if (!data || data.length === 0) {
@@ -54,135 +61,154 @@ export default function ServerDailyPlaytime({ data }: PlaytimeChartProps) {
         );
     }
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
-        if (active && payload && payload.length) {
-            const data = payload[0].payload;
-            return (
-                <div className="bg-popover border border-border rounded-lg shadow-lg p-4 min-w-[200px]">
-                    <div className="border-b border-border pb-2 mb-3">
-                        <p className="font-medium text-popover-foreground">
-                            {new Date(label).toLocaleDateString('en-US', {
-                                weekday: 'short',
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric'
-                            })}
-                        </p>
-                    </div>
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                                <span className="text-sm text-muted-foreground">Total Playtime</span>
-                            </div>
-                            <span className="font-semibold text-blue-600 dark:text-blue-400">{formatPlaytime(data.playtime)}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                <span className="text-sm text-muted-foreground">Players</span>
-                            </div>
-                            <span className="font-medium text-green-600 dark:text-green-400">{data.players}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                                <span className="text-sm text-muted-foreground">Sessions</span>
-                            </div>
-                            <span className="font-medium text-purple-600 dark:text-purple-400">{data.sessions}</span>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        return null;
-    };
-
     return (
-        <div className={"h-72 w-full"}>
-            <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                    data={processedData}
-                    margin={{ top: 10, right: 10 }}
-                >
-                    <defs>
-                        <linearGradient id="playtimeGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.4} />
-                            <stop offset="50%" stopColor="#3b82f6" stopOpacity={0.2} />
-                            <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.1} />
-                        </linearGradient>
-                    </defs>
+        <ChartContainer config={chartConfig} className="h-full w-full">
+            <AreaChart
+                accessibilityLayer
+                data={processedData}
+                margin={{
+                    right: 15,
+                    top: 15,
+                }}
+            >
+                <CartesianGrid
+                    vertical={false}
+                    strokeDasharray="3 3"
+                    className="stroke-muted"
+                />
 
-                    <CartesianGrid
-                        strokeDasharray="3 3"
-                        className="stroke-muted-foreground/20"
-                        vertical={false}
-                    />
+                <XAxis
+                    dataKey="day"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    className="text-xs fill-muted-foreground"
+                    tickFormatter={(value) => {
+                        const date = new Date(value);
+                        return date.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                    }}
+                />
 
-                    <XAxis
-                        dataKey="day"
-                        className="text-muted-foreground"
-                        tick={{
-                            fontSize: 11,
-                            fontWeight: 500
-                        }}
-                        tickLine={{ className: "stroke-muted-foreground/30" }}
-                        axisLine={{ className: "stroke-muted-foreground/30" }}
-                        tickFormatter={(value) => {
-                            try {
-                                return new Date(value).toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric'
-                                });
-                            } catch {
-                                return value;
-                            }
-                        }}
-                        interval="preserveStartEnd"
-                    />
+                <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={4}
+                    domain={[0, 'dataMax']}
+                    allowDecimals={false}
+                    className="text-xs fill-muted-foreground"
+                    tickFormatter={(value) => {
+                        const seconds = Number(value);
 
-                    <YAxis
-                        className="text-muted-foreground"
-                        tick={{
-                            fontSize: 11,
-                            fontWeight: 500
-                        }}
-                        tickLine={{ className: "stroke-muted-foreground/30" }}
-                        axisLine={{ className: "stroke-muted-foreground/30" }}
-                        tickFormatter={(value) => {
-                            if (value === 0) return '0';
-                            const hours = Math.floor(value / 3600);
-                            if (hours < 1) return `${Math.floor(value / 60)}m`;
-                            if (hours < 24) return `${hours}h`;
-                            return `${Math.floor(hours / 24)}d`;
-                        }}
-                        domain={['dataMin', 'dataMax']}
-                        width={60}
-                    />
+                        const days = Math.floor(seconds / (24 * 3600));
+                        const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+                        const minutes = Math.floor((seconds % 3600) / 60);
 
-                    <Tooltip content={<CustomTooltip />} />
+                        if (days > 0) {
+                            return `${days}d`;
+                        } else if (hours > 0) {
+                            return `${hours}h`;
+                        } else if (minutes > 0) {
+                            return `${minutes}m`;
+                        } else {
+                            return "0m";
+                        }
+                    }}
+                />
 
-                    <Area
-                        type="monotone"
-                        dataKey="playtime"
-                        stroke="#3b82f6"
-                        strokeWidth={3}
-                        fill="url(#playtimeGradient)"
-                        dot={{
-                            fill: '#3b82f6',
-                            strokeWidth: 2,
-                            r: 4,
-                            stroke: '#ffffff'
-                        }}
-                        activeDot={{
-                            r: 6,
-                            fill: '#3b82f6',
-                            stroke: '#ffffff',
-                            strokeWidth: 2
-                        }}
-                    />
-                </AreaChart>
-            </ResponsiveContainer>
-        </div>
+                <ChartTooltip
+                    cursor={{stroke: "var(--muted-foreground)", strokeWidth: 1, strokeDasharray: "3 3"}}
+                    content={({active, payload, label}) => {
+                        if (!active || !payload || payload.length === 0) return null;
+
+                        const data = payload[0].payload;
+
+                        return (
+                            <div
+                                className="bg-background/95 backdrop-blur-sm border border-border rounded-md shadow-lg p-3 min-w-[200px]">
+                                {/* Compact header with full date */}
+                                <div className="pb-2 mb-2 border-b border-border/50">
+                                    <p className="font-semibold text-foreground text-xs">
+                                        {new Date(label).toLocaleDateString('en-US', {
+                                            weekday: 'long',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric'
+                                        })}
+                                    </p>
+                                </div>
+
+                                {/* Compact metrics with vertical bars */}
+                                <div className="space-y-2">
+                                    {/* Total Playtime */}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div
+                                                className="w-1 h-4 rounded-sm"
+                                                style={{backgroundColor: chartConfig.playtime.color}}
+                                            />
+                                            <span className="text-xs text-muted-foreground">Total Playtime</span>
+                                        </div>
+                                        <span
+                                            className="font-semibold text-xs"
+                                            style={{color: chartConfig.playtime.color}}
+                                        >
+                                            {formatPlaytime(data.playtime)}
+                                        </span>
+                                    </div>
+
+                                    {/* Players */}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1 h-4 rounded-sm bg-emerald-500"/>
+                                            <span className="text-xs text-muted-foreground">Players</span>
+                                        </div>
+                                        <span className="font-semibold text-xs text-emerald-600 dark:text-emerald-400">
+                                            {data.players.toLocaleString()}
+                                        </span>
+                                    </div>
+
+                                    {/* Sessions */}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1 h-4 rounded-sm bg-violet-500"/>
+                                            <span className="text-xs text-muted-foreground">Sessions</span>
+                                        </div>
+                                        <span className="font-semibold text-xs text-violet-600 dark:text-violet-400">
+                                            {data.sessions.toLocaleString()}
+                                        </span>
+                                    </div>
+
+                                    {/* Average per session */}
+                                    {data.sessions > 0 && (
+                                        <div className="flex items-center justify-between pt-1 border-t border-border/30">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-1 h-4 rounded-sm bg-amber-500"/>
+                                                <span className="text-xs text-muted-foreground">Avg. per session</span>
+                                            </div>
+                                            <span className="font-semibold text-xs text-amber-600 dark:text-amber-400">
+                                                {formatPlaytime(Math.round(data.playtime / data.sessions))}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    }}
+                />
+
+                <Area
+                    dataKey="playtime"
+                    type="natural"
+                    fill={chartConfig.playtime.color}
+                    fillOpacity={0.2}
+                    stroke={chartConfig.playtime.color}
+                    strokeWidth={2}
+                />
+
+            </AreaChart>
+        </ChartContainer>
     );
 }
