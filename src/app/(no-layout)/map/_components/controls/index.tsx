@@ -14,11 +14,11 @@ export default function ControlBar (
     return (
         <div className={'leaflet-top leaflet-left'}>
             <div className={'leaflet-control flex items-center gap-2'}>
-                <Card className={'bg-background/60 backdrop-blur-sm p-0 gap-0'}>
+                <Card className={'bg-background/60 backdrop-blur-sm p-0 gap-0 overflow-hidden'}>
                     <CardContent className={'flex gap-1 p-1'}>
-                        <Button asChild key={'home'} variant={'outline'} size={'icon'} className={'bg-background/60'}>
+                        <Button asChild key={'home'} variant={'ghost'} size={'icon'} className={'bg-background/60'}>
                             <Link href="/home">
-                                <Image src={logo} alt={'logo'} className={'size-6'}/>
+                                <Image src={logo} alt={'logo'} className={'size-7'}/>
                             </Link>
                         </Button>
 
@@ -28,7 +28,7 @@ export default function ControlBar (
 
                         <PinsControl key={'pins'} pins={pins} update_pins={update_pins}/>
                     </CardContent>
-                    <CardFooter className={'flex justify-center gap-1 rounded-b-md bg-white/20 px-0 py-0.5 text-[10px]'}>
+                    <CardFooter className={'flex justify-center gap-1 bg-white/20 px-0 py-0.5 text-[10px]'}>
                         <b className={'rounded-full bg-attention px-1.5'}>BETA</b>
                         May not work as expected
                     </CardFooter>
