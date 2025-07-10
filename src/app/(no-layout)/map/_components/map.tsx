@@ -140,7 +140,7 @@ export default function WorldMap()  {
                 attributionControl={false}
             >
                 <CustomTileLayerComponent layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}/>
-                <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} />
+                <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} online_players={players?.length} />
                 <LeafletContextMenu/>
 
                 <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>

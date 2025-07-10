@@ -9,14 +9,14 @@ import {Toggle} from "../../_types/toggle";
 import {LayersControl} from "./layers-control";
 
 export default function ControlBar (
-    {pins, update_pins, layers, update_layers}:
-    {pins: Toggle[], update_pins: Function, layers: Toggle[], update_layers: Function}) {
+    {pins, update_pins, layers, update_layers, online_players}:
+    {pins: Toggle[], update_pins: Function, layers: Toggle[], update_layers: Function, online_players: number}) {
     return (
         <div className={'leaflet-top leaflet-left'}>
             <div className={'leaflet-control flex items-center gap-2'}>
                 <Card className={'bg-background/60 backdrop-blur-sm p-0 gap-0 overflow-hidden'}>
                     <CardContent className={'flex gap-1 p-1'}>
-                        <Button asChild key={'home'} variant={'ghost'} size={'icon'} className={'bg-background/60'}>
+                        <Button asChild key={'home'} variant={'ghost'} size={'icon'}>
                             <Link href="/home">
                                 <Image src={logo} alt={'logo'} className={'size-7'}/>
                             </Link>
@@ -28,9 +28,13 @@ export default function ControlBar (
 
                         <PinsControl key={'pins'} pins={pins} update_pins={update_pins}/>
                     </CardContent>
-                    <CardFooter className={'flex justify-center gap-1 bg-white/20 px-0 py-0.5 text-[10px]'}>
-                        <b className={'rounded-full bg-attention px-1.5'}>BETA</b>
-                        May not work as expected
+                    <CardFooter className={'flex justify-start gap-2 bg-white/10 px-0 py-0 text-[10px]'}>
+                        <b className={'rounded-bl-lg bg-blue-300/20 pl-3 pr-2'}>BETA</b>
+
+                        <div className={'flex gap-1 items-center'}>
+                            <div className={'rounded-full size-1 bg-green-500 animate-pulse'}/>
+                            {online_players || 0} online
+                        </div>
                     </CardFooter>
                 </Card>
             </div>

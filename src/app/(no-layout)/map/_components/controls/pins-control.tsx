@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button} from "@/components/ui/button";
-import {MapPinArea, TextT, TextTSlash} from "@phosphor-icons/react";
+import {MapPinIcon, TextTIcon, TextTSlashIcon} from "@phosphor-icons/react";
 import {ChevronDown} from "lucide-react";
 import Image from "next/image";
 
@@ -21,7 +21,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)} asChild>
                 <Button variant={'outline'} className={'flex gap-1 bg-background/30 p-2'}>
-                    <MapPinArea weight={'duotone'} size={20}/> <ChevronDown size={15}/>
+                    <MapPinIcon weight={'duotone'} size={20}/> <ChevronDown size={15}/>
                 </Button>
             </DropdownMenuTrigger>
 
@@ -53,8 +53,8 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                         >
                             {
                                 pin.label_visible
-                                ? <TextT weight={'duotone'} className={'h-10 w-20'}/>
-                                : <TextTSlash weight={'duotone'} className={'h-10 w-20'}/>
+                                ? <TextTIcon weight={'duotone'} className={'h-10 w-20'}/>
+                                : <TextTSlashIcon weight={'duotone'} className={'h-10 w-20'}/>
                             }
                         </Button>
                     </div>
