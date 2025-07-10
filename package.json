@@ -16,7 +16,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@minecraft/vanilla-data": "^1.21.70",
-    "@phosphor-icons/react": "^2.1.6",
+    "@phosphor-icons/react": "^2.1.10",
     "@react-leaflet/core": "^3.0.0",
     "@tailwindcss/postcss": "^4.1.8",
     "@tanstack/react-virtual": "^3.11.3",
