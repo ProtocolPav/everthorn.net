@@ -20,6 +20,7 @@ import shop from "public/map/ui/shop.png"
 import grass_block from 'public/map/ui/grass_block.png'
 import netherrack from 'public/map/ui/netherrack.png'
 import deepslate from 'public/map/ui/deepslate.png'
+import endstone from 'public/map/ui/endstone.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
 import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
@@ -73,9 +74,9 @@ export default function WorldMap()  {
     const [pintoggles, setpintoggles]: [Toggle[], Function] = React.useState([
         {id: 'projects', name: 'Projects', image: project, visible: true, label_visible: true},
         {id: 'players', name: 'Players', image: player, visible: true, label_visible: true},
-        {id: 'relics', name: 'Relics', image: relic, visible: true, label_visible: false},
-        {id: 'farms', name: 'Farms', image: farm, visible: false, label_visible: true},
-        {id: 'shops', name: 'Shops', image: shop, visible: false, label_visible: true},
+        {id: 'relics', name: 'Landmarks', image: relic, visible: true, label_visible: false},
+        {id: 'farms', name: 'Farms', image: farm, visible: false, label_visible: false},
+        {id: 'shops', name: 'Shops', image: shop, visible: false, label_visible: false},
     ])
 
     function update_pins(id: string, toggle_label?: boolean) {
@@ -100,6 +101,7 @@ export default function WorldMap()  {
         {id: 'overworld', name: 'Overworld', image: grass_block, visible: true},
         {id: 'subway', name: 'Subway (y-48)', image: deepslate, visible: false},
         {id: 'nether', name: 'Nether (y40)', image: netherrack, visible: false},
+        {id: 'end', name: 'End (Coming Soon!)', image: endstone, visible: false},
     ])
 
     function update_layers(id: string) {

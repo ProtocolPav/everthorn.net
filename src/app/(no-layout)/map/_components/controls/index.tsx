@@ -29,7 +29,7 @@ export default function ControlBar (
                         <PinsControl key={'pins'} pins={pins} update_pins={update_pins}/>
                     </CardContent>
                     <CardFooter className={'flex justify-start gap-2 bg-white/10 px-0 py-0 text-[10px]'}>
-                        <b className={'rounded-bl-lg bg-blue-300/20 pl-3 pr-2'}>BETA</b>
+                        <b className={'rounded-bl-lg rounded-r-xs bg-blue-300/20 pl-3 pr-2'}>BETA</b>
 
                         <div className={'flex gap-1 items-center'}>
                             <div className={'rounded-full size-1 bg-green-500 animate-pulse'}/>
