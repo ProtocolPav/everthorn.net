@@ -23,7 +23,7 @@ export function ObjectiveDisplay({ form, index, objective, disable }: ObjectiveP
                 control={form.control}
                 name={`objectives.${index}.display`}
                 render={({field}) => (
-                    <FormItem className={'mt-3'}>
+                    <FormItem className={'my-2'}>
                         <Input disabled={disable} type={'text'} placeholder={'Your Custom Objective Task Display'} {...field}/>
                         <FormMessage/>
                     </FormItem>

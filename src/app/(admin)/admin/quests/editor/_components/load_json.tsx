@@ -1,14 +1,14 @@
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "@/app/(admin)/admin/quests/editor/_types/schema";
+import {formSchema, formatApiToData} from "@/app/(admin)/admin/quests/editor/_types/schema";
 import {Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
-import {formatApiToData} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
 import * as React from "react";
 import {toast} from 'sonner'
+import {Info} from "@phosphor-icons/react";
 
 export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>>}) {
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -25,10 +25,11 @@ export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>
             <DialogContent className={'gap-0 p-3'}>
                 <DialogTitle className={'grid gap-3 py-2'}>
                     Load JSON File
-                    <Alert className={'bg-attention/30'}>
-                        <AlertTitle>Heads up!</AlertTitle>
+                    <Alert variant={'info'} className={'mb-2'}>
+                        <Info weight={'duotone'} className="size-4" />
                         <AlertDescription>
-                            Loading a JSON will override your existing data!
+                            <div className="font-semibold mb-2">Heads Up!</div>
+                            Loading JSON Data will override the current quest. This is irreversible.
                         </AlertDescription>
                     </Alert>
                 </DialogTitle>
