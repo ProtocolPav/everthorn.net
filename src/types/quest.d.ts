@@ -23,6 +23,7 @@ interface ObjectiveSchema {
 }
 
 export interface QuestSchema {
+    quest_id: number,
     start_time: string,
     end_time: string,
     title: string,

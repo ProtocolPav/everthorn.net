@@ -1,5 +1,5 @@
 import useSWR from "swr"
-import {QuestSchema} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
+import {QuestSchema} from "@/types/quest";
 
 
 export function useQuest(id: string | undefined): {quest: QuestSchema | null, isError: any, isLoading: boolean} {
