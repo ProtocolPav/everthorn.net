@@ -20,6 +20,7 @@ import {useQuest} from "@/hooks/use-quest";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {useSession} from "next-auth/react";
 import {Info, XCircle} from "@phosphor-icons/react";
+import {QuestType} from "@/app/(admin)/admin/quests/editor/_components/type";
 
 export default function QuestsCreator() {
     const params = useParams<{ id: string }>()
@@ -101,6 +102,7 @@ export default function QuestsCreator() {
                     <Card className={'bg-gray-500/5 shadow-xl backdrop-blur-sm md:w-4/5 p-0'}>
                         <CardContent className={'p-3'}>
                             <QuestTitle form={form} disable={submitted} />
+                            <QuestType form={form} disable={submitted} />
                             <QuestDescription
                                 form={form}
                                 field_name={'description'}
