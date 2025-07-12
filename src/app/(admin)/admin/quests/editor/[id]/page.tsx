@@ -10,6 +10,7 @@ import {Form} from "@/components/ui/form";
 import {QuestTitle} from "../_components/title"
 import {QuestDescription} from "@/app/(admin)/admin/quests/editor/_components/description";
 import {QuestDates} from "@/app/(admin)/admin/quests/editor/_components/dates";
+import {Tags} from "@/app/(admin)/admin/quests/editor/_components/tags";
 import {Separator} from "@/components/ui/separator";
 import {QuestObjectives} from "@/app/(admin)/admin/quests/editor/_components/objectives";
 import { toast } from 'sonner';
@@ -107,6 +108,7 @@ export default function QuestsCreator() {
                                 disable={submitted}
                             />
                             <QuestDates form={form} disable={submitted} />
+                            <Tags form={form} disable={submitted} />
                             <Separator/>
                             <QuestObjectives form={form} disable={submitted} />
                         </CardContent>
