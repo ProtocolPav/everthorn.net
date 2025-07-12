@@ -32,3 +32,15 @@ export interface QuestSchema {
     quest_type: string,
     objectives: ObjectiveSchema[]
 }
+
+export interface APIQuestSchema {
+    quest_id: number,
+    start_time: string,
+    end_time: string,
+    title: string,
+    description: string,
+    created_by: number,
+    tags: string[],
+    quest_type: string,
+    objectives: ObjectiveSchema[]
+}

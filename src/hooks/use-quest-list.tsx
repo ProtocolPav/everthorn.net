@@ -1,8 +1,8 @@
 import useSWR from "swr"
-import {ApiSchema} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
+import {APIQuestSchema} from "@/types/quest";
 
 
-export function useQuestList(): {quests: ApiSchema[], isError: any, isLoading: boolean} {
+export function useQuestList(): {quests: APIQuestSchema[], isError: any, isLoading: boolean} {
     const fetcher = (url: string) => fetch(url)
         .then((res) => res.json());
 

@@ -9,7 +9,7 @@ import {useEffect} from "react";
 import {usePageTitle} from "@/hooks/use-context";
 import {useQuestList} from "@/hooks/use-quest-list";
 import {Clock, Plus, Target, Trophy, ArrowLeft, ArrowRight} from "@phosphor-icons/react";
-import {ApiSchema} from "@/app/(admin)/admin/quests/editor/_types/api_schema";
+import {QuestSchema} from "@/types/quest";
 
 export default function Quests() {
     const [api, setApi] = React.useState<CarouselApi>()
@@ -31,7 +31,7 @@ export default function Quests() {
         })
     }
 
-    const getTotalRewards = (objectives: ApiSchema['objectives']) => {
+    const getTotalRewards = (objectives: QuestSchema['objectives']) => {
         return objectives.reduce((total, obj) => {
             return total + (obj.rewards?.length || 0)
         }, 0)
