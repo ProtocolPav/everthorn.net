@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker} from "react-leaflet";
-import L, {TileLayerOptions} from "leaflet";
+import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker, Polyline} from "react-leaflet";
+import L, {LatLng, LatLngExpression, TileLayerOptions} from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 
@@ -28,6 +28,10 @@ import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
+
+// MAP COORDINATE SWITCHING
+// MINECRAFT COORDINATES: [X, Y, Z]
+// LEAFLET SHOULD BE A BIT DIFFERENT: [-Z, X]
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
