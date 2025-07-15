@@ -4,8 +4,8 @@ export interface Project {
   description: string,
   coordinates: number[],
   thread_id: number,
-  started_on: number,
-  completed_on: number,
+  started_on: string,
+  completed_on: string,
   owner: {gamertag: string, username: string, [key: string]: any},
   status: "pending" | "ongoing" | "abandoned" | "completed",
   status_since: string
