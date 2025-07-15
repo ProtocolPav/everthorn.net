@@ -169,15 +169,15 @@ export default function ProjectsMapDashboard() {
         return [...filtered].sort((a, b) => {
             switch (sortOrder) {
                 case "date_asc":
-                    return new Date(a.started_on) - new Date(b.started_on);
+                    return Number(new Date(a.started_on)) - Number(new Date(b.started_on));
                 case "date_desc":
-                    return new Date(b.started_on) - new Date(a.started_on);
+                    return Number(new Date(b.started_on)) - Number(new Date(a.started_on));
                 case "name_asc":
                     return a.name.localeCompare(b.name);
                 case "name_desc":
                     return b.name.localeCompare(a.name);
                 default:
-                    return new Date(b.started_on) - new Date(a.started_on);
+                    return Number(new Date(b.started_on)) - Number(new Date(a.started_on));
             }
         });
     }, [projects, searchTerm, statusFilter, ownerFilter, sortOrder]);
@@ -591,14 +591,7 @@ export default function ProjectsMapDashboard() {
 
                     <CardContent className="h-full p-0">
                         <div className="h-full rounded-lg overflow-hidden">
-                            <MapComponent
-                                projects={filteredProjects}
-                                pins={filteredPins}
-                                selectedProject={selectedProject}
-                                selectedPin={selectedPin}
-                                onProjectSelect={(project) => handleItemSelect(project, "project")}
-                                onPinSelect={(pin) => handleItemSelect(pin, "pin")}
-                            />
+                            <MapComponent />
                         </div>
                     </CardContent>
                 </Card>
