@@ -11,6 +11,7 @@ import {Exit} from "@/app/(admin)/admin/_components/sidebar/footer";
 import {NavGroup, NavItems} from "@/app/(admin)/admin/_components/sidebar/nav-group";
 import {BookIcon, CastleIcon, ChartLineIcon, EthernetPortIcon, HomeIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
 import React from "react";
+import {HammerIcon} from "@phosphor-icons/react";
 
 export function AdminSidebar() {
     const server_items: NavItems[] = [
@@ -28,6 +29,11 @@ export function AdminSidebar() {
             title: 'Guidelines',
             url: '/admin/guidelines',
             icon: BookIcon,
+        },
+        {
+            title: 'Projects',
+            url: '/admin/projects',
+            icon: HammerIcon,
         },
     ]
 

@@ -6,7 +6,7 @@ import { OnlineUser } from '@/types/admin';
 import { formatDistanceToNow } from 'date-fns';
 import { useRouter } from "next/navigation";
 import { useUsers } from '@/hooks/use-thorny-user';
-import { ArrowRight, Users, Crown, Star, GameController, Sword, Hammer, Coins, Leaf, Mountains, MusicNote, Axe, DiscordLogo, Activity } from "@phosphor-icons/react";
+import { ArrowRightIcon, UsersIcon, CrownIcon, StarIcon, GameControllerIcon, SwordIcon, HammerIcon, CoinsIcon, LeafIcon, MountainsIcon, MusicNoteIcon, AxeIcon, DiscordLogoIcon, ActivityIcon } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 
 interface OnlinePlayersListProps {
@@ -22,61 +22,61 @@ const parseUTCTimestamp = (utcTimestamp: string) => {
 const getRoleConfig = (role: string) => {
     const configs = {
         owner: {
-            icon: Crown,
+            icon: CrownIcon,
             color: 'text-yellow-500',
             bgColor: 'bg-yellow-500/10',
             priority: 1
         },
         'community manager': {
-            icon: Users,
+            icon: UsersIcon,
             color: 'text-purple-500',
             bgColor: 'bg-purple-500/10',
             priority: 2
         },
         'new recruit': {
-            icon: Star,
+            icon: StarIcon,
             color: 'text-green-500',
             bgColor: 'bg-green-500/10',
             priority: 10
         },
         knight: {
-            icon: Sword,
+            icon: SwordIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 3
         },
         builder: {
-            icon: Hammer,
+            icon: HammerIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 4
         },
         merchant: {
-            icon: Coins,
+            icon: CoinsIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 5
         },
         gatherer: {
-            icon: Leaf,
+            icon: LeafIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 6
         },
         stoner: {
-            icon: Mountains,
+            icon: MountainsIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 7
         },
         bard: {
-            icon: MusicNote,
+            icon: MusicNoteIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 8
         },
         miner: {
-            icon: Axe,
+            icon: AxeIcon,
             color: 'text-gray-500',
             bgColor: 'bg-gray-500/10',
             priority: 9
@@ -127,7 +127,7 @@ const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
 
                     {/* Online indicator */}
                     <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
-                        <GameController size={8} className="text-white" />
+                        <GameControllerIcon size={8} className="text-white" />
                     </div>
                 </div>
 
@@ -157,12 +157,12 @@ const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
                             {/* Session and Level Info */}
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                 <span className="flex items-center gap-1">
-                                    <Activity/>
+                                    <ActivityIcon/>
                                     {formatDistanceToNow(parseUTCTimestamp(player.session), { addSuffix: true })}
                                 </span>
                                 <span>•</span>
                                 <span className="flex gap-1 items-center">
-                                    <DiscordLogo weight={'fill'} /> {userData?.username}
+                                    <DiscordLogoIcon weight={'fill'} /> {userData?.username}
                                 </span>
                             </div>
                         </>
@@ -172,7 +172,7 @@ const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
 
             {/* Arrow */}
             <div className="flex-shrink-0 ml-3">
-                <ArrowRight
+                <ArrowRightIcon
                     size={18}
                     className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-200"
                 />
@@ -184,7 +184,7 @@ const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
 const EmptyState = () => (
     <div className="h-72 flex flex-col items-center justify-center text-center text-muted-foreground">
         <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
-            <Users size={24} className="opacity-50" />
+            <UsersIcon size={24} className="opacity-50" />
         </div>
         <h3 className="text-sm font-semibold mb-1">No players online</h3>
         <p className="text-xs opacity-75">Players will appear here when they join the server</p>
