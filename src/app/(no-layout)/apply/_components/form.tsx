@@ -56,62 +56,62 @@ export default function ApplicationForm() {
         {
             id: 'welcome',
             title: "Welcome to Everthorn! 👋",
-            subtitle: "Let's get to know you better",
+            subtitle: "Let's start your adventure together",
             icon: User,
             component: WelcomeStep
         },
         {
             id: 'age',
-            title: "Tell us about yourself",
-            subtitle: "How old are you?",
+            title: "First things first...",
+            subtitle: "What's your age?",
             icon: User,
             component: AgeStep,
             field: 'age'
         },
         {
             id: 'interests',
-            title: "What drives you?",
-            subtitle: "What interests you most about Minecraft?",
+            title: "What sparks your creativity?",
+            subtitle: "Tell us what you love most about Minecraft",
             icon: Heart,
             component: InterestsStep,
             field: 'interests'
         },
         {
             id: 'activity',
-            title: "Your availability",
-            subtitle: "How active can you be?",
+            title: "Let's talk time",
+            subtitle: "How often can you join us?",
             icon: Clock,
             component: ActivityStep,
             field: 'hours'
         },
         {
             id: 'description',
-            title: "Tell us more",
-            subtitle: "Give us a short description about yourself",
+            title: "Show us your personality",
+            subtitle: "What makes you unique?",
             icon: MessageSquare,
             component: DescriptionStep,
             field: 'description'
         },
         {
             id: 'heard_from',
-            title: "How did you find us?",
-            subtitle: "We're curious about your discovery story",
+            title: "How did we cross paths?",
+            subtitle: "We'd love to know how you found us",
             icon: Users,
             component: HeardFromStep,
             field: 'heard_from'
         },
         {
             id: 'other',
-            title: "Anything else?",
-            subtitle: "Last chance to share something special",
+            title: "One more thing...",
+            subtitle: "Any surprises you'd like to share?",
             icon: HelpCircle,
             component: OtherStep,
             field: 'other'
         },
         {
             id: 'submit',
-            title: "Ready to submit?",
-            subtitle: "Review and submit your application",
+            title: "You're all set! 🎉",
+            subtitle: "Ready to join the Everthorn family?",
             icon: Send,
             component: SubmitStep
         }
@@ -205,7 +205,7 @@ export default function ApplicationForm() {
     const IconComponent = currentStepData.icon
 
     return (
-        <div className="h-screen w-screen bg-background p-4 md:p-6 overflow-x-hidden">
+        <div className="h-screen w-screen p-4 md:p-6 overflow-x-hidden">
             <div className="mx-auto max-w-2xl h-full flex flex-col">
                 {/* Progress Section - Fixed at top */}
                 <div className="mb-6 md:mb-8 flex-shrink-0">
@@ -265,15 +265,14 @@ export default function ApplicationForm() {
                     </div>
                 </div>
 
-
                 {/* Form Container */}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col pb-5">
                         <div className="flex-1 overflow-y-auto">
-                            <Card className={`pb-0 transition-all duration-300 bg-transparent border-none ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
-                                <CardHeader className="text-center pb-4">
+                            <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
+                                <CardHeader className="text-center pb-4 relative">
                                     <div className="flex justify-center mb-4">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-primary rounded-full flex items-center justify-center">
+                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
                                             <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
                                         </div>
                                     </div>
@@ -284,7 +283,7 @@ export default function ApplicationForm() {
                                         {currentStepData.subtitle}
                                     </p>
                                 </CardHeader>
-                                <CardContent className="pt-0 px-3 pb-3">
+                                <CardContent className="pt-0 px-6 relative">
                                     <StepComponent
                                         form={form}
                                         session={session}
@@ -297,26 +296,49 @@ export default function ApplicationForm() {
                         </div>
 
                         {/* Navigation - Fixed at bottom */}
-                        <div className="flex justify-between items-center flex-shrink-0">
+                        <div className="flex justify-between items-center flex-shrink-0 mt-6">
+                            {/* Back Button */}
                             <Button
                                 type="button"
-                                variant="outline"
+                                variant="ghost"
                                 onClick={prevStep}
                                 disabled={currentStep === 0}
-                                className="flex items-center gap-2"
+                                className="group flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted/50 disabled:opacity-30"
                             >
-                                <ChevronLeft className="w-4 h-4" />
-                                Back
+                                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center group-hover:bg-muted-foreground/10 transition-colors duration-200">
+                                    <ChevronLeft className="w-3 h-3" />
+                                </div>
+                                <span className="text-sm">Back</span>
                             </Button>
 
+                            {/* Step indicator dots */}
+                            <div className="flex items-center gap-2">
+                                {steps.map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                            index < currentStep
+                                                ? 'bg-primary'
+                                                : index === currentStep
+                                                    ? 'bg-primary/60 w-6'
+                                                    : 'bg-muted-foreground/20'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Next Button */}
                             {currentStep < steps.length - 1 && (
                                 <Button
                                     type="button"
+                                    variant="ghost"
                                     onClick={nextStep}
-                                    className="flex items-center gap-2"
+                                    className="group flex items-center gap-2 px-4 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5"
                                 >
-                                    Next
-                                    <ChevronRight className="w-4 h-4" />
+                                    <span className="text-sm">Next</span>
+                                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
+                                        <ChevronRight className="w-3 h-3" />
+                                    </div>
                                 </Button>
                             )}
                         </div>
@@ -458,7 +480,7 @@ function ActivityStep({ form, nextStep }) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14">
+                                <SelectTrigger className="h-12 md:h-14 w-full">
                                     <SelectValue placeholder="Choose your activity level" />
                                 </SelectTrigger>
                             </FormControl>
@@ -538,7 +560,7 @@ function HeardFromStep({ form, nextStep }) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14">
+                                <SelectTrigger className="h-12 md:h-14 w-full">
                                     <SelectValue placeholder="How did you find us?" />
                                 </SelectTrigger>
                             </FormControl>
