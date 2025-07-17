@@ -25,7 +25,23 @@ import { useSession } from "next-auth/react"
 import webhook_content from "./webhook_content"
 import React, { useState, useEffect } from "react"
 import { toast } from 'sonner'
-import { ChevronRight, ChevronLeft, User, Clock, Heart, MessageSquare, Users, HelpCircle, Send, Gamepad2, Shield, Wrench, Building, Compass } from 'lucide-react'
+import {
+    ChevronRight,
+    ChevronLeft,
+    User,
+    Clock,
+    Heart,
+    MessageSquare,
+    Users,
+    HelpCircle,
+    Send,
+    Gamepad2,
+    Shield,
+    Wrench,
+    Building,
+    Compass,
+    CheckIcon
+} from 'lucide-react'
 import {Session} from "next-auth";
 
 type StepType = {
@@ -206,8 +222,8 @@ export default function ApplicationForm() {
         },
         {
             id: 'other',
-            title: "One more thing...",
-            subtitle: "Any surprises you'd like to share?",
+            title: "Anything we missed?",
+            subtitle: "Tell us something fun we didn't think to ask!",
             icon: HelpCircle,
             component: OtherStep,
             field: 'other'
@@ -435,19 +451,19 @@ export default function ApplicationForm() {
                             </div>
 
                             {/* Next Button */}
-                            {currentStep < allSteps.length - 1 && (
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    onClick={nextStep}
-                                    className="group flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5"
-                                >
-                                    <span className="text-sm hidden sm:inline">Next</span>
-                                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
-                                        <ChevronRight className="w-3 h-3" />
-                                    </div>
-                                </Button>
-                            )}
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={nextStep}
+                                className={`group flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5 ${
+                                    currentStep >= allSteps.length - 1 ? 'invisible' : ''
+                                }`}
+                            >
+                                <span className="text-sm hidden sm:inline">Next</span>
+                                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
+                                    <ChevronRight className="w-3 h-3" />
+                                </div>
+                            </Button>
                         </div>
                     </form>
                 </Form>
@@ -578,14 +594,13 @@ function HeardFromStep({ form, nextStep }: StepProps) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14">
+                                <SelectTrigger className="h-12 md:h-14 w-full">
                                     <SelectValue placeholder="How did you find us?" />
                                 </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                                 <SelectItem value="friends">My Friends</SelectItem>
                                 <SelectItem value="reddit">Reddit Advertisement</SelectItem>
-                                <SelectItem value="discord">Discord Server</SelectItem>
                                 <SelectItem value="website">I found your website</SelectItem>
                                 <SelectItem value="youtube">YouTube</SelectItem>
                                 <SelectItem value="other">Other</SelectItem>
@@ -756,7 +771,7 @@ function AgeStep({ form, nextStep }: StepProps) {
                             />
                         </FormControl>
                         <FormDescription className="text-center">
-                            Just for our records - this stays confidential
+                            We care about your privacy. This stays between you and our staff members
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -786,7 +801,7 @@ function ExperienceStep({ form, nextStep }: StepProps) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14">
+                                <SelectTrigger className="h-12 md:h-14 w-full">
                                     <SelectValue placeholder="How long have you been playing?" />
                                 </SelectTrigger>
                             </FormControl>
@@ -903,7 +918,7 @@ function ActivityStep({ form, nextStep }: StepProps) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14">
+                                <SelectTrigger className="h-12 md:h-14 w-full">
                                     <SelectValue placeholder="Choose your activity level" />
                                 </SelectTrigger>
                             </FormControl>
@@ -976,89 +991,53 @@ function ConflictResolutionStep({ form, nextStep }: StepProps) {
 function SubmitStep({ form, onSubmit, submitted, session }: StepProps) {
     return (
         <div className="space-y-6">
-            <div className="text-center space-y-4">
-                <div className="mb-4">
-                    <h3 className="text-lg font-semibold mb-2">
-                        Perfect, {session?.user?.name || 'there'}! 🎉
-                    </h3>
-                    <p className="text-muted-foreground">
-                        You're all set! Ready to join the Everthorn family?
-                    </p>
+            {/* User Avatar/Welcome Section */}
+            <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <img
+                        src={session?.user?.image || ""}
+                        className="w-12 h-12 rounded-full border-2 border-white"
+                        alt="Avatar"
+                    />
+                </div>
+                <p className="text-muted-foreground">
+                    Great job, {session?.user?.name || 'there'}! 🎯
+                </p>
+            </div>
+
+            {/* Next Steps */}
+            <div className="rounded-lg p-6">
+                <h3 className="font-semibold text-lg mb-4">What happens next:</h3>
+                <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                        <span>We'll review your application</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                        <span>Quick friendly chat on Discord</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                        <span>Welcome to Everthorn!</span>
+                    </div>
                 </div>
             </div>
 
-            {/* What's Next Card */}
-            <Card className="bg-muted/50 border-none">
-                <CardContent className="pt-6">
-                    <div className="text-center mb-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <MessageSquare className="w-5 h-5 text-primary" />
-                        </div>
-                        <p className="text-sm font-medium text-muted-foreground">
-                            What happens next?
-                        </p>
-                    </div>
-
-                    <div className="space-y-4 text-left">
-                        <div className="flex gap-3 p-3 bg-background/50 rounded-lg">
-                            <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-bold text-primary">1</span>
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium mb-1">Application Review</p>
-                                <p className="text-xs text-muted-foreground">
-                                    Our team will review your application
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3 p-3 bg-background/50 rounded-lg">
-                            <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-bold text-primary">2</span>
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium mb-1">Quick Interview</p>
-                                <p className="text-xs text-muted-foreground">
-                                    We'll contact you on Discord or Reddit for a short, friendly chat
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3 p-3 bg-background/50 rounded-lg">
-                            <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-bold text-primary">3</span>
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium mb-1">Welcome to Everthorn!</p>
-                                <p className="text-xs text-muted-foreground">
-                                    Join our community and start your adventure
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/10">
-                        <p className="text-xs text-center text-muted-foreground">
-                            <span className="font-medium">Don't worry!</span> The interview is relaxed and friendly.
-                            It's just a casual conversation to get to know each other better. 😊
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <div className="text-center space-y-4">
+            {/* Submit Button */}
+            <div className="text-center">
                 <Button
                     type="submit"
                     disabled={submitted}
-                    className="w-full"
+                    className="w-full font-semibold"
                     size="lg"
                 >
                     {submitted ? 'Application Sent! 🎊' : 'Submit Application 🚀'}
                 </Button>
 
                 {!submitted && (
-                    <p className="text-xs text-muted-foreground">
-                        We'll be in touch soon to set up your interview!
+                    <p className="text-sm text-muted-foreground mt-3">
+                        We'll be in touch soon!
                     </p>
                 )}
             </div>
