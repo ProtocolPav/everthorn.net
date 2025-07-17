@@ -1,19 +1,12 @@
-import {Tooltip as LTooltip, Popup, Marker, useMap} from "react-leaflet";
+import {Tooltip as LTooltip, Marker} from "react-leaflet";
 import React from "react";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles"
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import Link from "next/link";
-import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
-import L, {latLng} from "leaflet";
+import L from "leaflet";
 import projectPin from "public/map/pins/project.png";
 import abandonedPin from "public/map/pins/abandoned.png";
 import completedPin from "public/map/pins/completed.png";
-import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
-import Image from "next/image";
-import {ClipboardText} from "@phosphor-icons/react";
-import {toast} from "sonner";
 
 const project_icon = new L.Icon({
     iconUrl: projectPin.src,
