@@ -387,88 +387,86 @@ export default function ApplicationForm() {
 
                 {/* Form Container */}
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col pb-5">
-                        <div className="flex-1 overflow-y-auto">
-                            <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
-                                {/* Animated gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-animated rounded-lg pointer-events-none animate-vibrant-gradient" />
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col pb-5">
+                        <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
+                            {/* Animated gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-animated rounded-lg pointer-events-none animate-vibrant-gradient" />
 
-                                <CardHeader className="text-center pb-4 relative">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
-                                            <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
-                                        </div>
+                            <CardHeader className="text-center pb-4 relative">
+                                <div className="flex justify-center mb-4">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
+                                        <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
                                     </div>
-                                    <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-                                        {currentStepData.title}
-                                    </CardTitle>
-                                    <p className="text-muted-foreground text-sm md:text-base">
-                                        {currentStepData.subtitle}
-                                    </p>
-                                </CardHeader>
-                                <CardContent className="pt-0 px-6 pb-6 relative">
-                                    <StepComponent
-                                        form={form}
-                                        session={session}
-                                        nextStep={nextStep}
-                                        onSubmit={onSubmit}
-                                        submitted={submitted}
-                                    />
-                                </CardContent>
-                            </Card>
-                        </div>
-
-                        {/* Navigation - Fixed at bottom */}
-                        <div className="flex justify-between items-center flex-shrink-0 mt-6">
-                            {/* Back Button */}
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                onClick={prevStep}
-                                disabled={currentStep === 0}
-                                className="group flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted/50 disabled:opacity-30"
-                            >
-                                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center group-hover:bg-muted-foreground/10 transition-colors duration-200">
-                                    <ChevronLeft className="w-3 h-3" />
                                 </div>
-                                <span className="text-sm hidden sm:inline">Back</span>
-                            </Button>
-
-                            {/* Step indicator - scrollable on mobile */}
-                            <div className="flex-1 mx-2 md:mx-4 overflow-hidden">
-                                <div className="flex items-center gap-2 overflow-x-auto py-2 justify-center">
-                                    {allSteps.map((_, index) => (
-                                        <div
-                                            key={index}
-                                            className={`w-2 h-2 rounded-full transition-all duration-300 flex-shrink-0 ${
-                                                index < currentStep
-                                                    ? 'bg-primary'
-                                                    : index === currentStep
-                                                        ? 'bg-primary/60 w-6'
-                                                        : 'bg-muted-foreground/20'
-                                            }`}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Next Button */}
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                onClick={nextStep}
-                                className={`group flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5 ${
-                                    currentStep >= allSteps.length - 1 ? 'invisible' : ''
-                                }`}
-                            >
-                                <span className="text-sm hidden sm:inline">Next</span>
-                                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
-                                    <ChevronRight className="w-3 h-3" />
-                                </div>
-                            </Button>
-                        </div>
+                                <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                                    {currentStepData.title}
+                                </CardTitle>
+                                <p className="text-muted-foreground text-sm md:text-base">
+                                    {currentStepData.subtitle}
+                                </p>
+                            </CardHeader>
+                            <CardContent className="pt-0 px-6 pb-6 relative">
+                                <StepComponent
+                                    form={form}
+                                    session={session}
+                                    nextStep={nextStep}
+                                    onSubmit={onSubmit}
+                                    submitted={submitted}
+                                />
+                            </CardContent>
+                        </Card>
                     </form>
                 </Form>
+
+                {/* Navigation - Fixed at bottom */}
+                <div className="flex justify-between items-center flex-shrink-0">
+                    {/* Back Button */}
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={prevStep}
+                        disabled={currentStep === 0}
+                        className="group flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted/50 disabled:opacity-30"
+                    >
+                        <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center group-hover:bg-muted-foreground/10 transition-colors duration-200">
+                            <ChevronLeft className="w-3 h-3" />
+                        </div>
+                        <span className="text-sm hidden sm:inline">Back</span>
+                    </Button>
+
+                    {/* Step indicator - scrollable on mobile */}
+                    <div className="flex-1 mx-2 md:mx-4 overflow-hidden">
+                        <div className="flex items-center gap-2 overflow-x-auto py-2 justify-center">
+                            {allSteps.map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`w-2 h-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                                        index < currentStep
+                                            ? 'bg-primary'
+                                            : index === currentStep
+                                                ? 'bg-primary/60 w-6'
+                                                : 'bg-muted-foreground/20'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Next Button */}
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={nextStep}
+                        className={`group flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5 ${
+                            currentStep >= allSteps.length - 1 ? 'invisible' : ''
+                        }`}
+                    >
+                        <span className="text-sm hidden sm:inline">Next</span>
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
+                            <ChevronRight className="w-3 h-3" />
+                        </div>
+                    </Button>
+                </div>
             </div>
         </div>
     )
