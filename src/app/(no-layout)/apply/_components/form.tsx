@@ -43,6 +43,7 @@ import {
     CheckIcon
 } from 'lucide-react'
 import {Session} from "next-auth";
+import {router} from "next/client";
 
 type StepType = {
     id: string;
@@ -282,6 +283,7 @@ export default function ApplicationForm() {
         if (!session?.user.everthornMemberInfo.isMember) {
             submitToDiscord(values).then()
             setSubmitted(true)
+            router.push('/apply/success')
         } else {
             console.error("Already a member. Cannot submit");
             toast.error('There was an error submitting your application.', {
