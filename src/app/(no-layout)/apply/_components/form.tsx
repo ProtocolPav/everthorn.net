@@ -1,5 +1,5 @@
 "use client"
-import { useForm } from "react-hook-form"
+import {useForm, UseFormReturn} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,6 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -21,29 +20,52 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { useSession } from "next-auth/react"
 import webhook_content from "./webhook_content"
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { toast } from 'sonner'
-import { ChevronRight, ChevronLeft, Check, User, Clock, Heart, MessageSquare, Users, HelpCircle, Send } from 'lucide-react'
+import { ChevronRight, ChevronLeft, User, Clock, Heart, MessageSquare, Users, HelpCircle, Send, Gamepad2, Shield, Wrench, Building, Compass } from 'lucide-react'
+import {Session} from "next-auth";
+
+type StepType = {
+    id: string;
+    title: string;
+    subtitle: string;
+    icon: React.ComponentType<any>;
+    component: React.ComponentType<any>;
+    field?: string;
+};
+
+interface StepProps {
+    form: UseFormReturn<any>; // Use any for now
+    nextStep: () => Promise<void>;
+    session?: Session | null;
+    onSubmit?: (values: any) => void;
+    submitted?: boolean;
+}
 
 export default function ApplicationForm() {
     const { data: session, status } = useSession()
     const [submitted, setSubmitted] = useState(false)
     const [currentStep, setCurrentStep] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
+    const [dynamicSteps, setDynamicSteps] = useState<StepType[]>([])
 
     const formSchema = z.object({
         username: z.string().optional(),
         timezone: z.string().optional(),
         age: z.coerce.number().min(1, "Please enter your age"),
-        interests: z.string().min(10, "Please tell us a bit more about your interests"),
-        hours: z.string().min(1, "Please select how active you can be"),
-        description: z.string().min(20, "Please tell us a bit more about yourself"),
+        experience: z.string().min(1, "Please select your experience level"),
+        playstyle: z.string().min(10, "Please tell us about your playstyle"),
+        building_experience: z.string().optional(),
+        redstone_experience: z.string().optional(),
+        leadership_experience: z.string().optional(),
+        community_values: z.string().min(20, "Please tell us what you value in a community"),
+        activity: z.string().min(1, "Please select your activity level"),
+        conflict_resolution: z.string().min(15, "Please share your approach to handling conflicts"),
         heard_from: z.string().optional(),
+        heard_from_details: z.string().optional(),
         other: z.string().optional()
     })
 
@@ -52,7 +74,8 @@ export default function ApplicationForm() {
         mode: 'onChange'
     })
 
-    const steps = [
+    // Base steps that are always shown
+    const baseSteps = [
         {
             id: 'welcome',
             title: "Welcome to Everthorn! 👋",
@@ -69,12 +92,93 @@ export default function ApplicationForm() {
             field: 'age'
         },
         {
-            id: 'interests',
-            title: "What sparks your creativity?",
-            subtitle: "Tell us what you love most about Minecraft",
+            id: 'experience',
+            title: "Your Minecraft journey",
+            subtitle: "How long have you been playing?",
+            icon: Gamepad2,
+            component: ExperienceStep,
+            field: 'experience'
+        },
+        {
+            id: 'playstyle',
+            title: "Show us your style",
+            subtitle: "What's your favorite way to play?",
             icon: Heart,
-            component: InterestsStep,
-            field: 'interests'
+            component: PlaystyleStep,
+            field: 'playstyle'
+        }
+    ]
+
+    // Dynamic steps based on answers
+    const getDynamicSteps = () => {
+        const values = form.getValues()
+        const steps = []
+
+        // Add building experience if they mentioned building
+        if (values.playstyle?.toLowerCase().includes('build') ||
+            values.playstyle?.toLowerCase().includes('castle') ||
+            values.playstyle?.toLowerCase().includes('architect')) {
+            steps.push({
+                id: 'building_experience',
+                title: "Tell us about your builds",
+                subtitle: "What's your building experience?",
+                icon: Building,
+                component: BuildingExperienceStep,
+                field: 'building_experience'
+            })
+        }
+
+        // Add redstone experience if they mentioned redstone/technical
+        if (values.playstyle?.toLowerCase().includes('redstone') ||
+            values.playstyle?.toLowerCase().includes('red stone') ||
+            values.playstyle?.toLowerCase().includes('technical') ||
+            values.playstyle?.toLowerCase().includes('farm') ||
+            values.playstyle?.toLowerCase().includes('contraption')) {
+            steps.push({
+                id: 'redstone_experience',
+                title: "Redstone wizardry",
+                subtitle: "Share your technical experience",
+                icon: Wrench,
+                component: RedstoneExperienceStep,
+                field: 'redstone_experience'
+            })
+        }
+
+        // Add leadership experience if they're experienced/veteran
+        if (values.experience === 'experienced' || values.experience === 'veteran') {
+            steps.push({
+                id: 'leadership_experience',
+                title: "Leadership & mentoring",
+                subtitle: "Have you helped guide other players?",
+                icon: Users,
+                component: LeadershipExperienceStep,
+                field: 'leadership_experience'
+            })
+        }
+
+        return steps
+    }
+
+    // Update dynamic steps when form values change
+    useEffect(() => {
+        const subscription = form.watch((value, { name }) => {
+            if (name === 'playstyle' || name === 'experience') {
+                const newDynamicSteps = getDynamicSteps()
+                setDynamicSteps(newDynamicSteps)
+            }
+        })
+        return () => subscription.unsubscribe()
+    }, [form])
+
+    // Final steps that are always shown
+    const finalSteps = [
+        {
+            id: 'community_values',
+            title: "Community matters",
+            subtitle: "What makes a great community?",
+            icon: Users,
+            component: CommunityValuesStep,
+            field: 'community_values'
         },
         {
             id: 'activity',
@@ -82,21 +186,21 @@ export default function ApplicationForm() {
             subtitle: "How often can you join us?",
             icon: Clock,
             component: ActivityStep,
-            field: 'hours'
+            field: 'activity'
         },
         {
-            id: 'description',
-            title: "Show us your personality",
-            subtitle: "What makes you unique?",
-            icon: MessageSquare,
-            component: DescriptionStep,
-            field: 'description'
+            id: 'conflict_resolution',
+            title: "Maturity check",
+            subtitle: "How do you handle disagreements?",
+            icon: Shield,
+            component: ConflictResolutionStep,
+            field: 'conflict_resolution'
         },
         {
             id: 'heard_from',
             title: "How did we cross paths?",
             subtitle: "We'd love to know how you found us",
-            icon: Users,
+            icon: Compass,
             component: HeardFromStep,
             field: 'heard_from'
         },
@@ -116,6 +220,9 @@ export default function ApplicationForm() {
             component: SubmitStep
         }
     ]
+
+    // Combine all steps
+    const allSteps = [...baseSteps, ...dynamicSteps, ...finalSteps]
 
     async function submitToDiscord(values: z.infer<typeof formSchema>) {
         if (process.env.NEXT_PUBLIC_APPLY_WEBHOOK_URL) {
@@ -156,16 +263,11 @@ export default function ApplicationForm() {
         const offset = offsetPart?.value ?? '';
 
         values.timezone = `${tz} (${offset})`;
-        try {
-            if (!session?.user.everthornMemberInfo.isMember) {
-                submitToDiscord(values)
-                setSubmitted(true)
-            } else {
-                throw new Error('Already a member!')
-            }
-
-        } catch (error) {
-            console.error("Form submission error", error);
+        if (!session?.user.everthornMemberInfo.isMember) {
+            submitToDiscord(values).then()
+            setSubmitted(true)
+        } else {
+            console.error("Already a member. Cannot submit");
             toast.error('There was an error submitting your application.', {
                 description: 'Please try again. If the issue persists, you can manually submit your application on Reddit to u/Skavandross'
             });
@@ -173,14 +275,14 @@ export default function ApplicationForm() {
     }
 
     const nextStep = async () => {
-        const currentStepData = steps[currentStep]
+        const currentStepData = allSteps[currentStep]
 
         if (currentStepData.field) {
-            const isValid = await form.trigger(currentStepData.field)
+            const isValid = await form.trigger(currentStepData.field as keyof z.infer<typeof formSchema>)
             if (!isValid) return
         }
 
-        if (currentStep < steps.length - 1) {
+        if (currentStep < allSteps.length - 1) {
             setIsAnimating(true)
             setTimeout(() => {
                 setCurrentStep(currentStep + 1)
@@ -199,19 +301,19 @@ export default function ApplicationForm() {
         }
     }
 
-    const progress = ((currentStep + 1) / steps.length) * 100
-    const currentStepData = steps[currentStep]
+    const progress = ((currentStep + 1) / allSteps.length) * 100
+    const currentStepData = allSteps[currentStep]
     const StepComponent = currentStepData.component
     const IconComponent = currentStepData.icon
 
     return (
-        <div className="h-screen w-screen p-4 md:p-6 overflow-x-hidden">
+        <div className="h-screen w-screen bg-gradient-to-br from-background via-background to-muted/20 p-4 md:p-6 overflow-x-hidden">
             <div className="mx-auto max-w-2xl h-full flex flex-col">
                 {/* Progress Section - Fixed at top */}
                 <div className="mb-6 md:mb-8 flex-shrink-0">
                     <div className="flex items-center justify-between mb-3">
                         <span className="text-sm text-muted-foreground">
-                            Step {currentStep + 1} of {steps.length}
+                            Step {currentStep + 1} of {allSteps.length}
                         </span>
 
                         {/* Progress motivation text */}
@@ -245,8 +347,8 @@ export default function ApplicationForm() {
 
                         {/* Milestone markers positioned at actual milestones */}
                         <div className="absolute top-0 w-full h-3 flex items-center">
-                            {steps.slice(0, -1).map((_, index) => {
-                                const stepProgress = ((index + 1) / steps.length) * 100;
+                            {allSteps.slice(0, -1).map((_, index) => {
+                                const stepProgress = ((index + 1) / allSteps.length) * 100;
                                 return (
                                     <div
                                         key={index}
@@ -270,20 +372,23 @@ export default function ApplicationForm() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col pb-5">
                         <div className="flex-1 overflow-y-auto">
                             <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
+                                {/* Animated gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-animated rounded-lg pointer-events-none animate-vibrant-gradient" />
+
                                 <CardHeader className="text-center pb-4 relative">
                                     <div className="flex justify-center mb-4">
                                         <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
                                             <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-xl md:text-2xl">
+                                    <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
                                         {currentStepData.title}
                                     </CardTitle>
                                     <p className="text-muted-foreground text-sm md:text-base">
                                         {currentStepData.subtitle}
                                     </p>
                                 </CardHeader>
-                                <CardContent className="pt-0 px-6 relative">
+                                <CardContent className="pt-0 px-6 pb-6 relative">
                                     <StepComponent
                                         form={form}
                                         session={session}
@@ -303,39 +408,41 @@ export default function ApplicationForm() {
                                 variant="ghost"
                                 onClick={prevStep}
                                 disabled={currentStep === 0}
-                                className="group flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted/50 disabled:opacity-30"
+                                className="group flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-muted/50 disabled:opacity-30"
                             >
                                 <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center group-hover:bg-muted-foreground/10 transition-colors duration-200">
                                     <ChevronLeft className="w-3 h-3" />
                                 </div>
-                                <span className="text-sm">Back</span>
+                                <span className="text-sm hidden sm:inline">Back</span>
                             </Button>
 
-                            {/* Step indicator dots */}
-                            <div className="flex items-center gap-2">
-                                {steps.map((_, index) => (
-                                    <div
-                                        key={index}
-                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                            index < currentStep
-                                                ? 'bg-primary'
-                                                : index === currentStep
-                                                    ? 'bg-primary/60 w-6'
-                                                    : 'bg-muted-foreground/20'
-                                        }`}
-                                    />
-                                ))}
+                            {/* Step indicator - scrollable on mobile */}
+                            <div className="flex-1 mx-2 md:mx-4 overflow-hidden">
+                                <div className="flex items-center gap-2 overflow-x-auto py-2 justify-center">
+                                    {allSteps.map((_, index) => (
+                                        <div
+                                            key={index}
+                                            className={`w-2 h-2 rounded-full transition-all duration-300 flex-shrink-0 ${
+                                                index < currentStep
+                                                    ? 'bg-primary'
+                                                    : index === currentStep
+                                                        ? 'bg-primary/60 w-6'
+                                                        : 'bg-muted-foreground/20'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Next Button */}
-                            {currentStep < steps.length - 1 && (
+                            {currentStep < allSteps.length - 1 && (
                                 <Button
                                     type="button"
                                     variant="ghost"
                                     onClick={nextStep}
-                                    className="group flex items-center gap-2 px-4 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5"
+                                    className="group flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary transition-all duration-200 hover:bg-primary/5"
                                 >
-                                    <span className="text-sm">Next</span>
+                                    <span className="text-sm hidden sm:inline">Next</span>
                                     <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-200">
                                         <ChevronRight className="w-3 h-3" />
                                     </div>
@@ -349,108 +456,25 @@ export default function ApplicationForm() {
     )
 }
 
-// Step Components
-function WelcomeStep({ form, session, nextStep }) {
-    return (
-        <div className="space-y-6">
-            <div className="text-center space-y-4">
-                <div className="mb-4">
-                    <h3 className="text-lg font-semibold mb-2">
-                        Hello, {session?.user?.name || 'there'}! 👋
-                    </h3>
-                    <p className="text-muted-foreground">
-                        Ready to join the Everthorn community? We're excited to learn more about you!
-                    </p>
-                </div>
-            </div>
-
-            <Card className="bg-muted/50 border-none">
-                <CardContent className="">
-                    <div className="text-center space-y-3">
-                        <div className="flex justify-center">
-                            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                                <img src={session?.user?.image || ""} className="aspect-square rounded-full" alt="Avatar"/>
-                            </div>
-                        </div>
-                        <div>
-                            <p className="font-medium text-lg">
-                                @{session?.user?.name || 'Unknown'}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                                Wow! Your profile looks stunning!
-                            </p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Button
-                type="button"
-                onClick={nextStep}
-                className="w-full"
-                size="lg"
-            >
-                Let's get started! 🚀
-            </Button>
-        </div>
-    )
-}
-
-function AgeStep({ form, nextStep }) {
+// New dynamic step components
+function BuildingExperienceStep({ form, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
             <FormField
                 control={form.control}
-                name="age"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormControl>
-                            <Input
-                                placeholder="Enter your age"
-                                type="number"
-                                className="text-center text-lg h-12 md:h-14"
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormDescription className="text-center">
-                            Don't worry, this stays between us and the staff
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
-
-            <Button
-                type="button"
-                onClick={nextStep}
-                className="w-full"
-                size="lg"
-                disabled={!form.watch('age')}
-            >
-                Continue
-            </Button>
-        </div>
-    )
-}
-
-function InterestsStep({ form, nextStep }) {
-    return (
-        <div className="space-y-6">
-            <FormField
-                control={form.control}
-                name="interests"
+                name="building_experience"
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
                             <Textarea
-                                placeholder="I love building massive castles and exploring caves! I'm also really into redstone contraptions..."
+                                placeholder="I've built several medieval castles, modern skyscrapers, and I'm currently working on a massive city project. I love using different materials and architectural styles..."
                                 className="min-h-32 resize-none"
-                                maxLength={900}
+                                maxLength={500}
                                 {...field}
                             />
                         </FormControl>
                         <FormDescription className="text-center">
-                            Building? Exploring? Redstone? We want to know what makes you tick!
+                            Tell us about your favorite builds, projects, or building styles!
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -462,75 +486,32 @@ function InterestsStep({ form, nextStep }) {
                 onClick={nextStep}
                 className="w-full"
                 size="lg"
-                disabled={!form.watch('interests') || form.watch('interests').length < 10}
+                disabled={!form.watch('building_experience') || form.watch('building_experience').length < 10}
             >
-                Sounds awesome!
+                Impressive builds!
             </Button>
         </div>
     )
 }
 
-function ActivityStep({ form, nextStep }) {
+function RedstoneExperienceStep({ form, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
             <FormField
                 control={form.control}
-                name="hours"
-                render={({ field }) => (
-                    <FormItem>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                                <SelectTrigger className="h-12 md:h-14 w-full">
-                                    <SelectValue placeholder="Choose your activity level" />
-                                </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                <SelectItem value="1 day">1 Day Each Week</SelectItem>
-                                <SelectItem value="2 Days">2 Days Each Week</SelectItem>
-                                <SelectItem value="3 Days">3 Days Each Week</SelectItem>
-                                <SelectItem value="4+ Days">4+ Days Each Week</SelectItem>
-                                <SelectItem value="Weekends">Only Weekends</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <FormDescription className="text-center">
-                            Be honest! Even if you're busy, we totally understand. Life happens!
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
-
-            <Button
-                type="button"
-                onClick={nextStep}
-                className="w-full"
-                size="lg"
-                disabled={!form.watch('hours')}
-            >
-                Perfect!
-            </Button>
-        </div>
-    )
-}
-
-function DescriptionStep({ form, nextStep }) {
-    return (
-        <div className="space-y-6">
-            <FormField
-                control={form.control}
-                name="description"
+                name="redstone_experience"
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
                             <Textarea
-                                placeholder="I'm a friendly person who loves collaborating on builds! I'm pretty good at organizing projects and I think diorite is... actually not that bad?"
+                                placeholder="I've built automatic farms, complex sorting systems, and even a working calculator! I love creating contraptions that solve problems and make life easier..."
                                 className="min-h-32 resize-none"
-                                maxLength={900}
+                                maxLength={500}
                                 {...field}
                             />
                         </FormControl>
                         <FormDescription className="text-center">
-                            Team player or lone wolf? And most importantly... thoughts on diorite?
+                            Share your coolest redstone creations or technical achievements!
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -542,15 +523,52 @@ function DescriptionStep({ form, nextStep }) {
                 onClick={nextStep}
                 className="w-full"
                 size="lg"
-                disabled={!form.watch('description') || form.watch('description').length < 20}
+                disabled={!form.watch('redstone_experience') || form.watch('redstone_experience').length < 10}
             >
-                Nice to meet you!
+                Technical genius!
             </Button>
         </div>
     )
 }
 
-function HeardFromStep({ form, nextStep }) {
+function LeadershipExperienceStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="leadership_experience"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Textarea
+                                placeholder="I love helping newer players get started! I've shown friends how to build cool redstone contraptions, helped coordinate some fun group projects, and I'm always happy to share tips and tricks I've learned..."
+                                className="min-h-32 resize-none"
+                                maxLength={500}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormDescription className="text-center">
+                            Do you enjoy helping other players? Share any times you've lent a hand! 😊
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('leadership_experience') || form.watch('leadership_experience').length < 10}
+            >
+                Love helping others! 🤝
+            </Button>
+        </div>
+    )
+}
+
+function HeardFromStep({ form, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
             <FormField
@@ -560,14 +578,16 @@ function HeardFromStep({ form, nextStep }) {
                     <FormItem>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <SelectTrigger className="h-12 md:h-14 w-full">
+                                <SelectTrigger className="h-12 md:h-14">
                                     <SelectValue placeholder="How did you find us?" />
                                 </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                                 <SelectItem value="friends">My Friends</SelectItem>
-                                <SelectItem value="recruitment_post">A Reddit Advertisement</SelectItem>
-                                <SelectItem value="website">I stumbled across this website</SelectItem>
+                                <SelectItem value="reddit">Reddit Advertisement</SelectItem>
+                                <SelectItem value="discord">Discord Server</SelectItem>
+                                <SelectItem value="website">I found your website</SelectItem>
+                                <SelectItem value="youtube">YouTube</SelectItem>
                                 <SelectItem value="other">Other</SelectItem>
                             </SelectContent>
                         </Select>
@@ -578,6 +598,37 @@ function HeardFromStep({ form, nextStep }) {
                     </FormItem>
                 )}
             />
+
+            {/* Follow-up question for specific sources */}
+            {(form.watch('heard_from') === 'friends' || form.watch('heard_from') === 'other') && (
+                <FormField
+                    control={form.control}
+                    name="heard_from_details"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <Textarea
+                                    placeholder={
+                                        form.watch('heard_from') === 'friends'
+                                            ? "Which friend told you about us? We'd love to thank them!"
+                                            : "Tell us more about how you found us!"
+                                    }
+                                    className="min-h-20 resize-none"
+                                    maxLength={200}
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormDescription className="text-center">
+                                {form.watch('heard_from') === 'friends'
+                                    ? "We love hearing about our community spreading through friends!"
+                                    : "We're always curious about new discovery paths!"
+                                }
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            )}
 
             <div className="space-y-3">
                 <Button
@@ -605,7 +656,7 @@ function HeardFromStep({ form, nextStep }) {
     )
 }
 
-function OtherStep({ form, nextStep }) {
+function OtherStep({ form, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
             <FormField
@@ -615,14 +666,14 @@ function OtherStep({ form, nextStep }) {
                     <FormItem>
                         <FormControl>
                             <Textarea
-                                placeholder="I have a pet parrot that sometimes plays Minecraft with me..."
+                                placeholder="I have a pet parrot that sometimes plays Minecraft with me, I'm learning to code, or I make Minecraft-themed art in my spare time..."
                                 className="min-h-32 resize-none"
                                 maxLength={900}
                                 {...field}
                             />
                         </FormControl>
                         <FormDescription className="text-center">
-                            Any fun facts, special skills, or random thoughts? This is totally optional!
+                            Any fun facts, special skills, hobbies, or random thoughts? This is totally optional!
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -641,22 +692,304 @@ function OtherStep({ form, nextStep }) {
     )
 }
 
-function SubmitStep({ form, onSubmit, submitted, session }) {
-    const values = form.getValues()
-
+// Step Components
+function WelcomeStep({ form, session, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
             <div className="text-center space-y-4">
-                <div className="mb-4 flex gap-2 justify-center items-center">
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold mb-2">
+                        Hello, {session?.user?.name || 'there'}! 👋
+                    </h3>
+                    <p className="text-muted-foreground">
+                        Ready to join the Everthorn community? We're excited to learn more about you!
+                    </p>
+                </div>
+            </div>
+
+            <Card className="bg-muted/50 border-none">
+                <CardContent className="pt-6">
+                    <div className="text-center space-y-3">
+                        <div className="flex justify-center">
+                            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                <img src={session?.user?.image || ""} className="aspect-square rounded-full" alt="Avatar"/>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="font-medium text-lg">
+                                @{session?.user?.name || 'Unknown'}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                                Ready to become part of our community!
+                            </p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+            >
+                Let's get started! 🚀
+            </Button>
+        </div>
+    )
+}
+
+function AgeStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Input
+                                placeholder="Enter your age"
+                                type="number"
+                                className="text-center text-lg h-12 md:h-14"
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormDescription className="text-center">
+                            Just for our records - this stays confidential
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('age')}
+            >
+                Continue
+            </Button>
+        </div>
+    )
+}
+
+function ExperienceStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="experience"
+                render={({ field }) => (
+                    <FormItem>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger className="h-12 md:h-14">
+                                    <SelectValue placeholder="How long have you been playing?" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="new">New to Minecraft (Less than 6 months)</SelectItem>
+                                <SelectItem value="beginner">Beginner (6 months - 1 year)</SelectItem>
+                                <SelectItem value="intermediate">Intermediate (1-3 years)</SelectItem>
+                                <SelectItem value="experienced">Experienced (3-5 years)</SelectItem>
+                                <SelectItem value="veteran">Veteran (5+ years)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormDescription className="text-center">
+                            Don't worry - we welcome players of all experience levels!
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('experience')}
+            >
+                Perfect!
+            </Button>
+        </div>
+    )
+}
+
+function PlaystyleStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="playstyle"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Textarea
+                                placeholder="I love building medieval castles and exploring with friends! I'm also getting into redstone automation..."
+                                className="min-h-32 resize-none"
+                                maxLength={500}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormDescription className="text-center">
+                            Building? Exploring? Redstone? PvP? Tell us what you enjoy most!
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('playstyle') || form.watch('playstyle').length < 10}
+            >
+                Sounds awesome!
+            </Button>
+        </div>
+    )
+}
+
+function CommunityValuesStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="community_values"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Textarea
+                                placeholder="I value respect, collaboration, and helping newer players. I think a good community should be welcoming and supportive..."
+                                className="min-h-32 resize-none"
+                                maxLength={500}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormDescription className="text-center">
+                            What do you think makes a gaming community great?
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('community_values') || form.watch('community_values').length < 20}
+            >
+                Great perspective!
+            </Button>
+        </div>
+    )
+}
+
+function ActivityStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="activity"
+                render={({ field }) => (
+                    <FormItem>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger className="h-12 md:h-14">
+                                    <SelectValue placeholder="Choose your activity level" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="daily">Daily (Most days of the week)</SelectItem>
+                                <SelectItem value="frequent">Frequent (3-4 times per week)</SelectItem>
+                                <SelectItem value="regular">Regular (1-2 times per week)</SelectItem>
+                                <SelectItem value="casual">Casual (Few times per month)</SelectItem>
+                                <SelectItem value="weekends">Weekends only</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormDescription className="text-center">
+                            Be honest! We understand everyone has different schedules
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('activity')}
+            >
+                Perfect!
+            </Button>
+        </div>
+    )
+}
+
+function ConflictResolutionStep({ form, nextStep }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <FormField
+                control={form.control}
+                name="conflict_resolution"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Textarea
+                                placeholder="I try to listen to both sides, stay calm, and find a solution that works for everyone. If needed, I'd ask a staff member for help..."
+                                className="min-h-32 resize-none"
+                                maxLength={400}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormDescription className="text-center">
+                            How would you handle a disagreement with another player?
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+
+            <Button
+                type="button"
+                onClick={nextStep}
+                className="w-full"
+                size="lg"
+                disabled={!form.watch('conflict_resolution') || form.watch('conflict_resolution').length < 15}
+            >
+                Great approach!
+            </Button>
+        </div>
+    )
+}
+
+function SubmitStep({ form, onSubmit, submitted, session }: StepProps) {
+    return (
+        <div className="space-y-6">
+            <div className="text-center space-y-4">
+                <div className="mb-4">
                     <h3 className="text-lg font-semibold mb-2">
                         Perfect, {session?.user?.name || 'there'}! 🎉
                     </h3>
+                    <p className="text-muted-foreground">
+                        You're all set! Ready to join the Everthorn family?
+                    </p>
                 </div>
             </div>
 
             {/* What's Next Card */}
             <Card className="bg-muted/50 border-none">
-                <CardContent>
+                <CardContent className="pt-6">
                     <div className="text-center mb-4">
                         <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
                             <MessageSquare className="w-5 h-5 text-primary" />
@@ -686,7 +1019,7 @@ function SubmitStep({ form, onSubmit, submitted, session }) {
                             <div>
                                 <p className="text-sm font-medium mb-1">Quick Interview</p>
                                 <p className="text-xs text-muted-foreground">
-                                    We'll contact you on Discord or Reddit for a short, friendly chat on our server
+                                    We'll contact you on Discord or Reddit for a short, friendly chat
                                 </p>
                             </div>
                         </div>
@@ -696,9 +1029,9 @@ function SubmitStep({ form, onSubmit, submitted, session }) {
                                 <span className="text-xs font-bold text-primary">3</span>
                             </div>
                             <div>
-                                <p className="text-sm font-medium mb-1">Get to Know Each Other</p>
+                                <p className="text-sm font-medium mb-1">Welcome to Everthorn!</p>
                                 <p className="text-xs text-muted-foreground">
-                                    A chance for us to learn more about you, and for you to learn more about us!
+                                    Join our community and start your adventure
                                 </p>
                             </div>
                         </div>
@@ -706,8 +1039,8 @@ function SubmitStep({ form, onSubmit, submitted, session }) {
 
                     <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/10">
                         <p className="text-xs text-center text-muted-foreground">
-                            <span className="font-bold">Don't worry!</span> The interview is relaxed and friendly.
-                            It's just a casual conversation to see if we're a good fit for each other. 😊
+                            <span className="font-medium">Don't worry!</span> The interview is relaxed and friendly.
+                            It's just a casual conversation to get to know each other better. 😊
                         </p>
                     </div>
                 </CardContent>
