@@ -60,7 +60,7 @@ import {
 import { cn } from "@/lib/utils";
 
 // Dynamic import for map component
-const MapComponent = dynamic(() => import("../../../(no-layout)/map/_components/map"), {
+const MapComponent = dynamic(() => import("./_components/project_map"), {
     ssr: false,
     loading: () => (
         <div className="w-full h-full flex items-center justify-center bg-muted rounded-lg">
