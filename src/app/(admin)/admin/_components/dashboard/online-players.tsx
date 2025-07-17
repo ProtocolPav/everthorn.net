@@ -20,7 +20,7 @@ import {
     MusicNote,
     Axe,
     DiscordLogo,
-    ActivityIcon,
+    Activity,
 } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 
