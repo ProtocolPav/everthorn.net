@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FloppyDiskIcon, PencilIcon, XIcon, MapTrifoldIcon } from "@phosphor-icons/react";
+import {FloppyDiskIcon, PencilIcon, XIcon, MapTrifoldIcon, GlobeIcon, MapPinIcon, PlusIcon} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import {TabsList, TabsTrigger} from "@/components/ui/tabs";
 
 const MapComponent = dynamic(() => import("./project_map"), {
     ssr: false,
@@ -37,9 +38,8 @@ export function MapCard() {
     };
 
     return (
-        <Card className="h-[60vh] min-h-[400px]">
-            {/* Header */}
-            <div className="p-4 pb-3 border-b">
+        <Card className={'p-3 h-full gap-2'}>
+            <CardHeader className={'p-0'}>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <h2 className="text-lg font-semibold">Interactive Map</h2>
@@ -70,13 +70,13 @@ export function MapCard() {
                         )}
                     </div>
                 </div>
-            </div>
+            </CardHeader>
 
             {/* Map Content */}
-            <CardContent className="p-0 h-[calc(100%-60px)]">
+            <CardContent className="p-0 h-[calc(100%)]">
                 <div className={cn(
-                    "h-full rounded-b-lg overflow-hidden transition-all duration-300",
-                    isEditMode && "ring-2 ring-orange-500/30 ring-inset"
+                    "h-full rounded-lg overflow-hidden transition-all duration-300",
+                    isEditMode && "ring-3 ring-orange-500/40"
                 )}>
                     <MapComponent />
                 </div>
