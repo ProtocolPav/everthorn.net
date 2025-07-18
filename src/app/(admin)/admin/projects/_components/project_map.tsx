@@ -5,23 +5,17 @@ import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker} f
 import L, {TileLayerOptions} from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
-
-import {usePlayers, Player} from "@/hooks/use-players";
-import {PlayerLayer} from "@/app/(no-layout)/map/_components/layers/player_layer";
 import {ProjectLayer} from "./project_layer";
+import {PinLayer} from "./pin_layer";
 
 import project from "public/map/ui/project.png";
 import player from "public/map/ui/steve.png";
 import farm from "public/map/ui/farm.png"
 import relic from "public/map/ui/relic.png"
 import shop from "public/map/ui/shop.png"
-import grass_block from 'public/map/ui/grass_block.png'
-import netherrack from 'public/map/ui/netherrack.png'
-import deepslate from 'public/map/ui/deepslate.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
 import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
-import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
@@ -38,8 +32,14 @@ class CustomTileLayer extends L.TileLayer {
 
     getTileUrl(coords: L.Coords): string {
         const { x, y: z, z: zoom } = coords;
-        return `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-        //return `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+
+        let tile_url = `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
+
+        if (process.env.NEXT_PUBLIC_DEV === 'true') {
+            tile_url = `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
+        }
+
+        return tile_url
     }
 }
 
@@ -74,17 +74,7 @@ export default function WorldMap()  {
     const all_projects: Project[] = isLoading ? [] : projects
 
     const { pins, isLoading: isLoading3, isError: isError3 } = usePins();
-    const farm_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'farm');
-    const relic_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'relic');
-    const shop_pins = (isLoading3 || isError3) ? [] : pins?.filter(pin => pin.pin_type === 'shop');
-
-    const [pintoggles, setpintoggles]: [Toggle[], Function] = React.useState([
-        {id: 'projects', name: 'Projects', image: project, visible: true, label_visible: true},
-        {id: 'players', name: 'Players', image: player, visible: true, label_visible: true},
-        {id: 'relics', name: 'Relics', image: relic, visible: true, label_visible: false},
-        {id: 'farms', name: 'Farms', image: farm, visible: false, label_visible: true},
-        {id: 'shops', name: 'Shops', image: shop, visible: false, label_visible: true},
-    ])
+    const all_pins: Pin[] = isLoading ? [] : pins
 
     return (
         <LeafletRightClickProvider>
@@ -103,9 +93,7 @@ export default function WorldMap()  {
                 <LeafletContextMenu/>
 
                 <ProjectLayer all_projects={all_projects}/>
-                <PinLayer pins={relic_pins} toggle={pintoggles[2]}/>
-                <PinLayer pins={farm_pins} toggle={pintoggles[3]}/>
-                <PinLayer pins={shop_pins} toggle={pintoggles[4]}/>
+                <PinLayer pins={all_pins}/>
 
             </MapContainer>
         </LeafletRightClickProvider>
