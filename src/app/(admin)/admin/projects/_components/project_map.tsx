@@ -20,6 +20,7 @@ import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import {Pin} from "@/types/pins";
 
 // Extend L.TileLayer for Custom Tile URL Generation
 class CustomTileLayer extends L.TileLayer {
