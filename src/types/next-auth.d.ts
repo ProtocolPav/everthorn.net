@@ -34,10 +34,6 @@ declare module "next-auth/jwt" {
     discriminator: string;
     verified: boolean;
     guildCacheExpiry: number;
-    everthornMemberInfo: {
-      isMember: boolean;
-      everthorn: string | undefined;
-      isCM: boolean;
-    };
+    everthornMemberInfo: EverthornMemberInfo;
   }
 }
