@@ -17,8 +17,6 @@ export default function MyForm() {
     }
 
     return (
-        <div className={'flex justify-center py-0'}>
-            <ApplicationForm/>
-        </div>
+        <ApplicationForm/>
     )
 }

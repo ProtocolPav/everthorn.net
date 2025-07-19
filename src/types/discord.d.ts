@@ -11,5 +11,6 @@ export interface Guild {
 export interface EverthornMemberInfo {
   isMember: boolean,
   everthorn: string | undefined,
-  isCM: boolean
+  isCM: boolean,
+  thorny_id: number
 }

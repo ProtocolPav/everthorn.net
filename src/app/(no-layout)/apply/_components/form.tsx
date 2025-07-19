@@ -325,7 +325,7 @@ export default function ApplicationForm() {
     const IconComponent = currentStepData.icon
 
     return (
-        <div className="h-screen w-screen bg-gradient-to-br from-background via-background to-muted/20 p-4 md:p-6 overflow-x-hidden">
+        <div className="h-dvh w-screen bg-gradient-to-br from-background via-background to-muted/20 p-4 md:p-6 overflow-hidden">
             <div className="mx-auto max-w-2xl h-full flex flex-col">
                 {/* Progress Section - Fixed at top */}
                 <div className="mb-6 md:mb-8 flex-shrink-0">
@@ -387,34 +387,36 @@ export default function ApplicationForm() {
 
                 {/* Form Container */}
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col pb-5">
-                        <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
-                            {/* Animated gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-animated rounded-lg pointer-events-none animate-vibrant-gradient" />
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col pb-5">
+                        <div className="flex-1">
+                            <Card className={`relative backdrop-blur-sm bg-background/80 border border-border/50 shadow-lg transition-all duration-300 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
+                                {/* Animated gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-animated rounded-lg pointer-events-none animate-vibrant-gradient" />
 
-                            <CardHeader className="text-center pb-4 relative">
-                                <div className="flex justify-center mb-4">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
-                                        <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
+                                <CardHeader className="text-center pb-4 relative">
+                                    <div className="flex justify-center mb-4">
+                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
+                                            <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
+                                        </div>
                                     </div>
-                                </div>
-                                <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-                                    {currentStepData.title}
-                                </CardTitle>
-                                <p className="text-muted-foreground text-sm md:text-base">
-                                    {currentStepData.subtitle}
-                                </p>
-                            </CardHeader>
-                            <CardContent className="pt-0 px-6 pb-6 relative">
-                                <StepComponent
-                                    form={form}
-                                    session={session}
-                                    nextStep={nextStep}
-                                    onSubmit={onSubmit}
-                                    submitted={submitted}
-                                />
-                            </CardContent>
-                        </Card>
+                                    <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                                        {currentStepData.title}
+                                    </CardTitle>
+                                    <p className="text-muted-foreground text-sm md:text-base">
+                                        {currentStepData.subtitle}
+                                    </p>
+                                </CardHeader>
+                                <CardContent className="pt-0 px-6 pb-6 relative">
+                                    <StepComponent
+                                        form={form}
+                                        session={session}
+                                        nextStep={nextStep}
+                                        onSubmit={onSubmit}
+                                        submitted={submitted}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </div>
                     </form>
                 </Form>
 
@@ -711,19 +713,8 @@ function OtherStep({ form, nextStep }: StepProps) {
 function WelcomeStep({ form, session, nextStep }: StepProps) {
     return (
         <div className="space-y-6">
-            <div className="text-center space-y-4">
-                <div className="mb-4">
-                    <h3 className="text-lg font-semibold mb-2">
-                        Hello, {session?.user?.name || 'there'}! 👋
-                    </h3>
-                    <p className="text-muted-foreground">
-                        Ready to join the Everthorn community? We're excited to learn more about you!
-                    </p>
-                </div>
-            </div>
-
-            <Card className="bg-muted/50 border-none">
-                <CardContent className="pt-6">
+            <Card className="bg-muted/50 border-none p-3">
+                <CardContent className="">
                     <div className="text-center space-y-3">
                         <div className="flex justify-center">
                             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
@@ -731,11 +722,11 @@ function WelcomeStep({ form, session, nextStep }: StepProps) {
                             </div>
                         </div>
                         <div>
-                            <p className="font-medium text-lg">
-                                @{session?.user?.name || 'Unknown'}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                                Ready to become part of our community!
+                            <h3 className="text-lg font-semibold mb-2">
+                                Hello, @{session?.user?.name || 'there'}! 👋
+                            </h3>
+                            <p className="text-muted-foreground">
+                                Ready to join the Everthorn community? We're excited to learn more about you!
                             </p>
                         </div>
                     </div>

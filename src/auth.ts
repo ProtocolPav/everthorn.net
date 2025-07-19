@@ -68,7 +68,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               everthornMemberInfo = {
                 isMember: !!everthornGuild,
                 everthorn: everthornGuild?.id,
-                isCM: false
+                isCM: false,
+                thorny_id: 0
               };
 
               if (everthornGuild) {
@@ -77,6 +78,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 if (everthornUserResponse.ok) {
                   const userData = (await everthornUserResponse.json());
                   everthornMemberInfo.isCM = userData?.role === "Community Manager" || userData?.role === "Owner";
+                  everthornMemberInfo.thorny_id = userData?.thorny_id;
                 }
               }
 
