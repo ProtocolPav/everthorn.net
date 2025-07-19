@@ -1,13 +1,11 @@
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
-import { useFieldArray, UseFormGetValues } from "react-hook-form"
-import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import { useFieldArray } from "react-hook-form"
+import {FormField, FormMessage} from "@/components/ui/form";
 import * as React from "react";
 import {Button} from "@/components/ui/button";
-import {PlusIcon} from "lucide-react";
-import {Objective} from "./objective";
-import {TreasureChest} from "@phosphor-icons/react";
+import {Plus} from "@phosphor-icons/react";
 import {Reward} from "@/app/(admin)/admin/quests/editor/_components/reward";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Input} from "@/components/ui/input";
@@ -59,7 +57,7 @@ export function Rewards({form, objective_index, objective, disable}: RewardProps
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button disabled={disable} type={'button'} variant={'ghost'} size={'icon'} className={'flex h-8 w-fit gap-1 px-1'}>
-                            <PlusIcon size={18} /> Add Reward
+                            <Plus weight={'fill'} size={18} /> Add Reward
                         </Button>
                     </PopoverTrigger>
 

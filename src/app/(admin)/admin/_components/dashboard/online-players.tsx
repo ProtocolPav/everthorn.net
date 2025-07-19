@@ -6,7 +6,22 @@ import { OnlineUser } from '@/types/admin';
 import { formatDistanceToNow } from 'date-fns';
 import { useRouter } from "next/navigation";
 import { useUsers } from '@/hooks/use-thorny-user';
-import { ArrowRight, Users, Crown, Star, GameController, Sword, Hammer, Coins, Leaf, Mountains, MusicNote, Axe, DiscordLogo, ActivityIcon } from "@phosphor-icons/react";
+import {
+    ArrowRight,
+    Users,
+    Crown,
+    Star,
+    GameController,
+    Sword,
+    Hammer,
+    Coins,
+    Leaf,
+    Mountains,
+    MusicNote,
+    Axe,
+    DiscordLogo,
+    ActivityIcon,
+} from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 
 interface OnlinePlayersListProps {

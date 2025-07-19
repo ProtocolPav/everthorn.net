@@ -22,6 +22,7 @@ export function ObjectiveReference({ form, index, objective, disable }: Objectiv
             return (
                 <VirtualizedCombobox
                     disabled={disable}
+                    className={'w-full'}
                     options={
                         form.getValues(`objectives.${index}.objective_type`) === "mine"
                             ? blocks
@@ -47,7 +48,7 @@ export function ObjectiveReference({ form, index, objective, disable }: Objectiv
             control={form.control}
             name={`objectives.${index}.objective`}
             render={({field}) => (
-                <FormItem>
+                <FormItem className={'w-full'}>
                     {getInputBox(field)}
                     <FormMessage />
                 </FormItem>
