@@ -12,26 +12,26 @@ import {Pin} from "@/types/pins";
 
 const relic_icon = new L.Icon({
     iconUrl: relicPin.src,
-    iconSize: [25.6, 41.6],
-    iconAnchor: [0, 41.6],
+    iconSize: [20.46, 33.28],  // Originally [25.6, 41.6]
+    iconAnchor: [0, 33.28],  // Originally [0, 41.6]
 });
 
 const shop_icon = new L.Icon({
     iconUrl: shopPin.src,
-    iconSize: [25.6, 41.6],
-    iconAnchor: [0, 41.6],
+    iconSize: [20.46, 33.28],  // Originally [25.6, 41.6]
+    iconAnchor: [0, 33.28],  // Originally [0, 41.6]
 });
 
 const farm_icon = new L.Icon({
     iconUrl: farmPin.src,
-    iconSize: [25.6, 41.6],
-    iconAnchor: [0, 41.6],
+    iconSize: [20.46, 33.28],  // Originally [25.6, 41.6]
+    iconAnchor: [0, 33.28],  // Originally [0, 41.6]
 });
 
 const default_icon = new L.Icon({
     iconUrl: abaondonedPin.src,
-    iconSize: [25.6, 41.6],
-    iconAnchor: [0, 41.6],
+    iconSize: [20.46, 33.28],  // Originally [25.6, 41.6]
+    iconAnchor: [0, 33.28],  // Originally [0, 41.6]
 });
 
 function get_icon(pin: Pin) {
@@ -60,7 +60,7 @@ export const PinLayer = React.memo(({pins, toggle}: {pins: Pin[], toggle: Toggle
                 position={[-pin.coordinates[2], pin.coordinates[0]]}
                 key={`${pin.id}-${toggle.label_visible}`}
             >
-                <LTooltip offset={[4, -12]} direction={'left'} permanent={toggle.label_visible}>{pin.name}</LTooltip>
+                <LTooltip offset={[4, -11]} direction={'left'} permanent={toggle.label_visible}>{pin.name}</LTooltip>
                 <Popup
                     offset={[4, -15]}
                     closeButton={false}

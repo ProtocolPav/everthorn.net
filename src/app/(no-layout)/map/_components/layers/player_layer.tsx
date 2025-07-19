@@ -3,6 +3,8 @@ import React from "react";
 import {Player} from "@/hooks/use-players"
 import L from "leaflet";
 import mapPin from "public/map/pins/steve.png";
+import mapPinNether from "public/map/pins/steve_nether.png";
+import mapPinEnd from "public/map/pins/steve_end.png";
 import { LeafletTrackingMarker } from "react-leaflet-tracking-marker";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 
@@ -21,6 +23,16 @@ const playerUndergroundIcon = new L.Icon({
     iconUrl: mapPin.src,
     iconSize: [24, 24],
     className: "grayscale contrast-125"
+});
+
+const playerNetherIcon = new L.Icon({
+    iconUrl: mapPinNether.src,
+    iconSize: [24, 24]
+});
+
+const playerEndIcon = new L.Icon({
+    iconUrl: mapPinEnd.src,
+    iconSize: [24, 24]
 });
 
 export function PlayerLayer ({players, toggle}: {players: Player[], toggle: Toggle}) {
