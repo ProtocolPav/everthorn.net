@@ -20,7 +20,7 @@ import {
     MusicNote,
     Axe,
     DiscordLogo,
-    Activity,
+    ActivityIcon,
 } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 
@@ -172,7 +172,7 @@ const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
                             {/* Session and Level Info */}
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                 <span className="flex items-center gap-1">
-                                    <Activity/>
+                                    <ActivityIcon/>
                                     {formatDistanceToNow(parseUTCTimestamp(player.session), { addSuffix: true })}
                                 </span>
                                 <span>•</span>
