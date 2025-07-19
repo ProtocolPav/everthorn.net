@@ -28,6 +28,7 @@ import {
     DiscordLogoIcon
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
+import {Project} from "@/types/projects";
 
 const projectFormSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -36,7 +37,7 @@ const projectFormSchema = z.object({
 });
 
 interface ProjectCardProps {
-    project: any;
+    project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -82,7 +83,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     };
 
     const statusConfig = getStatusConfig(project.status);
-    const userInitials = project.owner.username.substring(0, 2).toUpperCase();
 
     const handleCardClick = () => {
         setDialogOpen(true);
@@ -185,12 +185,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             </div>
                             <div className="flex items-center gap-6 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
-                                    <UserIcon size={16} />
-                                    <Avatar className="w-5 h-5">
-                                        <AvatarFallback className="text-xs">
-                                            {userInitials}
-                                        </AvatarFallback>
-                                    </Avatar>
+                                    <DiscordLogoIcon size={16} />
                                     <span>{project.owner.username}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -226,6 +221,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                             <FormLabel>Description</FormLabel>
                                             <FormControl>
                                                 <Textarea
+                                                    maxLength={300}
                                                     placeholder="Enter project description"
                                                     rows={4}
                                                     {...field}
