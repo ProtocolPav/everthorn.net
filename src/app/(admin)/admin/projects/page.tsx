@@ -22,33 +22,6 @@ export default function ProjectsMapDashboard() {
         setTitle("Projects & Map Dashboard");
     }, [setTitle]);
 
-    // Modal state
-    const [selectedProject, setSelectedProject] = useState<any>(null);
-    const [selectedPin, setSelectedPin] = useState<any>(null);
-    const [projectModalOpen, setProjectModalOpen] = useState(false);
-    const [pinModalOpen, setPinModalOpen] = useState(false);
-
-    // Handlers
-    const handleProjectClick = (project: any) => {
-        setSelectedProject(project);
-        setProjectModalOpen(true);
-    };
-
-    const handlePinClick = (pin: any) => {
-        setSelectedPin(pin);
-        setPinModalOpen(true);
-    };
-
-    const handleNewProject = () => {
-        setSelectedProject(null);
-        setProjectModalOpen(true);
-    };
-
-    const handleNewPin = () => {
-        setSelectedPin(null);
-        setPinModalOpen(true);
-    };
-
     if (projectsError || pinsError) {
         return (
             <div className="flex items-center justify-center h-96">
@@ -100,8 +73,6 @@ export default function ProjectsMapDashboard() {
                                 <ProjectsSection
                                     projects={projects}
                                     isLoading={projectsLoading}
-                                    onProjectClick={handleProjectClick}
-                                    onNewProject={handleNewProject}
                                 />
                             </TabsContent>
 
@@ -109,8 +80,6 @@ export default function ProjectsMapDashboard() {
                                 <PinsSection
                                     pins={pins}
                                     isLoading={pinsLoading}
-                                    onPinClick={handlePinClick}
-                                    onNewPin={handleNewPin}
                                 />
                             </TabsContent>
                         </Tabs>

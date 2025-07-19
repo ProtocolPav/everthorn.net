@@ -1,23 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {MagnifyingGlassIcon, PlusIcon, MapPinIcon, FunnelIcon, GlobeIcon} from "@phosphor-icons/react";
 import { PinCard } from "./pin-card";
-import {ProjectCard} from "@/app/(admin)/admin/projects/_components/project-card";
 
 interface PinsSectionProps {
     pins: any[];
     isLoading: boolean;
-    onPinClick: (pin: any) => void;
-    onNewPin: () => void;
 }
 
-export function PinsSection({ pins, isLoading, onPinClick, onNewPin }: PinsSectionProps) {
+export function PinsSection({ pins, isLoading, }: PinsSectionProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [typeFilter, setTypeFilter] = useState("all");
 
@@ -36,6 +32,10 @@ export function PinsSection({ pins, isLoading, onPinClick, onNewPin }: PinsSecti
         if (!pins) return [];
         return [...new Set(pins.map(p => p.pin_type))];
     }, [pins]);
+
+    function onNewPin() {
+
+    }
 
     return (
         <div className={'flex flex-col gap-4'}>
@@ -95,7 +95,6 @@ export function PinsSection({ pins, isLoading, onPinClick, onNewPin }: PinsSecti
                                 <PinCard
                                     key={pin.id}
                                     pin={pin}
-                                    onClick={() => onPinClick(pin)}
                                 />
                             ))}
                         </div>

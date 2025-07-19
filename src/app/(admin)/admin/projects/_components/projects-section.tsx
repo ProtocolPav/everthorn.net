@@ -11,11 +11,9 @@ import { ProjectCard } from "./project-card";
 interface ProjectsSectionProps {
     projects: any[];
     isLoading: boolean;
-    onProjectClick: (project: any) => void;
-    onNewProject: () => void;
 }
 
-export function ProjectsSection({ projects, isLoading, onProjectClick, onNewProject }: ProjectsSectionProps) {
+export function ProjectsSection({ projects, isLoading }: ProjectsSectionProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
 
@@ -29,6 +27,10 @@ export function ProjectsSection({ projects, isLoading, onProjectClick, onNewProj
             return matchesSearch && matchesStatus;
         });
     }, [projects, searchTerm, statusFilter]);
+
+    function onNewProject() {
+
+    }
 
     return (
         <div className={'flex flex-col gap-4'}>
