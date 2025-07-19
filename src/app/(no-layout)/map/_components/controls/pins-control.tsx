@@ -38,7 +38,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                         <Button
                             variant={'invisible'}
                             size={'sm'}
-                            className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (pin.visible ? 'bg-cyan-200/10' : ''))}
+                            className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (pin.visible ? 'bg-gray-500/20 dark:bg-gray-200/20' : ''))}
                             onClick={() => {update_pins(pin.id)}}
                         >
                             {pin.image ? <Image src={pin.image} alt={'pin icon'} width={24}/> : null}
@@ -48,7 +48,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                         <Button
                             variant={'invisible'}
                             size={'sm'}
-                            className={cn('flex w-9 items-center gap-2 border bg-background/30 px-1.5', (pin.label_visible ? 'bg-cyan-200/10' : ''))}
+                            className={cn('flex w-9 items-center gap-2 border bg-background/30 px-1.5', (pin.label_visible ? 'bg-gray-500/20 dark:bg-gray-200/20' : ''))}
                             onClick={() => {update_pins(pin.id, true)}}
                         >
                             {
