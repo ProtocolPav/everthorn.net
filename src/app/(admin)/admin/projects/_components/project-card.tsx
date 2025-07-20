@@ -25,7 +25,8 @@ import {
     TrashIcon,
     PencilIcon,
     CaretRightIcon,
-    DiscordLogoIcon
+    DiscordLogoIcon,
+    CheckIcon
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import {Project} from "@/types/projects";
@@ -39,6 +40,173 @@ const projectFormSchema = z.object({
 interface ProjectCardProps {
     project: Project;
 }
+
+// Create a reusable InlineEditText component first
+const InlineEditText = ({
+                            value,
+                            onChange,
+                            placeholder,
+                            className,
+                            variant = "input",
+                            rows = 3,
+                            maxLength
+                        }: {
+    value: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
+    className?: string;
+    variant?: "input" | "textarea";
+    rows?: number;
+    maxLength?: number;
+}) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempValue, setTempValue] = useState(value);
+
+    const save = () => {
+        onChange(tempValue);
+        setIsEditing(false);
+    };
+
+    const cancel = () => {
+        setTempValue(value);
+        setIsEditing(false);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Escape") {
+            cancel();
+        } else if (e.key === "Enter") {
+            // For input: Enter saves
+            // For textarea: Enter only saves with Ctrl/Cmd
+            if (variant === "input" || (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                save();
+            }
+        }
+    };
+
+    if (isEditing) {
+        return (
+            <div className="flex items-start gap-2">
+                {variant === "textarea" ? (
+                    <Textarea
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={save}
+                        placeholder={placeholder}
+                        rows={rows}
+                        maxLength={maxLength}
+                        autoFocus
+                        className={cn("flex-1", className)}
+                    />
+                ) : (
+                    <Input
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={save}
+                        placeholder={placeholder}
+                        maxLength={maxLength}
+                        autoFocus
+                        className={cn("flex-1", className)}
+                    />
+                )}
+                <div className={cn("flex gap-1", variant === "textarea" ? 'flex-col': '')}>
+                    <Button type="button" size="icon" variant="ghost" onClick={save}>
+                        <CheckIcon className="w-3 h-3 text-green-600" />
+                    </Button>
+                    <Button type="button" size="icon" variant="ghost" onClick={cancel}>
+                        <XCircleIcon className="w-3 h-3 text-red-400" />
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className={cn("group flex items-center gap-2 hover:bg-muted/20 rounded-lg px-2 py-1", className)}>
+            <div className="flex-1 cursor-pointer" onClick={() => setIsEditing(true)}>
+                {variant === "textarea" ? (
+                    <div className="min-h-[60px] whitespace-pre-wrap">
+                        {value || (
+                            <span className="text-muted-foreground italic">
+                                {placeholder || "Click to edit"}
+                            </span>
+                        )}
+                    </div>
+                ) : (
+                    <span>
+                        {value || (
+                            <span className="text-muted-foreground italic">
+                                {placeholder || "Click to edit"}
+                            </span>
+                        )}
+                    </span>
+                )}
+            </div>
+
+            <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                onClick={() => setIsEditing(true)}
+                className="mt-0.5 shrink-0"
+            >
+                <PencilIcon className="w-3 h-3 text-muted-foreground" />
+            </Button>
+        </div>
+    );
+};
+
+// Inline Status Selector
+const InlineStatusSelect = ({ value, onChange, getStatusConfig }: {
+    value: string;
+    onChange: (value: string) => void;
+    getStatusConfig: Function
+}) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const statusConfig = getStatusConfig(value); // Your existing status config function
+
+    if (isEditing) {
+        return (
+            <Select
+                value={value}
+                onValueChange={(newValue) => {
+                    onChange(newValue);
+                    setIsEditing(false);
+                }}
+                open={true}
+                onOpenChange={setIsEditing}
+            >
+                <SelectTrigger className="w-auto">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="ongoing">Ongoing</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="abandoned">Abandoned</SelectItem>
+                </SelectContent>
+            </Select>
+        );
+    }
+
+    return (
+        <Badge
+            variant="secondary"
+            className={cn(
+                "cursor-pointer hover:opacity-80 transition-opacity",
+                statusConfig.bgColor,
+                statusConfig.color
+            )}
+            onClick={() => setIsEditing(true)}
+        >
+            {value}
+            <PencilIcon className="w-3 h-3 ml-1 opacity-60" />
+        </Badge>
+    );
+};
 
 export function ProjectCard({ project }: ProjectCardProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -172,17 +340,49 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </DialogHeader>
 
                     <div className="space-y-6">
-                        {/* Project Info Header */}
-                        <div className="p-4 bg-muted/30 rounded-lg">
-                            <div className="flex items-center justify-between mb-3">
-                                <h3 className="font-semibold text-lg">{project.name}</h3>
-                                <Badge variant="secondary" className={cn(
-                                    statusConfig.bgColor,
-                                    statusConfig.color
-                                )}>
-                                    {project.status}
-                                </Badge>
+                        <div className="p-4 bg-muted/30 rounded-lg space-y-4">
+                            {/* Project Name & Status Row */}
+                            <div className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                    <Form {...form}>
+                                        <FormField
+                                            control={form.control}
+                                            name="name"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <InlineEditText
+                                                            value={field.value || ""}
+                                                            onChange={field.onChange}
+                                                            placeholder="Project name"
+                                                            className="text-lg font-semibold"
+                                                            variant="input"
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </Form>
+                                </div>
+
+                                {/* Status Badge (keep your existing InlineStatusSelect) */}
+                                <Form {...form}>
+                                    <FormField
+                                        control={form.control}
+                                        name="status"
+                                        render={({ field }) => (
+                                            <InlineStatusSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                getStatusConfig={getStatusConfig}
+                                            />
+                                        )}
+                                    />
+                                </Form>
                             </div>
+
+                            {/* Project Metadata */}
                             <div className="flex items-center gap-6 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
                                     <DiscordLogoIcon size={16} />
@@ -191,97 +391,62 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                 <div className="flex items-center gap-2">
                                     <CalendarIcon size={16} />
                                     <span>
-                                        Created {formatDistanceToNow(new Date(project.started_on), { addSuffix: true })}
-                                    </span>
+                            Created {formatDistanceToNow(new Date(project.started_on), { addSuffix: true })}
+                        </span>
                                 </div>
+                            </div>
+
+                            {/* Description */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-muted-foreground">Description</label>
+                                <Form {...form}>
+                                    <FormField
+                                        control={form.control}
+                                        name="description"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <InlineEditText
+                                                        value={field.value || ""}
+                                                        onChange={field.onChange}
+                                                        placeholder="Enter project description"
+                                                        variant="textarea"
+                                                        rows={3}
+                                                        maxLength={300}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </Form>
                             </div>
                         </div>
 
-                        {/* Form */}
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Project Name</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Enter project name" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="description"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Description</FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    maxLength={300}
-                                                    placeholder="Enter project description"
-                                                    rows={4}
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="status"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Status</FormLabel>
-                                            <Select onValueChange={field.onChange} value={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select status" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="pending">Pending</SelectItem>
-                                                    <SelectItem value="ongoing">Ongoing</SelectItem>
-                                                    <SelectItem value="completed">Completed</SelectItem>
-                                                    <SelectItem value="abandoned">Abandoned</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <div className="flex gap-3 pt-4">
-                                    <Button type="submit" className="flex-1 gap-2">
-                                        <FloppyDiskIcon size={16} />
-                                        Save Changes
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="destructive"
-                                        onClick={handleDelete}
-                                        className="gap-2"
-                                    >
-                                        <TrashIcon size={16} />
-                                        Delete
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={() => setDialogOpen(false)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </div>
-                            </form>
-                        </Form>
+                        {/* Action Buttons */}
+                        <div className="flex gap-3 pt-4 border-t">
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                onClick={handleDelete}
+                                className="gap-2"
+                            >
+                                <TrashIcon size={16} />
+                                Delete Project
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setDialogOpen(false)}
+                                className="ml-auto"
+                            >
+                                Close
+                            </Button>
+                        </div>
                     </div>
                 </DialogContent>
             </Dialog>
+
         </>
     );
 }
