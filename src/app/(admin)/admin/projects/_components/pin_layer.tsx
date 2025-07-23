@@ -49,15 +49,15 @@ function get_icon(pin: Pin) {
     }
 }
 
-export const PinLayer = React.memo(({pins}: {pins: Pin[]}) => {
+export const PinLayer = React.memo(({pins, editMode}: {pins: Pin[], editMode: boolean}) => {
     return (
         <>
         {pins.map(pin => (
             <Marker
-                draggable={true}
+                draggable={editMode}
                 icon={get_icon(pin)}
                 position={[-pin.coordinates[2], pin.coordinates[0]]}
-                key={`${pin.id}-editing`}
+                key={`${pin.id}-edit-${editMode}`}
             >
                 <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{pin.name}</LTooltip>
             </Marker>

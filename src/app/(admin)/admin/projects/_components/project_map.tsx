@@ -67,7 +67,7 @@ function CustomTileLayerComponent ({layer}: {layer: string}) {
     return null;
 }
 
-export default function WorldMap()  {
+export default function WorldMap({editMode}: { editMode: boolean})  {
     const position: [number, number] = [0, 0]; // Default map center
 
     const { projects, isLoading, isError } = useProjects();
@@ -93,8 +93,8 @@ export default function WorldMap()  {
                 <CustomTileLayerComponent layer={'overworld'}/>
                 <LeafletContextMenu/>
 
-                <ProjectLayer all_projects={all_projects}/>
-                <PinLayer pins={all_pins}/>
+                <ProjectLayer all_projects={all_projects} editMode={editMode}/>
+                <PinLayer pins={all_pins} editMode={editMode}/>
 
             </MapContainer>
         </LeafletRightClickProvider>

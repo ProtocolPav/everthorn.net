@@ -41,16 +41,18 @@ export function MapCard() {
         <Card className={'p-3 h-full gap-2'}>
             <CardHeader className={'p-0'}>
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <h2 className="text-lg font-semibold">Interactive Map</h2>
-                        {isEditMode && (
-                            <Badge className="bg-orange-500/10 text-orange-600 border-orange-500/20">
-                                Edit Mode
-                            </Badge>
-                        )}
+                    <div>
+                        <div className="flex items-center gap-3">
+                            <h2 className="text-base font-semibold">Interactive Map</h2>
+                            {isEditMode && (
+                                <Badge className="bg-orange-500/10 text-orange-600 border-orange-500/20">
+                                    Edit Mode
+                                </Badge>
+                            )}
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center text-center gap-2">
                         {!isEditMode ? (
                             <Button onClick={handleEdit} size="sm">
                                 <PencilIcon size={16} className="mr-2" />
@@ -58,13 +60,13 @@ export function MapCard() {
                             </Button>
                         ) : (
                             <>
-                                <Button onClick={handleCancel} variant="outline" size="sm">
+                                <p className={'text-xs mt-0'}>
+                                    Changes will be saved automatically.
+                                </p>
+
+                                <Button onClick={handleCancel} size="sm">
                                     <XIcon size={16} className="mr-2" />
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleSave} size="sm">
-                                    <FloppyDiskIcon size={16} className="mr-2" />
-                                    Save
+                                    Exit Edit Mode
                                 </Button>
                             </>
                         )}
@@ -78,7 +80,7 @@ export function MapCard() {
                     "h-full rounded-lg overflow-hidden transition-all duration-300",
                     isEditMode && "ring-3 ring-orange-500/40"
                 )}>
-                    <MapComponent />
+                    <MapComponent editMode={isEditMode} />
                 </div>
             </CardContent>
         </Card>
