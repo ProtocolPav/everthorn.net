@@ -111,7 +111,7 @@ export default function WorldMap()  {
         {id: 'overworld', name: 'Overworld', image: grass_block, visible: true},
         {id: 'subway', name: 'Subway (y-48)', image: deepslate, visible: false},
         {id: 'nether', name: 'Nether (y40)', image: netherrack, visible: false},
-        {id: 'end', name: 'End (Coming Soon!)', image: endstone, visible: false},
+        {id: 'the_end', name: 'End (Coming Soon!)', image: endstone, visible: false},
     ])
 
     function update_layers(id: string) {
@@ -130,7 +130,7 @@ export default function WorldMap()  {
     if (isError) {throw Error()}
     const all_projects: Project[] = isLoading ? [] : projects
 
-    const { players, isLoading: isLoading2, isError: isError2 } = usePlayers();
+    const { players, isLoading: isLoading2, isError: isError2 } = usePlayers('611008530077712395');
     const all_players: Player[] = (isLoading2 || isError2) ? [] : players
 
     const { pins, isLoading: isLoading3, isError: isError3 } = usePins();
@@ -155,11 +155,51 @@ export default function WorldMap()  {
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} online_players={players?.length} />
                 <LeafletContextMenu/>
 
-                <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>
-                <PinLayer pins={relic_pins} toggle={pintoggles[2]}/>
-                <PinLayer pins={farm_pins} toggle={pintoggles[3]}/>
-                <PinLayer pins={shop_pins} toggle={pintoggles[4]}/>
-                <PlayerLayer players={all_players} toggle={pintoggles[1]} />
+                {/* Projects */}
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'overworld'}
+                />
+
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'nether'}
+                />
+
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'the_end'}
+                />
+
+                {/* Pins */}
+                <PinLayer
+                    pins={relic_pins}
+                    toggle={pintoggles[2]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                />
+                <PinLayer
+                    pins={farm_pins}
+                    toggle={pintoggles[3]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                />
+                <PinLayer
+                    pins={shop_pins}
+                    toggle={pintoggles[4]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                />
+
+                {/* Players */}
+                <PlayerLayer
+                    players={all_players}
+                    toggle={pintoggles[1]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                />
 
             </MapContainer>
         </LeafletRightClickProvider>

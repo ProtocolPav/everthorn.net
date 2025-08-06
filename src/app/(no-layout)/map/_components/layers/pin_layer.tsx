@@ -49,12 +49,14 @@ function get_icon(pin: Pin) {
     }
 }
 
-export const PinLayer = React.memo(({pins, toggle}: {pins: Pin[], toggle: Toggle}) => {
+export const PinLayer = React.memo(({pins, toggle, currentlayer}: {pins: Pin[], toggle: Toggle, currentlayer: string}) => {
     if (!toggle.visible) return null
+
+    const filtered_pins = pins.filter(pin => pin.dimension === `minecraft:${currentlayer}`)
 
     return (
         <>
-        {pins.map(pin => (
+        {filtered_pins.map(pin => (
             <Marker
                 icon={get_icon(pin)}
                 position={[-pin.coordinates[2], pin.coordinates[0]]}

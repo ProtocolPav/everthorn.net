@@ -1,5 +1,5 @@
 import {Tooltip as LTooltip, Popup, Marker, useMap} from "react-leaflet";
-import React from "react";
+import React, {useRef} from "react";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles"
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
@@ -52,12 +52,14 @@ function createClusterCustomIcon (cluster: any ) {
     });
 }
 
-export const ProjectLayer = React.memo(({all_projects, toggle}: {all_projects: Project[], toggle: Toggle}) => {
-    if (!toggle.visible) return null
+export const ProjectLayer = React.memo(({all_projects, toggle, currentlayer, layer}: {all_projects: Project[], toggle: Toggle, currentlayer: string, layer: string}) => {
+    if (!toggle.visible || currentlayer !== layer) return null
+
+    const filtered_projects = all_projects.filter(project => project.dimension === `minecraft:${layer}`)
 
     return (
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon} chunkedLoading={true} maxClusterRadius={50}>
-            {all_projects.map(project => (
+            {filtered_projects.map(project => (
                 <Marker
                     icon={get_icon(project)}
                     position={[-project.coordinates[2], project.coordinates[0]]}
