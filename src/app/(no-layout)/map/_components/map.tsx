@@ -155,11 +155,31 @@ export default function WorldMap()  {
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} online_players={players?.length} />
                 <LeafletContextMenu/>
 
-                <ProjectLayer all_projects={all_projects} toggle={pintoggles[0]}/>
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'overworld'}
+                />
+
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'nether'}
+                />
+
+                <ProjectLayer
+                    all_projects={all_projects}
+                    toggle={pintoggles[0]}
+                    currentlayer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}
+                    layer={'the_end'}
+                />
+
                 <PinLayer pins={relic_pins} toggle={pintoggles[2]}/>
                 <PinLayer pins={farm_pins} toggle={pintoggles[3]}/>
                 <PinLayer pins={shop_pins} toggle={pintoggles[4]}/>
-                <PlayerLayer players={all_players} toggle={pintoggles[1]} layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}/>
+                <PlayerLayer players={all_players} toggle={pintoggles[1]} layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']} />
 
             </MapContainer>
         </LeafletRightClickProvider>
