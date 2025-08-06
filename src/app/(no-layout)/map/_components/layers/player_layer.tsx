@@ -58,7 +58,7 @@ function get_coordinates(player: Player, layer: string): LatLngExpression {
     return [-player.location[2], player.location[0]]
 }
 
-export function PlayerLayer ({players, toggle, layer}: {players: Player[], toggle: Toggle, layer: string}) {
+export function PlayerLayer ({players, toggle, currentlayer}: {players: Player[], toggle: Toggle, currentlayer: string}) {
     if (!toggle.visible) return null
 
     return (
@@ -68,7 +68,7 @@ export function PlayerLayer ({players, toggle, layer}: {players: Player[], toggl
                     duration={100}
                     rotationAngle={0}
                     icon={get_icon(player)}
-                    position={get_coordinates(player, layer)}
+                    position={get_coordinates(player, currentlayer)}
                     bubblingMouseEvents={true}
                     key={`${player.whitelist}-${toggle.label_visible}`}
                 >
