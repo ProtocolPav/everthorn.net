@@ -28,7 +28,7 @@ const nextConfig = {
     return [
       {
         source: '/nexuscore-api/:path*',
-        destination: 'https://api.everthorn.net/:path*'
+        destination: process.env.NEXT_PUBLIC_DEV === 'true' ? 'http://localhost:8000/api/:path*' : 'https://api.everthorn.net/:path*'
       },
       {
         source: '/amethyst/:path*',
