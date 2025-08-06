@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button} from "@/components/ui/button";
-import {MapPinArea, TextT, TextTSlash} from "@phosphor-icons/react";
+import {MapPinIcon, TextTIcon, TextTSlashIcon} from "@phosphor-icons/react";
 import {ChevronDown} from "lucide-react";
 import Image from "next/image";
 
@@ -21,7 +21,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger onClick={() => setOpen(true)} onMouseEnter={() => setOpen(true)} asChild>
                 <Button variant={'outline'} className={'flex gap-1 bg-background/30 p-2'}>
-                    <MapPinArea weight={'duotone'} size={20}/> <ChevronDown size={15}/>
+                    <MapPinIcon weight={'duotone'} size={20}/> <ChevronDown size={15}/>
                 </Button>
             </DropdownMenuTrigger>
 
@@ -38,7 +38,7 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                         <Button
                             variant={'invisible'}
                             size={'sm'}
-                            className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (pin.visible ? 'bg-cyan-200/10' : ''))}
+                            className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (pin.visible ? 'bg-gray-500/20 dark:bg-gray-200/20' : ''))}
                             onClick={() => {update_pins(pin.id)}}
                         >
                             {pin.image ? <Image src={pin.image} alt={'pin icon'} width={24}/> : null}
@@ -48,13 +48,13 @@ export const PinsControl = ({pins, update_pins}: {pins: Toggle[], update_pins: F
                         <Button
                             variant={'invisible'}
                             size={'sm'}
-                            className={cn('flex w-9 items-center gap-2 border bg-background/30 px-1.5', (pin.label_visible ? 'bg-cyan-200/10' : ''))}
+                            className={cn('flex w-9 items-center gap-2 border bg-background/30 px-1.5', (pin.label_visible ? 'bg-gray-500/20 dark:bg-gray-200/20' : ''))}
                             onClick={() => {update_pins(pin.id, true)}}
                         >
                             {
                                 pin.label_visible
-                                ? <TextT weight={'duotone'} className={'h-10 w-20'}/>
-                                : <TextTSlash weight={'duotone'} className={'h-10 w-20'}/>
+                                ? <TextTIcon weight={'duotone'} className={'h-10 w-20'}/>
+                                : <TextTSlashIcon weight={'duotone'} className={'h-10 w-20'}/>
                             }
                         </Button>
                     </div>

@@ -34,7 +34,7 @@ export default function QuestsCreator() {
         defaultValues: {
             title: "",
             description: "",
-            created_by: Number(session?.user?.id)
+            created_by: Number(session?.user?.everthornMemberInfo.thorny_id)
         }
     })
 

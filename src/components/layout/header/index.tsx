@@ -24,8 +24,7 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-sm">
       <div className="mx-5 flex h-16 items-center gap-6 sm:justify-between md:mx-10">
         <Link href="/" className="flex items-center">
-          <Image src={logo} alt={'Everthorn Logo'} width={40} height={40}/>
-          {/*<span className="inline-block from-emerald-400 to-cyan-400 font-bold hover:bg-gradient-to-r hover:bg-clip-text hover:text-transparent">{siteConfig.name}</span>*/}
+          <Image src={logo} alt={'Everthorn Logo'} className={'size-11'} />
         </Link>
 
         <Desktop/>

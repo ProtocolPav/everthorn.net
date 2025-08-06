@@ -32,7 +32,7 @@ export const LayersControl = ({layers, update_layers}: {layers: Toggle[], update
                         key={layer.id}
                         variant={'invisible'}
                         size={'sm'}
-                        className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (layer.visible ? 'bg-cyan-200/10' : ''))}
+                        className={cn('flex w-full items-center justify-start gap-2 border bg-background/30', (layer.visible ? 'bg-gray-500/20 dark:bg-gray-200/20' : ''))}
                         onClick={() => {update_layers(layer.id)}}
                     >
                         {layer.image ? <Image src={layer.image} alt={'pin icon'} width={20}/> : null}

@@ -3,5 +3,6 @@ export interface Pin {
     name: string
     coordinates: number[]
     description: string
-    pin_type: string
+    pin_type: string,
+    dimension: string
 }
