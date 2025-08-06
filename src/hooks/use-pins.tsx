@@ -13,14 +13,15 @@ export async function patchPin(pinId: number, payload: Partial<Pin>) {
     return res.json();
 }
 
-export function usePins(): {pins: Pin[], isError: any, isLoading: boolean} {
+export function usePins(): {pins: Pin[], isError: any, isLoading: boolean, mutate: Function} {
     const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());
 
-    const { data, error, isLoading } = useSWR("/nexuscore-api/v0.2/pins", fetcher);
+    const { data, error, isLoading, mutate } = useSWR("/nexuscore-api/v0.2/pins", fetcher);
 
     return {
         pins: data,
         isLoading,
-        isError: error
+        isError: error,
+        mutate
     }
 }

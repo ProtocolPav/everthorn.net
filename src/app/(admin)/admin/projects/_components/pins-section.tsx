@@ -11,9 +11,10 @@ import { PinCard } from "./pin-card";
 interface PinsSectionProps {
     pins: any[];
     isLoading: boolean;
+    mutate: Function
 }
 
-export function PinsSection({ pins, isLoading, }: PinsSectionProps) {
+export function PinsSection({ pins, isLoading, mutate }: PinsSectionProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [typeFilter, setTypeFilter] = useState("all");
 
@@ -93,6 +94,7 @@ export function PinsSection({ pins, isLoading, }: PinsSectionProps) {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pr-4">
                             {filteredPins.map((pin) => (
                                 <PinCard
+                                    mutate={mutate}
                                     key={pin.id}
                                     pin={pin}
                                 />
