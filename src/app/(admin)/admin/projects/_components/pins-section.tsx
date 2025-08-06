@@ -34,10 +34,6 @@ export function PinsSection({ pins, isLoading, mutate }: PinsSectionProps) {
         return [...new Set(pins.map(p => p.pin_type))];
     }, [pins]);
 
-    function onNewPin() {
-
-    }
-
     return (
         <div className={'flex flex-col gap-4'}>
             <div className={'flex flex-col gap-2'}>
@@ -84,10 +80,6 @@ export function PinsSection({ pins, isLoading, mutate }: PinsSectionProps) {
                         <p className="text-sm text-muted-foreground mb-4">
                             {searchTerm ? "No pins found" : "No pins yet"}
                         </p>
-                        <Button onClick={onNewPin} variant="outline" size="sm">
-                            <PlusIcon size={16} className="mr-2" />
-                            Create First Pin
-                        </Button>
                     </div>
                 ) : (
                     <ScrollArea className="h-[calc(100vh-290px)]">

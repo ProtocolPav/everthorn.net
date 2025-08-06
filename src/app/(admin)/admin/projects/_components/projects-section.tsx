@@ -29,10 +29,6 @@ export function ProjectsSection({ projects, isLoading, mutate }: ProjectsSection
         });
     }, [projects, searchTerm, statusFilter]);
 
-    function onNewProject() {
-
-    }
-
     return (
         <div className={'flex flex-col gap-4'}>
             <div className={'flex flex-col gap-2'}>
@@ -78,10 +74,6 @@ export function ProjectsSection({ projects, isLoading, mutate }: ProjectsSection
                         <p className="text-sm text-muted-foreground mb-4">
                             {searchTerm ? "No projects found" : "No projects yet"}
                         </p>
-                        <Button onClick={onNewProject} variant="outline" size="sm">
-                            <PlusIcon size={16} className="mr-2" />
-                            Create First Project
-                        </Button>
                     </div>
                 ) : (
                     <ScrollArea className="h-[calc(100vh-290px)]">

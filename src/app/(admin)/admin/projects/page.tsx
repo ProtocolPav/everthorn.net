@@ -2,20 +2,33 @@
 
 import { useState, useEffect } from "react";
 import { useProjects } from "@/hooks/use-projects";
-import { usePins } from "@/hooks/use-pins";
+import {postPin, usePins} from "@/hooks/use-pins";
 import { usePageTitle } from "@/hooks/use-context";
-import {GlobeIcon, ListBulletsIcon, ListIcon, MapPinIcon, MapTrifoldIcon, PlusIcon, XCircleIcon} from "@phosphor-icons/react";
+import {
+    CalendarIcon,
+    DiscordLogoIcon,
+    GlobeIcon,
+    ListBulletsIcon,
+    ListIcon,
+    MapPinIcon,
+    MapTrifoldIcon,
+    PlusIcon, TrashIcon,
+    XCircleIcon
+} from "@phosphor-icons/react";
 import { ProjectsSection } from "./_components/projects-section";
 import { PinsSection } from "./_components/pins-section";
 import { MapCard } from "./_components/map-card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function ProjectsMapDashboard() {
     const { setTitle } = usePageTitle();
     const { projects, isLoading: projectsLoading, isError: projectsError, mutate: mutateProject } = useProjects();
     const { pins, isLoading: pinsLoading, isError: pinsError, mutate: mutatePin } = usePins();
+
+    const [listTab, setListTab] = useState<"projects" | "pins">("projects");
 
     // Set page title
     useEffect(() => {
@@ -46,7 +59,7 @@ export default function ProjectsMapDashboard() {
 
                 <TabsContent value={'list'}>
                     <Card className={'p-3'}>
-                        <Tabs defaultValue={'projects'}>
+                        <Tabs value={listTab} onValueChange={tab => setListTab(tab as "projects" | "pins")}>
                             <CardHeader className={'p-0'}>
                                 <div className={'w-full'}>
                                     <CardTitle className="flex items-center justify-between gap-2">
@@ -61,7 +74,23 @@ export default function ProjectsMapDashboard() {
                                             </TabsTrigger>
                                         </TabsList>
 
-                                        <Button size="sm">
+                                        <Button
+                                            size="sm"
+                                            className={listTab === 'projects' ? 'hidden' : 'flex'}
+                                            onClick={async () => {
+                                                await postPin({
+                                                    name: 'New Pin',
+                                                    pin_type: 'relic',
+                                                    description: 'A new pin created by the admin.',
+                                                    coordinates: [0, 70, 0],
+                                                    dimension: 'minecraft:overworld'
+                                                })
+
+                                                toast.success('A new default pin was created. You must edit it!')
+
+                                                mutatePin()
+                                            }}
+                                        >
                                             <PlusIcon size={16} className="mr-2" />
                                             New
                                         </Button>
