@@ -11,9 +11,10 @@ import { ProjectCard } from "./project-card";
 interface ProjectsSectionProps {
     projects: any[];
     isLoading: boolean;
+    mutate: Function
 }
 
-export function ProjectsSection({ projects, isLoading }: ProjectsSectionProps) {
+export function ProjectsSection({ projects, isLoading, mutate }: ProjectsSectionProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
 
@@ -87,6 +88,7 @@ export function ProjectsSection({ projects, isLoading }: ProjectsSectionProps) {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pr-4">
                             {filteredProjects.map((project) => (
                                 <ProjectCard
+                                    mutate={mutate}
                                     key={project.project_id}
                                     project={project}
                                 />

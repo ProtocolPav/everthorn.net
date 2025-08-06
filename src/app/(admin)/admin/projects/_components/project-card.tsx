@@ -19,8 +19,6 @@ import {
     XCircleIcon,
     PauseCircleIcon,
     CalendarIcon,
-    UserIcon,
-    FloppyDiskIcon,
     TrashIcon,
     PencilIcon,
     CaretRightIcon,
@@ -29,6 +27,8 @@ import {
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import {Project} from "@/types/projects";
+import {patchProject, postStatus} from "@/hooks/use-projects";
+import {toast} from "sonner";
 
 const projectFormSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -38,6 +38,7 @@ const projectFormSchema = z.object({
 
 interface ProjectCardProps {
     project: Project;
+    mutate: Function
 }
 
 // Create a reusable InlineEditText component first
@@ -92,7 +93,6 @@ const InlineEditText = ({
                         value={tempValue}
                         onChange={(e) => setTempValue(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        onBlur={save}
                         placeholder={placeholder}
                         rows={rows}
                         maxLength={maxLength}
@@ -104,7 +104,6 @@ const InlineEditText = ({
                         value={tempValue}
                         onChange={(e) => setTempValue(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        onBlur={save}
                         placeholder={placeholder}
                         maxLength={maxLength}
                         autoFocus
@@ -207,7 +206,7 @@ const InlineStatusSelect = ({ value, onChange, getStatusConfig }: {
     );
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, mutate }: ProjectCardProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof projectFormSchema>>({
@@ -241,9 +240,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             },
             pending: {
                 icon: PauseCircleIcon,
-                color: "text-gray-600",
-                bgColor: "bg-gray-500/10",
-                dotColor: "bg-gray-400"
+                color: "text-blue-600",
+                bgColor: "bg-blue-500/10",
+                dotColor: "bg-blue-400"
             },
         };
         return configs[status as keyof typeof configs] || configs.pending;
@@ -260,14 +259,25 @@ export function ProjectCard({ project }: ProjectCardProps) {
         setDialogOpen(true);
     };
 
-    const handleSubmit = async (values: z.infer<typeof projectFormSchema>) => {
+    async function updateProjectField(updates: Partial<Project>) {
         try {
-            console.log("Updating project:", project.project_id, values);
-            setDialogOpen(false);
-        } catch (error) {
-            console.error("Project operation failed:", error);
+            await patchProject(project.project_id, updates);
+            mutate()
+            toast.success(`Updated Project "${project.name}"`)
+        } catch (err) {
+            console.error("Update failed:", err);
         }
-    };
+    }
+
+    async function updateStatus(status: string) {
+        try {
+            await postStatus(project.project_id, {status: status});
+            mutate()
+            toast.success(`Updated Project "${project.name}"`)
+        } catch (err) {
+            console.error("Update failed:", err);
+        }
+    }
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this project?")) {
@@ -352,7 +362,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                                     <FormControl>
                                                         <InlineEditText
                                                             value={field.value || ""}
-                                                            onChange={field.onChange}
+                                                            onChange={async (newValue) => {
+                                                                field.onChange(newValue);
+                                                                await updateProjectField({ name: newValue });
+                                                            }}
                                                             placeholder="Project name"
                                                             className="text-lg font-semibold"
                                                             variant="input"
@@ -373,7 +386,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                         render={({ field }) => (
                                             <InlineStatusSelect
                                                 value={field.value}
-                                                onChange={field.onChange}
+                                                onChange={async (newValue) => {
+                                                    field.onChange(newValue);
+                                                    await updateStatus(newValue);
+                                                }}
                                                 getStatusConfig={getStatusConfig}
                                             />
                                         )}
@@ -407,7 +423,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                                 <FormControl>
                                                     <InlineEditText
                                                         value={field.value || ""}
-                                                        onChange={field.onChange}
+                                                        onChange={async (newValue) => {
+                                                            field.onChange(newValue);
+                                                            await updateProjectField({ description: newValue });
+                                                        }}
                                                         placeholder="Enter project description"
                                                         variant="textarea"
                                                         rows={3}

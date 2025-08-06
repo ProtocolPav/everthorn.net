@@ -14,7 +14,7 @@ import {Button} from "@/components/ui/button";
 
 export default function ProjectsMapDashboard() {
     const { setTitle } = usePageTitle();
-    const { projects, isLoading: projectsLoading, isError: projectsError } = useProjects();
+    const { projects, isLoading: projectsLoading, isError: projectsError, mutate } = useProjects();
     const { pins, isLoading: pinsLoading, isError: pinsError } = usePins();
 
     // Set page title
@@ -71,6 +71,7 @@ export default function ProjectsMapDashboard() {
 
                             <TabsContent value={'projects'}>
                                 <ProjectsSection
+                                    mutate={mutate}
                                     projects={projects}
                                     isLoading={projectsLoading}
                                 />
