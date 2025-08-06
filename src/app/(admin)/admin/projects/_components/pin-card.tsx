@@ -45,7 +45,7 @@ const getTypeConfig = (type: string) => {
             bgColor: "bg-purple-200",
             dotColor: "bg-purple-700"
         },
-        landmark: {
+        relic: {
             icon: CalendarIcon,
             color: "text-blue-700",
             bgColor: "bg-blue-200",
