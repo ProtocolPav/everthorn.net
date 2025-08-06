@@ -8,6 +8,7 @@ import projectPin from "public/map/pins/project.png";
 import abandonedPin from "public/map/pins/abandoned.png";
 import completedPin from "public/map/pins/completed.png";
 import {toast} from "sonner";
+import {patchProject} from "@/hooks/use-projects";
 
 const project_icon = new L.Icon({
     iconUrl: projectPin.src,
@@ -56,35 +57,19 @@ export const ProjectLayer = React.memo(({all_projects, editMode}: {all_projects:
 
                 const eventHandlers = React.useMemo(
                     () => ({
-                        async dragend() { // Make it async for cleaner code
+                        async dragend() {
                             const marker = markerRef.current
-                            try {
-                                const response = await fetch(`/nexuscore-api/v0.2/projects/${project.project_id}`, {
-                                    method: "PATCH",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        coordinates: [
-                                            Math.round(marker?.getLatLng().lng || -project.coordinates[0]),
-                                            project.coordinates[1],
-                                            Math.round(marker?.getLatLng().lat || project.coordinates[2]) * -1
-                                        ],
-                                    }),
-                                })
 
-                                if (response.ok) {
-                                    project.coordinates = [
-                                        Math.round(marker?.getLatLng().lng || -project.coordinates[0]),
-                                        project.coordinates[1],
-                                        Math.round(marker?.getLatLng().lat || project.coordinates[2]) * -1
-                                    ]
-                                    toast.success(`Moved ${project.name} to ${project.coordinates[0]}, ${project.coordinates[2]}`)
-                                } else {
-                                    toast.error("Something went wrong", {
-                                        description: `${response.status}: ${response.statusText}`
-                                    })
-                                }
+                            project.coordinates = [
+                                Math.round(marker?.getLatLng().lng || -project.coordinates[0]),
+                                project.coordinates[1],
+                                Math.round(marker?.getLatLng().lat || project.coordinates[2]) * -1
+                            ]
+
+                            try {
+                                await patchProject(project.project_id, project)
+
+                                toast.success(`Moved ${project.name} to ${project.coordinates[0]}, ${project.coordinates[2]}`)
                             } catch (error) {
                                 toast.error("Network error", {
                                     description: error instanceof Error ? error.message : 'Unknown error'

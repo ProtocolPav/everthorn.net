@@ -9,6 +9,8 @@ import farmPin from "public/map/pins/farm.png";
 import abaondonedPin from "public/map/pins/abandoned.png"
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import {Pin} from "@/types/pins";
+import {toast} from "sonner";
+import {patchPin} from "@/hooks/use-pins";
 
 const relic_icon = new L.Icon({
     iconUrl: relicPin.src,
@@ -52,16 +54,47 @@ function get_icon(pin: Pin) {
 export const PinLayer = React.memo(({pins, editMode}: {pins: Pin[], editMode: boolean}) => {
     return (
         <>
-        {pins.map(pin => (
-            <Marker
-                draggable={editMode}
-                icon={get_icon(pin)}
-                position={[-pin.coordinates[2], pin.coordinates[0]]}
-                key={`${pin.id}-edit-${editMode}`}
-            >
-                <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{pin.name}</LTooltip>
-            </Marker>
-        ))}
+        {pins.map(pin => {
+            const markerRef = React.useRef<L.Marker>(null)
+
+            const eventHandlers = React.useMemo(
+                () => ({
+                    async dragend() {
+                        const marker = markerRef.current
+
+                        pin.coordinates = [
+                            Math.round(marker?.getLatLng().lng || -pin.coordinates[0]),
+                            pin.coordinates[1],
+                            Math.round(marker?.getLatLng().lat || pin.coordinates[2]) * -1
+                        ]
+
+                        try {
+                            await patchPin(pin.id, pin)
+
+                            toast.success(`Moved ${pin.name} to ${pin.coordinates[0]}, ${pin.coordinates[2]}`)
+                        } catch (error) {
+                            toast.error("Network error", {
+                                description: error instanceof Error ? error.message : 'Unknown error'
+                            })
+                        }
+                    },
+                }),
+                [pin.id, pin.coordinates, pin.name], // Add proper dependencies
+            )
+
+            return (
+                <Marker
+                    eventHandlers={eventHandlers}
+                    ref={markerRef}
+                    draggable={editMode}
+                    icon={get_icon(pin)}
+                    position={[-pin.coordinates[2], pin.coordinates[0]]}
+                    key={`${pin.id}-edit-${editMode}`}
+                >
+                    <LTooltip offset={[4, -12]} direction={'left'} permanent={true}>{pin.name}</LTooltip>
+                </Marker>
+            )
+        })}
         </>
     )
 })
