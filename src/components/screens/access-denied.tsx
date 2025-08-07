@@ -2,7 +2,7 @@ import { LockIcon, HouseIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DiscordAvatar } from "@/components/layout/header/discord-avatar";
+import { DiscordButton } from "@/components/discord/discord-button";
 
 export function AccessDeniedScreen() {
     return (
@@ -47,7 +47,7 @@ export function AccessDeniedScreen() {
                             </Button>
                         </Link>
 
-                        <DiscordAvatar />
+                        <DiscordButton />
                     </div>
                 </CardContent>
             </Card>

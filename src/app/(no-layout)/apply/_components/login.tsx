@@ -6,7 +6,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { DiscordAvatar } from "@/components/layout/header/discord-avatar"
+import { DiscordButton } from "@/components/discord/discord-button"
 import { Users, MessageCircle, Shield, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -65,7 +65,7 @@ export default function LogInPrompt() {
                         </div>
 
                         <div className="flex justify-center pt-4">
-                            <DiscordAvatar className="transform hover:scale-105 transition-transform duration-200" />
+                            <DiscordButton className="transform hover:scale-105 transition-transform duration-200" />
                         </div>
 
                         {/* Back to Home Button */}

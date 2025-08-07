@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
+import {DiscordButton} from "@/components/discord/discord-button";
 import * as React from "react";
 import {PatreonLogo, YoutubeLogo} from "@phosphor-icons/react";
 import logo from '../../../../public/everthorn.png';
@@ -34,7 +34,7 @@ export default function SiteHeader() {
         <div className="hidden flex-1 items-center justify-end md:flex">
           <nav className="flex items-center space-x-1">
 
-            <DiscordAvatar/>
+            <DiscordButton/>
 
             <TooltipProvider delayDuration={300}>
               {/* Patreon Tooltip */}

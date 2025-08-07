@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
+import {DiscordButton} from "@/components/discord/discord-button";
 import {useSession} from "next-auth/react";
 import {Separator} from "@/components/ui/separator";
 import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List, MapTrifold} from "@phosphor-icons/react";
@@ -23,7 +23,7 @@ export function Mobile() {
 
   return (
     <div className="flex flex-1 items-center justify-end space-x-3 md:hidden">
-      <DiscordAvatar />
+      <DiscordButton />
 
       <Popover open={buttonClick} onOpenChange={setButtonClick}>
         <PopoverTrigger asChild>
