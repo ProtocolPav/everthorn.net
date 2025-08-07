@@ -5,13 +5,14 @@ import React from "react";
 import {useSession} from "next-auth/react";
 import {PageTitleProvider, usePageTitle} from "@/hooks/use-context";
 import {AccessDeniedScreen} from "@/components/screens/access-denied";
+import Loader from "@/components/layout/loader";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
     const { title } = usePageTitle()
 
     if (status === "loading") {
-        return <p className={'m-auto justify-center'}>Loading...</p>
+        return <div className={'h-screen'}><Loader/></div>
     }
 
     if (
