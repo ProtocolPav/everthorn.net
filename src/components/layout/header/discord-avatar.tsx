@@ -18,8 +18,8 @@ export function DiscordAvatar({className}: {className?: string}) {
 
   if (status === "unauthenticated") {
     return (
-      <form action={signInWithDiscord}>
-        <Button type="submit" className={cn(className, "flex gap-2")}>
+      <form action={signInWithDiscord} className={'flex-1'}>
+        <Button type="submit" className={cn(className, "flex gap-2 w-full")}>
           <DiscordLogo className="size-6" weight="fill"/>
           Login
         </Button>

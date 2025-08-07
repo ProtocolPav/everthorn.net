@@ -3,8 +3,8 @@ import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sid
 import {AdminSidebar} from "@/app/(admin)/admin/_components/admin-sidebar"
 import React from "react";
 import {useSession} from "next-auth/react";
-import {NoPermission} from "@/components/no-permission";
 import {PageTitleProvider, usePageTitle} from "@/hooks/use-context";
+import {AccessDeniedScreen} from "@/components/screens/access-denied";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
@@ -18,7 +18,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         status === "unauthenticated" ||
         !session?.user?.everthornMemberInfo.isCM
     ) {
-        return <NoPermission status={status} />
+        return <AccessDeniedScreen />
     }
 
     return (
