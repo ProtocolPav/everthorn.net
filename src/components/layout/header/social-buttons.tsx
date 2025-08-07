@@ -16,7 +16,7 @@ const socialLinks = [
     {
         href: '/support',
         icon: PatreonLogoIcon,
-        tooltip: 'Feed Thorny on Patreon',
+        tooltip: 'Support Everthorn on Patreon',
         alignOffset: -40,
     },
     {

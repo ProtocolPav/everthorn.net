@@ -1,10 +1,12 @@
 "use client"
-import logo from '../../../public/everthorn.png';
-import Image from "next/image";
-import {ThemeToggle} from "@/components/theme-toggle";
-import * as React from "react";
 
-
+import Image from "next/image"
+import Link from "next/link"
+import { PatreonLogoIcon, YoutubeLogoIcon, HeartIcon } from "@phosphor-icons/react"
+import logo from '../../../public/everthorn.png'
+import { ThemeToggle } from "@/components/theme-toggle"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 export default function SiteFooter() {
     const sections = [
@@ -13,7 +15,6 @@ export default function SiteFooter() {
             links: [
                 { name: "About Us", href: "/about" },
                 { name: "Team", href: "/team" },
-                { name: "Features", href: "/features" },
                 { name: "Apply To Join", href: "/apply" },
             ],
         },
@@ -22,48 +23,121 @@ export default function SiteFooter() {
             links: [
                 { name: "Guidelines", href: "/guidelines" },
                 { name: "Wiki", href: "/wiki" },
-                { name: "Privacy", href: "/privacy" },
+                { name: "World Map", href: "/map" },
             ],
-        },
-    ];
+        }
+    ]
+
+    const connectLinks = [
+        { href: "/youtube", icon: YoutubeLogoIcon },
+    ]
 
     return (
-        <footer className={'rounded-t-xl border-t border-t-border bg-background/60 px-5 md:px-16'}>
-            <div className="mt-6 flex flex-col items-center justify-between gap-10 text-center lg:flex-row lg:text-left">
-
-                <div className="flex w-full max-w-96 shrink flex-col items-center justify-between lg:items-start">
-                    <span className="flex items-center justify-center gap-4 lg:justify-start">
-                        <Image src={logo} alt={'logo'} width={40} />
-                        <h4 className={'text-muted-foreground'}>Everthorn</h4>
-                    </span>
-                    <p className="mb-2 mt-6 text-sm text-muted-foreground">
-                        A Minecraft Bedrock Community that's been going on for 5+ years.
-                    </p>
-
-                    <ThemeToggle/>
-                </div>
-
-                <div className="mx-auto grid grid-cols-2 gap-6 lg:gap-20">
-                    {sections.map((section, sectionIdx) => (
-                        <div key={sectionIdx}>
-                            <h3 className="mb-3">{section.title}</h3>
-                            <ul className="space-y-4 text-sm text-muted-foreground">
-                                {section.links.map((link, linkIdx) => (
-                                    <li
-                                        key={linkIdx}
-                                        className="font-medium hover:text-white"
-                                    >
-                                        <a href={link.href}>{link.name}</a>
-                                    </li>
-                                ))}
-                            </ul>
+        <footer className="border-t bg-gradient-to-b from-background to-muted/30">
+            <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+                {/* Main Footer Content */}
+                <div className="grid sm:flex gap-8 justify-between">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-1">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Image src={logo} alt="Everthorn Logo" width={40} height={40} />
+                            <div>
+                                <h2 className="text-lg font-bold text-foreground">Everthorn</h2>
+                                <p className="text-xs text-muted-foreground">Together We Stand</p>
+                            </div>
                         </div>
-                    ))}
-                </div>
-            </div>
 
-            <div className="mt-10 flex flex-col justify-between gap-4 border-t text-center lg:flex-row lg:items-center lg:text-left">
-                <p className={'mb-3 text-xs'}>Together We Stand. © 2025 Everthorn. All rights reserved.</p>
+                        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                            A Minecraft Bedrock community building memories for 5+ years.
+                        </p>
+
+                        <div className="flex items-center gap-2">
+                            <ThemeToggle />
+
+                            {connectLinks.map(({ href, icon: Icon }) => (
+                                <Button key={href} asChild variant="ghost" size="icon">
+                                    <Link href={href} target="_blank" rel="noreferrer">
+                                        <Icon className="size-4" weight="fill" />
+                                    </Link>
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Navigation Links */}
+                    <div className="grid grid-cols-2 gap-20 px-20">
+                        {sections.map((section) => (
+                            <div key={section.title}>
+                                <h3 className="font-semibold text-foreground mb-3 text-sm">
+                                    {section.title}
+                                </h3>
+                                <ul className="space-y-2">
+                                    {section.links.map((link) => (
+                                        <li key={link.name}>
+                                            <Link
+                                                href={link.href}
+                                                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Support Section - Bottom always, horizontal on desktop, vertical on mobile */}
+                <div className="rounded-lg border bg-gradient-to-br from-muted/50 to-muted/80 p-6 mt-3">
+                    <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
+                        {/* Content Section */}
+                        <div className="lg:flex-1 text-center lg:text-left">
+                            <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
+                                <HeartIcon className="size-5 text-red-500" weight="fill" />
+                                <h3 className="text-lg font-semibold text-foreground">Support Everthorn</h3>
+                            </div>
+                            <div className="text-muted-foreground max-w-xl mx-auto lg:mx-0">
+                                Help keep our server running and show your support for the community. Every bit counts!
+                            </div>
+                        </div>
+
+                        {/* Button Section */}
+                        <div className="lg:flex-none">
+                            <Button asChild className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white border-0 px-8 py-3 text-base">
+                                <Link href="/support" target="_blank" rel="noreferrer">
+                                    <PatreonLogoIcon className="mr-2 size-5" weight="fill" />
+                                    Become a Patron
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <Separator className="my-6" />
+
+                {/* Bottom Section */}
+                <div className="flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+                    <div className="text-sm text-muted-foreground">
+                        © 2025 Everthorn Community. All rights reserved.
+                    </div>
+
+                    <div className="flex items-center gap-4 text-sm">
+                        <Link
+                            href="/privacy"
+                            className="text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            Privacy
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            Contact
+                        </Link>
+                    </div>
+                </div>
             </div>
         </footer>
     )
