@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
 import {SignOutIcon, PencilSimpleIcon, ChartBarIcon} from "@phosphor-icons/react";
-import {DiscordProfile} from "@/components/discord/discord-profile";
-import {LoginWithDiscord} from "@/components/discord/login-with-discord";
+import {DiscordProfile} from "@/components/layout/discord/discord-profile";
+import {LoginWithDiscord} from "@/components/layout/discord/login-with-discord";
 import Loader from "@/components/layout/loader";
 
 export function DiscordButton({className}: {className?: string}) {

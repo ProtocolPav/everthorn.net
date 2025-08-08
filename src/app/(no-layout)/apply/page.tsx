@@ -1,7 +1,7 @@
 "use client"
 import {useSession} from "next-auth/react";
-import LogInPrompt from "./_components/login";
-import ApplicationForm from "./_components/form";
+import LogInPrompt from "@/components/application_form/login";
+import ApplicationForm from "@/components/application_form/form";
 
 
 export default function MyForm() {

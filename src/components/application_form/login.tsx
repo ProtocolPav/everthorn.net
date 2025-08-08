@@ -6,7 +6,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { DiscordButton } from "@/components/discord/discord-button"
+import { DiscordButton } from "@/components/layout/discord/discord-button"
 import { Users, MessageCircle, Shield, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

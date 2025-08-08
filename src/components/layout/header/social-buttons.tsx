@@ -9,7 +9,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { DiscordButton } from "@/components/discord/discord-button"
+import { DiscordButton } from "@/components/layout/discord/discord-button"
 import { PatreonLogoIcon, YoutubeLogoIcon } from "@phosphor-icons/react"
 
 const socialLinks = [

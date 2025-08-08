@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { DiscordButton } from "@/components/discord/discord-button"
+import { DiscordButton } from "@/components/layout/discord/discord-button"
 import {
   House,
   IdentificationBadge,
