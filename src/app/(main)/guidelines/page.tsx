@@ -2,8 +2,7 @@
 import {Accordion,} from "@/components/ui/accordion"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import * as React from "react"
-import { ShieldCheck, Warning} from "@phosphor-icons/react"
-import {Card, CardHeader} from "@/components/ui/card";
+import { BookIcon, WarningIcon} from "@phosphor-icons/react"
 import ServerRules from "@/app/(main)/guidelines/_components/server";
 import DiscordRules from "@/app/(main)/guidelines/_components/discord";
 import ProjectRules from "@/app/(main)/guidelines/_components/projects";
@@ -13,22 +12,18 @@ import ServerAddons from "@/app/(main)/guidelines/_components/addons";
 
 export default function Guidelines() {
   return (
-      <section className="mx-5 grid items-center gap-6 pb-8 pt-6 md:mx-10 md:py-10 xl:mx-20">
-          <Card className={'w-full bg-background/20 bg-gradient-to-tr from-background/80 to-yellow-400/20'}>
-              <CardHeader className={'flex pb-0'}>
-                  <h1 className={'flex items-center justify-start gap-2'}>
-                      <ShieldCheck weight={'duotone'}/>
-                      Guidelines
-                  </h1>
-              </CardHeader>
-          </Card>
-
-          <Alert className="" variant={'amber'}>
-              <Warning weight={'duotone'} className="size-4"/>
-              <AlertDescription>
-                  These rules are strictly enforced. Violations may result in removal from the community.
-              </AlertDescription>
-          </Alert>
+      <section className="mx-5 grid items-center gap-6 pt-6 md:mx-10 md:pb-10 xl:mx-20">
+          <div className="grid gap-10">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-muted flex-shrink-0">
+                      <BookIcon weight={'duotone'} className="w-5 h-5 text-muted-foreground"/>
+                  </div>
+                  <div className="min-w-0">
+                      <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Guidelines</h1>
+                      <p className="text-sm text-muted-foreground">Community rules and standards</p>
+                  </div>
+              </div>
+          </div>
 
           <Accordion type="single" collapsible className="w-full space-y-2">
               <ConnectionRules/>
@@ -38,6 +33,14 @@ export default function Guidelines() {
               <EventsRules/>
               <ServerAddons/>
           </Accordion>
+
+          <div className="flex items-start gap-1.5 text-xs sm:text-sm text-muted-foreground bg-muted/20 px-2 mb-2 py-1.5 sm:px-3 sm:py-2 rounded-sm border">
+              <WarningIcon weight={'duotone'} className="size-3 sm:size-4 text-amber-500 mt-0.5 flex-shrink-0"/>
+              <span className="leading-tight">
+                <strong className="text-foreground">Note:</strong> These rules are strictly enforced.
+                Violations may result in removal from the community.
+              </span>
+          </div>
       </section>
   )
 }
