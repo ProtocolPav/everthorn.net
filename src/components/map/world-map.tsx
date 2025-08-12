@@ -1,82 +1,38 @@
 "use client";
 
 import React from "react";
-import {MapContainer, Tooltip as LTooltip, Popup, useMap, ZoomControl, Marker, Polyline} from "react-leaflet";
-import L, {LatLng, LatLngExpression, TileLayerOptions} from "leaflet";
+import {MapContainer} from "react-leaflet";
+import L from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 
 import {usePlayers, Player} from "@/hooks/use-players";
-import {PlayerLayer} from "@/app/(no-layout)/map/_components/layers/player_layer";
-import {ProjectLayer} from "@/app/(no-layout)/map/_components/layers/project_layer";
-import ControlBar from "@/app/(no-layout)/map/_components/controls";
-import {Toggle} from "../_types/toggle";
+import {PlayerLayer} from "@/components/map/layers/player_layer";
+import {ProjectLayer} from "@/components/map/layers/project_layer";
+import ControlBar from "src/components/map/controls";
+import {Toggle} from "@/types/map-toggle";
 
-import project from "public/map/ui/project.png";
-import player from "public/map/ui/steve.png";
-import farm from "public/map/ui/farm.png"
-import relic from "public/map/ui/relic.png"
-import shop from "public/map/ui/shop.png"
-import grass_block from 'public/map/ui/grass_block.png'
-import netherrack from 'public/map/ui/netherrack.png'
-import deepslate from 'public/map/ui/deepslate.png'
-import endstone from 'public/map/ui/endstone.png'
+import project from "../../../public/map/ui/project.png";
+import player from "../../../public/map/ui/steve.png";
+import farm from "../../../public/map/ui/farm.png"
+import relic from "../../../public/map/ui/relic.png"
+import shop from "../../../public/map/ui/shop.png"
+import grass_block from '../../../public/map/ui/grass_block.png'
+import netherrack from '../../../public/map/ui/netherrack.png'
+import deepslate from '../../../public/map/ui/deepslate.png'
+import endstone from '../../../public/map/ui/endstone.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
-import LeafletContextMenu from "@/app/(no-layout)/map/_components/contextmenu";
-import {PinLayer} from "@/app/(no-layout)/map/_components/layers/pin_layer";
+import LeafletContextMenu from "@/components/map/contextmenu";
+import {PinLayer} from "@/components/map/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
+import CustomTileLayerComponent from "@/components/map/tile-layer";
 
 // MAP COORDINATE SWITCHING
 // MINECRAFT COORDINATES: [X, Y, Z]
 // LEAFLET SHOULD BE A BIT DIFFERENT: [-Z, X]
-
-// Extend L.TileLayer for Custom Tile URL Generation
-class CustomTileLayer extends L.TileLayer {
-    layer: string
-
-    constructor(layer: string, options: TileLayerOptions) {
-        super("", options);
-        this.layer = layer;
-    }
-
-    getTileUrl(coords: L.Coords): string {
-        const { x, y: z, z: zoom } = coords;
-
-        let tile_url = `/amethyst/map/${this.layer}/${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/${x}/${z}`
-
-        if (process.env.NEXT_PUBLIC_DEV === 'true') {
-            tile_url = `/map/tiles/zoom.${zoom}/${Math.floor(x / 10)}/${Math.floor(z / 10)}/tile.${x}.${z}.png`
-        }
-
-        return tile_url
-    }
-}
-
-// React Component to Add Custom Tile Layer
-function CustomTileLayerComponent ({layer}: {layer: string}) {
-    const map = useMap();
-
-    React.useEffect(() => {
-        // Add the custom Tile Layer to the map
-        const customTileLayer = new CustomTileLayer(layer, {
-            maxNativeZoom: 2,
-            maxZoom: 6,
-            minZoom:-5,
-            updateInterval:10,
-            keepBuffer:50,
-        });
-        customTileLayer.addTo(map);
-
-        return () => {
-            map.removeLayer(customTileLayer);
-        };
-    }, [map, layer]);
-
-    return null;
-}
 
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center

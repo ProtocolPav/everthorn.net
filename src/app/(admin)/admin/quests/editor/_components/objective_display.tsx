@@ -5,7 +5,7 @@ import {ControllerRenderProps, UseFormReturn} from "react-hook-form";
 import {z} from "zod";
 import {formSchema} from "../_types/schema";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
-import {blocks, entities} from "@/lib/minecraft/minecraft-data";
+import {blocks, entities} from "@/lib/minecraft-data";
 import {Input} from "@/components/ui/input";
 
 interface ObjectiveProps {

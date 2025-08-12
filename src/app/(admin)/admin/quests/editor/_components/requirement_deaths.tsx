@@ -6,7 +6,7 @@ import * as React from "react";
 import {Skull, Check, ArrowUUpLeft} from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
-import {items} from "@/lib/minecraft/minecraft-data";
+import {items} from "@/lib/minecraft-data";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";

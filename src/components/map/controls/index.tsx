@@ -1,11 +1,11 @@
 import {CoordinatesControl} from "./coords-control";
 import {Card, CardContent, CardFooter} from "@/components/ui/card";
-import logo from 'public/everthorn.png';
+import logo from '../../../../public/everthorn.png';
 import Image from "next/image";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {PinsControl} from "./pins-control";
-import {Toggle} from "../../_types/toggle";
+import {Toggle} from "@/types/map-toggle";
 import {LayersControl} from "./layers-control";
 
 export default function ControlBar (

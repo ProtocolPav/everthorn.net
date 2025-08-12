@@ -3,7 +3,7 @@ import {LeafletMouseEvent} from "leaflet";
 import {Card, CardContent, CardFooter} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import React from "react";
-import {ClipboardText} from "@phosphor-icons/react";
+import {ClipboardTextIcon} from "@phosphor-icons/react";
 
 import {toast} from "sonner";
 
@@ -24,7 +24,7 @@ function ContextMenuComponent(event: LeafletMouseEvent | null) {
                             await navigator.clipboard.writeText(`${coordinates.x} 70 ${coordinates.z}`)
                             toast.info('Copied to clipboard!', {description: `${coordinates.x} 70 ${coordinates.z}`})
                         }}>
-                    <ClipboardText size={20} weight={"duotone"}/>
+                    <ClipboardTextIcon size={20} weight={"duotone"}/>
                 </Button>
             </CardContent>
         </Card>

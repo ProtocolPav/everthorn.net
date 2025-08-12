@@ -19,7 +19,7 @@ import {
     IconProps, Check
 } from "@phosphor-icons/react";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
-import {rewards} from "@/lib/minecraft/minecraft-data";
+import {rewards} from "@/lib/minecraft-data";
 import {Input} from "@/components/ui/input";
 import {PlusIcon} from "lucide-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";

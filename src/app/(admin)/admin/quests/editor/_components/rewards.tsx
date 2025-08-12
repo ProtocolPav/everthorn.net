@@ -10,7 +10,7 @@ import {Reward} from "@/app/(admin)/admin/quests/editor/_components/reward";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Input} from "@/components/ui/input";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";
-import {rewards} from "@/lib/minecraft/minecraft-data";
+import {rewards} from "@/lib/minecraft-data";
 
 interface RewardProps {
     form: UseFormReturn<z.infer<typeof formSchema>>

@@ -3,10 +3,10 @@ import React from "react";
 import {TooltipProvider} from "@/components/ui/tooltip";
 import {Button} from "@/components/ui/button";
 import L from "leaflet";
-import relicPin from "public/map/pins/relic.png";
-import shopPin from "public/map/pins/shop.png";
-import farmPin from "public/map/pins/farm.png";
-import abaondonedPin from "public/map/pins/abandoned.png"
+import relicPin from "../../../../public/map/pins/relic.png";
+import shopPin from "../../../../public/map/pins/shop.png";
+import farmPin from "../../../../public/map/pins/farm.png";
+import abaondonedPin from "../../../../public/map/pins/abandoned.png"
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import {Pin} from "@/types/pins";
 
