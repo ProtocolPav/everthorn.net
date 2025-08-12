@@ -32,7 +32,7 @@ export default function ProjectsMapDashboard() {
 
     // Set page title
     useEffect(() => {
-        setTitle("Projects & Map Dashboard");
+        setTitle("Projects & Pins (BETA)");
     }, [setTitle]);
 
     if (projectsError || pinsError) {

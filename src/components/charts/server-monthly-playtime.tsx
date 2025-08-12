@@ -116,7 +116,7 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
     };
 
     return (
-        <ResponsiveContainer className={'h-72 w-full'}>
+        <ResponsiveContainer>
             <BarChart
                 accessibilityLayer
                 data={processedData}
@@ -191,15 +191,15 @@ export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProp
                     }}
                 />
 
-                <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={4}
-                    domain={[0, 'dataMax + 259200']}
-                    allowDecimals={false}
-                    className="text-xs fill-muted-foreground"
-                    tickFormatter={formatTimeAxis}
-                />
+                {/*<YAxis*/}
+                {/*    tickLine={false}*/}
+                {/*    axisLine={false}*/}
+                {/*    tickMargin={4}*/}
+                {/*    domain={[0, 'dataMax + 259200']}*/}
+                {/*    allowDecimals={false}*/}
+                {/*    className="text-xs fill-muted-foreground"*/}
+                {/*    tickFormatter={formatTimeAxis}*/}
+                {/*/>*/}
 
                 <ChartTooltip
                     cursor={{ fill: 'var(--muted)', opacity: 0.1 }}
