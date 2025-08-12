@@ -25,7 +25,7 @@ export default function Guidelines() {
               </div>
           </div>
 
-          <Accordion type="single" collapsible className="w-full space-y-2">
+          <Accordion defaultValue={'getting-started'} type="single" collapsible className="w-full space-y-2">
               <ConnectionRules/>
               <ServerRules/>
               <ProjectRules/>

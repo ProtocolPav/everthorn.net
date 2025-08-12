@@ -11,10 +11,8 @@ export default function ServerRules() {
                     <Alert variant={'red'}>
                         <XCircleIcon weight={'duotone'} className="size-4" />
                         <AlertDescription>
-                            <div className={'flex gap-4'}>
-                                <strong className="font-semibold">Zero Tolerance</strong>
-                                <div>No griefing, stealing, or abusing any in-game exploits</div>
-                            </div>
+                            <strong className="font-semibold">Zero Tolerance</strong>
+                            <div>No griefing, stealing, or abusing any in-game exploits</div>
                         </AlertDescription>
                     </Alert>
 
@@ -37,7 +35,7 @@ export default function ServerRules() {
                             <ul className="text-sm grid gap-2 list-disc pl-4">
                                 <li>Single Nether Portal (encourages use of roads)</li>
                                 <li>Each dimension has a circular world border. The overworld's is 2000 blocks.</li>
-                                <li>The End is locked until a future event</li>
+                                <li>The End Border can be expanded by sacrificing items to the Altar</li>
                                 <li>Elytra cannot be enchanted with Mending</li>
                             </ul>
                         </div>
