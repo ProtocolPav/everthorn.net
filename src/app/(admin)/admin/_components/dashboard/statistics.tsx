@@ -1,12 +1,12 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import ServerDailyPlaytime from "@/components/charts/server-daily-playtime";
+import ServerDailyPlaytime from "@/components/features/charts/server-daily-playtime";
 import {formatPlaytime} from "@/lib/utils";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
-import ServerMonthlyPlaytime from "@/components/charts/server-monthly-playtime";
+import ServerMonthlyPlaytime from "@/components/features/charts/server-monthly-playtime";
 import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown, Calendar, Users, Info} from "@phosphor-icons/react";
 import {Badge} from "@/components/ui/badge";
-import ServerWeeklyPlaytime from "@/components/charts/server-weekly-playtime";
-import OnlinePlayersChart from "@/components/charts/online-players";
+import ServerWeeklyPlaytime from "@/components/features/charts/server-weekly-playtime";
+import OnlinePlayersChart from "@/components/features/charts/online-players";
 import {Activity} from "lucide-react";
 import OnlinePlayersList from "@/app/(admin)/admin/_components/dashboard/online-players";
 import {Alert, AlertDescription} from "@/components/ui/alert";

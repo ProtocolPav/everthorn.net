@@ -7,9 +7,9 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Project} from "@/types/projects";
 import L from "leaflet";
-import projectPin from "../../../../public/map/pins/project.png";
-import abandonedPin from "../../../../public/map/pins/abandoned.png";
-import completedPin from "../../../../public/map/pins/completed.png";
+import projectPin from "../../../../../public/map/pins/project.png";
+import abandonedPin from "../../../../../public/map/pins/abandoned.png";
+import completedPin from "../../../../../public/map/pins/completed.png";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 import {toast} from "sonner";
 

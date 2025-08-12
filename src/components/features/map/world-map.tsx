@@ -7,28 +7,28 @@ import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
 
 import {usePlayers, Player} from "@/hooks/use-players";
-import {PlayerLayer} from "@/components/map/layers/player_layer";
-import {ProjectLayer} from "@/components/map/layers/project_layer";
-import ControlBar from "src/components/map/controls";
+import {PlayerLayer} from "@/components/features/map/layers/player_layer";
+import {ProjectLayer} from "@/components/features/map/layers/project_layer";
+import ControlBar from "@/components/features/map/controls";
 import {Toggle} from "@/types/map-toggle";
 
-import project from "../../../public/map/ui/project.png";
-import player from "../../../public/map/ui/steve.png";
-import farm from "../../../public/map/ui/farm.png"
-import relic from "../../../public/map/ui/relic.png"
-import shop from "../../../public/map/ui/shop.png"
-import grass_block from '../../../public/map/ui/grass_block.png'
-import netherrack from '../../../public/map/ui/netherrack.png'
-import deepslate from '../../../public/map/ui/deepslate.png'
-import endstone from '../../../public/map/ui/endstone.png'
+import project from "../../../../public/map/ui/project.png";
+import player from "../../../../public/map/ui/steve.png";
+import farm from "../../../../public/map/ui/farm.png"
+import relic from "../../../../public/map/ui/relic.png"
+import shop from "../../../../public/map/ui/shop.png"
+import grass_block from '../../../../public/map/ui/grass_block.png'
+import netherrack from '../../../../public/map/ui/netherrack.png'
+import deepslate from '../../../../public/map/ui/deepslate.png'
+import endstone from '../../../../public/map/ui/endstone.png'
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
-import LeafletContextMenu from "@/components/map/contextmenu";
-import {PinLayer} from "@/components/map/layers/pin_layer";
+import LeafletContextMenu from "@/components/features/map/contextmenu";
+import {PinLayer} from "@/components/features/map/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
-import CustomTileLayerComponent from "@/components/map/tile-layer";
+import CustomTileLayerComponent from "@/components/features/map/tile-layer";
 
 // MAP COORDINATE SWITCHING
 // MINECRAFT COORDINATES: [X, Y, Z]

@@ -15,7 +15,7 @@ import relic from "public/map/ui/relic.png"
 import shop from "public/map/ui/shop.png"
 
 import {LeafletRightClickProvider} from "react-leaflet-rightclick";
-import LeafletContextMenu from "@/components/map/contextmenu";
+import LeafletContextMenu from "@/components/features/map/contextmenu";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'

@@ -44,17 +44,17 @@ import {
 } from 'lucide-react'
 import {Session} from "next-auth";
 import {router} from "next/client";
-import {WelcomeStep} from "@/components/application_form/steps/welcome";
+import {WelcomeStep} from "@/components/features/application_form/steps/welcome";
 import {StepType} from "@/types/application-step";
-import {AgeStep} from "@/components/application_form/steps/age";
-import {ExperienceStep, LeadershipExperienceStep} from "@/components/application_form/steps/experience";
-import {BuildingExperienceStep, PlaystyleStep, RedstoneExperienceStep} from "@/components/application_form/steps/playstyle";
-import {CommunityValuesStep} from "@/components/application_form/steps/community-values";
-import {ActivityStep} from "@/components/application_form/steps/activity";
-import {ConflictResolutionStep} from "@/components/application_form/steps/conflict-resolution";
-import {HeardFromStep} from "@/components/application_form/steps/heard-from";
-import {OtherStep} from "@/components/application_form/steps/other";
-import {SubmitStep} from "@/components/application_form/steps/submit";
+import {AgeStep} from "@/components/features/application_form/steps/age";
+import {ExperienceStep, LeadershipExperienceStep} from "@/components/features/application_form/steps/experience";
+import {BuildingExperienceStep, PlaystyleStep, RedstoneExperienceStep} from "@/components/features/application_form/steps/playstyle";
+import {CommunityValuesStep} from "@/components/features/application_form/steps/community-values";
+import {ActivityStep} from "@/components/features/application_form/steps/activity";
+import {ConflictResolutionStep} from "@/components/features/application_form/steps/conflict-resolution";
+import {HeardFromStep} from "@/components/features/application_form/steps/heard-from";
+import {OtherStep} from "@/components/features/application_form/steps/other";
+import {SubmitStep} from "@/components/features/application_form/steps/submit";
 
 export default function ApplicationForm() {
     const { data: session, status } = useSession()

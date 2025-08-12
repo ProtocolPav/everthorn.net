@@ -2,9 +2,9 @@ import {Tooltip} from "react-leaflet";
 import React from "react";
 import {Player} from "@/hooks/use-players"
 import L, {LatLngExpression} from "leaflet";
-import mapPin from "../../../../public/map/pins/steve.png";
-import mapPinNether from "../../../../public/map/pins/steve_nether.png";
-import mapPinEnd from "../../../../public/map/pins/steve_end.png";
+import mapPin from "../../../../../public/map/pins/steve.png";
+import mapPinNether from "../../../../../public/map/pins/steve_nether.png";
+import mapPinEnd from "../../../../../public/map/pins/steve_end.png";
 import { LeafletTrackingMarker } from "react-leaflet-tracking-marker";
 import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
 
