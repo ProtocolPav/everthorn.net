@@ -10,34 +10,34 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator"
 import { DiscordButton } from "@/components/layout/discord/discord-button"
 import {
-  House,
-  IdentificationBadge,
-  NewspaperClipping,
-  PatreonLogo,
-  ShieldCheck,
-  YoutubeLogo,
-  List,
-  MapTrifold
+  HouseIcon,
+  IdentificationBadgeIcon,
+  NewspaperClippingIcon,
+  PatreonLogoIcon,
+  ShieldCheckIcon,
+  YoutubeLogoIcon,
+  ListIcon,
+  MapTrifoldIcon
 } from "@phosphor-icons/react"
 
 const navigationItems = [
-  { href: '/', icon: House, label: 'Home' },
-  { href: '/guidelines', icon: ShieldCheck, label: 'Guidelines' },
-  { href: '/map', icon: MapTrifold, label: 'World Map' },
-  { href: '/wiki', icon: NewspaperClipping, label: 'Wiki' },
+  { href: '/', icon: HouseIcon, label: 'Home' },
+  { href: '/guidelines', icon: ShieldCheckIcon, label: 'Guidelines' },
+  { href: '/map', icon: MapTrifoldIcon, label: 'World Map' },
+  { href: '/wiki', icon: NewspaperClippingIcon, label: 'Wiki' },
 ]
 
 const socialButtons = [
   {
     href: '/support',
-    icon: PatreonLogo,
+    icon: PatreonLogoIcon,
     label: 'Feed Thorny',
     className: 'bg-gradient-to-bl from-transparent to-lime-700/40',
     showLabel: true,
   },
   {
     href: '/youtube',
-    icon: YoutubeLogo,
+    icon: YoutubeLogoIcon,
     label: 'YouTube',
     size: 'icon' as const,
     showLabel: false,
@@ -53,12 +53,14 @@ export function Mobile() {
 
   return (
       <div className="flex flex-1 items-center justify-end space-x-3 md:hidden">
-        <DiscordButton />
+        <div className={'flex'}>
+          <DiscordButton />
+        </div>
 
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="icon">
-              <List className="size-6" />
+            <Button variant="ghost" size="icon">
+              <ListIcon />
             </Button>
           </PopoverTrigger>
 
@@ -86,7 +88,7 @@ export function Mobile() {
                         variant="outline"
                         onClick={closePopover}
                     >
-                      <IdentificationBadge className="size-6" weight="fill" />
+                      <IdentificationBadgeIcon className="size-6" weight="fill" />
                       <div className="ms-2">Admin</div>
                     </Button>
                   </Link>

@@ -1,6 +1,6 @@
 import GuidelineItem from "./guideline-item";
 import {Alert, AlertDescription} from "@/components/ui/alert";
-import {XCircle, Heart, Wrench, Globe} from "@phosphor-icons/react";
+import {XCircleIcon, HeartIcon, WrenchIcon, GlobeIcon} from "@phosphor-icons/react";
 import * as React from "react";
 
 export default function ServerRules() {
@@ -9,15 +9,17 @@ export default function ServerRules() {
             <div className="grid gap-6">
                 <div className="grid gap-4">
                     <Alert variant={'red'}>
-                        <XCircle weight={'duotone'} className="size-4" />
+                        <XCircleIcon weight={'duotone'} className="size-4" />
                         <AlertDescription>
-                            <div className="font-semibold mb-2">Zero Tolerance</div>
-                             No griefing, stealing, or abusing any in-game exploits
+                            <div className={'flex gap-4'}>
+                                <strong className="font-semibold">Zero Tolerance</strong>
+                                <div>No griefing, stealing, or abusing any in-game exploits</div>
+                            </div>
                         </AlertDescription>
                     </Alert>
 
                     <div className="flex items-start gap-3">
-                        <Heart weight={'duotone'} className="size-5 text-fuchsia-600 mt-0.5 flex-shrink-0" />
+                        <HeartIcon weight={'duotone'} className="size-5 text-fuchsia-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Be Good</h5>
                             <p className="text-sm">
@@ -28,7 +30,7 @@ export default function ServerRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <Globe weight={'duotone'} className="size-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                        <GlobeIcon weight={'duotone'} className="size-5 text-orange-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Natural Progression</h5>
                             <p className="text-sm mb-2">These limitations create a balanced, collaborative experience enforced by in-game systems:</p>
@@ -42,7 +44,7 @@ export default function ServerRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <Wrench weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <WrenchIcon weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Farm Guidelines</h5>
                             <p className="text-sm mb-2">When building redstone farms, please follow these guidelines:</p>
@@ -55,7 +57,7 @@ export default function ServerRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <XCircle weight={'duotone'} className="size-5 text-red-600 mt-0.5 flex-shrink-0" />
+                        <XCircleIcon weight={'duotone'} className="size-5 text-red-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Prohibited Farms</h5>
                             <p className="text-sm mb-2">To ensure a balanced and lag-free experience, these farms are not allowed:</p>

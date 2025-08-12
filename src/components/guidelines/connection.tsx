@@ -1,5 +1,5 @@
 import GuidelineItem from "./guideline-item";
-import {GameController, Users, ListChecks} from "@phosphor-icons/react";
+import {GameControllerIcon, UsersIcon, ListChecksIcon} from "@phosphor-icons/react";
 import {Badge} from "@/components/ui/badge";
 import * as React from "react";
 
@@ -9,7 +9,7 @@ export default function ConnectionRules() {
             <div className="grid gap-6">
                 <div className="grid gap-4">
                     <div className="flex items-start gap-3">
-                        <ListChecks weight={'duotone'} className="size-5 text-lime-600 mt-0.5 flex-shrink-0" />
+                        <ListChecksIcon weight={'duotone'} className="size-5 text-lime-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>First Steps</h5>
                             <p className="text-sm mb-3 md:max-w-4/6">
@@ -21,7 +21,7 @@ export default function ConnectionRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <Users weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <UsersIcon weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Getting Whitelisted</h5>
                             <p className="text-sm mb-3">Once you read the rules, you should probably get whitelisted:</p>
@@ -34,7 +34,7 @@ export default function ConnectionRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <GameController weight={'duotone'} className="size-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                        <GameControllerIcon weight={'duotone'} className="size-5 text-purple-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Connecting To The Server</h5>
                             <p className="text-sm mb-3">Now that you're whitelisted, here's how to connect:</p>

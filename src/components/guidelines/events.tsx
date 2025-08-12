@@ -1,6 +1,6 @@
 import GuidelineItem from "./guideline-item";
 import {Alert, AlertDescription} from "@/components/ui/alert";
-import {Info, CheckCircle, Clock, ShoppingBag, Trophy, FinnTheHuman, BoundingBox} from "@phosphor-icons/react";
+import {InfoIcon, ShoppingBagIcon, TrophyIcon, FinnTheHumanIcon} from "@phosphor-icons/react";
 import * as React from "react";
 import {Badge} from "@/components/ui/badge";
 
@@ -10,7 +10,7 @@ export default function EventsRules() {
             <div className="grid gap-6">
                 <div className="grid gap-4">
                     <div className="flex items-start gap-3">
-                        <FinnTheHuman weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <FinnTheHumanIcon weight={'duotone'} className="size-5 text-blue-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Events</h5>
                             <p className="text-sm mb-2">Join community events with exciting activities:</p>
@@ -23,7 +23,7 @@ export default function EventsRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <Trophy weight={'duotone'} className="size-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                        <TrophyIcon weight={'duotone'} className="size-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Weekly Quests</h5>
                             <p className="text-sm mb-2">Complete quests to earn rewards and have some fun:</p>
@@ -36,7 +36,7 @@ export default function EventsRules() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <ShoppingBag weight={'duotone'} className="size-5 text-rose-600 mt-0.5 flex-shrink-0" />
+                        <ShoppingBagIcon weight={'duotone'} className="size-5 text-rose-600 mt-0.5 flex-shrink-0" />
                         <div>
                             <h5>Monthly Market</h5>
                             <p className="text-sm mb-2">Shop for exclusive themed items with limited availability:</p>
@@ -47,7 +47,7 @@ export default function EventsRules() {
                             </ul>
 
                             <Alert variant={'info'} className={'mt-3'}>
-                                <Info weight={'duotone'} className="size-4" />
+                                <InfoIcon weight={'duotone'} className="size-4" />
                                 <AlertDescription>
                                     <div>
                                         Every month, the market message is sent in

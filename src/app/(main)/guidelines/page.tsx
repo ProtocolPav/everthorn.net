@@ -3,12 +3,12 @@ import {Accordion,} from "@/components/ui/accordion"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import * as React from "react"
 import { BookIcon, WarningIcon} from "@phosphor-icons/react"
-import ServerRules from "@/app/(main)/guidelines/_components/server";
-import DiscordRules from "@/app/(main)/guidelines/_components/discord";
-import ProjectRules from "@/app/(main)/guidelines/_components/projects";
-import EventsRules from "@/app/(main)/guidelines/_components/events";
-import ConnectionRules from "@/app/(main)/guidelines/_components/connection";
-import ServerAddons from "@/app/(main)/guidelines/_components/addons";
+import ServerRules from "@/components/guidelines/server";
+import DiscordRules from "@/components/guidelines/discord";
+import ProjectRules from "@/components/guidelines/projects";
+import EventsRules from "@/components/guidelines/events";
+import ConnectionRules from "@/components/guidelines/connection";
+import ServerAddons from "@/components/guidelines/addons";
 
 export default function Guidelines() {
   return (
