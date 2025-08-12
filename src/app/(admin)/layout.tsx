@@ -1,6 +1,6 @@
 "use client"
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar"
-import {AdminSidebar} from "@/app/(admin)/admin/_components/admin-sidebar"
+import {AdminSidebar} from "@/components/layout/admin-sidebar"
 import React from "react";
 import {useSession} from "next-auth/react";
 import {PageTitleProvider, usePageTitle} from "@/hooks/use-context";

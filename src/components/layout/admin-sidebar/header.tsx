@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import logo from 'public/everthorn.png'
+import logo from '../../../../public/everthorn.png'
 
 import {
     SidebarMenu,

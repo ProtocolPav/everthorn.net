@@ -8,7 +8,7 @@ export function Exit(){
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <Link href="/">
+                <Link href="/public">
                     <SidebarMenuButton size={'lg'} className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
                             <SignOut weight={'fill'} className={'size-5 rotate-180'} />

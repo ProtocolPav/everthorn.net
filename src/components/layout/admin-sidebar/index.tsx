@@ -6,24 +6,23 @@ import {
     SidebarHeader, SidebarMenuSkeleton,
     SidebarSeparator
 } from "@/components/ui/sidebar"
-import {PanelLogo} from "@/app/(admin)/admin/_components/sidebar/header";
-import {Exit} from "@/app/(admin)/admin/_components/sidebar/footer";
-import {NavGroup, NavItems} from "@/app/(admin)/admin/_components/sidebar/nav-group";
-import {BookIcon, CastleIcon, ChartLineIcon, EthernetPortIcon, HomeIcon, ScanTextIcon, ShieldQuestionIcon} from "lucide-react";
+import {PanelLogo} from "@/components/layout/admin-sidebar/header";
+import {Exit} from "@/components/layout/admin-sidebar/footer";
+import {NavGroup, NavItems} from "@/components/layout/admin-sidebar/nav-group";
 import React from "react";
-import {HammerIcon} from "@phosphor-icons/react";
+import {ChecksIcon, DesktopTowerIcon, HammerIcon, HouseIcon, TrophyIcon, BookIcon} from "@phosphor-icons/react";
 
 export function AdminSidebar() {
     const server_items: NavItems[] = [
         {
-            title: 'Dashboard',
+            title: 'Admin Home',
             url: '/admin/',
-            icon: HomeIcon,
+            icon: HouseIcon,
         },
         {
             title: 'Quests',
             url: '/admin/quests',
-            icon: ShieldQuestionIcon,
+            icon: TrophyIcon,
         },
         {
             title: 'Guidelines',
@@ -31,10 +30,20 @@ export function AdminSidebar() {
             icon: BookIcon,
         },
         {
-            title: 'Projects',
+            title: 'Projects & Pins',
             url: '/admin/projects',
             icon: HammerIcon,
         },
+        // {
+        //     title: 'Project Applications',
+        //     url: '/admin/projects/applications',
+        //     icon: ChecksIcon,
+        // },
+        // {
+        //     title: 'Server Control Panel',
+        //     url: '/admin/server',
+        //     icon: DesktopTowerIcon,
+        // },
     ]
 
     const wiki_items: NavItems[] = [
@@ -45,7 +54,7 @@ export function AdminSidebar() {
     ]
 
     return (
-        <Sidebar variant={'inset'} collapsible={'offcanvas'}>
+        <Sidebar variant={'inset'} collapsible={'icon'}>
             <SidebarHeader>
                 <PanelLogo />
             </SidebarHeader>

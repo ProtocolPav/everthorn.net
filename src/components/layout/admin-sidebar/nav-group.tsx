@@ -1,6 +1,6 @@
 "use client"
 
-import {ChevronRight, type LucideIcon} from "lucide-react"
+import {ChevronRight} from "lucide-react"
 
 import {
     Collapsible,
@@ -17,11 +17,12 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import {type Icon} from "@phosphor-icons/react";
 
 export interface NavItems {
     title: string
     url: string
-    icon?: LucideIcon
+    icon?: Icon
     isActive?: boolean
     items?: {
         title: string
@@ -39,7 +40,7 @@ export function NavGroup({items, title}: {items: NavItems[], title: string}) {
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild tooltip={item.title}>
                                 <a href={item.url}>
-                                    {item.icon && <item.icon/>}
+                                    {item.icon && <item.icon weight={'fill'} />}
                                     <span>{item.title}</span>
                                 </a>
                             </SidebarMenuButton>
