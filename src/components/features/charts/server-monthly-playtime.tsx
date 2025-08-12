@@ -5,6 +5,7 @@ import { formatPlaytime } from "@/lib/utils";
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip } from '@/components/ui/chart';
 import {Badge} from "@/components/ui/badge";
 import {Minus, TrendUp, TrendDown, ChartBar} from "@phosphor-icons/react";
+import Loader from "@/components/layout/loader";
 
 interface MonthlyPlaytimeChartProps {
     data: Array<{
@@ -27,14 +28,8 @@ const chartConfig = {
 export default function ServerMonthlyPlaytime({ data }: MonthlyPlaytimeChartProps) {
     if (!data || data.length === 0) {
         return (
-            <div className="h-72 flex flex-col items-center justify-center text-muted-foreground bg-muted/20 rounded-lg border-2 border-dashed border-border">
-                <div className="w-16 h-16 mb-4 rounded-full bg-muted flex items-center justify-center">
-                    <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                </div>
-                <p className="text-sm font-medium">No monthly data available</p>
-                <p className="text-xs text-muted-foreground mt-1">Monthly playtime data will appear here</p>
+            <div className="h-full flex flex-col items-center justify-center">
+                <Loader />
             </div>
         );
     }
