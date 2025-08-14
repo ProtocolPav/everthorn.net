@@ -6,11 +6,12 @@ import {Badge} from "@/components/ui/badge";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
 import {ChartConfig, ChartContainer} from "@/components/ui/chart";
 import { Area, AreaChart } from "recharts";
+import {Player} from "@/hooks/use-players";
 
 interface Props {
     playtime?: GuildPlaytime;
     playtimeLoading: boolean;
-    players: OnlineUser[];
+    players: Player[];
     playersLoading: boolean;
     status?: ServerStatus;
     statusLoading: boolean;

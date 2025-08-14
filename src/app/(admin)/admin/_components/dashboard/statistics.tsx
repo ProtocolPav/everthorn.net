@@ -9,13 +9,13 @@ import ServerWeeklyPlaytime from "@/components/features/charts/server-weekly-pla
 import OnlinePlayersChart from "@/components/features/charts/online-players";
 import {Activity} from "lucide-react";
 import OnlinePlayersList from "@/app/(admin)/admin/_components/dashboard/online-players";
-import {Alert, AlertDescription} from "@/components/ui/alert";
 import * as React from "react";
+import {Player} from "@/hooks/use-players";
 
 interface Props {
     playtime?: GuildPlaytime;
     playtimeLoading: boolean;
-    players: OnlineUser[];
+    players: Player[];
     playersLoading: boolean;
     status?: ServerStatus;
     statusLoading: boolean;

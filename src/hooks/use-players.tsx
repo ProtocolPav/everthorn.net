@@ -1,7 +1,7 @@
 import useSWR from "swr"
 
 export interface Player {
-    thorny_id: string
+    thorny_id: number
     user_id: number
     session: string
     username: string

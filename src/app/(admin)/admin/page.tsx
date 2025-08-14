@@ -2,21 +2,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGuildPlaytime, useOnlinePlayers, useServerStatus } from '@/hooks/use-admin-data';
-import ServerControlPanel from './_components/dashboard/ServerControlPanel';
+import { useGuildPlaytime, useServerStatus } from '@/hooks/use-admin-data';
 import CardOverview from "@/app/(admin)/admin/_components/dashboard/card-overview";
 import Statistics from "@/app/(admin)/admin/_components/dashboard/statistics";
-import {Alert, AlertDescription} from "@/components/ui/alert";
-import {Info} from "@phosphor-icons/react";
 import * as React from "react";
+import {usePlayers} from "@/hooks/use-players";
 
 export default function AdminPage() {
     const [selectedGuildId, setSelectedGuildId] = useState('611008530077712395');
 
     const { playtime, isLoading: playtimeLoading } = useGuildPlaytime(selectedGuildId);
-    const { players, isLoading: playersLoading } = useOnlinePlayers(selectedGuildId);
+    const { players, isLoading: playersLoading } = usePlayers(selectedGuildId);
     const { status, isLoading: statusLoading } = useServerStatus();
 
     return (
