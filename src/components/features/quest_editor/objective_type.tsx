@@ -3,7 +3,7 @@ import {Textarea} from "@/components/ui/textarea";
 import * as React from "react";
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "../_types/schema";
+import {formSchema} from "../../../app/(admin)/admin/quests/editor/_types/schema";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Sword, Shovel, BracketsCurly, LockKey} from "@phosphor-icons/react";
 

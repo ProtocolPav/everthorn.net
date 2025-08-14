@@ -1,6 +1,6 @@
 import {UseFormReturn} from "react-hook-form";
 import {undefined, z} from "zod";
-import {formSchema} from "../_types/schema";
+import {formSchema} from "../../../app/(admin)/admin/quests/editor/_types/schema";
 import { useFieldArray, UseFormGetValues } from "react-hook-form"
 import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import * as React from "react";

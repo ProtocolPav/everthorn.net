@@ -1,12 +1,12 @@
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {formSchema} from "../_types/schema";
+import {formSchema} from "../../../app/(admin)/admin/quests/editor/_types/schema";
 import { useFieldArray } from "react-hook-form"
 import {FormField, FormMessage} from "@/components/ui/form";
 import * as React from "react";
 import {Button} from "@/components/ui/button";
 import {Plus} from "@phosphor-icons/react";
-import {Reward} from "@/app/(admin)/admin/quests/editor/_components/reward";
+import {Reward} from "@/components/features/quest_editor/reward";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Input} from "@/components/ui/input";
 import {VirtualizedCombobox} from "@/components/ui/virtualized-combobox";

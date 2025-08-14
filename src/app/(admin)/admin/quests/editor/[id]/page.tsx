@@ -7,20 +7,20 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form} from "@/components/ui/form";
-import {QuestTitle} from "../_components/title"
-import {QuestDescription} from "@/app/(admin)/admin/quests/editor/_components/description";
-import {QuestDates} from "@/app/(admin)/admin/quests/editor/_components/dates";
-import {Tags} from "@/app/(admin)/admin/quests/editor/_components/tags";
+import {QuestTitle} from "@/components/features/quest_editor/title"
+import {QuestDescription} from "@/components/features/quest_editor/description";
+import {QuestDates} from "@/components/features/quest_editor/dates";
+import {Tags} from "@/components/features/quest_editor/tags";
 import {Separator} from "@/components/ui/separator";
-import {QuestObjectives} from "@/app/(admin)/admin/quests/editor/_components/objectives";
+import {QuestObjectives} from "@/components/features/quest_editor/objectives";
 import { toast } from 'sonner';
-import {LoadJSON} from "@/app/(admin)/admin/quests/editor/_components/load_json";
+import {LoadJSON} from "@/components/features/quest_editor/load_json";
 import {useParams} from "next/navigation";
 import {useQuest} from "@/hooks/use-quest";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {useSession} from "next-auth/react";
 import {Info, XCircle} from "@phosphor-icons/react";
-import {QuestType} from "@/app/(admin)/admin/quests/editor/_components/type";
+import {QuestType} from "@/components/features/quest_editor/type";
 
 export default function QuestsCreator() {
     const params = useParams<{ id: string }>()

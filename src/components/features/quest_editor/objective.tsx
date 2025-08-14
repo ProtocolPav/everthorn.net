@@ -32,12 +32,12 @@ import {ObjectiveReference} from "./objective_reference";
 import {Separator} from "@/components/ui/separator";
 import {RequirementNatural} from "./requirement_natural";
 import {RequirementTimer} from "./requirement_timer";
-import {RequirementLocation} from "@/app/(admin)/admin/quests/editor/_components/requirement_location";
-import {RequirementMainhand} from "@/app/(admin)/admin/quests/editor/_components/requirement_mainhand";
-import {Rewards} from "@/app/(admin)/admin/quests/editor/_components/rewards";
-import {ObjectiveDisplay} from "@/app/(admin)/admin/quests/editor/_components/objective_display";
-import {RequirementContinue} from "@/app/(admin)/admin/quests/editor/_components/requirement_continue";
-import {RequirementDeaths} from "@/app/(admin)/admin/quests/editor/_components/requirement_deaths";
+import {RequirementLocation} from "@/components/features/quest_editor/requirement_location";
+import {RequirementMainhand} from "@/components/features/quest_editor/requirement_mainhand";
+import {Rewards} from "@/components/features/quest_editor/rewards";
+import {ObjectiveDisplay} from "@/components/features/quest_editor/objective_display";
+import {RequirementContinue} from "@/components/features/quest_editor/requirement_continue";
+import {RequirementDeaths} from "@/components/features/quest_editor/requirement_deaths";
 
 interface ObjectiveProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
