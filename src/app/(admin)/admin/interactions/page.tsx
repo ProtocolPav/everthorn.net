@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import useSWR from 'swr';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import {ScrollArea, ScrollBar} from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -343,7 +343,7 @@ export default function InteractionsPage() {
     }
 
     return (
-        <div className="container mx-auto space-y-4">
+        <div className="grid gap-3">
             {/* Filters Section */}
             <div className="space-y-4">
                 {/* Header with stats */}
@@ -460,7 +460,7 @@ export default function InteractionsPage() {
             <Card className={'p-0'}>
                 <CardContent className="p-0">
                     {/* Scrollable Body */}
-                    <ScrollArea className="h-130 rounded-lg">
+                    <ScrollArea className="h-130 rounded-lg overflox-x-auto">
                         <Table>
                             <TableHeader className={'rounded-md'}>
                                 <TableRow>
@@ -543,6 +543,8 @@ export default function InteractionsPage() {
                                 )}
                             </TableBody>
                         </Table>
+
+                        <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                 </CardContent>
             </Card>
