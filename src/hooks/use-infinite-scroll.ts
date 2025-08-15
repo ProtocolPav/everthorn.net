@@ -6,7 +6,7 @@ export function useInfiniteScroll(
     hasMore: boolean
 ) {
     const observerRef = useRef<IntersectionObserver | null>(null);
-    const loadingRef = useRef<HTMLDivElement>(null);
+    const loadingRef = useRef<HTMLTableRowElement>(null); // ← Changed from HTMLDivElement
     const lastTriggered = useRef<number>(0);
     const THROTTLE_MS = 1000;
 

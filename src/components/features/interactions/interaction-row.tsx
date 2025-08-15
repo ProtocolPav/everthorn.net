@@ -24,13 +24,15 @@ export function InteractionRow({ interaction }: InteractionRowProps) {
             <TableCell className="font-medium py-3">
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-xs font-bold">
-                        {user ? user.username.toUpperCase()[0] : <User className="w-4 h-4" />}
+                        {user?.whitelist?.[0]?.toUpperCase() ?? <User className="w-4 h-4" />}
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-sm font-medium truncate">
-                            {user ? user.username : <Skeleton className="w-16 h-4" />}
+                            {user?.whitelist ?? <Skeleton className="w-16 h-4" />}
                         </div>
-                        <div className="text-xs text-muted-foreground">ID: {interaction.thorny_id}</div>
+                        <div className="text-xs text-muted-foreground">
+                            ID: {interaction.thorny_id}{user?.username && ` • @${user.username}`}
+                        </div>
                     </div>
                 </div>
             </TableCell>
