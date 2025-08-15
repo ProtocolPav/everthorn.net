@@ -8,13 +8,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, X } from 'lucide-react';
 import Image from 'next/image';
 import { usePageTitle } from "@/hooks/use-context";
 import { useInteractions } from '@/hooks/use-interactions';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { InteractionRow } from '@/components/features/interactions/interaction-row';
 import { interactionTypes, dimensions } from '@/lib/interactions';
+import { Badge } from '@/components/ui/badge';
 
 export default function InteractionsPage() {
     const { setTitle } = usePageTitle();
@@ -33,6 +34,7 @@ export default function InteractionsPage() {
         isLoadingMore,
         isReachingEnd,
         error,
+        getActiveFilterCount
     } = useInteractions();
 
     // Set page title
@@ -70,11 +72,17 @@ export default function InteractionsPage() {
         <div className="grid gap-3">
             {/* Filters Section */}
             <div className="space-y-4">
-                {/* Header with stats */}
+                {/* Header with stats and active filters */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Filter className="h-5 w-5 text-muted-foreground" />
                         <h2 className="text-lg font-semibold">Filters</h2>
+                        {/* Active filter count */}
+                        {getActiveFilterCount() > 0 && (
+                            <Badge variant="secondary" className="ml-2">
+                                {getActiveFilterCount()} active
+                            </Badge>
+                        )}
                     </div>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
@@ -88,20 +96,9 @@ export default function InteractionsPage() {
                     </div>
                 </div>
 
-                {/* Search Bar */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                        type="text"
-                        placeholder="Search by reference or mainhand item..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10"
-                    />
-                </div>
-
                 {/* Filter Controls */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                    {/* Interaction Type */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Interaction Type</label>
                         <Select
@@ -127,6 +124,7 @@ export default function InteractionsPage() {
                         </Select>
                     </div>
 
+                    {/* Dimension */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Dimension</label>
                         <Select
@@ -158,23 +156,108 @@ export default function InteractionsPage() {
                         </Select>
                     </div>
 
+                    {/* Reference & Mainhand Search */}
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Reference</label>
+                        <label className="text-sm font-medium">Reference/Item</label>
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                            <Input
+                                type="text"
+                                value={uiFilters.references[0] || ''}
+                                onChange={(e) => handleFilterChange('references', e.target.value ? [e.target.value] : [])}
+                                placeholder="minecraft:%sword, %dirt%, stone_pickaxe"
+                                className="pl-10"
+                            />
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            Use % for wildcards (e.g., %sword matches diamond_sword, iron_sword)
+                        </p>
+                    </div>
+
+                    {/* Thorny IDs */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">User IDs</label>
                         <Input
                             type="text"
-                            value={uiFilters.references[0] || ''}
-                            onChange={(e) => handleFilterChange('references', e.target.value ? [e.target.value] : [])}
-                            placeholder="minecraft:dirt"
+                            value={uiFilters.thorny_ids.join(', ')}
+                            onChange={(e) => {
+                                const ids = e.target.value
+                                    .split(',')
+                                    .map(id => parseInt(id.trim()))
+                                    .filter(id => !isNaN(id));
+                                handleFilterChange('thorny_ids', ids);
+                            }}
+                            placeholder="123, 456, 789"
                         />
                     </div>
 
+                    {/* Coordinates Start */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Coordinates From</label>
+                        <Input
+                            type="text"
+                            value={uiFilters.coordinates.join(' | ')}
+                            onChange={(e) => {
+                                const coords = e.target.value
+                                    .split('|')
+                                    .map(coord => coord.trim())
+                                    .filter(coord => coord.length > 0);
+                                handleFilterChange('coordinates', coords);
+                            }}
+                            placeholder="100,64,200 | -50,70,150"
+                        />
+                        <p className="text-xs text-muted-foreground">Format: x,y,z | x,y,z</p>
+                    </div>
+
+                    {/* Coordinates End */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Coordinates To</label>
+                        <Input
+                            type="text"
+                            value={uiFilters.coordinates_end.join(' | ')}
+                            onChange={(e) => {
+                                const coords = e.target.value
+                                    .split('|')
+                                    .map(coord => coord.trim())
+                                    .filter(coord => coord.length > 0);
+                                handleFilterChange('coordinates_end', coords);
+                            }}
+                            placeholder="200,100,300 | 50,100,250"
+                        />
+                        <p className="text-xs text-muted-foreground">Format: x,y,z | x,y,z</p>
+                    </div>
+                </div>
+
+                {/* Time Range Filters - Second Row */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    {/* Time Start */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Start Time</label>
+                        <Input
+                            type="datetime-local"
+                            value={uiFilters.time_start}
+                            onChange={(e) => handleFilterChange('time_start', e.target.value)}
+                        />
+                    </div>
+
+                    {/* Time End */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">End Time</label>
+                        <Input
+                            type="datetime-local"
+                            value={uiFilters.time_end}
+                            onChange={(e) => handleFilterChange('time_end', e.target.value)}
+                        />
+                    </div>
+
+                    {/* Clear Filters Button */}
                     <div className="flex items-end">
                         <Button
                             variant="outline"
                             onClick={clearFilters}
                             className="w-full"
                         >
-                            Clear Filters
+                            Clear All Filters
                         </Button>
                     </div>
                 </div>
@@ -245,12 +328,12 @@ export default function InteractionsPage() {
                                                     </div>
                                                 ) : isReachingEnd && filteredInteractions.length > 0 ? (
                                                     <div className="flex flex-col items-center gap-2">
-                            <span className="text-muted-foreground text-sm">
-                              No more interactions to load
-                            </span>
+                                                        <span className="text-muted-foreground text-sm">
+                                                          No more interactions to load
+                                                        </span>
                                                         <span className="text-xs text-muted-foreground/70">
-                              {filteredInteractions.length} total interactions loaded
-                            </span>
+                                                          {filteredInteractions.length} total interactions loaded
+                                                        </span>
                                                     </div>
                                                 ) : filteredInteractions.length === 0 && isValidating ? (
                                                     <div className="flex flex-col items-center gap-3">

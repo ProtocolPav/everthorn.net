@@ -62,6 +62,6 @@ export function buildQuery(params: Record<string, any>): string {
             }
         }
     }
-    return query.toString();
+    return query.toString()
 }
 

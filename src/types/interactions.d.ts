@@ -24,6 +24,11 @@ export interface UIFilters {
     interaction_types: string[];
     dimensions: string[];
     references: string[];
+    thorny_ids: number[];
+    coordinates: string[]; // Store as strings for input, convert to numbers when needed
+    coordinates_end: string[];
+    time_start: string;
+    time_end: string;
 }
 
 export interface User {

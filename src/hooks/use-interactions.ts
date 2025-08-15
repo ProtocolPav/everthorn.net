@@ -10,23 +10,47 @@ export function useInteractions() {
         interaction_types: [],
         dimensions: [],
         references: [],
+        thorny_ids: [],
+        coordinates: [],
+        coordinates_end: [],
+        time_start: '',
+        time_end: '',
     });
 
     // Debounce the search term and filters
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const debouncedFilters = useDebounce(uiFilters, 800);
 
-    // API filters
+    // API filters - convert UI filters to API format
     const apiFilters = useMemo((): InteractionFilters => ({
-        coordinates: [],
-        coordinates_end: [],
-        thorny_ids: [],
+        coordinates: uiFilters.coordinates.map(coord => {
+            const parts = coord.split(',').map(p => parseFloat(p.trim()));
+            return parts.length === 3 ? parts : [];
+        }).filter(coord => coord.length === 3).flat(),
+        coordinates_end: uiFilters.coordinates_end.map(coord => {
+            const parts = coord.split(',').map(p => parseFloat(p.trim()));
+            return parts.length === 3 ? parts : [];
+        }).filter(coord => coord.length === 3).flat(),
+        thorny_ids: uiFilters.thorny_ids,
         interaction_types: debouncedFilters.interaction_types,
-        references: debouncedSearchTerm ? [debouncedSearchTerm] : debouncedFilters.references,
+        references: debouncedFilters.references,
         dimensions: debouncedFilters.dimensions,
-        time_start: '',
-        time_end: '',
-    }), [debouncedSearchTerm, debouncedFilters]);
+        time_start: uiFilters.time_start,
+        time_end: uiFilters.time_end,
+    }), [debouncedFilters, uiFilters]);
+
+    const getActiveFilterCount = useCallback(() => {
+        let count = 0;
+        if (uiFilters.interaction_types.length > 0) count++;
+        if (uiFilters.dimensions.length > 0) count++;
+        if (uiFilters.references.length > 0) count++;
+        if (uiFilters.thorny_ids.length > 0) count++;
+        if (uiFilters.coordinates.length > 0) count++;
+        if (uiFilters.coordinates_end.length > 0) count++;
+        if (uiFilters.time_start) count++;
+        if (uiFilters.time_end) count++;
+        return count;
+    }, [uiFilters]);
 
     // SWR getKey
     const getKey = useCallback((pageIndex: number, previousPageData: any) => {
@@ -55,14 +79,8 @@ export function useInteractions() {
     const isEmpty = data?.length === 0;
     const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
-    // Client-side filtering
-    const filteredInteractions = useMemo(() => {
-        if (!debouncedSearchTerm) return interactions;
-        return interactions.filter(interaction =>
-            interaction.reference.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-            interaction.mainhand?.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-        );
-    }, [interactions, debouncedSearchTerm]);
+    // Client-side filtering now includes mainhand
+    const filteredInteractions = interactions
 
     // Handle filter change
     const handleFilterChange = useCallback((field: keyof UIFilters, value: any) => {
@@ -78,8 +96,12 @@ export function useInteractions() {
             interaction_types: [],
             dimensions: [],
             references: [],
+            thorny_ids: [],
+            coordinates: [],
+            coordinates_end: [],
+            time_start: '',
+            time_end: '',
         });
-        setSearchTerm('');
         setSize(1);
     }, [setSize]);
 
@@ -95,6 +117,7 @@ export function useInteractions() {
         debouncedFilters,
         debouncedSearchTerm,
         filteredInteractions,
+        getActiveFilterCount,
         handleFilterChange,
         clearFilters,
         size,
