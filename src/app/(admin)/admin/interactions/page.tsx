@@ -62,7 +62,7 @@ export default function InteractionsPage() {
             <Card className="bg-muted/15 border-none p-0">
                 <CardContent className="p-2 grid gap-2">
                     {/* Header */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                         <div className="flex items-center gap-3">
                             <div className="p-1.5 bg-primary/10 rounded-lg">
                                 <Filter className="h-4 w-4 text-primary" />
@@ -83,11 +83,9 @@ export default function InteractionsPage() {
                                     </Button>
                                 </div>
                             )}
-
-
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                             <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
                                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                                 <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">Live</span>
@@ -100,7 +98,7 @@ export default function InteractionsPage() {
                     </div>
 
                     {/* Quick Search & Filter*/}
-                    <div className={'flex gap-3 items-center'}>
+                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                         <div className="relative group flex-1 min-w-0">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                             <Input
@@ -145,58 +143,60 @@ export default function InteractionsPage() {
                             </TooltipProvider>
                         </div>
 
-                        <div className="w-48 flex-shrink-0">
-                            <Select
-                                value={uiFilters.interaction_types[0] || 'all'}
-                                onValueChange={(value) =>
-                                    handleFilterChange('interaction_types', value === 'all' ? [] : [value])
-                                }
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="All interaction types" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All interaction types</SelectItem>
-                                    {Object.entries(interactionTypes).map(([key, config]) => (
-                                        <SelectItem key={key} value={key}>
-                                            <div className="flex items-center gap-2">
-                                                <config.icon className="w-4 h-4" />
-                                                {config.label}
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                            <div className="w-full sm:w-48 flex-shrink-0">
+                                <Select
+                                    value={uiFilters.interaction_types[0] || 'all'}
+                                    onValueChange={(value) =>
+                                        handleFilterChange('interaction_types', value === 'all' ? [] : [value])
+                                    }
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="All interaction types" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All interaction types</SelectItem>
+                                        {Object.entries(interactionTypes).map(([key, config]) => (
+                                            <SelectItem key={key} value={key}>
+                                                <div className="flex items-center gap-2">
+                                                    <config.icon className="w-4 h-4" />
+                                                    {config.label}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                        <div className="w-40 flex-shrink-0">
-                            <Select
-                                value={uiFilters.dimensions[0] || 'all'}
-                                onValueChange={(value) =>
-                                    handleFilterChange('dimensions', value === 'all' ? [] : [value])
-                                }
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="All dimensions" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All dimensions</SelectItem>
-                                    {Object.entries(dimensions).map(([key, config]) => (
-                                        <SelectItem key={key} value={key}>
-                                            <div className="flex items-center gap-2">
-                                                <Image
-                                                    src={config.img}
-                                                    alt={config.label}
-                                                    width={16}
-                                                    height={16}
-                                                    className="object-cover rounded-sm"
-                                                />
-                                                {config.label}
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                            <div className="w-full sm:w-40 flex-shrink-0">
+                                <Select
+                                    value={uiFilters.dimensions[0] || 'all'}
+                                    onValueChange={(value) =>
+                                        handleFilterChange('dimensions', value === 'all' ? [] : [value])
+                                    }
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="All dimensions" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All dimensions</SelectItem>
+                                        {Object.entries(dimensions).map(([key, config]) => (
+                                            <SelectItem key={key} value={key}>
+                                                <div className="flex items-center gap-2">
+                                                    <Image
+                                                        src={config.img}
+                                                        alt={config.label}
+                                                        width={16}
+                                                        height={16}
+                                                        className="object-cover rounded-sm"
+                                                    />
+                                                    {config.label}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                     </div>
 
@@ -367,7 +367,9 @@ export default function InteractionsPage() {
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {uiFilters.time_start ? (
-                                                        format(new Date(uiFilters.time_start), "PPP p")
+                                                        <span className="truncate">
+                                                {format(new Date(uiFilters.time_start), "PPP p")}
+                                            </span>
                                                     ) : (
                                                         <span>Pick start date</span>
                                                     )}
@@ -431,7 +433,9 @@ export default function InteractionsPage() {
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {uiFilters.time_end ? (
-                                                        format(new Date(uiFilters.time_end), "PPP p")
+                                                        <span className="truncate">
+                                                {format(new Date(uiFilters.time_end), "PPP p")}
+                                            </span>
                                                     ) : (
                                                         <span>Pick end date</span>
                                                     )}
@@ -490,7 +494,7 @@ export default function InteractionsPage() {
             </Card>
 
             {/* Interactions Table */}
-            <Card className="p-0">
+            <Card className="p-0 max-w-screen">
                 <CardContent className="p-0">
                     <ScrollArea className="h-130 rounded-lg overflox-x-auto">
                         <Table>
