@@ -10,7 +10,7 @@ import {PanelLogo} from "@/components/layout/admin-sidebar/header";
 import {Exit} from "@/components/layout/admin-sidebar/footer";
 import {NavGroup, NavItems} from "@/components/layout/admin-sidebar/nav-group";
 import React from "react";
-import {ChecksIcon, DesktopTowerIcon, HammerIcon, HouseIcon, TrophyIcon, BookIcon} from "@phosphor-icons/react";
+import {ChecksIcon, DesktopTowerIcon, HammerIcon, HouseIcon, TrophyIcon, BookIcon, LightningIcon} from "@phosphor-icons/react";
 
 export function AdminSidebar() {
     const server_items: NavItems[] = [
@@ -33,6 +33,11 @@ export function AdminSidebar() {
             title: 'Projects & Pins',
             url: '/admin/projects',
             icon: HammerIcon,
+        },
+        {
+            title: 'Interactions',
+            url: '/admin/interactions',
+            icon: LightningIcon,
         },
         // {
         //     title: 'Project Applications',
