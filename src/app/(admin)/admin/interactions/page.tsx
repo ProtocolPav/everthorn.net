@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter, X } from 'lucide-react';
+import {Search, Filter, X, MapPin, User, Sword, Clock, HelpCircle, ChevronDown, Settings, CalendarIcon} from 'lucide-react';
 import Image from 'next/image';
 import { usePageTitle } from "@/hooks/use-context";
 import { useInteractions } from '@/hooks/use-interactions';
@@ -16,6 +16,11 @@ import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { InteractionRow } from '@/components/features/interactions/interaction-row';
 import { interactionTypes, dimensions } from '@/lib/interactions';
 import { Badge } from '@/components/ui/badge';
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/components/ui/tooltip';
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import {Calendar} from "@/components/ui/calendar";
 
 export default function InteractionsPage() {
     const { setTitle } = usePageTitle();
@@ -51,217 +56,438 @@ export default function InteractionsPage() {
 
     const loadingRef = useInfiniteScroll(loadMore, !!isLoadingMore, !isReachingEnd);
 
-    if (error) {
-        return (
-            <div className="min-h-screen bg-background">
-                <div className="container mx-auto p-6">
-                    <Card className="border-destructive/50 bg-destructive/5">
-                        <CardContent className="p-4 text-center">
-                            <div className="text-destructive text-lg font-medium">
-                                Failed to load interactions
-                            </div>
-                            <p className="text-muted-foreground mt-2">{error.message}</p>
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="grid gap-3">
             {/* Filters Section */}
-            <div className="space-y-4">
-                {/* Header with stats and active filters */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Filter className="h-5 w-5 text-muted-foreground" />
-                        <h2 className="text-lg font-semibold">Filters</h2>
-                        {/* Active filter count */}
-                        {getActiveFilterCount() > 0 && (
-                            <Badge variant="secondary" className="ml-2">
-                                {getActiveFilterCount()} active
-                            </Badge>
-                        )}
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span>Live</span>
+            <Card className="bg-muted/15 border-none p-0">
+                <CardContent className="p-2 grid gap-2">
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="p-1.5 bg-primary/10 rounded-lg">
+                                <Filter className="h-4 w-4 text-primary" />
+                            </div>
+                            <h2 className="text-lg font-bold">Search & Filter</h2>
+                            {getActiveFilterCount() > 0 && (
+                                <div className="inline-flex items-center bg-muted/50 rounded-md p-0.5">
+                                    <div className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-sm">
+                                        {getActiveFilterCount()} filters
+                                    </div>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={clearFilters}
+                                        className="h-6 px-2 text-xs hover:bg-destructive/20 hover:text-destructive ml-0.5 rounded-sm"
+                                    >
+                                        Clear
+                                    </Button>
+                                </div>
+                            )}
+
+
                         </div>
-                        <span>{filteredInteractions.length} interactions loaded</span>
-                        {(debouncedSearchTerm !== searchTerm || JSON.stringify(debouncedFilters) !== JSON.stringify(uiFilters)) && (
-                            <span className="text-orange-500">Applying filters...</span>
-                        )}
-                    </div>
-                </div>
 
-                {/* Filter Controls */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                    {/* Interaction Type */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Interaction Type</label>
-                        <Select
-                            value={uiFilters.interaction_types[0] || 'all'}
-                            onValueChange={(value) =>
-                                handleFilterChange('interaction_types', value === 'all' ? [] : [value])
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="All types" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All types</SelectItem>
-                                {Object.entries(interactionTypes).map(([key, config]) => (
-                                    <SelectItem key={key} value={key}>
-                                        <div className="flex items-center gap-2">
-                                            <config.icon className="w-4 h-4" />
-                                            {config.label}
-                                        </div>
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
+                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                                <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">Live</span>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-lg font-bold">{filteredInteractions.length}</div>
+                                <div className="text-xs text-muted-foreground">results</div>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Dimension */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Dimension</label>
-                        <Select
-                            value={uiFilters.dimensions[0] || 'all'}
-                            onValueChange={(value) =>
-                                handleFilterChange('dimensions', value === 'all' ? [] : [value])
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="All dimensions" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All dimensions</SelectItem>
-                                {Object.entries(dimensions).map(([key, config]) => (
-                                    <SelectItem key={key} value={key}>
-                                        <div className="flex items-center gap-2">
-                                            <Image
-                                                src={config.img}
-                                                alt={config.label}
-                                                width={16}
-                                                height={16}
-                                                className="object-cover rounded-sm"
-                                            />
-                                            {config.label}
-                                        </div>
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {/* Reference & Mainhand Search */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Reference/Item</label>
-                        <div className="relative">
+                    {/* Quick Search & Filter*/}
+                    <div className={'flex gap-3 items-center'}>
+                        <div className="relative group flex-1 min-w-0">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                             <Input
                                 type="text"
                                 value={uiFilters.references[0] || ''}
                                 onChange={(e) => handleFilterChange('references', e.target.value ? [e.target.value] : [])}
-                                placeholder="minecraft:%sword, %dirt%, stone_pickaxe"
-                                className="pl-10"
+                                placeholder="Search blocks or entities..."
+                                className="pl-10 pr-12"
                             />
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                            <div className="flex items-center gap-1">
+                                                <kbd className="px-1 py-0.5 bg-amber-200 dark:bg-amber-800 rounded text-xs font-mono text-amber-800 dark:text-amber-200 leading-none">
+                                                    %
+                                                </kbd>
+                                                <HelpCircle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                                            </div>
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="bottom" align="end" className="max-w-xs text-xs border">
+                                        <div className="space-y-1.5">
+                                            <p className="font-medium text-xs">Wildcard Search Examples:</p>
+                                            <div className="space-y-1.5">
+                                                <div className="flex items-center gap-2 text-xs">
+                                                    <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">%ore</kbd>
+                                                    <span className="text-muted-foreground">ends with "ore"</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs">
+                                                    <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">acacia%</kbd>
+                                                    <span className="text-muted-foreground">starts with "acacia"</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs">
+                                                    <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">%stone%</kbd>
+                                                    <span className="text-muted-foreground">contains "stone"</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Use % for wildcards (e.g., %sword matches diamond_sword, iron_sword)
-                        </p>
+
+                        <div className="w-48 flex-shrink-0">
+                            <Select
+                                value={uiFilters.interaction_types[0] || 'all'}
+                                onValueChange={(value) =>
+                                    handleFilterChange('interaction_types', value === 'all' ? [] : [value])
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="All interaction types" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All interaction types</SelectItem>
+                                    {Object.entries(interactionTypes).map(([key, config]) => (
+                                        <SelectItem key={key} value={key}>
+                                            <div className="flex items-center gap-2">
+                                                <config.icon className="w-4 h-4" />
+                                                {config.label}
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <div className="w-40 flex-shrink-0">
+                            <Select
+                                value={uiFilters.dimensions[0] || 'all'}
+                                onValueChange={(value) =>
+                                    handleFilterChange('dimensions', value === 'all' ? [] : [value])
+                                }
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="All dimensions" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All dimensions</SelectItem>
+                                    {Object.entries(dimensions).map(([key, config]) => (
+                                        <SelectItem key={key} value={key}>
+                                            <div className="flex items-center gap-2">
+                                                <Image
+                                                    src={config.img}
+                                                    alt={config.label}
+                                                    width={16}
+                                                    height={16}
+                                                    className="object-cover rounded-sm"
+                                                />
+                                                {config.label}
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
 
-                    {/* Thorny IDs */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">User IDs</label>
-                        <Input
-                            type="text"
-                            value={uiFilters.thorny_ids.join(', ')}
-                            onChange={(e) => {
-                                const ids = e.target.value
-                                    .split(',')
-                                    .map(id => parseInt(id.trim()))
-                                    .filter(id => !isNaN(id));
-                                handleFilterChange('thorny_ids', ids);
-                            }}
-                            placeholder="123, 456, 789"
-                        />
-                    </div>
+                    {/* Advanced Filters - Collapsible */}
+                    <Collapsible>
+                        <CollapsibleTrigger asChild>
+                            <Button variant="ghost" className="w-full justify-between p-2 h-8 hover:bg-muted/50">
+                                <div className="flex items-center gap-2">
+                                    <Settings className="h-4 w-4" />
+                                    <span className="font-medium">Advanced Filters</span>
+                                    {(uiFilters.thorny_ids.length > 0 || uiFilters.coordinates.length > 0 ||
+                                        uiFilters.coordinates_end.length > 0 || uiFilters.time_start || uiFilters.time_end) && (
+                                        <Badge variant="secondary" className="h-4 text-xs">
+                                            {[
+                                                uiFilters.thorny_ids.length > 0,
+                                                uiFilters.coordinates.length > 0,
+                                                uiFilters.coordinates_end.length > 0,
+                                                uiFilters.time_start,
+                                                uiFilters.time_end
+                                            ].filter(Boolean).length}
+                                        </Badge>
+                                    )}
+                                </div>
+                                <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                            </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="space-y-3 pt-2">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                {/* User IDs */}
+                                <div className="relative group">
+                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                                    <Input
+                                        type="text"
+                                        value={uiFilters.thorny_ids.join(', ')}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (value === '') {
+                                                handleFilterChange('thorny_ids', []);
+                                                return;
+                                            }
+                                            const ids = value
+                                                .split(',')
+                                                .map(id => parseInt(id.trim()))
+                                                .filter(id => !isNaN(id));
+                                            handleFilterChange('thorny_ids', ids);
+                                        }}
+                                        placeholder="User's ThornyID..."
+                                        className="pl-10 pr-12"
+                                    />
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                                    <div className="flex items-center gap-1">
+                                                        <HelpCircle className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+                                                    </div>
+                                                </button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom" align="end" className="max-w-xs text-xs">
+                                                <div className="space-y-1.5">
+                                                    <p className="font-medium text-xs">ThornyID Examples:</p>
+                                                    <div className="space-y-1.5">
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">1</kbd>
+                                                            <span className="text-muted-foreground">is protocolpav</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">1144</kbd>
+                                                            <span className="text-muted-foreground">is kekkaygenkai</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <span className="text-muted-foreground">You must know the ThornyID</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
 
-                    {/* Coordinates Start */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Coordinates From</label>
-                        <Input
-                            type="text"
-                            value={uiFilters.coordinates.join(' | ')}
-                            onChange={(e) => {
-                                const coords = e.target.value
-                                    .split('|')
-                                    .map(coord => coord.trim())
-                                    .filter(coord => coord.length > 0);
-                                handleFilterChange('coordinates', coords);
-                            }}
-                            placeholder="100,64,200 | -50,70,150"
-                        />
-                        <p className="text-xs text-muted-foreground">Format: x,y,z | x,y,z</p>
-                    </div>
+                                {/* Coordinates From */}
+                                <div className="relative group">
+                                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                                    <Input
+                                        type="text"
+                                        value={uiFilters.coordinates[0] || ''}
+                                        onChange={(e) => {
+                                            const value = e.target.value.trim();
+                                            handleFilterChange('coordinates', value ? [value] : []);
+                                        }}
+                                        placeholder="From coordinates..."
+                                        className="pl-10 pr-12"
+                                    />
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                                    <div className="flex items-center gap-1">
+                                                        <HelpCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                                    </div>
+                                                </button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom" align="end" className="max-w-60 text-xs">
+                                                <div className="space-y-1.5">
+                                                    <p className="font-medium text-xs">Coordinate Examples:</p>
+                                                    <div className="space-y-1.5">
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">100,64,200</kbd>
+                                                            <span className="text-muted-foreground">starting point</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <span className="text-muted-foreground">For start & end, the z-coords are finnicky. Try swapping them around if there are no results</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
 
-                    {/* Coordinates End */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Coordinates To</label>
-                        <Input
-                            type="text"
-                            value={uiFilters.coordinates_end.join(' | ')}
-                            onChange={(e) => {
-                                const coords = e.target.value
-                                    .split('|')
-                                    .map(coord => coord.trim())
-                                    .filter(coord => coord.length > 0);
-                                handleFilterChange('coordinates_end', coords);
-                            }}
-                            placeholder="200,100,300 | 50,100,250"
-                        />
-                        <p className="text-xs text-muted-foreground">Format: x,y,z | x,y,z</p>
-                    </div>
-                </div>
+                                {/* Coordinates To */}
+                                <div className="relative group">
+                                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                                    <Input
+                                        type="text"
+                                        value={uiFilters.coordinates_end[0] || ''}
+                                        onChange={(e) => {
+                                            const value = e.target.value.trim();
+                                            handleFilterChange('coordinates_end', value ? [value] : []);
+                                        }}
+                                        placeholder="To coordinates..."
+                                        className="pl-10 pr-12"
+                                    />
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                                    <div className="flex items-center gap-1">
+                                                        <HelpCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
+                                                    </div>
+                                                </button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom" align="end" className="max-w-xs text-xs">
+                                                <div className="space-y-1.5">
+                                                    <p className="font-medium text-xs">Coordinate Examples:</p>
+                                                    <div className="space-y-1.5">
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">200,100,300</kbd>
+                                                            <span className="text-muted-foreground">ending point</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            </div>
 
-                {/* Time Range Filters - Second Row */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    {/* Time Start */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Start Time</label>
-                        <Input
-                            type="datetime-local"
-                            value={uiFilters.time_start}
-                            onChange={(e) => handleFilterChange('time_start', e.target.value)}
-                        />
-                    </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Start Time */}
+                                <div className="space-y-1">
+                                    <div className="relative group">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    className="w-full justify-start text-left font-normal"
+                                                >
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {uiFilters.time_start ? (
+                                                        format(new Date(uiFilters.time_start), "PPP p")
+                                                    ) : (
+                                                        <span>Pick start date</span>
+                                                    )}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={uiFilters.time_start ? new Date(uiFilters.time_start) : undefined}
+                                                    onSelect={(date) => {
+                                                        if (date) {
+                                                            const isoString = date.toISOString().slice(0, 16);
+                                                            handleFilterChange('time_start', isoString);
+                                                        } else {
+                                                            handleFilterChange('time_start', '');
+                                                        }
+                                                    }}
+                                                    initialFocus
+                                                />
+                                                <div className="p-3 border-t">
+                                                    <Input
+                                                        type="time"
+                                                        value={uiFilters.time_start ? uiFilters.time_start.slice(11, 16) : ''}
+                                                        onChange={(e) => {
+                                                            const timeValue = e.target.value;
+                                                            if (uiFilters.time_start) {
+                                                                const date = uiFilters.time_start.slice(0, 10);
+                                                                handleFilterChange('time_start', `${date}T${timeValue}`);
+                                                            }
+                                                        }}
+                                                        className="h-8"
+                                                    />
+                                                </div>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                                        <HelpCircle className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                                    </button>
+                                                </TooltipTrigger>
+                                                <TooltipContent side="bottom" align="end" className="max-w-xs text-xs">
+                                                    <div className="flex items-center gap-2 text-xs">
+                                                        <span className="text-muted-foreground">Filter interactions to start from this time</span>
+                                                    </div>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </div>
+                                </div>
 
-                    {/* Time End */}
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">End Time</label>
-                        <Input
-                            type="datetime-local"
-                            value={uiFilters.time_end}
-                            onChange={(e) => handleFilterChange('time_end', e.target.value)}
-                        />
-                    </div>
-
-                    {/* Clear Filters Button */}
-                    <div className="flex items-end">
-                        <Button
-                            variant="outline"
-                            onClick={clearFilters}
-                            className="w-full"
-                        >
-                            Clear All Filters
-                        </Button>
-                    </div>
-                </div>
-            </div>
+                                {/* End Time */}
+                                <div className="space-y-1">
+                                    <div className="relative group">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    className="w-full justify-start text-left font-normal"
+                                                >
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {uiFilters.time_end ? (
+                                                        format(new Date(uiFilters.time_end), "PPP p")
+                                                    ) : (
+                                                        <span>Pick end date</span>
+                                                    )}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={uiFilters.time_end ? new Date(uiFilters.time_end) : undefined}
+                                                    onSelect={(date) => {
+                                                        if (date) {
+                                                            const isoString = date.toISOString().slice(0, 16);
+                                                            handleFilterChange('time_end', isoString);
+                                                        } else {
+                                                            handleFilterChange('time_end', '');
+                                                        }
+                                                    }}
+                                                    initialFocus
+                                                />
+                                                <div className="p-3 border-t">
+                                                    <Input
+                                                        type="time"
+                                                        value={uiFilters.time_end ? uiFilters.time_end.slice(11, 16) : ''}
+                                                        onChange={(e) => {
+                                                            const timeValue = e.target.value;
+                                                            if (uiFilters.time_end) {
+                                                                const date = uiFilters.time_end.slice(0, 10);
+                                                                handleFilterChange('time_end', `${date}T${timeValue}`);
+                                                            }
+                                                        }}
+                                                        className="h-8"
+                                                    />
+                                                </div>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <button className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-help p-1 hover:bg-muted/50 rounded-sm transition-colors">
+                                                        <HelpCircle className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                                                    </button>
+                                                </TooltipTrigger>
+                                                <TooltipContent side="bottom" align="end" className="text-xs">
+                                                    <div className="flex items-center gap-2 text-xs">
+                                                        <span className="text-muted-foreground">Filter interactions to end at this time</span>
+                                                    </div>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </div>
+                                </div>
+                            </div>
+                        </CollapsibleContent>
+                    </Collapsible>
+                </CardContent>
+            </Card>
 
             {/* Interactions Table */}
             <Card className="p-0">
