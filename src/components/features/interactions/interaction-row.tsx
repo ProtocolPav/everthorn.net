@@ -13,38 +13,45 @@ interface InteractionRowProps {
 }
 
 export function InteractionRow({ interaction }: InteractionRowProps) {
-    const {user} = useUser(interaction.thorny_id);
+    const { user } = useUser(interaction.thorny_id);
     const typeConfig = interactionTypes[interaction.type as keyof typeof interactionTypes];
     const dimensionConfig = dimensions[interaction.dimension as keyof typeof dimensions];
     const Icon = typeConfig?.icon || FileText;
 
     return (
-        <TableRow className="hover:bg-muted/50">
-            <TableCell className="font-medium">
+        <TableRow className="hover:bg-muted/50 border-b border-border/30">
+            {/* User Column */}
+            <TableCell className="font-medium py-3">
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-xs font-bold">
                         {user ? user.username.toUpperCase()[0] : <User className="w-4 h-4" />}
                     </div>
-                    <span className="truncate">
-                        {user ? user.username : <Skeleton className="w-16 h-4 inline-block" />}
-                    </span>
+                    <div className="min-w-0 flex-1">
+                        <div className="text-sm font-medium truncate">
+                            {user ? user.username : <Skeleton className="w-16 h-4" />}
+                        </div>
+                        <div className="text-xs text-muted-foreground">ID: {interaction.thorny_id}</div>
+                    </div>
                 </div>
             </TableCell>
 
-            <TableCell>
+            {/* Action Column */}
+            <TableCell className="py-3">
                 <Badge variant={typeConfig?.variant || 'outline'} className="gap-1">
                     <Icon className="w-3 h-3" />
                     {typeConfig?.label || interaction.type}
                 </Badge>
             </TableCell>
 
-            <TableCell>
+            {/* Reference Column */}
+            <TableCell className="py-3">
                 <code className="text-xs bg-muted px-2 py-1 rounded">
                     {interaction.reference}
                 </code>
             </TableCell>
 
-            <TableCell>
+            {/* Mainhand Column */}
+            <TableCell className="py-3">
                 {interaction.mainhand ? (
                     <code className="text-xs bg-muted px-2 py-1 rounded">
                         {interaction.mainhand}
@@ -54,7 +61,8 @@ export function InteractionRow({ interaction }: InteractionRowProps) {
                 )}
             </TableCell>
 
-            <TableCell>
+            {/* Location Column */}
+            <TableCell className="py-3">
                 <div className="flex items-center gap-1">
                     <Image
                         src={dimensionConfig.img}
@@ -63,18 +71,24 @@ export function InteractionRow({ interaction }: InteractionRowProps) {
                         height={24}
                         className="object-cover rounded-sm"
                     />
-                    <code className="text-xs">
+                    <code className="text-xs text-muted-foreground">
                         [{interaction.coordinates.join(', ')}]
                     </code>
                 </div>
             </TableCell>
 
-            <TableCell>
+            {/* Time Column */}
+            <TableCell className="py-3">
                 <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-xs">
-                        {new Date(interaction.time.replace(' ', 'T') + 'Z').toLocaleString()}
-                    </span>
+                    <div className="space-y-0">
+                        <div className="text-xs font-medium">
+                            {new Date(interaction.time.replace(' ', 'T') + 'Z').toLocaleDateString()}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                            {new Date(interaction.time.replace(' ', 'T') + 'Z').toLocaleTimeString()}
+                        </div>
+                    </div>
                 </div>
             </TableCell>
         </TableRow>
