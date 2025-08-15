@@ -73,7 +73,7 @@ export function InteractionRow({ interaction }: InteractionRowProps) {
                 <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3 text-muted-foreground" />
                     <span className="text-xs">
-                        {new Date(interaction.time).toLocaleString()}
+                        {new Date(interaction.time.replace(' ', 'T') + 'Z').toLocaleString()}
                     </span>
                 </div>
             </TableCell>

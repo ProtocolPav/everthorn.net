@@ -192,7 +192,7 @@ export default function InteractionsPage() {
                                     <TableHead>Reference</TableHead>
                                     <TableHead>Mainhand</TableHead>
                                     <TableHead className="w-[160px]">Location</TableHead>
-                                    <TableHead className="w-[150px]">Time (UTC)</TableHead>
+                                    <TableHead className="w-[150px]">Time</TableHead>
                                 </TableRow>
                             </TableHeader>
 
