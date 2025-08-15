@@ -16,6 +16,7 @@ export function useInteractions() {
         time_start: '',
         time_end: '',
     });
+    const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(false);
 
     // Debounce the search term and filters
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -67,12 +68,31 @@ export function useInteractions() {
         getKey,
         fetcher,
         {
-            revalidateFirstPage: false,
+            revalidateFirstPage: true,
             persistSize: true,
             dedupingInterval: 2000,
             focusThrottleInterval: 5000,
+            refreshWhenHidden: false,
+            refreshWhenOffline: false,
+            revalidateOnFocus: isAutoRefreshEnabled, // Add this line
         }
     );
+
+// Manual refresh all data function
+    const refreshAllData = useCallback(() => {
+        mutate(); // This refreshes ALL loaded pages
+    }, [mutate]);
+
+// Auto-refresh effect
+    useEffect(() => {
+        if (!isAutoRefreshEnabled) return;
+
+        const interval = setInterval(() => {
+            refreshAllData();
+        }, 10000); // Every 10 seconds
+
+        return () => clearInterval(interval);
+    }, [refreshAllData, isAutoRefreshEnabled]);
 
     const interactions = data ? data.flat() : [];
     const isLoadingMore = isValidating && data && data[data.length - 1];
@@ -127,5 +147,8 @@ export function useInteractions() {
         isReachingEnd,
         error,
         mutate,
+        refreshAllData,
+        isAutoRefreshEnabled,
+        setIsAutoRefreshEnabled,
     };
 }

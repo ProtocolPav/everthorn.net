@@ -8,7 +8,20 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import {Search, Filter, X, MapPin, User, Sword, Clock, HelpCircle, ChevronDown, Settings, CalendarIcon} from 'lucide-react';
+import {
+    Search,
+    Filter,
+    X,
+    MapPin,
+    User,
+    Sword,
+    Clock,
+    HelpCircle,
+    ChevronDown,
+    Settings,
+    CalendarIcon,
+    RefreshCw
+} from 'lucide-react';
 import Image from 'next/image';
 import { usePageTitle } from "@/hooks/use-context";
 import { useInteractions } from '@/hooks/use-interactions';
@@ -21,15 +34,12 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import {Calendar} from "@/components/ui/calendar";
+import {Switch} from "@/components/ui/switch";
 
 export default function InteractionsPage() {
     const { setTitle } = usePageTitle();
     const {
-        searchTerm,
-        setSearchTerm,
         uiFilters,
-        debouncedFilters,
-        debouncedSearchTerm,
         filteredInteractions,
         handleFilterChange,
         clearFilters,
@@ -38,8 +48,10 @@ export default function InteractionsPage() {
         isValidating,
         isLoadingMore,
         isReachingEnd,
-        error,
-        getActiveFilterCount
+        getActiveFilterCount,
+        refreshAllData,
+        isAutoRefreshEnabled,
+        setIsAutoRefreshEnabled,
     } = useInteractions();
 
     // Set page title
@@ -86,13 +98,42 @@ export default function InteractionsPage() {
                         </div>
 
                         <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-                            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">Live</span>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-lg font-bold">{filteredInteractions.length}</div>
-                                <div className="text-xs text-muted-foreground">results</div>
+                            {/* Refresh button */}
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={refreshAllData}
+                                disabled={isValidating}
+                                className="h-8 gap-2"
+                            >
+                                <RefreshCw className={`w-3 h-3 ${isValidating ? 'animate-spin' : ''}`} />
+                                <span className="hidden sm:inline">Refresh</span>
+                            </Button>
+
+                            <div className="flex items-center gap-4">
+                                {/* Combined Live indicator + Auto-refresh toggle */}
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setIsAutoRefreshEnabled(!isAutoRefreshEnabled)}
+                                    className={`h-6 px-2 text-xs rounded-sm ml-0.5 gap-1 transition-colors ${
+                                        isAutoRefreshEnabled
+                                            ? 'hover:bg-emerald-100 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-300'
+                                            : 'hover:bg-muted hover:text-foreground'
+                                    }`}
+                                >
+                                    <div className={`w-1.5 h-1.5 rounded-full ${
+                                        isAutoRefreshEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground'
+                                    }`}/>
+                                    <div className={isAutoRefreshEnabled ? 'text-emerald-600 dark:text-emerald-400' : 'text-muted-foreground'}>
+                                        {isAutoRefreshEnabled ? 'Live' : 'Paused'}
+                                    </div>
+                                </Button>
+
+                                <div className="text-right">
+                                    <div className="text-lg font-bold">{filteredInteractions.length}</div>
+                                    <div className="text-xs text-muted-foreground">results</div>
+                                </div>
                             </div>
                         </div>
                     </div>
