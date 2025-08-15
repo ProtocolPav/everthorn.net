@@ -5,13 +5,15 @@ import useSWRInfinite from 'swr/infinite';
 import useSWR from 'swr';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter, User, MapPin, Clock, Sword, Pickaxe, Cuboid, Zap, Skull, FileText } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Search, Filter, User, MapPin, Clock, Sword, Pickaxe, Cuboid, Zap, Skull, FileText, Activity } from 'lucide-react';
+import { usePageTitle } from "@/hooks/use-context";
+import Image from 'next/image';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -55,45 +57,39 @@ const interactionTypes = {
     kill: {
         label: 'Kill',
         icon: Sword,
-        color: 'bg-red-100 text-red-800 border-red-200',
-        darkColor: 'dark:bg-red-900/20 dark:text-red-300 dark:border-red-800'
+        variant: 'red' as const,
     },
     mine: {
         label: 'Mine',
         icon: Pickaxe,
-        color: 'bg-blue-100 text-blue-800 border-blue-200',
-        darkColor: 'dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800'
+        variant: 'cyan' as const,
     },
     place: {
         label: 'Place',
         icon: Cuboid,
-        color: 'bg-green-100 text-green-800 border-green-200',
-        darkColor: 'dark:bg-green-900/20 dark:text-green-300 dark:border-green-800'
+        variant: 'green' as const,
     },
     use: {
         label: 'Use',
         icon: Zap,
-        color: 'bg-purple-100 text-purple-800 border-purple-200',
-        darkColor: 'dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-800'
+        variant: 'purple' as const,
     },
     die: {
         label: 'Die',
         icon: Skull,
-        color: 'bg-gray-100 text-gray-800 border-gray-200',
-        darkColor: 'dark:bg-gray-900/20 dark:text-gray-300 dark:border-gray-800'
+        variant: 'amber' as const,
     },
     scriptevent: {
         label: 'Script Event',
         icon: FileText,
-        color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-        darkColor: 'dark:bg-yellow-900/20 dark:text-yellow-300 dark:border-yellow-800'
+        variant: 'pink' as const,
     },
 };
 
 const dimensions = {
-    'minecraft:overworld': { label: 'Overworld', emoji: '🌍' },
-    'minecraft:the_nether': { label: 'Nether', emoji: '🔥' },
-    'minecraft:the_end': { label: 'End', emoji: '🌌' },
+    'minecraft:overworld': { label: 'Overworld', img: '/map/ui/grass_block.png' },
+    'minecraft:the_nether': { label: 'Nether', img: '/map/ui/netherrack.png' },
+    'minecraft:the_end': { label: 'End', img: '/map/ui/endstone.png' },
 };
 
 // Build query string from filters
@@ -101,7 +97,6 @@ function buildQuery(params: Record<string, any>) {
     const query = new URLSearchParams();
     for (const [key, value] of Object.entries(params)) {
         if (Array.isArray(value)) {
-            // Only add arrays that have items
             if (value.length > 0) {
                 value.forEach((v) => {
                     const stringValue = String(v).trim();
@@ -112,7 +107,6 @@ function buildQuery(params: Record<string, any>) {
             }
         } else if (value !== undefined && value !== null) {
             const stringValue = String(value).trim();
-            // Only add non-empty strings, or numbers (including 0)
             if (stringValue && (typeof value === 'number' || stringValue !== '')) {
                 query.append(key, stringValue);
             }
@@ -121,12 +115,12 @@ function buildQuery(params: Record<string, any>) {
     return query.toString();
 }
 
-// Custom hook for intersection observer infinite scroll with throttling
+// Custom hook for intersection observer infinite scroll
 function useInfiniteScroll(callback: () => void, isLoading: boolean, hasMore: boolean) {
     const observerRef = useRef<IntersectionObserver>();
     const loadingRef = useRef<HTMLDivElement>(null);
     const lastTriggered = useRef<number>(0);
-    const THROTTLE_MS = 1000; // Prevent rapid fire requests
+    const THROTTLE_MS = 1000;
 
     useEffect(() => {
         if (isLoading || !hasMore) return;
@@ -159,22 +153,98 @@ function useInfiniteScroll(callback: () => void, isLoading: boolean, hasMore: bo
     return loadingRef;
 }
 
-export default function InteractionsPage() {
-    const PAGE_SIZE = 25;
-    const [searchTerm, setSearchTerm] = useState('');
+// Individual interaction row
+function InteractionRow({ interaction }: { interaction: any }) {
+    const username = useUsername(interaction.thorny_id);
+    const typeConfig = interactionTypes[interaction.type as keyof typeof interactionTypes];
+    const dimensionConfig = dimensions[interaction.dimension as keyof typeof dimensions];
+    const Icon = typeConfig?.icon || FileText;
 
-    // Filters state - separate from API filters to prevent immediate requests
+    return (
+        <TableRow className="hover:bg-muted/50">
+            <TableCell className="font-medium">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-xs font-bold">
+                        {username ? username[0].toUpperCase() : <User className="w-4 h-4" />}
+                    </div>
+                    <span className="truncate">
+                        {username || <Skeleton className="w-16 h-4 inline-block" />}
+                    </span>
+                </div>
+            </TableCell>
+
+            <TableCell>
+                <Badge variant={typeConfig?.variant || 'outline'} className="gap-1">
+                    <Icon className="w-3 h-3" />
+                    {typeConfig?.label || interaction.type}
+                </Badge>
+            </TableCell>
+
+            <TableCell>
+                <code className="text-xs bg-muted px-2 py-1 rounded">
+                    {interaction.reference}
+                </code>
+            </TableCell>
+
+            <TableCell>
+                {interaction.mainhand ? (
+                    <code className="text-xs bg-muted px-2 py-1 rounded">
+                        {interaction.mainhand}
+                    </code>
+                ) : (
+                    <span className="text-muted-foreground text-sm">-</span>
+                )}
+            </TableCell>
+
+            <TableCell>
+                <div className="flex items-center gap-1">
+                    <Image
+                        src={dimensionConfig.img}
+                        alt={dimensionConfig.label}
+                        width={24}
+                        height={24}
+                        className="object-cover rounded-sm"
+                    />
+                    <code className="text-xs">
+                        [{interaction.coordinates.join(', ')}]
+                    </code>
+                </div>
+            </TableCell>
+
+            <TableCell>
+                <div className="flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-muted-foreground" />
+                    <span className="text-xs">
+                        {new Date(interaction.time).toLocaleString()}
+                    </span>
+                </div>
+            </TableCell>
+        </TableRow>
+    );
+}
+
+export default function InteractionsPage() {
+    const PAGE_SIZE = 50;
+    const [searchTerm, setSearchTerm] = useState('');
+    const { setTitle } = usePageTitle();
+
+    // Set page title
+    useEffect(() => {
+        setTitle("Interactions Searching (BETA)");
+    }, [setTitle]);
+
+    // Filters state
     const [uiFilters, setUiFilters] = useState({
         interaction_types: [] as string[],
         dimensions: [] as string[],
         references: [] as string[],
     });
 
-    // Debounce the search term and filters to prevent spam
+    // Debounce the search term and filters
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const debouncedFilters = useDebounce(uiFilters, 800);
 
-    // API filters - only update when debounced values change
+    // API filters
     const apiFilters = useMemo(() => ({
         coordinates: [],
         coordinates_end: [],
@@ -186,7 +256,7 @@ export default function InteractionsPage() {
         time_end: '',
     }), [debouncedSearchTerm, debouncedFilters]);
 
-    // SWR getKey with debounced filters
+    // SWR getKey
     const getKey = useCallback((pageIndex: number, previousPageData: any) => {
         if (previousPageData && previousPageData.length === 0) return null;
         const query = buildQuery({
@@ -203,8 +273,8 @@ export default function InteractionsPage() {
         {
             revalidateFirstPage: false,
             persistSize: true,
-            dedupingInterval: 2000, // Prevent duplicate requests for 2 seconds
-            focusThrottleInterval: 5000, // Throttle focus revalidation
+            dedupingInterval: 2000,
+            focusThrottleInterval: 5000,
         }
     );
 
@@ -213,7 +283,7 @@ export default function InteractionsPage() {
     const isEmpty = data?.[0]?.length === 0;
     const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
-    // Client-side filtering only for search when not using API search
+    // Client-side filtering
     const filteredInteractions = useMemo(() => {
         if (!debouncedSearchTerm) return interactions;
         return interactions.filter(interaction =>
@@ -222,7 +292,7 @@ export default function InteractionsPage() {
         );
     }, [interactions, debouncedSearchTerm]);
 
-    // Infinite scroll callback with additional safety
+    // Infinite scroll callback
     const loadMore = useCallback(() => {
         if (!isLoadingMore && !isReachingEnd && interactions.length > 0) {
             setSize(size + 1);
@@ -231,7 +301,7 @@ export default function InteractionsPage() {
 
     const loadingRef = useInfiniteScroll(loadMore, !!isLoadingMore, !isReachingEnd);
 
-    // Handle filter change - only update UI state, don't trigger immediate API call
+    // Handle filter change
     const handleFilterChange = useCallback((field: string, value: any) => {
         setUiFilters((prev) => ({
             ...prev,
@@ -247,7 +317,6 @@ export default function InteractionsPage() {
             references: [],
         });
         setSearchTerm('');
-        // Reset pagination when filters change
         setSize(1);
     }, [setSize]);
 
@@ -258,14 +327,14 @@ export default function InteractionsPage() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-                <div className="max-w-7xl mx-auto p-6">
-                    <Card className="border-red-200 bg-red-50 dark:bg-red-900/10 dark:border-red-800">
-                        <CardContent className="p-6 text-center">
-                            <div className="text-red-600 dark:text-red-400 text-lg font-medium">
+            <div className="min-h-screen bg-background">
+                <div className="container mx-auto p-6">
+                    <Card className="border-destructive/50 bg-destructive/5">
+                        <CardContent className="p-4 text-center">
+                            <div className="text-destructive text-lg font-medium">
                                 Failed to load interactions
                             </div>
-                            <p className="text-red-500 dark:text-red-300 mt-2">{error.message}</p>
+                            <p className="text-muted-foreground mt-2">{error.message}</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -274,267 +343,210 @@ export default function InteractionsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-            <div className="max-w-7xl mx-auto p-6 space-y-8">
-                {/* Header */}
-                <div className="text-center space-y-4">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
-                        Live Interactions
-                    </h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Monitor all player interactions across dimensions in real-time
-                    </p>
-                    <div className="flex justify-center items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
+        <div className="container mx-auto space-y-4">
+            {/* Filters Section */}
+            <div className="space-y-4">
+                {/* Header with stats */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Filter className="h-5 w-5 text-muted-foreground" />
+                        <h2 className="text-lg font-semibold">Filters</h2>
+                    </div>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                             <span>Live</span>
                         </div>
-                        <div>{filteredInteractions.length} interactions loaded</div>
+                        <span>{filteredInteractions.length} interactions loaded</span>
                         {(debouncedSearchTerm !== searchTerm || JSON.stringify(debouncedFilters) !== JSON.stringify(uiFilters)) && (
-                            <div className="text-orange-500">Applying filters...</div>
+                            <span className="text-orange-500">Applying filters...</span>
                         )}
                     </div>
                 </div>
 
-                {/* Search and Filters */}
-                <Card className="shadow-lg border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
-                    <CardContent className="p-6">
-                        <div className="space-y-6">
-                            {/* Search Bar */}
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                                <Input
-                                    type="text"
-                                    placeholder="Search by reference or mainhand item... (debounced)"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-10 h-12 text-lg bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
-                                />
-                            </div>
+                {/* Search Bar */}
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                        type="text"
+                        placeholder="Search by reference or mainhand item..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10"
+                    />
+                </div>
 
-                            {/* Filter Controls */}
-                            <div className="flex flex-wrap gap-4 items-end">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Interaction Type
-                                    </label>
-                                    <Select
-                                        value={uiFilters.interaction_types[0] || 'all'}
-                                        onValueChange={(value) =>
-                                            handleFilterChange('interaction_types', value === 'all' ? [] : [value])
-                                        }
-                                    >
-                                        <SelectTrigger className="w-40 bg-white dark:bg-slate-900">
-                                            <SelectValue placeholder="All types" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="all">All types</SelectItem>
-                                            {Object.entries(interactionTypes).map(([key, config]) => (
-                                                <SelectItem key={key} value={key}>
-                                                    <div className="flex items-center gap-2">
-                                                        <config.icon className="w-4 h-4" />
-                                                        {config.label}
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Dimension
-                                    </label>
-                                    <Select
-                                        value={uiFilters.dimensions[0] || 'all'}
-                                        onValueChange={(value) =>
-                                            handleFilterChange('dimensions', value === 'all' ? [] : [value])
-                                        }
-                                    >
-                                        <SelectTrigger className="w-40 bg-white dark:bg-slate-900">
-                                            <SelectValue placeholder="All dimensions" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="all">All dimensions</SelectItem>
-                                            {Object.entries(dimensions).map(([key, config]) => (
-                                                <SelectItem key={key} value={key}>
-                                                    <div className="flex items-center gap-2">
-                                                        <span>{config.emoji}</span>
-                                                        {config.label}
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Reference
-                                    </label>
-                                    <Input
-                                        type="text"
-                                        value={uiFilters.references[0] || ''}
-                                        onChange={(e) => handleFilterChange('references', e.target.value ? [e.target.value] : [])}
-                                        placeholder="minecraft:dirt"
-                                        className="w-48 bg-white dark:bg-slate-900"
-                                    />
-                                </div>
-
-                                <Button
-                                    variant="outline"
-                                    onClick={clearFilters}
-                                    className="h-10"
-                                >
-                                    <Filter className="w-4 h-4 mr-2" />
-                                    Clear Filters
-                                </Button>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Interactions List */}
-                <div className="space-y-4">
-                    {filteredInteractions.length === 0 && !isValidating && (
-                        <Card className="shadow-lg border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
-                            <CardContent className="p-12 text-center">
-                                <div className="text-slate-400 text-lg">No interactions found</div>
-                                <p className="text-slate-500 mt-2">Try adjusting your filters or search terms</p>
-                            </CardContent>
-                        </Card>
-                    )}
-
-                    {filteredInteractions.map((interaction, index) => (
-                        <InteractionCard
-                            key={`${interaction.interaction_id}-${index}`}
-                            interaction={interaction}
-                        />
-                    ))}
-
-                    {/* Loading indicator for infinite scroll */}
-                    <div ref={loadingRef} className="py-4">
-                        {isValidating && (
-                            <div className="space-y-4">
-                                {Array.from({ length: 3 }).map((_, i) => (
-                                    <Card key={i} className="shadow-lg border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
-                                        <CardContent className="p-6">
-                                            <div className="space-y-4">
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-3">
-                                                        <Skeleton className="h-10 w-10 rounded-full" />
-                                                        <div className="space-y-2">
-                                                            <Skeleton className="h-4 w-24" />
-                                                            <Skeleton className="h-3 w-16" />
-                                                        </div>
-                                                    </div>
-                                                    <Skeleton className="h-6 w-20" />
-                                                </div>
-                                                <Skeleton className="h-4 w-full" />
-                                                <div className="flex justify-between">
-                                                    <Skeleton className="h-3 w-32" />
-                                                    <Skeleton className="h-3 w-28" />
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                {/* Filter Controls */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Interaction Type</label>
+                        <Select
+                            value={uiFilters.interaction_types[0] || 'all'}
+                            onValueChange={(value) =>
+                                handleFilterChange('interaction_types', value === 'all' ? [] : [value])
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="All types" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All types</SelectItem>
+                                {Object.entries(interactionTypes).map(([key, config]) => (
+                                    <SelectItem key={key} value={key}>
+                                        <div className="flex items-center gap-2">
+                                            <config.icon className="w-4 h-4" />
+                                            {config.label}
+                                        </div>
+                                    </SelectItem>
                                 ))}
-                            </div>
-                        )}
+                            </SelectContent>
+                        </Select>
                     </div>
 
-                    {isReachingEnd && filteredInteractions.length > 0 && (
-                        <div className="text-center py-8">
-                            <div className="text-slate-400">No more interactions to load</div>
-                        </div>
-                    )}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Dimension</label>
+                        <Select
+                            value={uiFilters.dimensions[0] || 'all'}
+                            onValueChange={(value) =>
+                                handleFilterChange('dimensions', value === 'all' ? [] : [value])
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="All dimensions" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All dimensions</SelectItem>
+                                {Object.entries(dimensions).map(([key, config]) => (
+                                    <SelectItem key={key} value={key}>
+                                        <div className="flex items-center gap-2">
+                                            <Image
+                                                src={config.img}
+                                                alt={config.label}
+                                                width={16}
+                                                height={16}
+                                                className="object-cover rounded-sm"
+                                            />
+                                            {config.label}
+                                        </div>
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Reference</label>
+                        <Input
+                            type="text"
+                            value={uiFilters.references[0] || ''}
+                            onChange={(e) => handleFilterChange('references', e.target.value ? [e.target.value] : [])}
+                            placeholder="minecraft:dirt"
+                        />
+                    </div>
+
+                    <div className="flex items-end">
+                        <Button
+                            variant="outline"
+                            onClick={clearFilters}
+                            className="w-full"
+                        >
+                            Clear Filters
+                        </Button>
+                    </div>
                 </div>
             </div>
+
+            {/* Interactions Table */}
+            <Card className={'p-0'}>
+                <CardContent className="p-0">
+                    {/* Scrollable Body */}
+                    <ScrollArea className="h-130 rounded-lg">
+                        <Table>
+                            <TableHeader className={'rounded-md'}>
+                                <TableRow>
+                                    <TableHead className="w-[140px]">User</TableHead>
+                                    <TableHead className="w-[120px]">Action</TableHead>
+                                    <TableHead>Reference</TableHead>
+                                    <TableHead>Mainhand</TableHead>
+                                    <TableHead className="w-[160px]">Location</TableHead>
+                                    <TableHead className="w-[150px]">Time (UTC)</TableHead>
+                                </TableRow>
+                            </TableHeader>
+
+                            <TableBody className={'pr-5'}>
+                                {filteredInteractions.length === 0 && !isValidating ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
+                                            No interactions found
+                                            <br />
+                                            <span className="text-sm">Try adjusting your filters or search terms</span>
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    <>
+                                        {filteredInteractions.map((interaction, index) => (
+                                            <InteractionRow
+                                                key={`${interaction.interaction_id}-${index}`}
+                                                interaction={interaction}
+                                            />
+                                        ))}
+
+                                        {/* Loading rows */}
+                                        {isValidating && (
+                                            <>
+                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                    <TableRow key={`loading-${i}`}>
+                                                        <TableCell className="w-[140px]"><Skeleton className="h-4 w-16" /></TableCell>
+                                                        <TableCell className="w-[120px]"><Skeleton className="h-6 w-20" /></TableCell>
+                                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                                                        <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                                                        <TableCell className="w-[160px]"><Skeleton className="h-4 w-24" /></TableCell>
+                                                        <TableCell className="w-[150px]"><Skeleton className="h-4 w-32" /></TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </>
+                                        )}
+
+                                        {/* Infinite scroll trigger with loading indicator */}
+                                        <TableRow ref={loadingRef}>
+                                            <TableCell colSpan={6} className="text-center py-8">
+                                                {isValidating ? (
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                                            <span className="text-sm text-muted-foreground">Loading more interactions...</span>
+                                                        </div>
+                                                        <div className="w-32 h-1 bg-muted rounded-full overflow-hidden">
+                                                            <div className="w-full h-full bg-primary rounded-full animate-pulse"></div>
+                                                        </div>
+                                                    </div>
+                                                ) : isReachingEnd && filteredInteractions.length > 0 ? (
+                                                    <div className="flex flex-col items-center gap-2">
+                                        <span className="text-muted-foreground text-sm">
+                                            No more interactions to load
+                                        </span>
+                                                        <span className="text-xs text-muted-foreground/70">
+                                            {filteredInteractions.length} total interactions loaded
+                                        </span>
+                                                    </div>
+                                                ) : filteredInteractions.length === 0 && isValidating ? (
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                                            <span className="text-sm text-muted-foreground">Loading interactions...</span>
+                                                        </div>
+                                                    </div>
+                                                ) : null}
+                                            </TableCell>
+                                        </TableRow>
+                                    </>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </CardContent>
+            </Card>
+
         </div>
-    );
-}
-
-// Individual interaction card
-function InteractionCard({ interaction }: { interaction: any }) {
-    const username = useUsername(interaction.thorny_id);
-    const typeConfig = interactionTypes[interaction.type as keyof typeof interactionTypes];
-    const dimensionConfig = dimensions[interaction.dimension as keyof typeof dimensions];
-    const Icon = typeConfig?.icon || FileText;
-
-    return (
-        <Card className="shadow-lg border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-slate-800/90 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
-            <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-6">
-                    <div className="flex items-start gap-4 flex-1">
-                        {/* Avatar & User Info */}
-                        <div className="flex-shrink-0">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                                {username ? username[0].toUpperCase() : <User className="w-6 h-6" />}
-                            </div>
-                        </div>
-
-                        <div className="space-y-3 flex-1">
-                            {/* Header */}
-                            <div className="flex items-center gap-3 flex-wrap">
-                                <div className="font-semibold text-slate-900 dark:text-slate-100">
-                                    {username || <Skeleton className="w-20 h-5 inline-block" />}
-                                </div>
-                                <div className={cn(
-                                    "inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border",
-                                    typeConfig?.color,
-                                    typeConfig?.darkColor
-                                )}>
-                                    <Icon className="w-3 h-3" />
-                                    {typeConfig?.label || interaction.type}
-                                </div>
-                                {dimensionConfig && (
-                                    <div className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full text-xs">
-                                        <span>{dimensionConfig.emoji}</span>
-                                        <span className="text-slate-600 dark:text-slate-300">
-                                            {dimensionConfig.label}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Details */}
-                            <div className="space-y-2 text-sm">
-                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                                    <Cuboid className="w-4 h-4 flex-shrink-0" />
-                                    <span className="font-mono bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded text-xs">
-                                        {interaction.reference}
-                                    </span>
-                                </div>
-                                {interaction.mainhand && (
-                                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                                        <Zap className="w-4 h-4 flex-shrink-0" />
-                                        <span>Mainhand: </span>
-                                        <span className="font-mono bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded text-xs">
-                                            {interaction.mainhand}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Location & Time */}
-                    <div className="text-right space-y-2 flex-shrink-0">
-                        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                            <MapPin className="w-4 h-4" />
-                            <span className="font-mono text-xs bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">
-                                [{interaction.coordinates.join(', ')}]
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-                            <Clock className="w-4 h-4" />
-                            <span className="text-xs">
-                                {new Date(interaction.time).toLocaleString()}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
     );
 }
