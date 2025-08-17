@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import {Toggle} from "../../_types/toggle";
+import {Toggle} from "@/types/map-toggle";
 import {cn} from "@/lib/utils";
 
 

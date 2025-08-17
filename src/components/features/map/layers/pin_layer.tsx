@@ -7,7 +7,7 @@ import relicPin from "../../../../../public/map/pins/relic.png";
 import shopPin from "../../../../../public/map/pins/shop.png";
 import farmPin from "../../../../../public/map/pins/farm.png";
 import abaondonedPin from "../../../../../public/map/pins/abandoned.png"
-import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import {Toggle} from "@/types/map-toggle";
 import {Pin} from "@/types/pins";
 
 const relic_icon = new L.Icon({

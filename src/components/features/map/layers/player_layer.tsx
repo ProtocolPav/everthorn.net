@@ -6,7 +6,7 @@ import mapPin from "../../../../../public/map/pins/steve.png";
 import mapPinNether from "../../../../../public/map/pins/steve_nether.png";
 import mapPinEnd from "../../../../../public/map/pins/steve_end.png";
 import { LeafletTrackingMarker } from "react-leaflet-tracking-marker";
-import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import {Toggle} from "@/types/map-toggle";
 
 const playerIcon = new L.Icon({
     iconUrl: mapPin.src,

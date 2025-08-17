@@ -19,7 +19,7 @@ import LeafletContextMenu from "@/components/features/map/contextmenu";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
-import {Toggle} from "@/app/(no-layout)/map/_types/toggle";
+import {Toggle} from "@/types/map-toggle";
 import {Pin} from "@/types/pins";
 
 // Extend L.TileLayer for Custom Tile URL Generation
