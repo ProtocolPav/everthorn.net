@@ -33,10 +33,6 @@ const nextConfig = {
       {
         source: '/amethyst/:path*',
         destination: 'http://amethyst:8000/:path*'
-      },
-      {
-        source: '/admin/portainer/:path*',
-        destination: 'https://portainer:9443/:path*'
       }
     ]
   }
