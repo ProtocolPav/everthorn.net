@@ -34,7 +34,19 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import {Calendar} from "@/components/ui/calendar";
-import {Switch} from "@/components/ui/switch";
+
+function generateUTCHint() {
+    const offsetHours = -new Date().getTimezoneOffset() / 60; // local minus UTC
+    const sign = offsetHours >= 0 ? "+" : "-";
+    const absOffset = Math.abs(offsetHours);
+
+    // Example: 4 PM local
+    let exampleUTC = 16 - offsetHours;
+    if (exampleUTC <= 0) exampleUTC += 12;
+    if (exampleUTC > 12) exampleUTC -= 12;
+
+    return `Times are in UTC. Your local time is ${offsetHours >= 0 ? `${absOffset} hours ahead` : `${absOffset} hours behind`} UTC. For example, to search for 4 PM local, enter ${exampleUTC} PM UTC.`;
+}
 
 export default function InteractionsPage() {
     const { setTitle } = usePageTitle();
@@ -409,7 +421,7 @@ export default function InteractionsPage() {
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {uiFilters.time_start ? (
                                                         <span className="truncate">
-                                                {format(new Date(uiFilters.time_start), "PPP p")}
+                                                            {format(new Date(uiFilters.time_start), "PPP p")}
                                             </span>
                                                     ) : (
                                                         <span>Pick start date</span>
@@ -422,10 +434,14 @@ export default function InteractionsPage() {
                                                     selected={uiFilters.time_start ? new Date(uiFilters.time_start) : undefined}
                                                     onSelect={(date) => {
                                                         if (date) {
-                                                            const isoString = date.toISOString().slice(0, 16);
-                                                            handleFilterChange('time_start', isoString);
+                                                            // Default to midnight with microseconds
+                                                            const year = date.getFullYear();
+                                                            const month = String(date.getMonth() + 1).padStart(2, "0");
+                                                            const day = String(date.getDate()).padStart(2, "0");
+                                                            const formatted = `${year}-${month}-${day} 00:00:00.000000`;
+                                                            handleFilterChange("time_start", formatted);
                                                         } else {
-                                                            handleFilterChange('time_start', '');
+                                                            handleFilterChange("time_start", "");
                                                         }
                                                     }}
                                                     initialFocus
@@ -433,16 +449,20 @@ export default function InteractionsPage() {
                                                 <div className="p-3 border-t">
                                                     <Input
                                                         type="time"
-                                                        value={uiFilters.time_start ? uiFilters.time_start.slice(11, 16) : ''}
+                                                        value={uiFilters.time_start ? uiFilters.time_start.slice(11, 16) : ""}
                                                         onChange={(e) => {
-                                                            const timeValue = e.target.value;
+                                                            const timeValue = e.target.value; // "HH:MM"
                                                             if (uiFilters.time_start) {
-                                                                const date = uiFilters.time_start.slice(0, 10);
-                                                                handleFilterChange('time_start', `${date}T${timeValue}`);
+                                                                const date = uiFilters.time_start.slice(0, 10); // "YYYY-MM-DD"
+                                                                const formatted = `${date} ${timeValue}:00.000000`;
+                                                                handleFilterChange("time_start", formatted);
                                                             }
                                                         }}
                                                         className="h-8"
                                                     />
+                                                    <p className="mt-1 text-xs text-gray-500 max-w-[200px] break-words">
+                                                        {generateUTCHint()}
+                                                    </p>
                                                 </div>
                                             </PopoverContent>
                                         </Popover>
@@ -488,10 +508,14 @@ export default function InteractionsPage() {
                                                     selected={uiFilters.time_end ? new Date(uiFilters.time_end) : undefined}
                                                     onSelect={(date) => {
                                                         if (date) {
-                                                            const isoString = date.toISOString().slice(0, 16);
-                                                            handleFilterChange('time_end', isoString);
+                                                            // Default to midnight with microseconds
+                                                            const year = date.getFullYear();
+                                                            const month = String(date.getMonth() + 1).padStart(2, "0");
+                                                            const day = String(date.getDate()).padStart(2, "0");
+                                                            const formatted = `${year}-${month}-${day} 00:00:00.000000`;
+                                                            handleFilterChange("time_end", formatted);
                                                         } else {
-                                                            handleFilterChange('time_end', '');
+                                                            handleFilterChange("time_end", "");
                                                         }
                                                     }}
                                                     initialFocus
@@ -499,16 +523,20 @@ export default function InteractionsPage() {
                                                 <div className="p-3 border-t">
                                                     <Input
                                                         type="time"
-                                                        value={uiFilters.time_end ? uiFilters.time_end.slice(11, 16) : ''}
+                                                        value={uiFilters.time_end ? uiFilters.time_end.slice(11, 16) : ""}
                                                         onChange={(e) => {
-                                                            const timeValue = e.target.value;
+                                                            const timeValue = e.target.value; // "HH:MM"
                                                             if (uiFilters.time_end) {
-                                                                const date = uiFilters.time_end.slice(0, 10);
-                                                                handleFilterChange('time_end', `${date}T${timeValue}`);
+                                                                const date = uiFilters.time_end.slice(0, 10); // "YYYY-MM-DD"
+                                                                const formatted = `${date} ${timeValue}:00.000000`;
+                                                                handleFilterChange("time_end", formatted);
                                                             }
                                                         }}
                                                         className="h-8"
                                                     />
+                                                    <p className="mt-1 text-xs text-gray-500 max-w-[200px] break-words">
+                                                        {generateUTCHint()}
+                                                    </p>
                                                 </div>
                                             </PopoverContent>
                                         </Popover>
