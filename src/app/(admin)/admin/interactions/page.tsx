@@ -20,7 +20,7 @@ import {
     ChevronDown,
     Settings,
     CalendarIcon,
-    RefreshCw
+    RefreshCw, Inbox
 } from 'lucide-react';
 import Image from 'next/image';
 import { usePageTitle } from "@/hooks/use-context";
@@ -34,6 +34,7 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import {Calendar} from "@/components/ui/calendar";
+import Loader from "@/components/layout/loader";
 
 function generateUTCHint() {
     const offsetHours = -new Date().getTimezoneOffset() / 60; // local minus UTC
@@ -579,73 +580,71 @@ export default function InteractionsPage() {
                             </TableHeader>
 
                             <TableBody className="pr-5">
-                                {filteredInteractions.length === 0 && !isValidating ? (
-                                    <TableRow>
-                                        <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
-                                            No interactions found
-                                            <br />
-                                            <span className="text-sm">Try adjusting your filters or search terms</span>
-                                        </TableCell>
-                                    </TableRow>
-                                ) : (
-                                    <>
-                                        {filteredInteractions.map((interaction, index) => (
-                                            <InteractionRow
-                                                key={`${interaction.interaction_id}-${index}`}
-                                                interaction={interaction}
-                                            />
-                                        ))}
+                                {/* Interaction rows */}
+                                {filteredInteractions.map((interaction, index) => (
+                                    <InteractionRow
+                                        key={`${interaction.interaction_id}-${index}`}
+                                        interaction={interaction}
+                                    />
+                                ))}
 
-                                        {/* Loading rows */}
-                                        {isValidating && (
-                                            <>
-                                                {Array.from({ length: 5 }).map((_, i) => (
-                                                    <TableRow key={`loading-${i}`}>
-                                                        <TableCell className="w-[140px]"><Skeleton className="h-4 w-16" /></TableCell>
-                                                        <TableCell className="w-[120px]"><Skeleton className="h-6 w-20" /></TableCell>
-                                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                                                        <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                                                        <TableCell className="w-[160px]"><Skeleton className="h-4 w-24" /></TableCell>
-                                                        <TableCell className="w-[150px]"><Skeleton className="h-4 w-32" /></TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </>
-                                        )}
-
-                                        {/* Infinite scroll trigger */}
-                                        <TableRow ref={loadingRef}>
-                                            <TableCell colSpan={6} className="text-center py-8">
-                                                {isValidating ? (
-                                                    <div className="flex flex-col items-center gap-3">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                                                            <span className="text-sm text-muted-foreground">Loading more interactions...</span>
-                                                        </div>
-                                                        <div className="w-32 h-1 bg-muted rounded-full overflow-hidden">
-                                                            <div className="w-full h-full bg-primary rounded-full animate-pulse"></div>
-                                                        </div>
-                                                    </div>
-                                                ) : isReachingEnd && filteredInteractions.length > 0 ? (
-                                                    <div className="flex flex-col items-center gap-2">
-                                                        <span className="text-muted-foreground text-sm">
-                                                          No more interactions to load
-                                                        </span>
-                                                        <span className="text-xs text-muted-foreground/70">
-                                                          {filteredInteractions.length} total interactions loaded
-                                                        </span>
-                                                    </div>
-                                                ) : filteredInteractions.length === 0 && isValidating ? (
-                                                    <div className="flex flex-col items-center gap-3">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                                                            <span className="text-sm text-muted-foreground">Loading interactions...</span>
-                                                        </div>
-                                                    </div>
-                                                ) : null}
+                                {/* Skeleton rows (extracted to component) */}
+                                {isValidating &&
+                                    Array.from({ length: 5 }).map((_, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell className="w-[140px]">
+                                                <Skeleton className="h-4 w-20" />
+                                            </TableCell>
+                                            <TableCell className="w-[120px]">
+                                                <Skeleton className="h-6 w-24" />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton className="h-4 w-36" />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton className="h-4 w-28" />
+                                            </TableCell>
+                                            <TableCell className="w-[160px]">
+                                                <Skeleton className="h-4 w-28" />
+                                            </TableCell>
+                                            <TableCell className="w-[150px]">
+                                                <Skeleton className="h-4 w-32" />
                                             </TableCell>
                                         </TableRow>
-                                    </>
-                                )}
+                                    ))}
+
+                                {/* Infinite scroll footer */}
+                                <TableRow ref={loadingRef}>
+                                    <TableCell colSpan={6} className="py-5">
+                                        <div className="flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                                            {/* Loading */}
+                                            {isValidating ? (
+                                                <>
+                                                    <Loader className="animate-spin text-muted-foreground" />
+                                                    <div className="text-sm">Loading interactions...</div>
+                                                </>
+                                            ) : filteredInteractions.length === 0 ? (
+                                                /* Empty */
+                                                <>
+                                                    <Inbox className="w-10 h-10 opacity-60" />
+                                                    <div className="text-base font-medium">No interactions found</div>
+                                                    <div className="text-sm text-muted-foreground/80">
+                                                        Try adjusting your filters or search terms
+                                                    </div>
+                                                </>
+                                            ) : isReachingEnd ? (
+                                                /* End of list */
+                                                <>
+                                                    <div className="text-sm font-medium">All caught up 🎉</div>
+                                                    <div className="text-xs opacity-70">
+                                                        {filteredInteractions.length} total interactions loaded
+                                                    </div>
+                                                </>
+                                            ) : null}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+
                             </TableBody>
                         </Table>
 
