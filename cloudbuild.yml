@@ -1,0 +1,20 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA',
+        '-t', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest',
+        '.',
+        '-f', 'nextjs.Dockerfile'
+      ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest']
+
+images:
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA'
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest'
