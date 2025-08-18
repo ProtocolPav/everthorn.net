@@ -18,3 +18,5 @@ steps:
 images:
   - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA'
   - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest'
+
+logsBucket: gs://everthorn-buckets-is/cloud-logs/
