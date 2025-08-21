@@ -10,11 +10,10 @@ steps:
         --build-arg AUTH_DISCORD_SECRET=$$AUTH_DISCORD_SECRET \
         --build-arg AUTH_URL=$$AUTH_URL \
         --build-arg APPLY_WEBHOOK_URL=$$APPLY_WEBHOOK_URL \
-        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$$SHORT_SHA \
+        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA \
         -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest \
         -f nextjs.Dockerfile \
         .
-
     secretEnv: ['AUTH_SECRET', 'AUTH_DISCORD_ID', 'AUTH_DISCORD_SECRET', 'AUTH_URL', 'APPLY_WEBHOOK_URL']
 
   - name: 'gcr.io/cloud-builders/docker'
