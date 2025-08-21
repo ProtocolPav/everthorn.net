@@ -36,14 +36,25 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Create .env file from build arguments
-RUN echo "AUTH_SECRET=${AUTH_SECRET}" > .env && \
-    echo "AUTH_DISCORD_ID=${AUTH_DISCORD_ID}" >> .env && \
-    echo "AUTH_DISCORD_SECRET=${AUTH_DISCORD_SECRET}" >> .env && \
-    echo "AUTH_URL=${AUTH_URL}" >> .env && \
-    echo "AUTH_TRUST_HOST=true" >> .env && \
-    echo "NEXT_PUBLIC_DEV=false" >> .env && \
-    echo "NEXT_PUBLIC_APPLY_WEBHOOK_URL=${NEXT_PUBLIC_APPLY_WEBHOOK_URL}" >> .env
+# Debug: Check if ARG values are actually passed
+RUN echo "=== DEBUG: Checking ARG values ===" && \
+    echo "AUTH_SECRET length: ${#AUTH_SECRET}" && \
+    echo "AUTH_URL: ${AUTH_URL}" && \
+    echo "WEBHOOK_URL: ${NEXT_PUBLIC_APPLY_WEBHOOK_URL}" && \
+    echo "=== END DEBUG ==="
+
+# Fail if critical variables are empty
+RUN test -n "$AUTH_SECRET" || (echo "ERROR: AUTH_SECRET is empty" && exit 1)
+RUN test -n "$AUTH_URL" || (echo "ERROR: AUTH_URL is empty" && exit 1)
+
+# Create .env file from build arguments (this will now have real values)
+RUN printf "AUTH_SECRET=%s\n" "$AUTH_SECRET" > .env && \
+    printf "AUTH_DISCORD_ID=%s\n" "$AUTH_DISCORD_ID" >> .env && \
+    printf "AUTH_DISCORD_SECRET=%s\n" "$AUTH_DISCORD_SECRET" >> .env && \
+    printf "AUTH_URL=%s\n" "$AUTH_URL" >> .env && \
+    printf "AUTH_TRUST_HOST=true\n" >> .env && \
+    printf "NEXT_PUBLIC_DEV=false\n" >> .env && \
+    printf "NEXT_PUBLIC_APPLY_WEBHOOK_URL=%s\n" "$NEXT_PUBLIC_APPLY_WEBHOOK_URL" >> .env
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
