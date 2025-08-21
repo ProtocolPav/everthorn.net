@@ -1,11 +1,5 @@
 FROM oven/bun:1-alpine AS base
 
-ARG AUTH_SECRET
-ARG AUTH_DISCORD_ID
-ARG AUTH_DISCORD_SECRET
-ARG AUTH_URL
-ARG NEXT_PUBLIC_APPLY_WEBHOOK_URL
-
 # Install dependencies only when needed
 FROM base AS deps
 # Install Node.js for Next.js compatibility (needed for the production runtime)
@@ -27,6 +21,14 @@ RUN \
 
 # Rebuild the source code only when needed
 FROM base AS builder
+
+# ADD THESE ARG DECLARATIONS HERE
+ARG AUTH_SECRET
+ARG AUTH_DISCORD_ID
+ARG AUTH_DISCORD_SECRET
+ARG AUTH_URL
+ARG NEXT_PUBLIC_APPLY_WEBHOOK_URL
+
 # Install Node.js for Next.js build process
 RUN apk add --no-cache nodejs libc6-compat
 
