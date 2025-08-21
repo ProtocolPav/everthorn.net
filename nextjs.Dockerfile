@@ -32,6 +32,10 @@ ARG NEXT_PUBLIC_APPLY_WEBHOOK_URL
 # Install Node.js for Next.js build process
 RUN apk add --no-cache nodejs libc6-compat
 
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
 # Create .env file from build arguments
 RUN echo "AUTH_SECRET=${AUTH_SECRET}" > .env && \
     echo "AUTH_DISCORD_ID=${AUTH_DISCORD_ID}" >> .env && \
@@ -40,10 +44,6 @@ RUN echo "AUTH_SECRET=${AUTH_SECRET}" > .env && \
     echo "AUTH_TRUST_HOST=true" >> .env && \
     echo "NEXT_PUBLIC_DEV=false" >> .env && \
     echo "NEXT_PUBLIC_APPLY_WEBHOOK_URL=${NEXT_PUBLIC_APPLY_WEBHOOK_URL}" >> .env
-
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
