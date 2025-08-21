@@ -32,13 +32,14 @@ ARG NEXT_PUBLIC_APPLY_WEBHOOK_URL
 # Install Node.js for Next.js build process
 RUN apk add --no-cache nodejs libc6-compat
 
-ENV AUTH_SECRET=${AUTH_SECRET}
-ENV AUTH_DISCORD_ID=${AUTH_DISCORD_ID}
-ENV AUTH_DISCORD_SECRET=${AUTH_DISCORD_SECRET}
-ENV AUTH_URL=${AUTH_URL}
-ENV AUTH_TRUST_HOST=true
-ENV NEXT_PUBLIC_DEV=false
-ENV NEXT_PUBLIC_APPLY_WEBHOOK_URL=${NEXT_PUBLIC_APPLY_WEBHOOK_URL}
+# Create .env file from build arguments
+RUN echo "AUTH_SECRET=${AUTH_SECRET}" > .env && \
+    echo "AUTH_DISCORD_ID=${AUTH_DISCORD_ID}" >> .env && \
+    echo "AUTH_DISCORD_SECRET=${AUTH_DISCORD_SECRET}" >> .env && \
+    echo "AUTH_URL=${AUTH_URL}" >> .env && \
+    echo "AUTH_TRUST_HOST=true" >> .env && \
+    echo "NEXT_PUBLIC_DEV=false" >> .env && \
+    echo "NEXT_PUBLIC_APPLY_WEBHOOK_URL=${NEXT_PUBLIC_APPLY_WEBHOOK_URL}" >> .env
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -76,6 +77,8 @@ COPY --from=builder /app/public ./public
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.env ./
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
