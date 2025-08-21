@@ -22,6 +22,15 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest']
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'pubsub'
+      - 'topics'
+      - 'publish'
+      - 'builds'
+      - '--message={"project": "single-inquiry-391907", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA", "status": "success", "timestamp": "$BUILD_ID"}'
+      - '--attribute=build_id=$BUILD_ID,commit_sha=$SHORT_SHA,branch_name=$BRANCH_NAME'
+
 availableSecrets:
   secretManager:
     - versionName: projects/single-inquiry-391907/secrets/auth-secret/versions/latest
