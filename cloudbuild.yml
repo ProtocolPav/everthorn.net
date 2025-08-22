@@ -28,7 +28,7 @@ steps:
       - 'topics'
       - 'publish'
       - 'builds'
-      - '--message={"project": "single-inquiry-391907", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA", "status": "success", "timestamp": "$BUILD_ID"}'
+      - '--message={"compose-name": "everthorn-site", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA"}'
       - '--attribute=build_id=$BUILD_ID,commit_sha=$SHORT_SHA,branch_name=$BRANCH_NAME'
 
 availableSecrets:
