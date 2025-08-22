@@ -36,19 +36,51 @@ import { format } from 'date-fns';
 import {Calendar} from "@/components/ui/calendar";
 import Loader from "@/components/layout/loader";
 
-function generateUTCHint() {
-    const offsetHours = -new Date().getTimezoneOffset() / 60; // local minus UTC
-    const sign = offsetHours >= 0 ? "+" : "-";
+function generateUTCHint(selectedTimeStart: string) {
+    const offsetMinutes = -new Date().getTimezoneOffset(); // local minus UTC in minutes
+    const offsetHours = offsetMinutes / 60;
     const absOffset = Math.abs(offsetHours);
 
-    // Example: 4 PM local
-    let exampleUTC = 16 - offsetHours;
-    if (exampleUTC <= 0) exampleUTC += 12;
-    if (exampleUTC > 12) exampleUTC -= 12;
+    // Generate conversion rule (local → UTC)
+    let conversionRule;
+    if (offsetHours > 0) {
+        conversionRule = `subtract ${Math.floor(absOffset)} hours`;
+    } else if (offsetHours < 0) {
+        conversionRule = `add ${Math.floor(absOffset)} hours`;
+    } else {
+        conversionRule = "no conversion needed";
+    }
 
-    return `Times are in UTC. Your local time is ${offsetHours >= 0 ? `${absOffset} hours ahead` : `${absOffset} hours behind`} UTC. For example, to search for 4 PM local, enter ${exampleUTC} PM UTC.`;
+    // Base hint with conversion rule
+    let hint = `To convert from local: ${conversionRule}.`;
+
+    // If time is selected, show what local time it represents
+    if (selectedTimeStart) {
+        try {
+            // Parse the UTC time and convert to local
+            const utcDate = new Date(selectedTimeStart.replace(' ', 'T').replace('.000000', ''));
+            const localDate = new Date(utcDate.getTime() + (offsetHours * 60 * 60 * 1000));
+
+            // Format times for display
+            const utcTimeStr = utcDate.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            const localTimeStr = localDate.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            hint += `\n${utcTimeStr} UTC = ${localTimeStr} local`;
+        } catch (error) {
+            console.warn('Failed to parse selected time:', error);
+        }
+    }
+
+    return hint;
 }
-
 
 export default function InteractionsPage() {
     const { setTitle } = usePageTitle();
@@ -424,7 +456,7 @@ export default function InteractionsPage() {
                                                     {uiFilters.time_start ? (
                                                         <span className="truncate">
                                                             {format(new Date(uiFilters.time_start), "PPP p")}
-                                            </span>
+                                                        </span>
                                                     ) : (
                                                         <span>Pick start date</span>
                                                     )}
@@ -463,7 +495,7 @@ export default function InteractionsPage() {
                                                         className="h-8"
                                                     />
                                                     <p className="mt-1 text-xs text-gray-500 max-w-[200px] break-words">
-                                                        {generateUTCHint()}
+                                                        {generateUTCHint(uiFilters.time_start)}
                                                     </p>
                                                 </div>
                                             </PopoverContent>
@@ -537,7 +569,7 @@ export default function InteractionsPage() {
                                                         className="h-8"
                                                     />
                                                     <p className="mt-1 text-xs text-gray-500 max-w-[200px] break-words">
-                                                        {generateUTCHint()}
+                                                        {generateUTCHint(uiFilters.time_end)}
                                                     </p>
                                                 </div>
                                             </PopoverContent>
