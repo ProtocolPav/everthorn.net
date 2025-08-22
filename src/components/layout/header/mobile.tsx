@@ -1,100 +1,119 @@
+// components/layout/header/mobile.tsx
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
-
+import { useSession } from "next-auth/react"
 import { cn } from "@/lib/utils"
-import {Button} from "@/components/ui/button";
-
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
+import { DiscordButton } from "@/components/layout/discord/discord-button"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  HouseIcon,
+  IdentificationBadgeIcon,
+  NewspaperClippingIcon,
+  PatreonLogoIcon,
+  ShieldCheckIcon,
+  YoutubeLogoIcon,
+  ListIcon,
+  MapTrifoldIcon
+} from "@phosphor-icons/react"
 
-import {DiscordAvatar} from "@/components/layout/header/discord-avatar";
-import {useSession} from "next-auth/react";
-import {Separator} from "@/components/ui/separator";
-import {House, IdentificationBadge, NewspaperClipping, PatreonLogo, ShieldCheck, YoutubeLogo, List, MapTrifold} from "@phosphor-icons/react";
+const navigationItems = [
+  { href: '/', icon: HouseIcon, label: 'Home' },
+  { href: '/guidelines', icon: ShieldCheckIcon, label: 'Guidelines' },
+  { href: '/map', icon: MapTrifoldIcon, label: 'World Map' },
+  { href: '/wiki', icon: NewspaperClippingIcon, label: 'Wiki' },
+]
+
+const socialButtons = [
+  {
+    href: '/support',
+    icon: PatreonLogoIcon,
+    label: 'Feed Thorny',
+    className: 'bg-gradient-to-bl from-transparent to-lime-700/40',
+    showLabel: true,
+  },
+  {
+    href: '/youtube',
+    icon: YoutubeLogoIcon,
+    label: 'YouTube',
+    size: 'icon' as const,
+    showLabel: false,
+  },
+]
 
 export function Mobile() {
   const { data: session, status } = useSession()
-  const CMcheck = status === 'authenticated' && session?.user?.everthornMemberInfo.isCM
+  const isCM = status === 'authenticated' && session?.user?.everthornMemberInfo.isCM
+  const [isOpen, setIsOpen] = React.useState(false)
 
-  const [buttonClick, setButtonClick] = React.useState(false);
+  const closePopover = () => setIsOpen(false)
 
   return (
-    <div className="flex flex-1 items-center justify-end space-x-3 md:hidden">
-      <DiscordAvatar />
+      <div className="flex flex-1 items-center justify-end space-x-3 md:hidden">
+        <div className={'flex'}>
+          <DiscordButton />
+        </div>
 
-      <Popover open={buttonClick} onOpenChange={setButtonClick}>
-        <PopoverTrigger asChild>
-          <Button variant={'outline'} size={'icon'} className={'flex'}>
-            <List className={'size-6'}/>
-          </Button>
-        </PopoverTrigger>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <ListIcon />
+            </Button>
+          </PopoverTrigger>
 
-        <PopoverContent align={'end'} className={'w-full bg-background'}>
-          <div className={'mt-5 grid justify-start gap-y-2 text-start'}>
-            {/* Home */}
-            <Link href={'/'}>
-              <Button className={'size-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
-                <House className={'size-6'} weight={'fill'}/>
-                <div className='ms-2'>Home</div>
-              </Button>
-            </Link>
+          <PopoverContent align="end" className="w-full bg-background">
+            <div className="mt-5 grid justify-start gap-y-2 text-start">
+              {/* Navigation Items */}
+              {navigationItems.map(({ href, icon: Icon, label }) => (
+                  <Link key={href} href={href}>
+                    <Button
+                        className="size-full justify-start"
+                        variant="outline"
+                        onClick={closePopover}
+                    >
+                      <Icon className="size-6" weight="fill" />
+                      <div className="ms-2">{label}</div>
+                    </Button>
+                  </Link>
+              ))}
 
-            {/* Guidelines */}
-            <Link href={'/guidelines'}>
-              <Button className={'size-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
-                <ShieldCheck className={'size-6'} weight={'fill'}/>
-                <div className='ms-2'>Guidelines</div>
-              </Button>
-            </Link>
+              {/* Admin Link - Only for CMs */}
+              {isCM && (
+                  <Link href="/admin">
+                    <Button
+                        className="h-auto w-full justify-start bg-gradient-to-bl from-transparent to-purple-400/30"
+                        variant="outline"
+                        onClick={closePopover}
+                    >
+                      <IdentificationBadgeIcon className="size-6" weight="fill" />
+                      <div className="ms-2">Admin</div>
+                    </Button>
+                  </Link>
+              )}
 
-            {/* Map */}
-            <Link href={'/map'}>
-              <Button className={'h-auto w-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
-                <MapTrifold className={'size-6'} weight={'fill'}/>
-                <div className='ms-2'>World Map</div>
-              </Button>
-            </Link>
+              <Separator className="my-2" />
 
-            {/* Wiki */}
-            <Link href={'/wiki'}>
-              <Button className={'h-auto w-full justify-start'} variant={'outline'} onClick={() => setButtonClick(false)}>
-                <NewspaperClipping className={'size-6'} weight={'fill'}/>
-                <div className='ms-2'>Wiki</div>
-              </Button>
-            </Link>
-
-            {/* Admin */}
-            <Link href={'/admin'} className={cn(CMcheck ? '': 'hidden')}>
-              <Button className={'h-auto w-full justify-start bg-gradient-to-bl from-transparent to-purple-400/30'} variant={'outline'} onClick={() => setButtonClick(false)}>
-                <IdentificationBadge className={'size-6'} weight={'fill'}/>
-                <div className='ms-2'>Admin</div>
-              </Button>
-            </Link>
-
-            <Separator className={'my-2'}/>
-
-            <div className={'flex justify-center gap-4'}>
-              <Link href={'/support'} target="_blank" rel="noreferrer">
-                <Button className={'bg-gradient-to-bl from-transparent to-lime-700/40'} size={'default'} variant={'outline'}>
-                  <PatreonLogo className="mr-1 size-5" weight={'fill'} />
-                  Feed Thorny
-                </Button>
-              </Link>
-
-              <Link href={'/youtube'} target="_blank" rel="noreferrer">
-                <Button size={'icon'} variant={'outline'}>
-                  <YoutubeLogo className="size-5" weight={'fill'} />
-                </Button>
-              </Link>
+              {/* Social Buttons */}
+              <div className="flex justify-center gap-4">
+                {socialButtons.map(({ href, icon: Icon, label, className, size, showLabel }) => (
+                    <Link key={href} href={href} target="_blank" rel="noreferrer">
+                      <Button
+                          className={className}
+                          size={size || 'default'}
+                          variant="outline"
+                      >
+                        <Icon className={cn("size-5", showLabel && "mr-1")} weight="fill" />
+                        {showLabel && label}
+                      </Button>
+                    </Link>
+                ))}
+              </div>
             </div>
-
-
-          </div>
-        </PopoverContent>
-      </Popover>
-    </div>
+          </PopoverContent>
+        </Popover>
+      </div>
   )
 }

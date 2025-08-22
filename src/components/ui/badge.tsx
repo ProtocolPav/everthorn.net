@@ -15,9 +15,18 @@ const badgeVariants = cva(
         outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         attention: "text-purple-900 bg-purple-200 dark:text-purple-100 dark:bg-purple-900",
         command: "bg-muted font-mono",
+
+        // Colour Variants
         amber: "bg-orange-50 border-orange-300 dark:bg-orange-950/20 dark:border-orange-800 text-yellow-800 dark:text-yellow-400",
         info: "bg-blue-50 border-blue-300 dark:bg-blue-950/20 dark:border-blue-800 text-grey-50",
-        red: "bg-red-50 border-red-300 dark:bg-red-950/20 dark:border-red-800 text-rose-800 dark:text-rose-400"
+        red: "bg-red-50 border-red-300 dark:bg-red-950/20 dark:border-red-800 text-rose-800 dark:text-rose-400",
+        green: "bg-green-50 border-green-300 dark:bg-green-950/20 dark:border-green-800 text-green-800 dark:text-green-400",
+        purple: "bg-purple-50 border-purple-300 dark:bg-purple-950/20 dark:border-purple-800 text-purple-800 dark:text-purple-400",
+        pink: "bg-pink-50 border-pink-300 dark:bg-pink-950/20 dark:border-pink-800 text-pink-800 dark:text-pink-400",
+        indigo: "bg-indigo-50 border-indigo-300 dark:bg-indigo-950/20 dark:border-indigo-800 text-indigo-800 dark:text-indigo-400",
+        cyan: "bg-cyan-50 border-cyan-300 dark:bg-cyan-950/20 dark:border-cyan-800 text-cyan-800 dark:text-cyan-400",
+        emerald: "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/20 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400",
+        slate: "bg-slate-50 border-slate-300 dark:bg-slate-950/20 dark:border-slate-800 text-slate-800 dark:text-slate-400",
       },
     },
     defaultVariants: {

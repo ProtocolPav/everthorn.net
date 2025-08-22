@@ -52,8 +52,9 @@ export function useUser(thornyId: number) {
         fetcher,
         {
             revalidateOnFocus: false,
-            revalidateOnReconnect: true,
-            dedupingInterval: 60000,
+            revalidateOnReconnect: false,
+            dedupingInterval: Infinity,
+            revalidateIfStale: false,
         }
     );
 

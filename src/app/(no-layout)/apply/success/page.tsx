@@ -1,7 +1,6 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Check, Home, MessageSquare, Play, Shield, Globe, ExternalLink, Clock, Users, Sparkles, ArrowRight } from 'lucide-react'
+import { Check, MessageSquare, Play, Shield, Globe, Clock, Users, Sparkles, ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useSession } from "next-auth/react"
 

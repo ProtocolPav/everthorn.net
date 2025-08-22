@@ -1,21 +1,21 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import ServerDailyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-daily-playtime";
+import ServerDailyPlaytime from "@/components/features/charts/server-daily-playtime";
 import {formatPlaytime} from "@/lib/utils";
 import {GuildPlaytime, OnlineUser, ServerStatus} from "@/types/admin";
-import ServerMonthlyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-monthly-playtime";
+import ServerMonthlyPlaytime from "@/components/features/charts/server-monthly-playtime";
 import {ClockCountdown, ChartBar, Minus, TrendUp, TrendDown, Calendar, Users, Info} from "@phosphor-icons/react";
 import {Badge} from "@/components/ui/badge";
-import ServerWeeklyPlaytime from "@/app/(admin)/admin/_components/dashboard/charts/server-weekly-playtime";
-import OnlinePlayersChart from "@/app/(admin)/admin/_components/dashboard/charts/online-players";
+import ServerWeeklyPlaytime from "@/components/features/charts/server-weekly-playtime";
+import OnlinePlayersChart from "@/components/features/charts/online-players";
 import {Activity} from "lucide-react";
 import OnlinePlayersList from "@/app/(admin)/admin/_components/dashboard/online-players";
-import {Alert, AlertDescription} from "@/components/ui/alert";
 import * as React from "react";
+import {Player} from "@/hooks/use-players";
 
 interface Props {
     playtime?: GuildPlaytime;
     playtimeLoading: boolean;
-    players: OnlineUser[];
+    players: Player[];
     playersLoading: boolean;
     status?: ServerStatus;
     statusLoading: boolean;
@@ -137,7 +137,9 @@ export default function Statistics({
                 </CardHeader>
 
                 <CardContent className="px-0 grid gap-3">
-                    <ServerMonthlyPlaytime data={playtime?.monthly_playtime || []} />
+                    <div className="h-70">
+                        <ServerMonthlyPlaytime data={playtime?.monthly_playtime || []} />
+                    </div>
 
                     {/* Enhanced footer with additional context */}
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
@@ -181,7 +183,9 @@ export default function Statistics({
                 </CardHeader>
 
                 <CardContent className="px-0 grid gap-3">
-                    <ServerDailyPlaytime data={playtime?.daily_playtime || []} />
+                    <div className="h-40">
+                        <ServerDailyPlaytime data={playtime?.daily_playtime || []} />
+                    </div>
 
                     {/* Enhanced footer with additional context */}
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">
@@ -221,7 +225,9 @@ export default function Statistics({
                 </CardHeader>
 
                 <CardContent className="px-0 grid gap-3">
-                    <ServerWeeklyPlaytime data={playtime?.weekly_playtime || []} />
+                    <div className="h-40">
+                        <ServerWeeklyPlaytime data={playtime?.weekly_playtime || []} />
+                    </div>
 
                     {/* Enhanced footer with additional context */}
                     <div className="flex items-center justify-between pt-2 border-t border-border/30">

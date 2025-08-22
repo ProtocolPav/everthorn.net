@@ -1,7 +1,7 @@
 import useSWR from "swr"
 
 export interface Player {
-    thorny_id: string
+    thorny_id: number
     user_id: number
     session: string
     username: string
@@ -17,7 +17,7 @@ export function usePlayers(guild_id: string): {players: Player[], isError: any, 
     const { data, error, isLoading } = useSWR(`/nexuscore-api/v0.2/guilds/${guild_id}/online`, fetcher, {refreshInterval: 1000});
 
     return {
-        players: data,
+        players: data || [],
         isLoading,
         isError: error
     }

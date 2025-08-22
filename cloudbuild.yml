@@ -1,0 +1,52 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        docker build \
+        --build-arg AUTH_SECRET=$$AUTH_SECRET \
+        --build-arg AUTH_DISCORD_ID=$$AUTH_DISCORD_ID \
+        --build-arg AUTH_DISCORD_SECRET=$$AUTH_DISCORD_SECRET \
+        --build-arg AUTH_URL=$$AUTH_URL \
+        --build-arg APPLY_WEBHOOK_URL=$$APPLY_WEBHOOK_URL \
+        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA \
+        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest \
+        -f nextjs.Dockerfile \
+        .
+    secretEnv: ['AUTH_SECRET', 'AUTH_DISCORD_ID', 'AUTH_DISCORD_SECRET', 'AUTH_URL', 'APPLY_WEBHOOK_URL']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'pubsub'
+      - 'topics'
+      - 'publish'
+      - 'builds'
+      - '--message={"compose-name": "everthorn-site", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA"}'
+      - '--attribute=build_id=$BUILD_ID,commit_sha=$SHORT_SHA,branch_name=$BRANCH_NAME'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/single-inquiry-391907/secrets/auth-secret/versions/latest
+      env: 'AUTH_SECRET'
+    - versionName: projects/single-inquiry-391907/secrets/auth-discord-id/versions/latest
+      env: 'AUTH_DISCORD_ID'
+    - versionName: projects/single-inquiry-391907/secrets/auth-discord-secret/versions/latest
+      env: 'AUTH_DISCORD_SECRET'
+    - versionName: projects/single-inquiry-391907/secrets/auth-url/versions/latest
+      env: 'AUTH_URL'
+    - versionName: projects/single-inquiry-391907/secrets/apply-webhook-url/versions/latest
+      env: 'APPLY_WEBHOOK_URL'
+
+images:
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:$SHORT_SHA'
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/site:latest'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET

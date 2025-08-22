@@ -2,15 +2,15 @@
 'use client';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import { OnlineUser } from '@/types/admin';
 import { formatDistanceToNow } from 'date-fns';
 import { useRouter } from "next/navigation";
 import { useUsers } from '@/hooks/use-thorny-user';
 import { ArrowRightIcon, UsersIcon, CrownIcon, StarIcon, GameControllerIcon, SwordIcon, HammerIcon, CoinsIcon, LeafIcon, MountainsIcon, MusicNoteIcon, AxeIcon, DiscordLogoIcon, ActivityIcon } from "@phosphor-icons/react";
 import {cn} from "@/lib/utils";
+import {Player} from "@/hooks/use-players";
 
 interface OnlinePlayersListProps {
-    players: OnlineUser[];
+    players: Player[];
     playersLoading: boolean;
 }
 
@@ -100,7 +100,7 @@ const PlayerSkeleton = () => (
 );
 
 const PlayerCard = ({ player, userData, isUserLoading, onClick }: {
-    player: OnlineUser;
+    player: Player;
     userData: any;
     isUserLoading: boolean;
     onClick: () => void;
