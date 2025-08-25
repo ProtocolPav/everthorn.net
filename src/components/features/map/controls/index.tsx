@@ -35,6 +35,10 @@ export default function ControlBar (
                             <div className={'rounded-full size-1 bg-green-500 animate-pulse'}/>
                             {online_players || 0} online
                         </div>
+
+                        <div className={'flex gap-1 items-center'}>
+                            🎉 The End Map is now out!
+                        </div>
                     </CardFooter>
                 </Card>
             </div>
