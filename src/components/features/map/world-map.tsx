@@ -67,7 +67,7 @@ export default function WorldMap()  {
         {id: 'overworld', name: 'Overworld', image: grass_block, visible: true},
         {id: 'subway', name: 'Subway (y-48)', image: deepslate, visible: false},
         {id: 'nether', name: 'Nether (y40)', image: netherrack, visible: false},
-        {id: 'the_end', name: 'End (Coming Soon!)', image: endstone, visible: false},
+        {id: 'the_end', name: 'The End', image: endstone, visible: false},
     ])
 
     function update_layers(id: string) {
