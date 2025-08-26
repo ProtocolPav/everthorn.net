@@ -28,6 +28,7 @@ import {PinLayer} from "@/components/features/map/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
+import '@luomus/leaflet-smooth-wheel-zoom'
 import CustomTileLayerComponent from "@/components/features/map/tile-layer";
 
 // MAP COORDINATE SWITCHING
@@ -97,6 +98,9 @@ export default function WorldMap()  {
     return (
         <LeafletRightClickProvider>
             <MapContainer
+                scrollWheelZoom={false}
+                smoothWheelZoom={true}
+                smoothSensitivity={8}
                 center={position}
                 zoom={0}
                 style={{width: "100%", height: "100%"}}
