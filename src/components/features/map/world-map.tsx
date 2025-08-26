@@ -58,7 +58,7 @@ export default function WorldMap()  {
     ])
 
     function update_pins(id: string, toggle_label?: boolean) {
-        const new_pins = pintoggles.map((pin, index) => {
+        const new_pins = pintoggles.map((pin) => {
             if (pin.id === id) {
                 return {
                     id: pin.id,
@@ -83,7 +83,7 @@ export default function WorldMap()  {
     ])
 
     function update_layers(id: string) {
-        const new_layers = layertoggles.map((layer, index) => {
+        const new_layers = layertoggles.map((layer) => {
             if (layer.id === id) {
                 return {id: layer.id, visible: true, name: layer.name, icon: layer.icon, image: layer.image};
             } else {
