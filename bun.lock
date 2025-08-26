@@ -5,6 +5,7 @@
       "name": "next-template",
       "dependencies": {
         "@hookform/resolvers": "^3.10.0",
+        "@luomus/leaflet-smooth-wheel-zoom": "^1.0.0",
         "@minecraft/vanilla-data": "^1.21.70",
         "@phosphor-icons/react": "^2.1.10",
         "@tailwindcss/postcss": "4.1.11",
@@ -153,6 +154,8 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.30", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q=="],
+
+    "@luomus/leaflet-smooth-wheel-zoom": ["@luomus/leaflet-smooth-wheel-zoom@1.0.0", "", {}, "sha512-Eg2Dh+TlIZRdHPJeT7R/qGqtgdthWD/5xKZOg21nHQ74dgpbTmFLdrpj+i5NP5Zwbl3DCgxkQ0aO2tuM3pNzMw=="],
 
     "@minecraft/vanilla-data": ["@minecraft/vanilla-data@1.21.70", "", {}, "sha512-ZRucoKOWTvRMu0qVSlPTr/rVzZsMe/GVdoCUzzxg77QUzJE+2tc+lqdNNcby7Oa43v+fDdj2f5rlOPUG7Cu7Tg=="],
 
