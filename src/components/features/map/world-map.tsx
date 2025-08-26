@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {MapContainer} from "react-leaflet";
+import {MapContainer, useMap} from "react-leaflet";
 import L from "leaflet";
 import {useProjects} from '@/hooks/use-projects'
 import {Project} from "@/types/projects";
@@ -35,6 +35,17 @@ import CustomTileLayerComponent from "@/components/features/map/tile-layer";
 // MINECRAFT COORDINATES: [X, Y, Z]
 // LEAFLET SHOULD BE A BIT DIFFERENT: [-Z, X]
 
+function SmoothZoomPlugin() {
+    const map = useMap();
+    React.useEffect(() => {
+        // @ts-ignore
+        map.options.smoothWheelZoom = true;
+        // @ts-ignore
+        map.options.smoothSensitivity = 8;
+    }, [map]);
+    return null;
+}
+
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
 
@@ -47,7 +58,7 @@ export default function WorldMap()  {
     ])
 
     function update_pins(id: string, toggle_label?: boolean) {
-        const new_pins = pintoggles.map((pin, index) => {
+        const new_pins = pintoggles.map((pin) => {
             if (pin.id === id) {
                 return {
                     id: pin.id,
@@ -72,7 +83,7 @@ export default function WorldMap()  {
     ])
 
     function update_layers(id: string) {
-        const new_layers = layertoggles.map((layer, index) => {
+        const new_layers = layertoggles.map((layer) => {
             if (layer.id === id) {
                 return {id: layer.id, visible: true, name: layer.name, icon: layer.icon, image: layer.image};
             } else {
@@ -99,8 +110,6 @@ export default function WorldMap()  {
         <LeafletRightClickProvider>
             <MapContainer
                 scrollWheelZoom={false}
-                smoothWheelZoom={true}
-                smoothSensitivity={8}
                 center={position}
                 zoom={0}
                 style={{width: "100%", height: "100%"}}
@@ -111,6 +120,7 @@ export default function WorldMap()  {
                 maxBoundsViscosity={0.03}
                 attributionControl={false}
             >
+                <SmoothZoomPlugin/>
                 <CustomTileLayerComponent layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}/>
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} online_players={players?.length} />
                 <LeafletContextMenu/>
