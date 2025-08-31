@@ -28,23 +28,11 @@ import {PinLayer} from "@/components/features/map/layers/pin_layer";
 import {usePins} from "@/hooks/use-pins";
 
 import 'leaflet/dist/leaflet.css'
-import '@luomus/leaflet-smooth-wheel-zoom'
 import CustomTileLayerComponent from "@/components/features/map/tile-layer";
 
 // MAP COORDINATE SWITCHING
 // MINECRAFT COORDINATES: [X, Y, Z]
 // LEAFLET SHOULD BE A BIT DIFFERENT: [-Z, X]
-
-function SmoothZoomPlugin() {
-    const map = useMap();
-    React.useEffect(() => {
-        // @ts-ignore
-        map.options.smoothWheelZoom = true;
-        // @ts-ignore
-        map.options.smoothSensitivity = 8;
-    }, [map]);
-    return null;
-}
 
 export default function WorldMap()  {
     const position: [number, number] = [0, 0]; // Default map center
@@ -120,7 +108,6 @@ export default function WorldMap()  {
                 maxBoundsViscosity={0.03}
                 attributionControl={false}
             >
-                <SmoothZoomPlugin/>
                 <CustomTileLayerComponent layer={layertoggles.filter((toggle) => toggle.visible)[0]['id']}/>
                 <ControlBar pins={pintoggles} update_pins={update_pins} layers={layertoggles} update_layers={update_layers} online_players={players?.length} />
                 <LeafletContextMenu/>

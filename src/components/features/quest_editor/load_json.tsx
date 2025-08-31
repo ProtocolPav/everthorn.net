@@ -75,6 +75,9 @@ export function LoadJSON({form}: {form: UseFormReturn<z.infer<typeof formSchema>
                         form.setValue('title', data.title)
                         form.setValue('description', data.description)
                         form.setValue('range', data.range)
+                        form.setValue('created_by', data.created_by)
+                        form.setValue('quest_type', data.quest_type)
+                        form.setValue('tags', data.tags)
                         form.setValue('objectives', data.objectives)
                         setDialogOpen(false);
                         toast.success("Happy Editing!", {
